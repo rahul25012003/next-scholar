@@ -275,6 +275,73 @@ in one place.
 | 6.09 | Non-affiliation disclaimer naming APS India, DAAD and uni-assist | P1 |
 | 6.10 | SOP guidance with annotated samples and a structural outline, coached not written | P2 |
 
+
+---
+
+## Phase 1b — Legal and compliance
+
+Found on a final reconciliation pass. We publish a data protection section
+inside the anti-fraud page and **no standalone legal pages at all**, while now
+setting an authentication cookie. nxtstep-de, a far smaller operation, ships
+five policies. IDP ships Terms, Privacy and a Disclaimer.
+
+| ID | Item | Why | Priority |
+|---|---|---|---|
+| L.01 | **Privacy policy page** | DPDP expects a published privacy notice from a data fiduciary. Ours exists only as an admitted draft inside another page | **P0** |
+| L.02 | **Terms of use** | No terms govern the service, the account, or the consultation | **P0** |
+| L.03 | **Cookie policy and a consent control** | We set an httpOnly session cookie with no notice and no control | **P0** |
+| L.04 | **Non-affiliation disclaimer** naming APS India, DAAD, uni-assist, UKVI and the institutions | We name these bodies throughout; nothing states we are not them | P1 |
+| L.05 | Service agreement terms, referenced by the consultation flow | Fees are described but nothing governs them | P1 |
+| L.06 | Grievance officer contact, named and reachable | Required, and currently a placeholder | P1 |
+
+---
+
+## Phase 4b — Student-facing features found on the reconciliation pass
+
+| ID | Item | Where seen | Priority |
+|---|---|---|---|
+| F.01 | **Shortlist: save universities and courses to an account** | Both benchmarks. IDP's logged-out dashboard exposes it as its only feature | **P1** |
+| F.02 | Compare shortlisted items side by side | Neither benchmark has it, which is the opening | P2 |
+| F.03 | Shortlist sorted by eligibility, with the reason stated | IDP hints at it in an empty state | P2 |
+| F.04 | Site-wide search across articles and catalogue | IDP has article search | P2 |
+| F.05 | Subject taxonomy, browse by field of study | IDP `/study-abroad-subjects/` | P2 |
+| F.06 | Course-level landing pages, e.g. "Masters in Germany" | IDP `/india/study-in-australia/masters/` | P2 |
+| F.07 | Country menu carrying top cities, top courses, top universities | LeapScholar | P2 |
+| F.08 | Free profile evaluation as a named, scoped product | nxtstep-de leads with it | P1 |
+| F.09 | Exam pages beyond IELTS: PTE, TOEFL, Duolingo, GRE, GMAT, SAT | LeapScholar covers seven | P3 |
+| F.10 | Recommended books and resources per exam | LeapScholar | P3 |
+| F.11 | Our own scholarship or fee waiver, if ever funded | LeapScholar runs one at USD 250,000 a year | P4 |
+
+---
+
+## Phase 6b — Services found on the reconciliation pass
+
+| ID | Item | Where seen | Priority |
+|---|---|---|---|
+| S.01 | **Mock visa interview** as an explicit service | LeapScholar. Our stage 8 mentions interview rehearsal; it is not a named deliverable | P1 |
+| S.02 | Document certification, translation and courier | IDP | P2 |
+| S.03 | Video or virtual counselling as a bookable session | Neither does it well. IDP has no online booking at all | P2 |
+| S.04 | Health insurance guidance and comparison | IDP names Allianz and Bupa | P2 |
+| S.05 | Money transfer and forex, with the referral terms published | IDP names Flywire | P3 |
+| S.06 | Pre-departure briefing as a named, scoped deliverable | nxtstep-de and IDP both list it | P2 |
+| S.07 | Guardianship, for under-18 applicants | IDP | P4 |
+| S.08 | ISIC or student discount card | IDP | P4 |
+
+---
+
+## Phase 5b — Conversion and engagement patterns not yet numbered
+
+| ID | Item | Where seen | Verdict |
+|---|---|---|---|
+| E.01 | Sign-in prompt as an inline interstitial offering saved preferences | IDP | Adopt, without gating anything |
+| E.02 | Student ambassadors: named peers with a chat CTA | IDP | Adopt once real students exist |
+| E.03 | Inline conversion widgets on content and university pages | LeapScholar runs seven variants | Adopt sparingly |
+| E.04 | Sticky "talk to a counsellor" | LeapScholar | Adopt |
+| E.05 | Reassurance content for weak profiles, "average grades, arrears, backlogs" | nxtstep-de, and it is well done | **Adopt.** Our audience needs it and honesty is the right register for it |
+| E.06 | Live registration counters on events | LeapScholar | Only when real |
+| E.07 | Newsroom or digest as a separate stream | LeapScholar | P3 |
+| E.08 | Country switcher | IDP has ~35 | Not applicable at three destinations |
+
 ---
 
 ## Deliberately not doing
