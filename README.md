@@ -61,9 +61,11 @@ state, commission verification status, the quarterly report, the agent
 governance table, the live audit trail, notification channel status, and the two
 actions a counselor cannot take alone: reassignment and closure.
 
-**Scheduled sweep** (`POST /api/sweep`). Runs detection across every case,
-queues what is new, resolves what has cleared. Deduped, so a repeat run on
-unchanged state queues nothing. Refuses to run unauthenticated in production.
+**Scheduled sweep** (`/api/sweep`, GET or POST). Runs detection across every
+case, queues what is new, escalates a reminder whose deadline has closed in,
+and resolves what has cleared. Deduped, so a repeat run on unchanged state
+queues nothing. Refuses to run unauthenticated in production. `vercel.json`
+schedules it daily at 03:00.
 
 ## How the guarantees are enforced
 
@@ -134,6 +136,15 @@ Listed here so nothing reads as an oversight:
 - **Photography.** The site carries flags and one chart, no stock imagery. A
   photograph implying real students or a real founder would be the same
   fabrication the brand exists to avoid.
+- **Notification delivery.** The queue plans, dedupes and escalates. Nothing
+  sends, because no provider is connected, and a channel that cannot send says
+  so rather than logging a pretend delivery.
+- **A write path for the Open Ledger.** Commission rows are published content,
+  edited in the repository under review. The founder-only permission that will
+  gate the eventual write path exists and is tested; the path itself arrives
+  with the database.
+- **Rate limiting and per-agent cost tracking.** Phase two items in the source
+  guide, and not worth building against a four person caseload.
 
 ## What has to happen outside this repository
 

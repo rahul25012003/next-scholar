@@ -11,7 +11,14 @@ import { syncNotifications } from "@/data/store";
  * Protected by a shared secret. Without one configured it refuses to run in
  * production rather than leaving an unauthenticated endpoint that walks every
  * case record.
+ *
+ * Scheduled daily at 03:00 by the cron entry in vercel.json. A platform cron
+ * issues a GET, so both verbs run the same sweep behind the same check.
  */
+export async function GET(request: Request): Promise<Response> {
+  return POST(request);
+}
+
 export async function POST(request: Request): Promise<Response> {
   const configured = process.env.SWEEP_SECRET;
 

@@ -284,8 +284,11 @@ export default async function OpsPage() {
             ))}
           </ul>
           <p className="border-t border-line px-6 py-3 text-[0.75rem] leading-relaxed text-muted">
-            Only a founder action can move a row to verified, and it is logged.
-            No agent has a capability that reaches this table.
+            No agent has a capability that reaches this table. Neither does any
+            screen: the ledger is published content today, and moving a row to
+            verified is an edit to the repository under review, not a button.
+            The founder-only write path arrives with the database, and the
+            permission that will gate it already exists and is already tested.
           </p>
         </Panel>
 
