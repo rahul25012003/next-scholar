@@ -1,6 +1,6 @@
 "use client";
 
-import { close, reassign } from "@/app/actions/case-workflows";
+import { close, reassign, resolveEscalation } from "@/app/actions/case-workflows";
 import { WorkflowForm, fieldClass } from "@/components/app/workflow-form";
 import { closureLabel, type ClosureOutcome } from "@/domain/case-operations";
 
@@ -47,6 +47,22 @@ export function ManagerActions({
           placeholder="Why it is moving"
           className={fieldClass}
           aria-label="Reason for reassignment"
+        />
+      </WorkflowForm>
+
+      <WorkflowForm
+        action={resolveEscalation}
+        caseId={caseId}
+        title="Review the escalation"
+        description="Records that you looked and what you decided. It does not silence the escalation: that clears when the condition behind it does."
+        submitLabel="Record the decision"
+      >
+        <input
+          name="decision"
+          type="text"
+          placeholder="What you decided and why"
+          className={`${fieldClass} sm:col-span-2`}
+          aria-label="Decision"
         />
       </WorkflowForm>
 

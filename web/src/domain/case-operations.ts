@@ -287,3 +287,101 @@ export function changeStage(
     now,
   );
 }
+
+/** A counselor setting themselves a follow up. */
+export function addTask(
+  record: StudentCase,
+  task: { id: string; title: string; dueOn: string },
+  author: string,
+  now = new Date(),
+): StudentCase {
+  return withEntry(
+    {
+      ...record,
+      tasks: [
+        ...record.tasks,
+        {
+          ...task,
+          createdBy: author,
+          createdAt: now.toISOString(),
+          completedAt: null,
+          completedBy: null,
+        },
+      ],
+    },
+    `Follow up set for ${task.dueOn}: ${task.title}`,
+    author,
+    now,
+  );
+}
+
+/** Completing one. The task stays on the record, stamped. */
+export function completeTask(
+  record: StudentCase,
+  taskId: string,
+  author: string,
+  now = new Date(),
+): StudentCase {
+  const task = record.tasks.find((item) => item.id === taskId);
+  if (!task || task.completedAt) return record;
+
+  return withEntry(
+    {
+      ...record,
+      tasks: record.tasks.map((item) =>
+        item.id === taskId
+          ? { ...item, completedAt: now.toISOString(), completedBy: author }
+          : item,
+      ),
+    },
+    `Follow up done: ${task.title}`,
+    author,
+    now,
+  );
+}
+
+/**
+ * A manager overriding a machine written summary.
+ *
+ * The interface has always said the summary is editable. Until now it was not,
+ * which made the claim the same kind of promise this platform exists to avoid.
+ * An overridden summary stops being machine written, because a person wrote it.
+ */
+export function overrideSummary(
+  record: StudentCase,
+  summary: string,
+  author: string,
+  now = new Date(),
+): StudentCase {
+  return withEntry(
+    {
+      ...record,
+      summary,
+      summarySource: "human",
+    },
+    `Case summary rewritten by hand, replacing the machine written one.`,
+    author,
+    now,
+  );
+}
+
+/**
+ * A manager reviewing an escalation and recording the decision.
+ *
+ * Escalations are recomputed from timestamps, so "resolved" is not a flag that
+ * silences them. It records that a person looked and what they decided, and the
+ * escalation clears when the underlying condition does.
+ */
+export function reviewEscalation(
+  record: StudentCase,
+  decision: string,
+  author: string,
+  now = new Date(),
+): StudentCase {
+  return withEntry(
+    record,
+    `Escalation reviewed. Decision: ${decision} The case still raises it until the underlying condition clears.`,
+    author,
+    now,
+  );
+}

@@ -8,6 +8,7 @@ import { CaseWorkflows } from "@/components/app/case-workflows";
 import { ThreadSummary } from "@/components/app/thread-summary";
 import { DocumentIntelligence } from "@/components/app/document-intelligence";
 import { ReviewFlag } from "@/components/app/review-flag";
+import { StageControl, TaskControl, SummaryOverride } from "@/components/app/case-controls";
 import { VerifyDocument } from "@/components/app/verify-document";
 import { getCase, getExtraction, listCommunications } from "@/data/store";
 import { demoCounselor } from "@/domain/demo-actors";
@@ -89,8 +90,9 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                       </p>
                     )}
                     <p className="mt-3 text-[0.75rem] text-muted">
-                      Machine written. Edit or ignore it. It cannot change the
-                      stage, the priority or a document status.
+                      {record.summarySource === "human"
+                        ? "Written by a person."
+                        : "Machine written. It cannot change the stage, the priority or a document status."}
                     </p>
                   </>
                 ) : (
@@ -117,6 +119,14 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
 
             <Panel title="Notes">
               <NoteForm caseId={record.id} />
+              <SummaryOverride caseId={record.id} current={record.summary} />
+            </Panel>
+
+            <Panel
+              title="Follow ups"
+              description="Things you decided to do later. An event is what the system noticed; this is what you chose."
+            >
+              <TaskControl caseId={record.id} tasks={record.tasks} />
             </Panel>
 
             <Panel
@@ -256,6 +266,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
               title="Case operations"
               description="Every one of these is a person taking an action. None of them run on a timer, and each writes its reason into the log before the state changes."
             >
+              <StageControl caseId={record.id} current={record.stage} />
               <CaseWorkflows caseId={record.id} applications={record.applications} />
             </Panel>
 

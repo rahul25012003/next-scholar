@@ -43,6 +43,21 @@ export type DocumentRecord = {
   issue: string | null;
 };
 
+/**
+ * A follow up a counselor set for themselves. The spec's follow-up queue is
+ * about these, not about lifecycle events: an event is something the system
+ * noticed, a task is something a person decided to do later.
+ */
+export type FollowUpTask = {
+  id: string;
+  title: string;
+  dueOn: string;
+  createdBy: string;
+  createdAt: string;
+  completedAt: string | null;
+  completedBy: string | null;
+};
+
 export type ApplicationRecord = {
   id: string;
   university: string;
@@ -94,6 +109,7 @@ export type StudentCase = {
   lastCounselorReplyAt: string;
   /** Deadlines the monitoring agent watches. Absent means absent, not zero. */
   deadlines: { label: string; date: string }[];
+  tasks: FollowUpTask[];
   documents: DocumentRecord[];
   applications: ApplicationRecord[];
   visa: { state: VisaState; note: string | null; decidedOn: string | null };

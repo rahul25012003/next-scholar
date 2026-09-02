@@ -9,7 +9,12 @@ import {
   recordVisaOutcome,
   startReapplication,
   withdrawApplication,
+  addTask,
+  completeTask,
+  overrideSummary,
+  reviewEscalation,
 } from "@/domain/case-operations";
+import { detectEvents } from "@/domain/events";
 import { forStudent, newestFirst } from "@/domain/communications";
 import { retentionFor } from "@/domain/retention";
 import { buildQuarterlyReport } from "@/domain/reporting";
@@ -19,6 +24,8 @@ import { syntheticCommunications } from "@/data/synthetic-communications";
 const withApps = syntheticCases.find((record) => record.id === "case-1042")!;
 const plain = syntheticCases.find((record) => record.id === "case-1041")!;
 const author = "Devika Suresh";
+const daysAgo = (n: number) =>
+  new Date(Date.now() - n * 86_400_000).toISOString();
 
 describe("nothing is deleted and nothing is overwritten silently", () => {
   it("keeps the old value in the log when a value is corrected", () => {
@@ -176,5 +183,88 @@ describe("the student sees correspondence, not internal notes", () => {
       expect(record.summary).toBeNull();
       expect(record.summarySource).toBeNull();
     }
+  });
+});
+
+describe("follow ups are things a person chose, not things the system noticed", () => {
+  const withTask = {
+    ...plain,
+    tasks: [
+      {
+        id: "t1",
+        title: "Chase the bank",
+        dueOn: new Date(Date.now() - 2 * 86_400_000).toISOString().slice(0, 10),
+        createdBy: "Karthik Menon",
+        createdAt: new Date().toISOString(),
+        completedAt: null,
+        completedBy: null,
+      },
+    ],
+  };
+
+  it("raises a followup_due event once it is due, naming who set it", () => {
+    const event = detectEvents(withTask).find((item) => item.type === "followup_due");
+
+    expect(event).toBeDefined();
+    expect(event?.title).toContain("Chase the bank");
+    expect(event?.detail).toContain("Karthik Menon");
+    expect(event?.audience).toBe("counselor");
+  });
+
+  it("raises nothing for a follow up that is not due yet", () => {
+    const later = {
+      ...withTask,
+      tasks: [
+        {
+          ...withTask.tasks[0],
+          dueOn: new Date(Date.now() + 5 * 86_400_000).toISOString().slice(0, 10),
+        },
+      ],
+    };
+
+    expect(detectEvents(later).some((item) => item.type === "followup_due")).toBe(false);
+  });
+
+  it("stops raising once a person completes it, and keeps the record", () => {
+    const done = completeTask(withTask, "t1", author);
+
+    expect(done.tasks).toHaveLength(1);
+    expect(done.tasks[0].completedBy).toBe(author);
+    expect(detectEvents(done).some((item) => item.type === "followup_due")).toBe(false);
+  });
+
+  it("records the follow up in the log when it is created", () => {
+    const created = addTask(
+      plain,
+      { id: "t2", title: "Call the university", dueOn: "2027-01-10" },
+      author,
+    );
+
+    expect(created.tasks).toHaveLength(plain.tasks.length + 1);
+    expect(created.log.at(-1)?.text).toContain("Call the university");
+  });
+});
+
+describe("a person can take back a machine written summary", () => {
+  it("relabels an overridden summary as human written", () => {
+    const overridden = overrideSummary(
+      { ...plain, summary: "machine text", summarySource: "ai" },
+      "What is actually going on.",
+      author,
+    );
+
+    expect(overridden.summary).toBe("What is actually going on.");
+    expect(overridden.summarySource).toBe("human");
+    expect(overridden.log.at(-1)?.text).toContain("rewritten by hand");
+  });
+});
+
+describe("reviewing an escalation records a decision without silencing it", () => {
+  it("logs the decision and leaves the underlying condition alone", () => {
+    const stalled = { ...plain, stageUpdatedAt: daysAgo(14) };
+    const reviewed = reviewEscalation(stalled, "Waiting on the passport office.", author);
+
+    expect(reviewed.log.at(-1)?.text).toContain("Waiting on the passport office");
+    expect(detectEvents(reviewed).some((event) => event.type === "escalation")).toBe(true);
   });
 });

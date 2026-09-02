@@ -101,6 +101,25 @@ export function detectEvents(record: StudentCase, now = new Date()): LifecycleEv
     });
   }
 
+  for (const task of record.tasks) {
+    if (task.completedAt) continue;
+    const due = daysUntil(task.dueOn, now);
+    if (due > 0) continue;
+    events.push({
+      key: `${record.id}:followup_due:${task.id}`,
+      caseId: record.id,
+      type: "followup_due",
+      priority: due <= -3 ? "High" : "Normal",
+      audience: "counselor",
+      title:
+        due === 0
+          ? `Follow up due today: ${task.title}`
+          : `Follow up ${Math.abs(due)} ${Math.abs(due) === 1 ? "day" : "days"} overdue: ${task.title}`,
+      detail: `Set by ${task.createdBy} for ${task.dueOn}.`,
+      basis: "A follow up task a person created on this case",
+    });
+  }
+
   const required = requiredAtStage(record.destination, record.stage);
   for (const category of required) {
     const document = record.documents.find((item) => item.category === category);

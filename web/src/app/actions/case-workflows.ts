@@ -8,7 +8,12 @@ import {
 } from "@/data/store";
 import { demoCounselor, demoFounder } from "@/domain/demo-actors";
 import {
+  addTask,
   applyCorrection,
+  changeStage,
+  completeTask,
+  overrideSummary,
+  reviewEscalation,
   closeCase,
   deferIntake,
   reassignTo,
@@ -20,7 +25,7 @@ import {
   type CorrectableField,
 } from "@/domain/case-operations";
 import { summariseThread } from "@/domain/agents/implementations";
-import type { VisaState } from "@/domain/case";
+import type { StageKey, VisaState } from "@/domain/case";
 import type { ApplicationRecord } from "@/domain/case";
 
 export type WorkflowResult =
@@ -267,6 +272,128 @@ export async function reassign(
   return {
     status: "done",
     message: "Reassigned. The handover packet goes with it and the student is told who holds their case now.",
+  };
+}
+
+export async function setStage(
+  _previous: WorkflowResult,
+  formData: FormData,
+): Promise<WorkflowResult> {
+  const caseId = String(formData.get("caseId") ?? "");
+  const stage = String(formData.get("stage") ?? "") as StageKey;
+  if (!stage) return { status: "error", message: "Pick a stage." };
+
+  const updated = await mutateCase(
+    caseId,
+    demoCounselor,
+    "case.stage.write",
+    (record) => changeStage(record, stage, demoCounselor.name),
+    `Stage set to ${stage}`,
+  );
+
+  if (!updated) return { status: "error", message: "Not permitted on this case." };
+  refreshed(caseId);
+  return { status: "done", message: `Moved to ${stage}. The stagnation clock restarts from now.` };
+}
+
+export async function createTask(
+  _previous: WorkflowResult,
+  formData: FormData,
+): Promise<WorkflowResult> {
+  const caseId = String(formData.get("caseId") ?? "");
+  const title = String(formData.get("title") ?? "").trim();
+  const dueOn = String(formData.get("dueOn") ?? "").trim();
+
+  if (title.length < 4 || !dueOn) {
+    return { status: "error", message: "Say what the follow up is and when it is due." };
+  }
+
+  const updated = await mutateCase(
+    caseId,
+    demoCounselor,
+    "case.note.write",
+    (record) =>
+      addTask(record, { id: `task-${Date.now()}`, title, dueOn }, demoCounselor.name),
+    `Follow up created for ${dueOn}`,
+  );
+
+  if (!updated) return { status: "error", message: "Not permitted on this case." };
+  refreshed(caseId);
+  return { status: "done", message: "Set. It appears in your follow up queue on the day it is due." };
+}
+
+export async function finishTask(
+  _previous: WorkflowResult,
+  formData: FormData,
+): Promise<WorkflowResult> {
+  const caseId = String(formData.get("caseId") ?? "");
+  const taskId = String(formData.get("taskId") ?? "");
+
+  const updated = await mutateCase(
+    caseId,
+    demoCounselor,
+    "case.note.write",
+    (record) => completeTask(record, taskId, demoCounselor.name),
+    `Follow up ${taskId} completed`,
+  );
+
+  if (!updated) return { status: "error", message: "Not permitted on this case." };
+  refreshed(caseId);
+  return { status: "done", message: "Marked done, stamped with your name." };
+}
+
+export async function rewriteSummary(
+  _previous: WorkflowResult,
+  formData: FormData,
+): Promise<WorkflowResult> {
+  const caseId = String(formData.get("caseId") ?? "");
+  const summary = String(formData.get("summary") ?? "").trim();
+
+  if (summary.length < 10) {
+    return { status: "error", message: "Write the summary before saving it." };
+  }
+
+  const updated = await mutateCase(
+    caseId,
+    demoCounselor,
+    "case.note.write",
+    (record) => overrideSummary(record, summary, demoCounselor.name),
+    "Case summary overridden by hand",
+  );
+
+  if (!updated) return { status: "error", message: "Not permitted on this case." };
+  refreshed(caseId);
+  return {
+    status: "done",
+    message: "Saved as yours. It is no longer labelled machine written, because it is not.",
+  };
+}
+
+export async function resolveEscalation(
+  _previous: WorkflowResult,
+  formData: FormData,
+): Promise<WorkflowResult> {
+  const caseId = String(formData.get("caseId") ?? "");
+  const decision = String(formData.get("decision") ?? "").trim();
+
+  if (decision.length < 4) {
+    return { status: "error", message: "Record what you decided." };
+  }
+
+  const updated = await mutateCase(
+    caseId,
+    demoFounder,
+    "escalation.resolve",
+    (record) => reviewEscalation(record, decision, demoFounder.name),
+    "Escalation reviewed",
+  );
+
+  if (!updated) return { status: "error", message: "Not permitted on this case." };
+  refreshed(caseId);
+  return {
+    status: "done",
+    message:
+      "Recorded. The escalation still shows until the case moves, because the condition that raised it has not changed.",
   };
 }
 

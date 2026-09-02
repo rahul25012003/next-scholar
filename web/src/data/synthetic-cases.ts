@@ -40,6 +40,7 @@ export const syntheticCases: StudentCase[] = [
       { label: "APS document submission", date: ahead(19) },
       { label: "uni-assist application", date: ahead(46) },
     ],
+    tasks: [],
     documents: [
       {
         id: "doc-1",
@@ -122,6 +123,7 @@ export const syntheticCases: StudentCase[] = [
     lastStudentContactAt: stamp(1),
     lastCounselorReplyAt: stamp(1),
     deadlines: [{ label: "Deposit for the first offer", date: ahead(27) }],
+    tasks: [],
     documents: [
       {
         id: "doc-4",
@@ -224,6 +226,17 @@ export const syntheticCases: StudentCase[] = [
       { label: "Loan sanction letter for the visa file", date: ahead(11) },
       { label: "Accommodation deposit", date: ahead(2) },
     ],
+    tasks: [
+      {
+        id: "task-1",
+        title: "Chase the bank for the sanction letter wording",
+        dueOn: from(2),
+        createdBy: "Karthik Menon",
+        createdAt: stamp(6),
+        completedAt: null,
+        completedBy: null,
+      },
+    ],
     documents: [
       {
         id: "doc-7",
@@ -318,6 +331,7 @@ export const syntheticCases: StudentCase[] = [
     lastStudentContactAt: stamp(14),
     lastCounselorReplyAt: stamp(13),
     deadlines: [],
+    tasks: [],
     documents: [],
     applications: [],
     visa: { state: "not-started", note: null, decidedOn: null },
