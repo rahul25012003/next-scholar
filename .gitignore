@@ -1,0 +1,14 @@
+# Dependencies and build output live under web/, which has its own ignore file.
+node_modules/
+.next/
+
+# Local secrets. .env.example is committed; nothing else is.
+.env
+.env.local
+.env.*.local
+
+# OS and editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

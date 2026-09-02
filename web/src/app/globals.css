@@ -1,0 +1,166 @@
+@import "tailwindcss";
+
+/*
+  Next Scholar design tokens.
+
+  Values marked [VERIFY] are read visually from reference/design-reference.png
+  (the ReadyToStudy screenshot) and have NOT been pixel-sampled from the source
+  file. Sample the exact value before treating any of them as confirmed brand
+  colour. Everything not marked [VERIFY] is a deliberate choice made here.
+
+  Theme: single light theme, locked. There is no dark variant and no toggle.
+*/
+
+@theme {
+  /* --- Brand ---------------------------------------------------------- */
+  --color-navy-900: #0e2a5e; /* [VERIFY] headline line 1, footer ground */
+  --color-navy-800: #143873;
+  --color-navy-700: #1a4491;
+  --color-blue-600: #1553d6; /* [VERIFY] primary action, headline accent */
+  --color-blue-500: #2e6bf0; /* [VERIFY] hover, secondary accent */
+  --color-blue-100: #dcebff; /* [VERIFY] pastel icon ground */
+  --color-blue-50: #eff5ff;
+
+  /* --- Surfaces ------------------------------------------------------- */
+  --color-paper: #ffffff;
+  --color-surface: #f6f8fc; /* [VERIFY] alternating section ground */
+  --color-surface-2: #eef2f9;
+  --color-line: #e7ebf3; /* [VERIFY] card border, divider */
+  --color-line-strong: #d3dae8;
+
+  /* --- Text ----------------------------------------------------------- */
+  --color-ink: #0e2a5e;
+  --color-ink-soft: #3f4a5c;
+  --color-body: #5b6472; /* [VERIFY] paragraph copy, 5.6:1 on paper */
+  --color-muted: #77808f;
+
+  /* --- Status --------------------------------------------------------- */
+  --color-verified: #15803d;
+  --color-verified-bg: #e7f6ec;
+  --color-pending: #a16207;
+  --color-pending-bg: #fdf3dd;
+  --color-denied: #b42318;
+  --color-denied-bg: #fdeceb;
+  --color-neutral-chip: #475467;
+  --color-neutral-chip-bg: #eef1f6;
+
+  /* --- Accent pastels for stat and step marks ------------------------- */
+  --color-pastel-blue: #dcebff; /* [VERIFY] */
+  --color-pastel-rose: #fce1e6; /* [VERIFY] */
+  --color-pastel-mint: #dff5e8; /* [VERIFY] */
+  --color-pastel-peach: #fde9d9; /* [VERIFY] */
+  --color-pastel-lilac: #ebe1fb; /* [VERIFY] */
+
+  /* --- Type ----------------------------------------------------------- */
+  --font-display: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-figures), ui-monospace, monospace;
+
+  /* --- Shape ---------------------------------------------------------
+     One radius system, applied everywhere:
+       interactive controls -> pill
+       cards and panels     -> 16px
+       inputs and chips     -> 10px
+  ------------------------------------------------------------------- */
+  --radius-card: 1rem;
+  --radius-panel: 1.25rem;
+  --radius-input: 0.625rem;
+
+  /* --- Elevation: tinted to the page ground, never pure black --------- */
+  --shadow-card: 0 1px 2px rgb(14 42 94 / 0.04), 0 8px 24px -12px rgb(14 42 94 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(14 42 94 / 0.05), 0 18px 40px -16px rgb(14 42 94 / 0.22);
+  --shadow-inset-line: inset 0 0 0 1px rgb(14 42 94 / 0.06);
+}
+
+:root {
+  color-scheme: light;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-body);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Money, dates and counts are read in columns. Keep the figures aligned. */
+  .figures {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background-color: var(--color-blue-100);
+    color: var(--color-navy-900);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-blue-600);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: 78rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 1024px) {
+    .shell {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* Section rhythm. Density dial sits at 4, so sections breathe without
+     turning into an art gallery. */
+  .band {
+    padding-block: 4.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .band {
+      padding-block: 6.5rem;
+    }
+  }
+}
+
+/* Reduced motion is handled per component through Motion's useReducedMotion,
+   but anything that slips through a CSS transition collapses here too. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
