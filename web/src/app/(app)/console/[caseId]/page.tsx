@@ -12,7 +12,8 @@ import { StageControl, TaskControl, SummaryOverride } from "@/components/app/cas
 import { UploadDocument } from "@/components/app/upload-document";
 import { VerifyDocument } from "@/components/app/verify-document";
 import { getCase, getExtraction, listCommunications } from "@/data/store";
-import { demoCounselor } from "@/domain/demo-actors";
+import { redirect } from "next/navigation";
+import { currentActor } from "@/domain/session";
 import { byPriority, detectEvents } from "@/domain/events";
 import { assessRisk, RISK_DISCLAIMER } from "@/domain/risk";
 import { agentAvailability } from "@/domain/agents/kernel";
@@ -25,7 +26,11 @@ import { channelLabel, newestFirst } from "@/domain/communications";
 
 export default async function CaseDetailPage(props: PageProps<"/console/[caseId]">) {
   const { caseId } = await props.params;
-  const record = await getCase(caseId, demoCounselor);
+  const actor = await currentActor();
+  if (!actor) redirect("/login");
+  if (actor.role === "student") redirect("/portal");
+
+  const record = await getCase(caseId, actor);
 
   // A case outside this counselor's caseload is a 404, not a 403. The store has
   // already refused the read and logged the refusal; answering "you may not see
@@ -39,7 +44,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
   const completeness = checkCompleteness(record);
   const handover = buildHandoverPacket(record);
   const shortlist = proposeShortlist(profileFromCase(record));
-  const threads = newestFirst(await listCommunications(record.id, demoCounselor));
+  const threads = newestFirst(await listCommunications(record.id, actor));
   const extractions = await Promise.all(
     record.documents.map(async (document) => [
       document.id,
@@ -49,7 +54,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
   const extractionFor = new Map(extractions);
 
   return (
-    <AppShell actor={demoCounselor} current="/console">
+    <AppShell actor={actor} current="/console">
       <div className="shell grid gap-6">
         <div>
           <Link

@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { WarningCircle } from "@phosphor-icons/react/ssr";
 import type { Actor } from "@/domain/rbac";
-import { AUTH_NOTICE } from "@/domain/demo-actors";
+import { SignOutButton } from "@/components/app/sign-out";
 import { storeNotice } from "@/data/store";
 
 const surfaces = [
-  { href: "/portal", label: "Student portal", role: "student" },
-  { href: "/console", label: "Counselor console", role: "counselor" },
-  { href: "/ops", label: "Operations", role: "founder" },
+  { href: "/portal", label: "Student portal", roles: ["student"] },
+  { href: "/console", label: "Counselor console", roles: ["counselor", "manager", "founder"] },
+  { href: "/ops", label: "Operations", roles: ["manager", "founder"] },
 ];
 
 export function AppShell({
@@ -36,7 +36,9 @@ export function AppShell({
               </span>
             </Link>
             <nav className="hidden items-center gap-1 md:flex">
-              {surfaces.map((surface) => (
+              {surfaces
+                .filter((surface) => surface.roles.includes(actor.role))
+                .map((surface) => (
                 <Link
                   key={surface.href}
                   href={surface.href}
@@ -52,9 +54,12 @@ export function AppShell({
             </nav>
           </div>
 
-          <div className="text-right">
-            <p className="text-[0.875rem] font-medium text-navy-900">{actor.name}</p>
-            <p className="text-[0.75rem] capitalize text-muted">{actor.role}</p>
+          <div className="flex items-center gap-5">
+            <div className="text-right">
+              <p className="text-[0.875rem] font-medium text-navy-900">{actor.name}</p>
+              <p className="text-[0.75rem] capitalize text-muted">{actor.role}</p>
+            </div>
+            <SignOutButton />
           </div>
         </div>
       </header>
@@ -68,7 +73,9 @@ export function AppShell({
             aria-hidden
           />
           <p className="text-[0.8125rem] leading-relaxed text-ink-soft">
-            {AUTH_NOTICE} {storeNotice()}
+            You are signed in as {actor.name}, a {actor.role}. Sessions are
+            signed and every read of a case is recorded against your name.{" "}
+            {storeNotice()}
           </p>
         </div>
       </div>

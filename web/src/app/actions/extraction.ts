@@ -1,8 +1,9 @@
 "use server";
 
+import { currentActor } from "@/domain/session";
+
 import { revalidatePath } from "next/cache";
 import { decideExtractedField, getCase, stageExtraction } from "@/data/store";
-import { demoCounselor } from "@/domain/demo-actors";
 import { extractFromDocument } from "@/domain/agents/implementations";
 import { stageFields } from "@/domain/extraction";
 import { record as recordAudit } from "@/domain/audit";
@@ -26,10 +27,13 @@ export async function runExtraction(
   _previous: ExtractionResult,
   formData: FormData,
 ): Promise<ExtractionResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
   const caseId = String(formData.get("caseId") ?? "");
   const documentId = String(formData.get("documentId") ?? "");
 
-  const record = await getCase(caseId, demoCounselor);
+  const record = await getCase(caseId, actor);
   if (!record) {
     return { status: "error", message: "That case is not readable by this account." };
   }
@@ -97,6 +101,9 @@ export async function decideField(
   _previous: DecisionResult,
   formData: FormData,
 ): Promise<DecisionResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
   const caseId = String(formData.get("caseId") ?? "");
   const documentId = String(formData.get("documentId") ?? "");
   const fieldName = String(formData.get("fieldName") ?? "");
@@ -106,7 +113,7 @@ export async function decideField(
     return { status: "error", message: "Nothing to decide." };
   }
 
-  const updated = await decideExtractedField(documentId, fieldName, decision, demoCounselor);
+  const updated = await decideExtractedField(documentId, fieldName, decision, actor);
   if (!updated) {
     return { status: "error", message: "Not permitted, or nothing staged for that document." };
   }

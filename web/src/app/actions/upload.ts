@@ -1,7 +1,8 @@
 "use server";
 
+import { currentActor } from "@/domain/session";
+
 import { getCase, listConsents } from "@/data/store";
-import { demoCounselor } from "@/domain/demo-actors";
 import { checkUpload } from "@/domain/uploads";
 import type { DocumentCategory } from "@/domain/consent";
 import { record as recordAudit } from "@/domain/audit";
@@ -25,6 +26,9 @@ export async function attemptUpload(
   _previous: UploadResult,
   formData: FormData,
 ): Promise<UploadResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
   const caseId = String(formData.get("caseId") ?? "");
   const category = String(formData.get("category") ?? "") as DocumentCategory;
   const file = formData.get("file");
@@ -34,12 +38,12 @@ export async function attemptUpload(
     return { status: "error", message: "Choose a file." };
   }
 
-  const record = await getCase(caseId, demoCounselor);
+  const record = await getCase(caseId, actor);
   if (!record) {
     return { status: "error", message: "That case is not readable by this account." };
   }
 
-  const consents = await listConsents(caseId, demoCounselor);
+  const consents = await listConsents(caseId, actor);
   const check = checkUpload(
     { name: file.name, type: file.type, size: file.size },
     category,
@@ -49,9 +53,9 @@ export async function attemptUpload(
 
   if (!check.ok) {
     recordAudit({
-      actorId: demoCounselor.id,
-      actorName: demoCounselor.name,
-      actorRole: demoCounselor.role,
+      actorId: actor.id,
+      actorName: actor.name,
+      actorRole: actor.role,
       action: "reject-upload",
       subjectType: "document",
       subjectId: `${caseId}:${category}`,

@@ -1,7 +1,8 @@
 "use server";
 
+import { currentActor } from "@/domain/session";
+
 import { getCase } from "@/data/store";
-import { demoStudent } from "@/domain/demo-actors";
 import { answerStudentQuestion, coachStatement } from "@/domain/agents/implementations";
 import { record as recordAudit } from "@/domain/audit";
 
@@ -20,13 +21,16 @@ export async function askGuidance(
   _previous: GuidanceResult,
   formData: FormData,
 ): Promise<GuidanceResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
   const question = String(formData.get("question") ?? "").trim();
   if (question.length < 5) {
     return { status: "error", message: "Ask the question in a sentence." };
   }
 
-  const record = demoStudent.caseId
-    ? await getCase(demoStudent.caseId, demoStudent)
+  const record = actor.caseId
+    ? await getCase(actor.caseId, actor)
     : null;
 
   if (!record) {
@@ -81,6 +85,9 @@ export async function coachSop(
   _previous: CoachingResult,
   formData: FormData,
 ): Promise<CoachingResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
   const draft = String(formData.get("draft") ?? "").trim();
   if (draft.length < 40) {
     return {

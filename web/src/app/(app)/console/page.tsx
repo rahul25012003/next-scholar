@@ -3,7 +3,8 @@ import Link from "next/link";
 import { ArrowRight } from "@phosphor-icons/react/ssr";
 import { AppShell, EmptyState, Panel } from "@/components/app/shell";
 import { caseloadStats, listCases } from "@/data/store";
-import { demoCounselor } from "@/domain/demo-actors";
+import { redirect } from "next/navigation";
+import { currentActor } from "@/domain/session";
 import { byPriority, detectEvents } from "@/domain/events";
 import { daysSince } from "@/domain/case";
 import type { Priority } from "@/domain/case";
@@ -21,8 +22,12 @@ const priorityTone: Record<Priority, string> = {
 export const dynamic = "force-dynamic";
 
 export default async function ConsolePage() {
-  const mine = await listCases(demoCounselor);
-  const { teamAverage } = await caseloadStats(demoCounselor);
+  const actor = await currentActor();
+  if (!actor) redirect("/login");
+  if (actor.role === "student") redirect("/portal");
+
+  const mine = await listCases(actor);
+  const { teamAverage } = await caseloadStats(actor);
 
   const rows = mine
     .map((record) => {
@@ -50,7 +55,7 @@ export default async function ConsolePage() {
     .filter((event) => event.type === "escalation" || event.audience === "manager");
 
   return (
-    <AppShell actor={demoCounselor} current="/console">
+    <AppShell actor={actor} current="/console">
       <div className="shell grid gap-6">
         <div className="grid gap-6 lg:grid-cols-3">
           <Panel title="Your caseload">

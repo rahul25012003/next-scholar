@@ -1,13 +1,12 @@
 import type { Actor } from "./rbac";
 
 /**
- * Authentication is not connected. Rather than inventing a login, each surface
- * runs as a fixed unauthenticated actor and every read still passes through the
- * permission matrix, so what a role can and cannot see is real even though who
- * you are is not yet checked.
+ * Actor fixtures for tests.
  *
- * Replacing these three constants with a Supabase session is the whole of the
- * auth work at this layer.
+ * The application no longer uses these: every surface reads the signed session
+ * through `domain/session`. They remain because the permission tests need
+ * stable actors to try to break the matrix with, and building a session to do
+ * that would test the cookie rather than the rule.
  */
 
 export const demoStudent: Actor = {
@@ -30,5 +29,4 @@ export const demoFounder: Actor = {
   role: "founder",
 };
 
-export const AUTH_NOTICE =
-  "No authentication is connected. This surface runs as a fixed role and reads synthetic records. Permission checks are real, identity is not.";
+

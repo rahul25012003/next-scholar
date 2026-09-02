@@ -1,5 +1,7 @@
 "use server";
 
+import { currentActor } from "@/domain/session";
+
 import { revalidatePath } from "next/cache";
 import {
   appendNote,
@@ -11,7 +13,6 @@ import {
   withdrawConsent,
 } from "@/data/store";
 import { findSensitiveInput } from "@/domain/agents/guards";
-import { demoCounselor, demoStudent } from "@/domain/demo-actors";
 import { assertCan, PermissionError } from "@/domain/rbac";
 import { summariseCase, draftReply } from "@/domain/agents/implementations";
 import { record as recordAudit } from "@/domain/audit";
@@ -34,6 +35,9 @@ export async function addNote(
   _previous: NoteResult,
   formData: FormData,
 ): Promise<NoteResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
   const caseId = String(formData.get("caseId") ?? "");
   const text = String(formData.get("note") ?? "").trim();
 
@@ -41,13 +45,13 @@ export async function addNote(
     return { status: "error", message: "Write the note before saving it." };
   }
 
-  const record = await getCase(caseId, demoCounselor);
+  const record = await getCase(caseId, actor);
   if (!record) {
     return { status: "error", message: "That case is not readable by this account." };
   }
 
   try {
-    assertCan(demoCounselor, "case.note.write", record);
+    assertCan(actor, "case.note.write", record);
   } catch (error) {
     if (error instanceof PermissionError) {
       return { status: "error", message: error.message };
@@ -57,8 +61,8 @@ export async function addNote(
 
   const saved = await appendNote(
     caseId,
-    { text, source: "human", author: demoCounselor.name },
-    demoCounselor,
+    { text, source: "human", author: actor.name },
+    actor,
   );
 
   if (!saved) return { status: "error", message: "The note could not be saved." };
@@ -127,16 +131,19 @@ export async function verifyDocument(
   _previous: VerifyResult,
   formData: FormData,
 ): Promise<VerifyResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
   const caseId = String(formData.get("caseId") ?? "");
   const documentId = String(formData.get("documentId") ?? "");
 
-  const record = await getCase(caseId, demoCounselor);
+  const record = await getCase(caseId, actor);
   if (!record) {
     return { status: "error", message: "That case is not readable by this account." };
   }
 
   try {
-    assertCan(demoCounselor, "document.verify", record);
+    assertCan(actor, "document.verify", record);
   } catch (error) {
     if (error instanceof PermissionError) {
       return { status: "error", message: error.message };
@@ -147,15 +154,15 @@ export async function verifyDocument(
   const document = record.documents.find((item) => item.id === documentId);
   if (!document) return { status: "error", message: "That document is not on this case." };
 
-  await markDocumentVerified(caseId, documentId, demoCounselor);
+  await markDocumentVerified(caseId, documentId, actor);
   await appendNote(
     caseId,
     {
       text: `Marked ${document.name} verified against the original.`,
       source: "human",
-      author: demoCounselor.name,
+      author: actor.name,
     },
-    demoCounselor,
+    actor,
   );
 
   revalidatePath(`/console/${caseId}`);
@@ -163,7 +170,7 @@ export async function verifyDocument(
 
   return {
     status: "done",
-    message: `Verified against the original, recorded against ${demoCounselor.name}.`,
+    message: `Verified against the original, recorded against ${actor.name}.`,
   };
 }
 
@@ -182,6 +189,9 @@ export async function draftMessage(
   _previous: DraftResult,
   formData: FormData,
 ): Promise<DraftResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
   const caseId = String(formData.get("caseId") ?? "");
   const intent = String(formData.get("intent") ?? "").trim();
 
@@ -189,7 +199,7 @@ export async function draftMessage(
     return { status: "error", message: "Say what the message should do." };
   }
 
-  const record = await getCase(caseId, demoCounselor);
+  const record = await getCase(caseId, actor);
   if (!record) {
     return { status: "error", message: "That case is not readable by this account." };
   }
@@ -226,8 +236,11 @@ export async function clearReviewFlag(
   _previous: ReviewResult,
   formData: FormData,
 ): Promise<ReviewResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
   const caseId = String(formData.get("caseId") ?? "");
-  const updated = await clearManualReview(caseId, demoCounselor);
+  const updated = await clearManualReview(caseId, actor);
 
   if (!updated) return { status: "error", message: "Not permitted on this case." };
 
@@ -250,10 +263,13 @@ export async function withdrawConsentAction(
   _previous: ConsentResult,
   formData: FormData,
 ): Promise<ConsentResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
   const consentId = String(formData.get("consentId") ?? "");
   if (!consentId) return { status: "error", message: "No consent record named." };
 
-  await withdrawConsent(consentId, demoStudent);
+  await withdrawConsent(consentId, actor);
   revalidatePath("/portal");
 
   return {

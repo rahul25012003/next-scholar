@@ -21,7 +21,7 @@ reference/           the source specification and the design reference image
 cd web
 npm install
 npm run dev          # http://localhost:3000
-npm test             # 172 tests
+npm test             # 197 tests
 npm run build
 ```
 
@@ -39,6 +39,13 @@ them.
 `/book-consultation`). Design tokens are derived from the reference screenshot
 in `reference/design-reference.png`. Anything sampled by eye rather than pixel
 picked is flagged `[VERIFY]` in `web/src/app/globals.css`.
+
+**Sign in and sign up** (`/login`, `/signup`). Scrypt hashed passwords, signed
+httpOnly session cookies, a route guard in `proxy.ts`, and role based landing.
+Signup only ever creates a student; staff accounts are made by someone who
+already holds one. Users live in memory until the database lands, but how they
+are checked is the real thing, and the tests try to forge, edit and expire a
+session rather than describing one.
 
 **Student portal** (`/portal`). Stage and next action, deadlines, document
 checklist, application reference numbers, consent per document category with
@@ -122,8 +129,6 @@ Nothing is guessed in their place.
 
 Listed here so nothing reads as an oversight:
 
-- **Authentication.** Each surface runs as a fixed unauthenticated actor. The
-  permission checks are real; identity is not yet checked.
 - **A database.** Cases live in memory from synthetic fixtures. `data/store.ts`
   is the only file that changes when Supabase arrives, and the permission matrix
   moves down into row level policies at the same time.

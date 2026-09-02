@@ -1,12 +1,13 @@
 "use server";
 
+import { currentActor } from "@/domain/session";
+
 import { revalidatePath } from "next/cache";
 import {
   attachThreadSummary,
   getCommunication,
   mutateCase,
 } from "@/data/store";
-import { demoCounselor, demoFounder } from "@/domain/demo-actors";
 import {
   addTask,
   applyCorrection,
@@ -50,6 +51,9 @@ export async function recordVisa(
   _previous: WorkflowResult,
   formData: FormData,
 ): Promise<WorkflowResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
   const caseId = String(formData.get("caseId") ?? "");
   const state = String(formData.get("state") ?? "") as VisaState;
   const note = String(formData.get("note") ?? "").trim();
@@ -64,9 +68,9 @@ export async function recordVisa(
 
   const updated = await mutateCase(
     caseId,
-    demoCounselor,
+    actor,
     "case.stage.write",
-    (record) => recordVisaOutcome(record, state, note, demoCounselor.name),
+    (record) => recordVisaOutcome(record, state, note, actor.name),
     `Visa outcome recorded as ${state}`,
   );
 
@@ -86,6 +90,9 @@ export async function recordOffer(
   _previous: WorkflowResult,
   formData: FormData,
 ): Promise<WorkflowResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
   const caseId = String(formData.get("caseId") ?? "");
   const applicationId = String(formData.get("applicationId") ?? "");
   const outcome = String(formData.get("outcome") ?? "") as ApplicationRecord["outcome"];
@@ -97,12 +104,12 @@ export async function recordOffer(
 
   const updated = await mutateCase(
     caseId,
-    demoCounselor,
+    actor,
     "case.stage.write",
     (record) =>
       outcome === "withdrawn"
-        ? withdrawApplication(record, applicationId, note || "No reason given.", demoCounselor.name)
-        : recordApplicationOutcome(record, applicationId, outcome, note, demoCounselor.name),
+        ? withdrawApplication(record, applicationId, note || "No reason given.", actor.name)
+        : recordApplicationOutcome(record, applicationId, outcome, note, actor.name),
     `Application ${applicationId} recorded as ${outcome}`,
   );
 
@@ -122,6 +129,9 @@ export async function reapply(
   _previous: WorkflowResult,
   formData: FormData,
 ): Promise<WorkflowResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
   const caseId = String(formData.get("caseId") ?? "");
   const supersedes = String(formData.get("supersedes") ?? "");
   const university = String(formData.get("university") ?? "").trim();
@@ -133,14 +143,14 @@ export async function reapply(
 
   const updated = await mutateCase(
     caseId,
-    demoCounselor,
+    actor,
     "case.stage.write",
     (record) =>
       startReapplication(
         record,
         supersedes,
         { id: `app-${Date.now()}`, university, programme },
-        demoCounselor.name,
+        actor.name,
       ),
     `Reapplication opened, linked to ${supersedes}`,
   );
@@ -158,6 +168,9 @@ export async function defer(
   _previous: WorkflowResult,
   formData: FormData,
 ): Promise<WorkflowResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
   const caseId = String(formData.get("caseId") ?? "");
   const newIntake = String(formData.get("intake") ?? "").trim();
   const shiftDays = Number(formData.get("shiftDays") ?? 0);
@@ -168,9 +181,9 @@ export async function defer(
 
   const updated = await mutateCase(
     caseId,
-    demoCounselor,
+    actor,
     "case.stage.write",
-    (record) => deferIntake(record, newIntake, shiftDays, demoCounselor.name),
+    (record) => deferIntake(record, newIntake, shiftDays, actor.name),
     `Deferred to ${newIntake}`,
   );
 
@@ -187,6 +200,9 @@ export async function correct(
   _previous: WorkflowResult,
   formData: FormData,
 ): Promise<WorkflowResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
   const caseId = String(formData.get("caseId") ?? "");
   const field = String(formData.get("field") ?? "") as CorrectableField;
   const value = String(formData.get("value") ?? "").trim();
@@ -201,9 +217,9 @@ export async function correct(
 
   const updated = await mutateCase(
     caseId,
-    demoCounselor,
+    actor,
     "case.note.write",
-    (record) => applyCorrection(record, { field, value, reason }, demoCounselor.name),
+    (record) => applyCorrection(record, { field, value, reason }, actor.name),
     `Corrected ${field}`,
   );
 
@@ -220,6 +236,9 @@ export async function close(
   _previous: WorkflowResult,
   formData: FormData,
 ): Promise<WorkflowResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
   const caseId = String(formData.get("caseId") ?? "");
   const outcome = String(formData.get("outcome") ?? "") as ClosureOutcome;
   const reason = String(formData.get("reason") ?? "").trim();
@@ -230,9 +249,9 @@ export async function close(
 
   const updated = await mutateCase(
     caseId,
-    demoFounder,
+    actor,
     "escalation.resolve",
-    (record) => closeCase(record, outcome, reason, demoFounder.name),
+    (record) => closeCase(record, outcome, reason, actor.name),
     `Case closed as ${outcome}`,
   );
 
@@ -250,6 +269,9 @@ export async function reassign(
   _previous: WorkflowResult,
   formData: FormData,
 ): Promise<WorkflowResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
   const caseId = String(formData.get("caseId") ?? "");
   const counselor = String(formData.get("counselor") ?? "").trim();
   const reason = String(formData.get("reason") ?? "").trim();
@@ -260,9 +282,9 @@ export async function reassign(
 
   const updated = await mutateCase(
     caseId,
-    demoFounder,
+    actor,
     "case.reassign",
-    (record) => reassignTo(record, counselor, reason, demoFounder.name),
+    (record) => reassignTo(record, counselor, reason, actor.name),
     `Reassigned to ${counselor}`,
   );
 
@@ -279,15 +301,18 @@ export async function setStage(
   _previous: WorkflowResult,
   formData: FormData,
 ): Promise<WorkflowResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
   const caseId = String(formData.get("caseId") ?? "");
   const stage = String(formData.get("stage") ?? "") as StageKey;
   if (!stage) return { status: "error", message: "Pick a stage." };
 
   const updated = await mutateCase(
     caseId,
-    demoCounselor,
+    actor,
     "case.stage.write",
-    (record) => changeStage(record, stage, demoCounselor.name),
+    (record) => changeStage(record, stage, actor.name),
     `Stage set to ${stage}`,
   );
 
@@ -300,6 +325,9 @@ export async function createTask(
   _previous: WorkflowResult,
   formData: FormData,
 ): Promise<WorkflowResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
   const caseId = String(formData.get("caseId") ?? "");
   const title = String(formData.get("title") ?? "").trim();
   const dueOn = String(formData.get("dueOn") ?? "").trim();
@@ -310,10 +338,10 @@ export async function createTask(
 
   const updated = await mutateCase(
     caseId,
-    demoCounselor,
+    actor,
     "case.note.write",
     (record) =>
-      addTask(record, { id: `task-${Date.now()}`, title, dueOn }, demoCounselor.name),
+      addTask(record, { id: `task-${Date.now()}`, title, dueOn }, actor.name),
     `Follow up created for ${dueOn}`,
   );
 
@@ -326,14 +354,17 @@ export async function finishTask(
   _previous: WorkflowResult,
   formData: FormData,
 ): Promise<WorkflowResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
   const caseId = String(formData.get("caseId") ?? "");
   const taskId = String(formData.get("taskId") ?? "");
 
   const updated = await mutateCase(
     caseId,
-    demoCounselor,
+    actor,
     "case.note.write",
-    (record) => completeTask(record, taskId, demoCounselor.name),
+    (record) => completeTask(record, taskId, actor.name),
     `Follow up ${taskId} completed`,
   );
 
@@ -346,6 +377,9 @@ export async function rewriteSummary(
   _previous: WorkflowResult,
   formData: FormData,
 ): Promise<WorkflowResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
   const caseId = String(formData.get("caseId") ?? "");
   const summary = String(formData.get("summary") ?? "").trim();
 
@@ -355,9 +389,9 @@ export async function rewriteSummary(
 
   const updated = await mutateCase(
     caseId,
-    demoCounselor,
+    actor,
     "case.note.write",
-    (record) => overrideSummary(record, summary, demoCounselor.name),
+    (record) => overrideSummary(record, summary, actor.name),
     "Case summary overridden by hand",
   );
 
@@ -373,6 +407,9 @@ export async function resolveEscalation(
   _previous: WorkflowResult,
   formData: FormData,
 ): Promise<WorkflowResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
   const caseId = String(formData.get("caseId") ?? "");
   const decision = String(formData.get("decision") ?? "").trim();
 
@@ -382,9 +419,9 @@ export async function resolveEscalation(
 
   const updated = await mutateCase(
     caseId,
-    demoFounder,
+    actor,
     "escalation.resolve",
-    (record) => reviewEscalation(record, decision, demoFounder.name),
+    (record) => reviewEscalation(record, decision, actor.name),
     "Escalation reviewed",
   );
 
@@ -410,6 +447,11 @@ export async function summariseCommunication(
   _previous: SummaryResult,
   formData: FormData,
 ): Promise<SummaryResult> {
+  const actor = await currentActor();
+  if (!actor) {
+    return { status: "unavailable", message: "You are not signed in." };
+  }
+
   const communicationId = String(formData.get("communicationId") ?? "");
   const caseId = String(formData.get("caseId") ?? "");
 

@@ -16,7 +16,8 @@ import {
 import { AskGuidance } from "@/components/app/ask-guidance";
 import { SopCoach } from "@/components/app/sop-coach";
 import { ConsentList } from "@/components/app/consent-list";
-import { demoStudent } from "@/domain/demo-actors";
+import { redirect } from "next/navigation";
+import { currentActor } from "@/domain/session";
 import { can } from "@/domain/rbac";
 import { detectEvents, byPriority } from "@/domain/events";
 import { daysUntil, stageIndex, visaLabel } from "@/domain/case";
@@ -44,13 +45,15 @@ const statusIcon: Record<DocStatus, typeof CheckCircle> = {
 export const dynamic = "force-dynamic";
 
 export default async function PortalPage() {
-  const record = demoStudent.caseId
-    ? await getCase(demoStudent.caseId, demoStudent)
-    : null;
+  const actor = await currentActor();
+  if (!actor) redirect("/login");
+  if (actor.role !== "student") redirect("/console");
 
-  if (!record || !can(demoStudent, "case.read", record)) {
+  const record = actor.caseId ? await getCase(actor.caseId, actor) : null;
+
+  if (!record || !can(actor, "case.read", record)) {
     return (
-      <AppShell actor={demoStudent} current="/portal">
+      <AppShell actor={actor} current="/portal">
         <div className="shell">
           <Panel title="Your application">
             <EmptyState
@@ -69,12 +72,12 @@ export default async function PortalPage() {
   );
   const currentIndex = stageIndex(record.stage);
   const currentStage = stages[currentIndex];
-  const consents = await listConsents(record.id, demoStudent);
-  const notifications = await listNotifications(record.id, demoStudent);
-  const threads = studentVisible(await listCommunications(record.id, demoStudent));
+  const consents = await listConsents(record.id, actor);
+  const notifications = await listNotifications(record.id, actor);
+  const threads = studentVisible(await listCommunications(record.id, actor));
 
   return (
-    <AppShell actor={demoStudent} current="/portal">
+    <AppShell actor={actor} current="/portal">
       <div className="shell grid gap-6 lg:grid-cols-[1.6fr_1fr]">
         <div className="grid gap-6">
           <Panel

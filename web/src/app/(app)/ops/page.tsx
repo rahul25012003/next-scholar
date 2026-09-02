@@ -5,7 +5,8 @@ import { securityPosture, postureLabel, postureSummary } from "@/domain/security
 import { recentAudit } from "@/domain/audit";
 import { retentionFor, RETENTION_YEARS } from "@/domain/retention";
 import { suggestAssignment } from "@/domain/counselor-ops";
-import { demoFounder } from "@/domain/demo-actors";
+import { redirect } from "next/navigation";
+import { currentActor } from "@/domain/session";
 import { byPriority, detectAll } from "@/domain/events";
 import { daysSince, daysUntil } from "@/domain/case";
 import { buildQuarterlyReport } from "@/domain/reporting";
@@ -24,7 +25,11 @@ export const metadata: Metadata = { title: "Operations" };
 export const dynamic = "force-dynamic";
 
 export default async function OpsPage() {
-  const all = await listCases(demoFounder);
+  const actor = await currentActor();
+  if (!actor) redirect("/login");
+  if (actor.role !== "manager" && actor.role !== "founder") redirect("/console");
+
+  const all = await listCases(actor);
   const events = detectAll(all).sort(byPriority);
   const report = buildQuarterlyReport(all, currentSignOff());
   const availability = agentAvailability();
@@ -74,7 +79,7 @@ export default async function OpsPage() {
   const denied = ledgerRows.filter((row) => row.status === "permission-denied").length;
 
   return (
-    <AppShell actor={demoFounder} current="/ops">
+    <AppShell actor={actor} current="/ops">
       <div className="shell grid gap-6">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {[
