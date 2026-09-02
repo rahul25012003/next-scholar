@@ -35,6 +35,9 @@ Nothing new is built. Existing work becomes true and survives a restart.
 | 1.14 | Lighthouse baseline for all routes | No LCP, INP or CLS number exists | P1 |
 | 1.15 | Production image strategy: self-host or pre-optimise, `sizes`, blur placeholders | Eight remote images pending after 3.5s in dev | P1 |
 | 1.16 | Hero photograph matching the brief, a student walking into a campus | 66 candidate ids checked by eye without finding the composition. Needs the Unsplash key or supplied assets | P1 |
+| 1.17 | **Publish dMAT.** New APS India Digital Master Test, mandatory from summer semester 2027 for Indian Bachelor's holders in Engineering, Commerce, Finance, Economics or Business. EUR 150, separate from the APS fee. Our stated audience is almost exactly the trigger population and our site does not mention it | **P0** |
+| 1.18 | Add the dMAT exemption list, including the transitional exemption for anyone who registered or submitted APS before 29 June 2026 | P0 |
+| 1.19 | Add the dMAT cycle dates to the Policy Desk, and state that it is not a pass-fail barrier | P0 |
 
 ---
 
@@ -103,6 +106,18 @@ value without an account.
 | 3.21 | City registration after arrival | P2 |
 | 3.22 | Work rights in full and half days | P2 |
 | 3.23 | Application deadlines: mid July winter, mid January summer | P1 |
+
+### 3c2. Germany, from the nxtstep-de comparison
+
+| ID | Item | Priority |
+|---|---|---|
+| 3.43 | **Modified Bavarian Formula grade calculator**, clamped 1.0 to 4.0 with the German bands. Our own conversion, with the honest caveat that the university or uni-assist decides | P1 |
+| 3.44 | **ECTS credit mapping**: total credits, subject-wise credits, core and mathematics requirements, technical subjects, and missing prerequisites. This is how German Master's admission actually works and nothing in our model represents it | **P1** |
+| 3.45 | **APS workflow depth**: document checklist, step sequence, and the common mistakes that cause rejection, such as mismatched names across documents and a missing semester transcript | P1 |
+| 3.46 | LOM, Letter of Motivation, modelled as distinct from an SOP | P2 |
+| 3.47 | Europass CV guidance | P2 |
+| 3.48 | uni-assist versus direct application, presented as the real choice it is | P2 |
+| 3.49 | dMAT preparation guidance, once the requirement itself is published | P2 |
 
 ### 3d. Ireland content
 
