@@ -4,6 +4,8 @@ Every outstanding item, numbered, from all four audits. Nothing here removes or
 replaces anything that already works.
 
 Sources: `ROADMAP.md` (project audit and benchmark gap analysis),
+`FEATURE-DETAIL.md` (field and interaction level build sheet),
+`GERMANY-BENCHMARK.md` (nxtstep-de and the dMAT gap),
 `COUNTRY-AUDIT.md` (per-destination content and accuracy),
 `BENCHMARK-SPEC.md` (complete IDP and LeapScholar inventory), `AUDIT.md` (the
 no-fabricated-data audit and its correction).
@@ -137,8 +139,16 @@ value without an account.
 | 3.30 | Progressive multi-step intake replacing the single long form | P1 |
 | 3.31 | Cost of living calculator, **ungated**, line-itemised, sources cited | P1 |
 | 3.32 | Requirements-met checklist per destination, factual, no probability | P1 |
-| 3.33 | Grade converters: CGPA to percentage, to GPA, SGPA, percentage to GPA | P2 |
-| 3.34 | IELTS band calculator with descriptor table | P2 |
+| 3.33 | Grade converters, seven variants: CGPA to percentage, CGPA to marks, CGPA to GPA, percentage to GPA on three scales, percentage to marks, SGPA to CGPA, GPA calculator | P2 |
+| 3.34 | IELTS band calculator: four section scores, equal weighting, half-band rounding, 0 to 9 descriptor table | P2 |
+| 3.50 | **German grade calculator, Modified Bavarian Formula.** Inputs degree, university, obtained, maximum, passing. Clamped 1.0 to 4.0. Bands Sehr gut, Gut, Befriedigend, Ausreichend | P1 |
+| 3.51 | Calculator **shows its arithmetic**: the substituted formula with the student's own numbers | P1 |
+| 3.52 | Calculator names its source and carries a verification date | P1 |
+| 3.53 | Preset scales with max and pass prefilled: 10-point CGPA, percentage, 4-point GPA | P2 |
+| 3.54 | Calculator states its limits: universities may convert differently, uni-assist decides | P1 |
+| 3.55 | Copy the working to clipboard | P3 |
+| 3.56 | Link the converted grade to the requirements checklist | P2 |
+| 3.57 | All calculators ungated. No signup to see a result, ever | **P1** |
 | 3.35 | Accessibility audit and fixes across all routes | P1 |
 | 3.36 | Component and browser tests for marketing and portal | P1 |
 | 3.37 | Loading and skeleton states | P2 |
@@ -172,6 +182,56 @@ The largest capability gap, built to carry the disclosure both benchmarks omit.
 | 4.14 | Work rights stated concretely per country | P1 |
 | 4.15 | Quick-entry chips under the hero, once there is somewhere to send them | P2 |
 | 4.16 | Caching of verified university data | P3 |
+| 4.17 | University card fields: name, logo, flag, ranking **with the body named**, international students, course count, commission badge | P1 |
+| 4.18 | List sort options that each **state what they order by**. Never an undefined "popularity" | P1 |
+| 4.19 | Tabbed university profile: Overview, Admissions, Rankings, Courses and Fees | P1 |
+| 4.20 | Profile highlights: established, total students, international students, staff ratio, acceptance rate, accreditation | P1 |
+| 4.21 | Exam minimums **split undergraduate versus postgraduate**, with "Not required" as an explicit value | P1 |
+| 4.22 | Rankings from multiple bodies with year history | P2 |
+| 4.23 | Intakes with an open or closed status flag | P1 |
+| 4.24 | Course card fields: fee marked indicative, duration, next intake with expandable further dates, badges | P1 |
+| 4.25 | Course detail with a full intake table, campus per intake | P1 |
+| 4.26 | Filters that **do not reset each other**, with explicit Apply and Reset | P1 |
+| 4.27 | A stated reason wherever a field is missing, never a bare "not available" | P1 |
+| 4.28 | Source and verification date on every imported catalogue field | **P0 for the catalogue** |
+| 4.29 | Scholarship record fields: name, institution, destination, level, award type, deadline | P2 |
+| 4.30 | Related-search blocks at the foot of results pages | P3 |
+| 4.31 | Rankings explorer, searchable and filterable | P3 |
+
+---
+
+## Phase 3g — UX, animation and design
+
+Cross-cutting. Several are Phase 1 blockers, listed here so the design work sits
+in one place.
+
+| ID | Item | Priority |
+|---|---|---|
+| D.01 | Mobile verification of all 12 routes | **P0** |
+| D.02 | Reduced-motion audit end to end | P1 |
+| D.03 | Focus states and keyboard tab order walked on every route | P1 |
+| D.04 | Loading and skeleton states | P1 |
+| D.05 | Error boundaries per route group | P1 |
+| D.06 | Empty state for a new account that has no case yet | **P0** |
+| D.07 | Consistent card hover lift across all surfaces, not only destination cards | P2 |
+| D.08 | Cap the reveal stagger so long lists do not crawl | P2 |
+| D.09 | Photography for process, outcomes, policy and consultation | P2 |
+| D.10 | Hero portrait matching the brief | P1 |
+| D.11 | Print styles for the Open Ledger and the quarterly report | P2 |
+| D.12 | Wide-table behaviour on mobile, ledger and catalogue | P1 |
+| D.13 | Chart accessibility review beyond the screen-reader table | P2 |
+| D.14 | Enforce radius and shadow tokens as new surfaces are built | P2 |
+| D.15 | Navigation growth plan before the catalogue lands | P1 |
+| D.16 | Sticky nav condensing on scroll | P3 |
+| D.17 | Scroll to top on route change | P3 |
+| D.18 | Table-of-contents jump list on long pages | P2 |
+| D.19 | FAQ accordion closing long pages | P2 |
+| D.20 | Tabbed layout for the university profile | P1 |
+| D.21 | Progressive form with visual country cards before any personal data | P1 |
+| D.22 | Persistent WhatsApp button with a pre-filled message | P1 |
+| D.23 | Quick-entry chips under the hero once there is somewhere to send them | P2 |
+| D.24 | Read time and updated date on articles | P2 |
+| D.25 | Fee qualifier plus verification date wherever money is shown | P1 |
 
 ---
 
@@ -191,6 +251,12 @@ The largest capability gap, built to carry the disclosure both benchmarks omit.
 | 5.10 | Events and webinars | P3 |
 | 5.11 | Bengaluru and nearby city pages | P3 |
 | 5.12 | Student stories, once there are students | P3 |
+| 5.13 | Reviews page structure: paginated, filterable by country and category, sortable, with course, university, flag, category tag, date and excerpt | P2 |
+| 5.14 | Blog taxonomy with four filter axes: destination, topic, service, journey stage | P2 |
+| 5.15 | Event card fields: title, date and time, city, mode physical virtual or hybrid, destination flags, study levels | P3 |
+| 5.16 | Event filters beyond subject and sort, which is where IDP is weak at 157 events | P3 |
+| 5.17 | City and office pages with address, hours, named contact and services | P3 |
+| 5.18 | Journey spine as a navigable content structure, one model not three | P2 |
 
 ---
 
@@ -204,6 +270,10 @@ The largest capability gap, built to carry the disclosure both benchmarks omit.
 | 6.04 | Exam preparation, or a partnership | P3 |
 | 6.05 | Mobile app | P4 |
 | 6.06 | Additional destinations, only when answerable without looking anything up | P3 |
+| 6.07 | Loan guidance page: process, lender categories, borrowing tips, and an explicit "we are not a lender" statement | P2 |
+| 6.08 | Refund and cancellation policy with claim window, processing time and explicit refundable lists | P1 |
+| 6.09 | Non-affiliation disclaimer naming APS India, DAAD and uni-assist | P1 |
+| 6.10 | SOP guidance with annotated samples and a structural outline, coached not written | P2 |
 
 ---
 
