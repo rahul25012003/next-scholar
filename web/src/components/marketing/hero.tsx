@@ -1,37 +1,163 @@
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, MagnifyingGlass } from "@phosphor-icons/react/ssr";
 import { ButtonLink } from "@/components/ui/button";
-import { HeroLedger } from "@/components/marketing/hero-ledger";
 import { primaryCta } from "@/content/site";
+import { destinations } from "@/content/destinations";
+import { photos, photoUrl } from "@/content/photos";
 
+/**
+ * The hero, following the reference layout: a soft blue panel holding the
+ * headline, a destination picker and a trust row, with a portrait sitting on a
+ * gradient card to the right.
+ *
+ * Two things are adapted rather than copied. The reference's search bar implies
+ * a searchable database of fifteen hundred universities, and this business
+ * covers three destinations it can answer completely, so the control picks a
+ * destination and goes somewhere real. And where the reference counts twenty
+ * two thousand students onboarded, this one carries what is actually true,
+ * because no client has been taken on yet.
+ */
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-surface">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(120%_100%_at_78%_0%,rgba(46,107,240,0.10),transparent_60%)]"
-      />
-      <div className="shell relative grid gap-14 pb-20 pt-14 lg:grid-cols-[1.12fr_0.88fr] lg:items-center lg:gap-14 lg:pb-28 lg:pt-20">
-        <div>
-          <h1 className="font-display text-4xl font-extrabold leading-[1.08] tracking-[-0.03em] text-navy-900 md:text-[2.75rem] lg:text-[3.1rem]">
-            We publish what we earn
-            <br />
-            <span className="text-blue-600">on every recommendation</span>
-          </h1>
-          <p className="mt-6 max-w-[34rem] text-[1.0625rem] leading-relaxed text-body">
-            Study abroad advice for Bengaluru graduates, with our commission
-            printed next to every university on your shortlist.
-          </p>
-          <div className="mt-9 flex flex-wrap items-center gap-3">
-            <ButtonLink href={primaryCta.href} size="lg">
-              {primaryCta.label}
-            </ButtonLink>
-            <ButtonLink href="/open-ledger" variant="outline" size="lg">
-              Read the Open Ledger
-            </ButtonLink>
+    <section className="bg-[#f4f7ff] pb-6 pt-6 md:pb-10">
+      <div className="shell">
+        <div className="relative overflow-hidden rounded-[1.75rem] bg-[#e8effe] px-7 pb-0 pt-12 md:px-12 md:pt-16 lg:rounded-[2.25rem]">
+          <div className="grid items-end gap-10 lg:grid-cols-[1.18fr_0.82fr] lg:gap-10">
+            <div className="pb-12 md:pb-16">
+              <h1 className="font-display text-[2.25rem] font-extrabold leading-[1.1] tracking-[-0.03em] text-navy-900 sm:text-[2.5rem] lg:text-[2.7rem] xl:text-[3rem]">
+                We publish what we earn
+                <br />
+                <span className="text-blue-600">on every recommendation</span>
+              </h1>
+
+              <p className="mt-5 max-w-[30rem] text-[1rem] leading-relaxed text-body md:text-[1.0625rem]">
+                Study abroad advice for Bengaluru graduates, with our commission
+                printed next to every university on your shortlist.
+              </p>
+
+              <DestinationPicker />
+
+              {/* The picker explores. This is the action that pays for the
+                  business, so it does not live only in the navigation. */}
+              <div className="mt-5 flex flex-wrap items-center gap-3">
+                <ButtonLink href={primaryCta.href} size="lg">
+                  {primaryCta.label}
+                </ButtonLink>
+                <p className="text-[0.8125rem] leading-snug text-muted">
+                  45 minutes, ₹1,500, credited against the fee
+                  <br className="hidden sm:block" /> if you go ahead.
+                </p>
+              </div>
+
+              <TrustRow />
+            </div>
+
+            <HeroPortrait />
           </div>
         </div>
-
-        <HeroLedger />
       </div>
     </section>
+  );
+}
+
+/**
+ * Where the reference has a university search box. Three destinations do not
+ * need a search, so this goes straight to what each one earns us.
+ */
+function DestinationPicker() {
+  return (
+    <div className="mt-8 max-w-[30rem] rounded-[0.875rem] bg-blue-600 p-1.5 shadow-[0_10px_30px_-12px_rgb(21_83_214/0.55)]">
+      <div className="flex flex-wrap items-center gap-1.5">
+        <p className="flex-1 px-3.5 py-2 text-[0.9375rem] text-white/85">
+          See what we earn in
+        </p>
+        {destinations
+          .filter((destination) => destination.slug !== "germany-private")
+          .map((destination) => (
+            <Link
+              key={destination.slug}
+              href="/open-ledger"
+              className="rounded-[0.625rem] bg-white/12 px-3 py-2 text-[0.875rem] font-medium text-white transition-colors hover:bg-white/22"
+            >
+              {destination.country}
+            </Link>
+          ))}
+        <Link
+          href="/open-ledger"
+          aria-label="Open the full ledger"
+          className="grid h-10 w-11 place-items-center rounded-[0.625rem] bg-white text-blue-600 transition-colors hover:bg-blue-50"
+        >
+          <MagnifyingGlass size={17} weight="bold" aria-hidden />
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * The reference puts a row of student faces and a headcount here. There are no
+ * clients yet, so the same shape carries the three destinations and the promise
+ * that actually holds on day one.
+ */
+function TrustRow() {
+  return (
+    <div className="mt-7 flex flex-wrap items-center gap-x-4 gap-y-3">
+      <div className="flex -space-x-2.5">
+        {destinations
+          .filter((destination) => destination.slug !== "germany-private")
+          .map((destination) => (
+            <span
+              key={destination.slug}
+              className="grid h-9 w-9 place-items-center overflow-hidden rounded-full bg-white ring-2 ring-[#e8effe]"
+            >
+              <Image
+                src={`https://flagcdn.com/w80/${destination.flagCode}.png`}
+                alt=""
+                width={36}
+                height={36}
+                className="h-full w-full object-cover"
+              />
+            </span>
+          ))}
+      </div>
+      <p className="text-[0.875rem] leading-snug text-ink-soft">
+        Three destinations, covered in full.{" "}
+        <Link
+          href="/open-ledger"
+          className="inline-flex items-center gap-1 font-medium text-blue-600 hover:text-blue-500"
+        >
+          Every commission published
+          <ArrowRight size={13} weight="bold" aria-hidden />
+        </Link>
+      </p>
+    </div>
+  );
+}
+
+function HeroPortrait() {
+  return (
+    <div className="relative mx-auto w-full max-w-[26rem] self-end lg:mx-0">
+      {/* The notch, cut out of the top left corner the way the reference does. */}
+      <span
+        aria-hidden
+        className="absolute -left-px -top-px z-10 hidden h-[4.5rem] w-[4.5rem] rounded-br-[2rem] bg-[#e8effe] sm:block"
+      />
+      <div className="relative overflow-hidden rounded-t-[1.75rem] rounded-bl-[1.75rem] bg-[linear-gradient(160deg,#2e6bf0_0%,#1553d6_55%,#0e2a5e_100%)]">
+        <Image
+          src={photoUrl(photos.heroPortrait, 760, 1000)}
+          alt={photos.heroPortrait.alt}
+          width={760}
+          height={1000}
+          preload
+          className="h-[21rem] w-full object-cover object-[50%_28%] md:h-[25rem] lg:h-[27rem]"
+        />
+        {/* Ties the photograph into the card so it reads as one object. */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(21,83,214,0.28)_0%,transparent_28%,transparent_72%,rgba(14,42,94,0.35)_100%)]"
+        />
+      </div>
+    </div>
   );
 }
