@@ -4,6 +4,7 @@ import { z } from "zod";
 import { runAgent, type AgentRun } from "./kernel";
 import { daysSince, type StudentCase } from "../case";
 import { documentPipelineReady } from "../uploads";
+import { policyDigest } from "@/content/policy-digest";
 
 /**
  * The model backed agents. Each one gets the narrowest context that answers its
@@ -88,11 +89,15 @@ export async function answerStudentQuestion(
   return runAgent({
     agentId: "student-guidance",
     system:
-      "You answer a student's question about their own application, using only the case facts below " +
-      "and the published Next Scholar policies. You never state or imply a chance of admission or a visa. " +
+      "You answer a student's question about their own application, using only the case facts and the " +
+      "published policy text you are given. You never state or imply a chance of admission or a visa. " +
       "You never discuss another student. If the answer is not in the material, set routeToCounselor to true " +
-      "and say the counselor will answer. Always name what your answer is based on.",
+      "and say the counselor will answer. In basedOn, name the specific page or case field your answer came " +
+      "from. If you cannot name one, route to the counselor instead.",
     prompt: [
+      policyDigest(),
+      "",
+      "THE STUDENT'S OWN CASE:",
       `Their stage: ${record.stage}. Destination: ${record.destination}. Intake: ${record.intake}.`,
       `Document status: ${record.docStatus}.`,
       `Deadlines on file: ${

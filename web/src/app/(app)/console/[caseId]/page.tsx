@@ -9,6 +9,7 @@ import { ThreadSummary } from "@/components/app/thread-summary";
 import { DocumentIntelligence } from "@/components/app/document-intelligence";
 import { ReviewFlag } from "@/components/app/review-flag";
 import { StageControl, TaskControl, SummaryOverride } from "@/components/app/case-controls";
+import { UploadDocument } from "@/components/app/upload-document";
 import { VerifyDocument } from "@/components/app/verify-document";
 import { getCase, getExtraction, listCommunications } from "@/data/store";
 import { demoCounselor } from "@/domain/demo-actors";
@@ -222,6 +223,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                   ))}
                 </ul>
               )}
+              <UploadDocument caseId={record.id} />
             </Panel>
 
             <Panel

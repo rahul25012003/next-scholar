@@ -8,6 +8,8 @@ import { securityPosture, postureSummary } from "@/domain/security-posture";
 import { syntheticConsents } from "@/data/synthetic-consents";
 import { syntheticCases } from "@/data/synthetic-cases";
 import type { StudentCase } from "@/domain/case";
+import { policyDigest } from "@/content/policy-digest";
+import { destinations } from "@/content/destinations";
 
 const goodFile = { name: "transcript.pdf", type: "application/pdf", size: 400_000 };
 
@@ -218,5 +220,31 @@ describe("the security posture reports honestly", () => {
     )!;
     expect(upload.state).toBe("needs-provider");
     expect(upload.detail).toContain("refuses every upload");
+  });
+});
+
+describe("the guidance agent is given the policy it claims to answer from", () => {
+  it("includes the published anti fraud commitments", () => {
+    const digest = policyDigest();
+    expect(digest).toContain("never write a bank statement");
+    expect(digest).toContain("/anti-fraud-policy");
+  });
+
+  it("includes the ledger rules and the zero commission position", () => {
+    const digest = policyDigest();
+    expect(digest).toContain("re-verified and republished each quarter");
+    expect(digest).toContain("Public universities pay agents nothing");
+  });
+
+  it("carries the same destination figures the public page renders", () => {
+    const digest = policyDigest();
+    for (const destination of destinations) {
+      expect(digest).toContain(destination.commission.display);
+      expect(digest).toContain(destination.clientFee);
+    }
+  });
+
+  it("publishes the open data protection gaps rather than hiding them", () => {
+    expect(policyDigest()).toContain("Open gap:");
   });
 });
