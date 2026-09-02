@@ -13,6 +13,7 @@ import { providerStatus } from "@/domain/notifications";
 import { agentAvailability } from "@/domain/agents/kernel";
 import { agents, GLOBAL_PROHIBITIONS } from "@/domain/agents/registry";
 import { StatusChip } from "@/components/ui/chip";
+import { ManagerActions } from "@/components/app/manager-actions";
 import { ledgerRows } from "@/content/ledger";
 import { isPublishable } from "@/content/types";
 import { stages } from "@/content/process";
@@ -33,6 +34,12 @@ export default async function OpsPage() {
   const sweep = await syncNotifications();
   const assignment = suggestAssignment(all);
   const audit = recentAudit(12);
+  const counselors = [...new Set(all.map((record) => record.counselor))];
+  const escalated = all.filter((record) =>
+    events.some(
+      (event) => event.caseId === record.id && event.type === "escalation",
+    ),
+  );
 
   const perStage = stages.map((stage) => ({
     stage,
@@ -446,6 +453,34 @@ export default async function OpsPage() {
             </ul>
           </Panel>
         </div>
+
+        <Panel
+          title="Escalations and manager actions"
+          description="Reassignment and closure are the two decisions a counselor cannot make alone. Both need a reason, and neither happens on a timer."
+        >
+          {escalated.length === 0 ? (
+            <EmptyState
+              headline="Nothing escalated"
+              body="No case has passed the second stagnation threshold. Manager actions stay available on any case from its own page."
+            />
+          ) : (
+            <div className="divide-y divide-line">
+              {escalated.map((record) => (
+                <div key={record.id}>
+                  <div className="px-6 pt-5">
+                    <p className="text-[0.9375rem] font-medium text-navy-900">
+                      {record.name}
+                    </p>
+                    <p className="text-[0.8125rem] capitalize text-muted">
+                      {record.stage.replace("-", " ")}, held by {record.counselor}
+                    </p>
+                  </div>
+                  <ManagerActions caseId={record.id} counselors={counselors} />
+                </div>
+              ))}
+            </div>
+          )}
+        </Panel>
 
         <Panel
           title="Audit trail"

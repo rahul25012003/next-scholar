@@ -1,7 +1,7 @@
 import "server-only";
 
 import type { LogEntry, StudentCase } from "@/domain/case";
-import { visibleCases, type Actor } from "@/domain/rbac";
+import { can, visibleCases, type Action, type Actor } from "@/domain/rbac";
 import { record as recordAudit } from "@/domain/audit";
 import { withdraw, type ConsentRecord } from "@/domain/consent";
 import {
@@ -10,8 +10,10 @@ import {
   type Notification,
 } from "@/domain/notifications";
 import { byPriority, detectAll } from "@/domain/events";
+import type { CommunicationRecord } from "@/domain/communications";
 import { syntheticCases } from "./synthetic-cases";
 import { syntheticConsents } from "./synthetic-consents";
+import { syntheticCommunications } from "./synthetic-communications";
 
 /**
  * The one place that knows where case records live.
@@ -28,6 +30,9 @@ import { syntheticConsents } from "./synthetic-consents";
 
 let records: StudentCase[] = syntheticCases.map((record) => ({ ...record }));
 let consents: ConsentRecord[] = syntheticConsents.map((consent) => ({ ...consent }));
+let communications: CommunicationRecord[] = syntheticCommunications.map((item) => ({
+  ...item,
+}));
 let notifications: Notification[] = [];
 
 export type StoreMode = "synthetic" | "empty";
@@ -185,6 +190,81 @@ export async function markDocumentVerified(
   });
 
   return updated;
+}
+
+/**
+ * Applies one of the case operations from `domain/case-operations`, checks the
+ * permission first and records the result. Every workflow in section 8.10 goes
+ * through this single door, so none of them can skip the audit trail.
+ */
+export async function mutateCase(
+  caseId: string,
+  actor: Actor,
+  action: Action,
+  transform: (record: StudentCase) => StudentCase,
+  auditNote: string,
+): Promise<StudentCase | null> {
+  const record = await getCase(caseId, actor);
+  if (!record) return null;
+  if (!can(actor, action, record)) return null;
+
+  const updated = transform(record);
+  records = records.map((item) => (item.id === caseId ? updated : item));
+
+  recordAudit({
+    actorId: actor.id,
+    actorName: actor.name,
+    actorRole: actor.role,
+    action: "update",
+    subjectType: "case",
+    subjectId: caseId,
+    note: auditNote,
+  });
+
+  return updated;
+}
+
+export async function listCommunications(
+  caseId: string,
+  actor: Actor,
+): Promise<CommunicationRecord[]> {
+  const record = await getCase(caseId, actor);
+  if (!record) return [];
+
+  const scoped = communications.filter((item) => item.caseId === caseId);
+  return actor.role === "student"
+    ? scoped.filter((item) => item.studentVisible)
+    : scoped;
+}
+
+/** The Communication Summary agent writes this field and nothing else. */
+export async function attachThreadSummary(
+  communicationId: string,
+  line: string,
+): Promise<void> {
+  communications = communications.map((item) =>
+    item.id === communicationId
+      ? { ...item, summary: line, summarySource: "ai" as const }
+      : item,
+  );
+
+  recordAudit({
+    actorId: "communication-summary",
+    actorName: "Communication Summary agent",
+    actorRole: "agent",
+    action: "agent-run",
+    subjectType: "case",
+    subjectId: communicationId,
+    field: "communication.summary",
+    after: line,
+    note: "The raw record was not touched",
+  });
+}
+
+export async function getCommunication(
+  communicationId: string,
+): Promise<CommunicationRecord | null> {
+  return communications.find((item) => item.id === communicationId) ?? null;
 }
 
 /**

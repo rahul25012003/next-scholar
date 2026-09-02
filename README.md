@@ -21,7 +21,7 @@ reference/           the source specification and the design reference image
 cd web
 npm install
 npm run dev          # http://localhost:3000
-npm test             # 80 tests
+npm test             # 100 tests
 npm run build
 ```
 
@@ -49,13 +49,17 @@ anywhere, by design.
 **Counselor console** (`/console`). Caseload sorted by priority and stagnation,
 follow up and escalation queues, and per case: the machine written summary, the
 note box, a message drafting copilot, the completeness check, a shortlist
-proposal carrying commission figures, risk bands, document verification and a
-generated handover packet.
+proposal carrying commission figures, risk bands, document verification, the
+raw communication history with per thread summarising, a generated handover
+packet, and the case operations from section 8.10 of the spec: recording a visa
+or application outcome, opening a linked reapplication, deferring an intake with
+its deadlines, and correcting a value with its reason.
 
 **Operations** (`/ops`). Security and data protection posture, pipeline,
 workload and assignment suggestion, deadlines across every case, retention
 state, commission verification status, the quarterly report, the agent
-governance table, the live audit trail and notification channel status.
+governance table, the live audit trail, notification channel status, and the two
+actions a counselor cannot take alone: reassignment and closure.
 
 **Scheduled sweep** (`POST /api/sweep`). Runs detection across every case,
 queues what is new, resolves what has cleared. Deduped, so a repeat run on
@@ -82,6 +86,9 @@ Written policy is not a control. These are:
 | Requirements are never guessed for an unlisted programme | `domain/completeness.ts` |
 | Reports exclude in progress cases and never blend categories | `domain/reporting.ts` |
 | Synthetic records never load in production | `data/store.ts` |
+| A correction keeps its old value and its reason, and a withdrawn application stays on the record | `domain/case-operations.ts` |
+| A case is closed only by a person, never by a timer, and closure starts the retention clock | `domain/case-operations.ts` |
+| A student sees correspondence addressed to them, never internal notes | `domain/communications.ts` |
 
 `npm test` runs all of these as attempts to break them, not as demonstrations
 that they work. `docs/AUDIT.md` is the written record.

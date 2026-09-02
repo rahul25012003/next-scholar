@@ -4,8 +4,9 @@ Written record of what was tested, how, and what came back. Re-run it before any
 deploy that a real client will see.
 
 Date: 2026-09-02
-Scope: everything under `web/src`, plus the rendered output of all ten routes.
-Tooling: `npm test` (80 tests), `npx eslint src tests`, `npm run build`, and
+Scope: everything under `web/src`, plus the rendered output of all ten routes
+and the two metadata routes.
+Tooling: `npm test` (100 tests), `npx eslint src tests`, `npm run build`, and
 HTTP checks against a production build.
 
 ---
@@ -37,6 +38,14 @@ of them live in `web/tests` and run on every `npm test`.
 | Publish a report computed from synthetic records | Refused, with the reason | `lifecycle.test.ts` |
 | Double-queue a notification by running detection twice | Deduped on the event key; the second run queues nothing | `lifecycle.test.ts`, and confirmed over HTTP against `/api/sweep` |
 | Hit the sweep endpoint unauthenticated in production | Refused with 503; a wrong secret gets 401 | verified over HTTP |
+| Reassign or close a case as a counselor | Refused by the store before the transformation runs | `store.test.ts` |
+| Overwrite a value without leaving the old one behind | Not possible. A correction writes the old value, the new value and the reason into the log | `workflows.test.ts` |
+| Remove a withdrawn application from the record | Not possible. It is marked withdrawn and stays | `workflows.test.ts` |
+| File a reapplication as an unrelated new record | It carries the id of the application it replaces | `workflows.test.ts` |
+| Defer an intake and leave the old deadlines behind | Every deadline moves with it, and the log says how many | `workflows.test.ts` |
+| Close a case automatically because it went quiet | No code path does this. Closure takes a person, an outcome and a reason | `workflows.test.ts` |
+| Show a student the internal notes about their case | The portal reads only records marked visible to them | `workflows.test.ts` |
+| Have the summary agent edit the thread it summarises | It writes a separate field; the raw record is untouched | `data/store.ts`, `workflows.test.ts` |
 
 **Result: zero violations.**
 
@@ -102,7 +111,7 @@ Stated so the passes above are not read as more than they are.
 
 ```bash
 cd web
-npm test                 # the 80 guardrail and behaviour tests
+npm test                 # the 100 guardrail and behaviour tests
 npx eslint src tests     # zero warnings expected
 npm run build            # type check plus production build
 NEXT_SCHOLAR_DEMO_DATA=true npm start   # then walk the ten routes

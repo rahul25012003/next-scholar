@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import {
   appendNote,
+  mutateCase,
   caseloadStats,
   getCase,
   listCases,
@@ -90,6 +91,55 @@ describe("writes carry their author", () => {
     expect(entry.action).toBe("verify");
     expect(entry.before).toBeDefined();
     expect(entry.after).toBe("Verified");
+  });
+});
+
+describe("case operations are gated by the permission matrix", () => {
+  it("refuses a reassignment attempted by a counselor", async () => {
+    const result = await mutateCase(
+      "case-1041",
+      demoCounselor,
+      "case.reassign",
+      (record) => ({ ...record, counselor: "Someone Else" }),
+      "should not happen",
+    );
+    expect(result).toBeNull();
+  });
+
+  it("refuses a closure attempted by a counselor", async () => {
+    const result = await mutateCase(
+      "case-1041",
+      demoCounselor,
+      "escalation.resolve",
+      (record) => ({ ...record, closedAt: new Date().toISOString() }),
+      "should not happen",
+    );
+    expect(result).toBeNull();
+  });
+
+  it("lets a founder do both, and records it", async () => {
+    const result = await mutateCase(
+      "case-1042",
+      demoFounder,
+      "case.reassign",
+      (record) => ({ ...record, counselor: "Karthik Menon" }),
+      "Reassigned to Karthik Menon",
+    );
+
+    expect(result?.counselor).toBe("Karthik Menon");
+    const entry = auditFor("case-1042").find((item) => item.action === "update");
+    expect(entry?.note).toContain("Karthik Menon");
+  });
+
+  it("refuses to touch a case the actor cannot read at all", async () => {
+    const result = await mutateCase(
+      "case-1043",
+      demoCounselor,
+      "case.note.write",
+      (record) => record,
+      "should not happen",
+    );
+    expect(result).toBeNull();
   });
 });
 

@@ -7,7 +7,12 @@ import {
   ArrowSquareOut,
 } from "@phosphor-icons/react/ssr";
 import { AppShell, EmptyState, Panel } from "@/components/app/shell";
-import { getCase, listConsents, listNotifications } from "@/data/store";
+import {
+  getCase,
+  listCommunications,
+  listConsents,
+  listNotifications,
+} from "@/data/store";
 import { AskGuidance } from "@/components/app/ask-guidance";
 import { SopCoach } from "@/components/app/sop-coach";
 import { ConsentList } from "@/components/app/consent-list";
@@ -17,6 +22,7 @@ import { detectEvents, byPriority } from "@/domain/events";
 import { daysUntil, stageIndex, visaLabel } from "@/domain/case";
 import type { DocStatus, StudentCase } from "@/domain/case";
 import { stages } from "@/content/process";
+import { channelLabel, forStudent as studentVisible } from "@/domain/communications";
 
 export const metadata: Metadata = { title: "Student portal" };
 
@@ -65,6 +71,7 @@ export default async function PortalPage() {
   const currentStage = stages[currentIndex];
   const consents = await listConsents(record.id, demoStudent);
   const notifications = await listNotifications(record.id, demoStudent);
+  const threads = studentVisible(await listCommunications(record.id, demoStudent));
 
   return (
     <AppShell actor={demoStudent} current="/portal">
@@ -336,6 +343,37 @@ export default async function PortalPage() {
               />
             ) : (
               <ConsentList consents={consents} />
+            )}
+          </Panel>
+
+          <Panel
+            title="What you and your counselor have said"
+            description="Your correspondence with us. Internal notes about your case are not shown here, because they are not addressed to you."
+          >
+            {threads.length === 0 ? (
+              <EmptyState
+                headline="Nothing yet"
+                body="Messages between you and your counselor appear here."
+              />
+            ) : (
+              <ul className="divide-y divide-line">
+                {threads.map((thread) => (
+                  <li key={thread.id} className="px-6 py-4">
+                    <div className="flex flex-wrap items-baseline justify-between gap-3">
+                      <p className="text-[0.8125rem] font-medium text-navy-900">
+                        {channelLabel[thread.channel]}
+                        {thread.direction === "inbound" ? ", from you" : ", from us"}
+                      </p>
+                      <p className="figures text-[0.75rem] text-muted">
+                        {thread.occurredAt.slice(0, 10)}
+                      </p>
+                    </div>
+                    <p className="mt-1.5 text-[0.875rem] leading-relaxed text-ink-soft">
+                      {thread.raw}
+                    </p>
+                  </li>
+                ))}
+              </ul>
             )}
           </Panel>
 

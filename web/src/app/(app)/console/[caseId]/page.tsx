@@ -4,8 +4,10 @@ import { ArrowLeft, Sparkle } from "@phosphor-icons/react/ssr";
 import { AppShell, EmptyState, Panel } from "@/components/app/shell";
 import { NoteForm } from "@/components/app/note-form";
 import { Copilot } from "@/components/app/copilot";
+import { CaseWorkflows } from "@/components/app/case-workflows";
+import { ThreadSummary } from "@/components/app/thread-summary";
 import { VerifyDocument } from "@/components/app/verify-document";
-import { getCase } from "@/data/store";
+import { getCase, listCommunications } from "@/data/store";
 import { demoCounselor } from "@/domain/demo-actors";
 import { byPriority, detectEvents } from "@/domain/events";
 import { assessRisk, RISK_DISCLAIMER } from "@/domain/risk";
@@ -15,6 +17,7 @@ import { stages } from "@/content/process";
 import { checkCompleteness } from "@/domain/completeness";
 import { buildHandoverPacket } from "@/domain/counselor-ops";
 import { proposeShortlist } from "@/domain/matching";
+import { channelLabel, newestFirst } from "@/domain/communications";
 
 export default async function CaseDetailPage(props: PageProps<"/console/[caseId]">) {
   const { caseId } = await props.params;
@@ -34,6 +37,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
   const shortlist = record.budgetInr
     ? proposeShortlist({ budgetInr: record.budgetInr })
     : null;
+  const threads = newestFirst(await listCommunications(record.id, demoCounselor));
 
   return (
     <AppShell actor={demoCounselor} current="/console">
@@ -184,6 +188,51 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                   ))}
                 </ul>
               )}
+            </Panel>
+
+            <Panel
+              title="Communication history"
+              description="The raw thread, kept as received. The summary line beside it is written by an agent that cannot edit what it summarises."
+            >
+              {threads.length === 0 ? (
+                <EmptyState
+                  headline="No correspondence"
+                  body="Nothing has passed between this student and us yet."
+                />
+              ) : (
+                <ul className="divide-y divide-line">
+                  {threads.map((thread) => (
+                    <li key={thread.id} className="px-6 py-5">
+                      <div className="flex flex-wrap items-baseline justify-between gap-3">
+                        <p className="text-[0.875rem] font-medium text-navy-900">
+                          {channelLabel[thread.channel]}, {thread.direction}
+                        </p>
+                        <p className="figures text-[0.75rem] text-muted">
+                          {thread.occurredAt.slice(0, 10)}
+                        </p>
+                      </div>
+                      <p className="mt-0.5 text-[0.75rem] text-muted">
+                        {thread.participants}
+                      </p>
+                      <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-soft">
+                        {thread.raw}
+                      </p>
+                      <ThreadSummary
+                        caseId={record.id}
+                        communicationId={thread.id}
+                        existing={thread.summary}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </Panel>
+
+            <Panel
+              title="Case operations"
+              description="Every one of these is a person taking an action. None of them run on a timer, and each writes its reason into the log before the state changes."
+            >
+              <CaseWorkflows caseId={record.id} applications={record.applications} />
             </Panel>
 
             <Panel
