@@ -6,7 +6,7 @@ deploy that a real client will see.
 Date: 2026-09-02
 Scope: everything under `web/src`, plus the rendered output of all ten routes
 and the two metadata routes.
-Tooling: `npm test` (164 tests), `npx eslint src tests`, `npm run build`, and
+Tooling: `npm test` (172 tests), `npx eslint src tests`, `npm run build`, and
 HTTP checks against a production build.
 
 ---
@@ -132,7 +132,7 @@ Stated so the passes above are not read as more than they are.
 
 ```bash
 cd web
-npm test                 # the 164 guardrail and behaviour tests
+npm test                 # the 172 guardrail and behaviour tests
 npx eslint src tests     # zero warnings expected
 npm run build            # type check plus production build
 NEXT_SCHOLAR_DEMO_DATA=true npm start   # then walk the ten routes

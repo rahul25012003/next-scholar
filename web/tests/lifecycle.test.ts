@@ -3,7 +3,7 @@ import { detectEvents } from "@/domain/events";
 import { planNotifications, resolveStale, bodyFor } from "@/domain/notifications";
 import { assessRisk, RISK_DISCLAIMER } from "@/domain/risk";
 import { buildQuarterlyReport } from "@/domain/reporting";
-import { proposeShortlist } from "@/domain/matching";
+import { profileFromCase, proposeShortlist } from "@/domain/matching";
 import { syntheticCases } from "@/data/synthetic-cases";
 import type { StudentCase } from "@/domain/case";
 
@@ -239,5 +239,83 @@ describe("matching states its reasons and never hides a commission", () => {
     const { excluded } = proposeShortlist({ budgetInr: 400_000 });
     expect(excluded.length).toBeGreaterThan(0);
     expect(excluded[0].why.length).toBeGreaterThan(10);
+  });
+});
+
+describe("matching uses what is on file and flags what is not", () => {
+  it("gives an academic reason when a percentage is on file", () => {
+    const { proposals } = proposeShortlist({
+      budgetInr: 3_000_000,
+      percentage: 78,
+    });
+    expect(
+      proposals.some((proposal) =>
+        proposal.reasons.some((reason) => reason.includes("78%")),
+      ),
+    ).toBe(true);
+  });
+
+  it("flags a below range record rather than silently ranking around it", () => {
+    const { proposals } = proposeShortlist({
+      budgetInr: 3_000_000,
+      percentage: 58,
+    });
+    expect(
+      proposals.every((proposal) =>
+        proposal.assumptions.some((note) => note.includes("below the range")),
+      ),
+    ).toBe(true);
+  });
+
+  it("says so when there is no academic record at all", () => {
+    const { proposals } = proposeShortlist({ budgetInr: 3_000_000 });
+    expect(
+      proposals.every((proposal) =>
+        proposal.assumptions.some((note) => note.includes("No academic percentage")),
+      ),
+    ).toBe(true);
+  });
+
+  it("flags a missing English test on routes that require one", () => {
+    const { proposals } = proposeShortlist({ budgetInr: 3_000_000, englishTest: null });
+    expect(
+      proposals.some((proposal) =>
+        proposal.assumptions.some((note) => note.includes("English test")),
+      ),
+    ).toBe(true);
+  });
+
+  it("excludes a route the budget cannot fund, and says that is why", () => {
+    const { excluded } = proposeShortlist({ budgetInr: 1_500_000 });
+    expect(excluded.length).toBeGreaterThan(0);
+    expect(excluded[0].why).toContain("cannot be funded");
+  });
+
+  it("recommends nothing at all when it knows nothing about the student", () => {
+    const { proposals, excluded } = proposeShortlist({ budgetInr: null });
+
+    expect(proposals).toHaveLength(0);
+    expect(excluded.length).toBeGreaterThan(0);
+    expect(
+      excluded.every((entry) => entry.why.includes("without a reason is not one")),
+    ).toBe(true);
+  });
+
+  it("proposes a route once one thing on file supports it", () => {
+    const { proposals } = proposeShortlist({ budgetInr: null, percentage: 78 });
+
+    expect(proposals.length).toBeGreaterThan(0);
+    expect(
+      proposals.every((proposal) =>
+        proposal.assumptions.some((note) => note.includes("No year one budget")),
+      ),
+    ).toBe(true);
+  });
+
+  it("builds a profile from a case, carrying its risk factors in", () => {
+    const profile = profileFromCase(syntheticCases[0]);
+    expect(profile.percentage).toBe(74);
+    expect(profile.englishTest?.name).toBe("IELTS");
+    expect(profile.riskNotes?.length).toBeGreaterThan(0);
   });
 });

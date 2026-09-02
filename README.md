@@ -21,7 +21,7 @@ reference/           the source specification and the design reference image
 cd web
 npm install
 npm run dev          # http://localhost:3000
-npm test             # 164 tests
+npm test             # 172 tests
 npm run build
 ```
 

@@ -94,8 +94,19 @@ export type StudentCase = {
   destination: string;
   intake: string;
   counselor: string;
-  /** From the consultation intake. Absent means unknown, never zero. */
+  /**
+   * From the six question consultation intake. Every field is nullable, and
+   * absent means unknown rather than zero, because matching on a value nobody
+   * supplied is how a shortlist becomes fiction.
+   */
   budgetInr: number | null;
+  profile: {
+    degree: string | null;
+    /** Normalised to a percentage. A CGPA is converted on entry, not guessed. */
+    percentage: number | null;
+    graduationYear: number | null;
+    englishTest: { name: string; score: string } | null;
+  };
   stage: StageKey;
   stageUpdatedAt: string;
   docStatus: DocStatus;

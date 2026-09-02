@@ -20,7 +20,7 @@ import { daysSince } from "@/domain/case";
 import { stages } from "@/content/process";
 import { checkCompleteness } from "@/domain/completeness";
 import { buildHandoverPacket } from "@/domain/counselor-ops";
-import { proposeShortlist } from "@/domain/matching";
+import { profileFromCase, proposeShortlist } from "@/domain/matching";
 import { channelLabel, newestFirst } from "@/domain/communications";
 
 export default async function CaseDetailPage(props: PageProps<"/console/[caseId]">) {
@@ -38,9 +38,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
   const agents = agentAvailability();
   const completeness = checkCompleteness(record);
   const handover = buildHandoverPacket(record);
-  const shortlist = record.budgetInr
-    ? proposeShortlist({ budgetInr: record.budgetInr })
-    : null;
+  const shortlist = proposeShortlist(profileFromCase(record));
   const threads = newestFirst(await listCommunications(record.id, demoCounselor));
   const extractions = await Promise.all(
     record.documents.map(async (document) => [
@@ -355,7 +353,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
               )}
             </Panel>
 
-            {shortlist && (
+            {(
               <Panel
                 title="Shortlist proposal"
                 description="Every entry states its reason and carries the commission we would earn. A counselor reviews before the student sees it."
@@ -381,6 +379,15 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                         {proposal.commission.statusLabel}
                         {proposal.commission.flag ? `, ${proposal.commission.flag.toLowerCase()}` : ""}
                       </p>
+                      {proposal.assumptions.length > 0 && (
+                        <ul className="mt-2 space-y-1 border-t border-line pt-2">
+                          {proposal.assumptions.map((assumption) => (
+                            <li key={assumption} className="text-[0.75rem] leading-relaxed text-pending">
+                              Assumption: {assumption}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </li>
                   ))}
                   {shortlist.excluded.map((entry) => (
@@ -393,6 +400,11 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                       </p>
                     </li>
                   ))}
+                  {shortlist.proposals.length === 0 && shortlist.excluded.length === 0 && (
+                    <li className="px-6 py-4 text-[0.875rem] text-muted">
+                      Nothing on file to match against yet.
+                    </li>
+                  )}
                 </ul>
               </Panel>
             )}
