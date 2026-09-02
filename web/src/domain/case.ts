@@ -100,6 +100,12 @@ export type StudentCase = {
   log: LogEntry[];
   /** Set only by a person closing the case. Starts the retention clock. */
   closedAt: string | null;
+  /**
+   * Raised when an agent failed on a note, so the failure is visible on the
+   * caseload rather than living for one render inside a form. Cleared by a
+   * person, never by a later successful run.
+   */
+  needsManualReview: { at: string; note: string; reason: string } | null;
   /** Marks fixture data so it can never be mistaken for a real applicant. */
   synthetic: boolean;
 };

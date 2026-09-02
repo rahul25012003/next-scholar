@@ -6,7 +6,7 @@ deploy that a real client will see.
 Date: 2026-09-02
 Scope: everything under `web/src`, plus the rendered output of all ten routes
 and the two metadata routes.
-Tooling: `npm test` (100 tests), `npx eslint src tests`, `npm run build`, and
+Tooling: `npm test` (154 tests), `npx eslint src tests`, `npm run build`, and
 HTTP checks against a production build.
 
 ---
@@ -23,7 +23,7 @@ of them live in `web/tests` and run on every `npm test`.
 | Write a note onto a case the actor cannot read | Refused before the write | `store.test.ts` |
 | Verify a commission figure as a counselor or a manager | Refused. Only a founder holds `commission.verify` and `commission.publish` | `guardrails.test.ts` |
 | Give any agent a capability reaching document verification, the ledger, stage changes or reassignment | No agent in the registry declares one | `guardrails.test.ts` |
-| Return a field an agent was not granted | Dropped and reported as rejected | `guardrails.test.ts` |
+| Return a field an agent was not granted | The whole output is refused and the refusal is written to the audit trail | `kernel.test.ts` |
 | Have an agent state a visa or admission percentage | Blocked by the prohibition check, output discarded | `guardrails.test.ts` |
 | Have an agent state a chance or a guarantee without a number | Blocked | `guardrails.test.ts` |
 | Have an agent draft a letter or certificate | Blocked | `guardrails.test.ts` |
@@ -48,6 +48,27 @@ of them live in `web/tests` and run on every `npm test`.
 | Have the summary agent edit the thread it summarises | It writes a separate field; the raw record is untouched | `data/store.ts`, `workflows.test.ts` |
 
 **Result: zero violations.**
+
+### Correction, same day
+
+An independent audit against the second source document found that this table
+previously overstated one row. The capability filter was computed in the kernel
+and then **not applied**: the unfiltered model output was returned, the rejected
+field list was never read, and the schema keys did not match the declared
+capability list for five of the six model backed agents. The unit test of
+`filterWrites` in isolation passed, which is precisely why the gap survived
+review, and this document reported the attack as covered when it was not.
+
+Fixed by returning the filtered object, refusing the entire output when any
+unlisted key appears, writing the refusal to the audit trail, and adding
+`tests/kernel.test.ts`, which drives the whole path with the model mocked rather
+than testing the guard in isolation. A further test asserts that each agent's
+declared capability list equals the keys its schema actually returns, so the two
+cannot drift apart again.
+
+The lesson is recorded rather than tidied away: a control tested only in
+isolation is not a control, and an audit that tests the part rather than the
+path will report a green light on a disconnected wire.
 
 ---
 
@@ -111,7 +132,7 @@ Stated so the passes above are not read as more than they are.
 
 ```bash
 cd web
-npm test                 # the 100 guardrail and behaviour tests
+npm test                 # the 154 guardrail and behaviour tests
 npx eslint src tests     # zero warnings expected
 npm run build            # type check plus production build
 NEXT_SCHOLAR_DEMO_DATA=true npm start   # then walk the ten routes

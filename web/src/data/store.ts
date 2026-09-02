@@ -3,17 +3,21 @@ import "server-only";
 import type { LogEntry, StudentCase } from "@/domain/case";
 import { can, visibleCases, type Action, type Actor } from "@/domain/rbac";
 import { record as recordAudit } from "@/domain/audit";
-import { withdraw, type ConsentRecord } from "@/domain/consent";
+import { withdraw, type ChannelConsent, type ConsentRecord } from "@/domain/consent";
 import {
+  escalateOpen,
   planNotifications,
   resolveStale,
   type Notification,
 } from "@/domain/notifications";
+import { deriveDocStatus } from "@/domain/completeness";
 import { byPriority, detectAll } from "@/domain/events";
 import type { CommunicationRecord } from "@/domain/communications";
+import { decideField, type Extraction } from "@/domain/extraction";
 import { syntheticCases } from "./synthetic-cases";
 import { syntheticConsents } from "./synthetic-consents";
 import { syntheticCommunications } from "./synthetic-communications";
+import { syntheticChannelConsents } from "./synthetic-channel-consents";
 
 /**
  * The one place that knows where case records live.
@@ -33,7 +37,12 @@ let consents: ConsentRecord[] = syntheticConsents.map((consent) => ({ ...consent
 let communications: CommunicationRecord[] = syntheticCommunications.map((item) => ({
   ...item,
 }));
+let channelConsents: ChannelConsent[] = syntheticChannelConsents.map((item) => ({
+  ...item,
+}));
+let extractions: Extraction[] = [];
 let notifications: Notification[] = [];
+let reportSignOff: { by: string; at: string } | null = null;
 
 export type StoreMode = "synthetic" | "empty";
 
@@ -50,8 +59,16 @@ export function storeNotice(): string {
     : "No case records. The platform is not connected to a database, and fabricated records are not served here.";
 }
 
+/**
+ * The case level document status is derived here rather than stored, so the
+ * roll-up cannot drift from the documents it summarises.
+ */
 function all(): StudentCase[] {
-  return storeMode() === "synthetic" ? records : [];
+  if (storeMode() !== "synthetic") return [];
+  return records.map((record) => ({
+    ...record,
+    docStatus: deriveDocStatus(record),
+  }));
 }
 
 /** Scoped by the permission matrix, then logged. Both, every time. */
@@ -112,6 +129,65 @@ export async function appendNote(
     subjectId: caseId,
     field: "log",
     after: logEntry.text,
+  });
+
+  return updated;
+}
+
+/**
+ * Raises or clears the manual review flag. Raised by a failed agent run, and
+ * cleared only by a person saying they have looked, so a failure cannot be
+ * quietly buried by the next successful run.
+ */
+export async function flagForManualReview(
+  caseId: string,
+  note: string,
+  reason: string,
+): Promise<void> {
+  records = records.map((record) =>
+    record.id === caseId
+      ? {
+          ...record,
+          needsManualReview: { at: new Date().toISOString(), note, reason },
+        }
+      : record,
+  );
+
+  recordAudit({
+    actorId: "system",
+    actorName: "System",
+    actorRole: "system",
+    action: "update",
+    subjectType: "case",
+    subjectId: caseId,
+    field: "needsManualReview",
+    after: reason,
+    note: "Automatic classification failed. Flagged for a person.",
+  });
+}
+
+export async function clearManualReview(
+  caseId: string,
+  actor: Actor,
+): Promise<StudentCase | null> {
+  const record = await getCase(caseId, actor);
+  if (!record) return null;
+  if (!can(actor, "case.note.write", record)) return null;
+
+  const updated = { ...record, needsManualReview: null };
+  records = records.map((item) => (item.id === caseId ? updated : item));
+
+  recordAudit({
+    actorId: actor.id,
+    actorName: actor.name,
+    actorRole: actor.role,
+    action: "update",
+    subjectType: "case",
+    subjectId: caseId,
+    field: "needsManualReview",
+    before: record.needsManualReview?.reason,
+    after: "cleared",
+    note: "A person reviewed the note the agent could not classify",
   });
 
   return updated;
@@ -268,6 +344,72 @@ export async function getCommunication(
 }
 
 /**
+ * Document Intelligence staging. Extractions live beside the case rather than
+ * inside it, because nothing here is part of the authoritative record until a
+ * person has promoted a specific field.
+ */
+export async function stageExtraction(extraction: Extraction): Promise<void> {
+  extractions = [
+    ...extractions.filter((item) => item.documentId !== extraction.documentId),
+    extraction,
+  ];
+
+  recordAudit({
+    actorId: "document-intelligence",
+    actorName: "Document Intelligence agent",
+    actorRole: "agent",
+    action: "agent-run",
+    subjectType: "document",
+    subjectId: extraction.documentId,
+    field: "extraction.staging",
+    note: `${extraction.fields.length} field${extraction.fields.length === 1 ? "" : "s"} proposed, all pending verification`,
+  });
+}
+
+export async function getExtraction(
+  documentId: string,
+): Promise<Extraction | null> {
+  return extractions.find((item) => item.documentId === documentId) ?? null;
+}
+
+/**
+ * Promoting or rejecting one proposed value. This is the human review the
+ * agent's registry entry marks mandatory, and it is the only path by which an
+ * extracted value stops being a proposal.
+ */
+export async function decideExtractedField(
+  documentId: string,
+  fieldName: string,
+  decision: "confirmed" | "rejected",
+  actor: Actor,
+): Promise<Extraction | null> {
+  const extraction = await getExtraction(documentId);
+  if (!extraction) return null;
+  if (!can(actor, "document.verify")) return null;
+
+  const before = extraction.fields.find((field) => field.name === fieldName);
+  const updated = decideField(extraction, fieldName, decision, actor.name);
+  extractions = extractions.map((item) =>
+    item.documentId === documentId ? updated : item,
+  );
+
+  recordAudit({
+    actorId: actor.id,
+    actorName: actor.name,
+    actorRole: actor.role,
+    action: decision === "confirmed" ? "verify" : "update",
+    subjectType: "document",
+    subjectId: documentId,
+    field: `extraction.${fieldName}`,
+    before: before?.state,
+    after: decision,
+    note: `Proposed value "${before?.value ?? ""}" ${decision} by a person`,
+  });
+
+  return updated;
+}
+
+/**
  * An aggregate a counselor may legitimately know without reading anyone else's
  * caseload: how their own load compares to the team's. Counts only, no records.
  */
@@ -293,6 +435,37 @@ export async function caseloadStats(
     teamAverage: counselors === 0 ? 0 : Math.round((everything.length / counselors) * 10) / 10,
     counselors,
   };
+}
+
+export async function listChannelConsents(
+  caseId: string,
+  actor: Actor,
+): Promise<ChannelConsent[]> {
+  const record = await getCase(caseId, actor);
+  if (!record) return [];
+  return channelConsents.filter((consent) => consent.caseId === caseId);
+}
+
+export async function withdrawChannelConsent(
+  consentId: string,
+  actor: Actor,
+): Promise<void> {
+  const before = channelConsents.find((consent) => consent.id === consentId);
+  channelConsents = channelConsents.map((consent) =>
+    consent.id === consentId && consent.withdrawnAt === null
+      ? { ...consent, withdrawnAt: new Date().toISOString() }
+      : consent,
+  );
+
+  recordAudit({
+    actorId: actor.id,
+    actorName: actor.name,
+    actorRole: actor.role,
+    action: "withdraw-consent",
+    subjectType: "consent",
+    subjectId: consentId,
+    note: before ? `Contact channel: ${before.channel}` : undefined,
+  });
 }
 
 export async function listConsents(
@@ -332,20 +505,51 @@ export async function withdrawConsent(
  * cleared. Intended to be called by a scheduled sweep, and safe to call twice:
  * a repeat run on unchanged state produces nothing.
  */
+/**
+ * The founder signing off a quarterly report. A figure nobody has put their
+ * name to does not publish, however finished the arithmetic looks.
+ */
+export async function signOffReport(actor: Actor): Promise<boolean> {
+  if (!can(actor, "report.publish")) return false;
+
+  reportSignOff = { by: actor.name, at: new Date().toISOString().slice(0, 10) };
+  recordAudit({
+    actorId: actor.id,
+    actorName: actor.name,
+    actorRole: actor.role,
+    action: "update",
+    subjectType: "report",
+    subjectId: "quarterly",
+    after: reportSignOff.at,
+    note: "Quarterly report signed off for publication",
+  });
+  return true;
+}
+
+export function currentSignOff(): { by: string; at: string } | null {
+  return reportSignOff;
+}
+
 export async function syncNotifications(): Promise<{
   queued: number;
+  escalated: number;
   resolved: number;
   open: number;
 }> {
   const events = detectAll(all()).sort(byPriority);
-  const planned = planNotifications(events, notifications);
   const previouslyOpen = notifications.filter((item) => !item.resolvedAt).length;
 
-  notifications = resolveStale([...notifications, ...planned], events);
+  // An open reminder whose event has become more urgent is re-queued, so a
+  // deadline sequence actually escalates instead of firing once at thirty days.
+  const { next: escalatedRows, escalated } = escalateOpen(notifications, events);
+  const planned = planNotifications(events, escalatedRows, channelConsents);
+
+  notifications = resolveStale([...escalatedRows, ...planned], events);
   const openNow = notifications.filter((item) => !item.resolvedAt).length;
 
   return {
     queued: planned.length,
+    escalated,
     resolved: Math.max(previouslyOpen + planned.length - openNow, 0),
     open: openNow,
   };

@@ -21,7 +21,7 @@ reference/           the source specification and the design reference image
 cd web
 npm install
 npm run dev          # http://localhost:3000
-npm test             # 100 tests
+npm test             # 154 tests
 npm run build
 ```
 
@@ -86,6 +86,15 @@ Written policy is not a control. These are:
 | Requirements are never guessed for an unlisted programme | `domain/completeness.ts` |
 | Reports exclude in progress cases and never blend categories | `domain/reporting.ts` |
 | Synthetic records never load in production | `data/store.ts` |
+| An agent that returns a field it was not granted has its whole output refused, and the refusal is audited | `domain/agents/kernel.ts` |
+| An agent's declared capability list must equal the keys its schema returns | asserted in `tests/guardrails.test.ts` |
+| A note that looks like it carries a passport number, a financial figure or a long reference is never sent to a model | `domain/agents/guards.ts` |
+| A failed classification leaves a visible flag that only a person can clear | `data/store.ts`, `app/actions/case.ts` |
+| The case document status is derived from the documents, so the roll-up cannot drift | `domain/completeness.ts` |
+| Required documents come from one curated list, not two copies that disagree | `content/requirements.ts` |
+| A messaging channel needs a recorded opt in, and fails closed without one | `domain/consent.ts`, `domain/notifications.ts` |
+| A reminder escalates as its deadline approaches instead of firing once | `domain/notifications.ts` |
+| A report figure carries the record ids it was computed from, and does not publish without a named sign off | `domain/reporting.ts` |
 | A correction keeps its old value and its reason, and a withdrawn application stays on the record | `domain/case-operations.ts` |
 | A case is closed only by a person, never by a timer, and closure starts the retention clock | `domain/case-operations.ts` |
 | A student sees correspondence addressed to them, never internal notes | `domain/communications.ts` |

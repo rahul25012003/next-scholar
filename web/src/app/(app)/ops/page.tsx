@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { AppShell, EmptyState, Panel } from "@/components/app/shell";
-import { listCases, syncNotifications } from "@/data/store";
+import { currentSignOff, listCases, syncNotifications } from "@/data/store";
 import { securityPosture, postureLabel, postureSummary } from "@/domain/security-posture";
 import { recentAudit } from "@/domain/audit";
 import { retentionFor, RETENTION_YEARS } from "@/domain/retention";
@@ -26,7 +26,7 @@ export const dynamic = "force-dynamic";
 export default async function OpsPage() {
   const all = await listCases(demoFounder);
   const events = detectAll(all).sort(byPriority);
-  const report = buildQuarterlyReport(all);
+  const report = buildQuarterlyReport(all, currentSignOff());
   const availability = agentAvailability();
   const providers = providerStatus();
   const posture = securityPosture();
@@ -305,6 +305,11 @@ export default async function OpsPage() {
                 <p className="mt-1 text-[0.75rem] leading-relaxed text-muted">
                   {category.note}
                 </p>
+                {category.from.length > 0 && (
+                  <p className="figures mt-1.5 text-[0.6875rem] leading-relaxed text-muted">
+                    From: {category.from.join(", ")}
+                  </p>
+                )}
               </div>
             ))}
           </div>
@@ -318,6 +323,11 @@ export default async function OpsPage() {
                 {report.blockedReason}
               </p>
             )}
+            <p className="mt-2 text-[0.8125rem] leading-relaxed text-muted">
+              {report.signedOffBy
+                ? `Signed off by ${report.signedOffBy} on ${report.signedOffAt}.`
+                : "Not signed off. Every figure above carries the record ids it was computed from, so a disputed number can be traced back rather than defended from memory."}
+            </p>
           </div>
         </Panel>
 
@@ -329,7 +339,7 @@ export default async function OpsPage() {
             <table className="w-full min-w-[54rem] border-collapse text-left">
               <thead>
                 <tr className="border-b border-line">
-                  {["Agent", "May write", "Human checkpoint", "Cannot do", "Runs on"].map(
+                  {["Agent", "May return", "Where it lands", "Human checkpoint", "Cannot do", "Runs on"].map(
                     (heading) => (
                       <th
                         key={heading}
@@ -354,13 +364,22 @@ export default async function OpsPage() {
                       </p>
                     </td>
                     <td className="px-6 py-4">
-                      <ul className="space-y-1">
-                        {agent.writes.map((field) => (
-                          <li key={field} className="figures text-[0.75rem] text-body">
-                            {field}
-                          </li>
-                        ))}
-                      </ul>
+                      {agent.writes.length === 0 ? (
+                        <span className="text-[0.75rem] text-muted">
+                          Nothing. Rules only.
+                        </span>
+                      ) : (
+                        <ul className="space-y-1">
+                          {agent.writes.map((field) => (
+                            <li key={field} className="figures text-[0.75rem] text-body">
+                              {field}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </td>
+                    <td className="px-6 py-4 text-[0.8125rem] leading-relaxed text-body">
+                      {agent.destination}
                     </td>
                     <td className="px-6 py-4 text-[0.8125rem] leading-relaxed text-body">
                       {agent.requiresHumanReview ? "Required. " : "Not gated. "}

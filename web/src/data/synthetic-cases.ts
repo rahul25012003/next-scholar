@@ -101,6 +101,7 @@ export const syntheticCases: StudentCase[] = [
       },
     ],
     closedAt: null,
+    needsManualReview: null,
     synthetic: true,
   },
   {
@@ -199,6 +200,7 @@ export const syntheticCases: StudentCase[] = [
       },
     ],
     closedAt: null,
+    needsManualReview: null,
     synthetic: true,
   },
   {
@@ -295,6 +297,7 @@ export const syntheticCases: StudentCase[] = [
       },
     ],
     closedAt: null,
+    needsManualReview: null,
     synthetic: true,
   },
   {
@@ -333,6 +336,7 @@ export const syntheticCases: StudentCase[] = [
       },
     ],
     closedAt: null,
+    needsManualReview: null,
     synthetic: true,
   },
 ];

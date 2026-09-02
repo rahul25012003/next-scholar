@@ -12,7 +12,7 @@ import { documentPipelineReady } from "../uploads";
  * policy the platform publishes.
  */
 
-const summarySchema = z.object({
+export const summarySchema = z.object({
   summary: z.string(),
   suggestedAction: z.string(),
 });
@@ -48,7 +48,7 @@ export async function summariseCase(
   });
 }
 
-const draftSchema = z.object({
+export const draftSchema = z.object({
   draft: z.string(),
   confidence: z.enum(["high", "medium", "low"]),
 });
@@ -75,7 +75,7 @@ export async function draftReply(
   });
 }
 
-const guidanceSchema = z.object({
+export const guidanceSchema = z.object({
   answer: z.string(),
   basedOn: z.string(),
   routeToCounselor: z.boolean(),
@@ -107,7 +107,7 @@ export async function answerStudentQuestion(
   });
 }
 
-const coachingSchema = z.object({
+export const coachingSchema = z.object({
   questions: z.array(z.string()).min(2).max(5),
   structuralFeedback: z.string(),
 });
@@ -134,7 +134,7 @@ export async function coachStatement(
   });
 }
 
-const threadSchema = z.object({
+export const threadSchema = z.object({
   line: z.string(),
 });
 
@@ -155,7 +155,7 @@ export async function summariseThread(
   });
 }
 
-const extractionSchema = z.object({
+export const extractionSchema = z.object({
   fields: z.array(
     z.object({
       name: z.string(),

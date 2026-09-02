@@ -113,3 +113,36 @@ export function filterWrites(
 
   return { accepted, rejected };
 }
+
+/**
+ * The input side of the rule. The anti fraud policy promises that document
+ * contents, passport numbers and financial figures are never sent to a model,
+ * and until now that promise lived in a system prompt and a line of helper text
+ * under a textarea, which is not a control.
+ *
+ * A note that looks like it carries one of those is refused before the call is
+ * made. The note itself is still saved: the human's words are never what gets
+ * lost, only the machine reading of them.
+ */
+const sensitiveInputPatterns: { rule: string; pattern: RegExp }[] = [
+  {
+    rule: "A passport or document number does not go to a model",
+    pattern: /\b[A-Z]{1,2}\d{6,8}\b/,
+  },
+  {
+    rule: "A financial figure does not go to a model",
+    pattern: /(₹|rs\.?|inr|eur|€|gbp|£|\$)\s?[\d,]{4,}/i,
+  },
+  {
+    rule: "A long account or reference number does not go to a model",
+    pattern: /\b\d{9,}\b/,
+  },
+];
+
+export function findSensitiveInput(text: string): Violation | null {
+  for (const { rule, pattern } of sensitiveInputPatterns) {
+    const match = text.match(pattern);
+    if (match) return { rule, evidence: match[0] };
+  }
+  return null;
+}

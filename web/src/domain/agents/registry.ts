@@ -18,19 +18,14 @@ export type AgentId =
   | "sop-coach"
   | "escalation";
 
-/** Field paths on the case record. Nothing outside this list is writable. */
-export type WritableField =
-  | "summary"
-  | "suggestedAction"
-  | "extraction.staging"
-  | "checklist"
-  | "notification.queue"
-  | "shortlist.proposal"
-  | "draft.text"
-  | "answer.text"
-  | "communication.summary"
-  | "coaching.questions"
-  | "escalation.queue";
+/**
+ * The exact keys the kernel will accept from an agent's output. These are the
+ * schema keys the agent actually returns, not a description of them, because
+ * the kernel compares this list against the parsed object key by key. If they
+ * drift apart the check silently stops checking anything, so they are the same
+ * strings on purpose.
+ */
+export type WritableField = string;
 
 export type AgentDefinition = {
   id: AgentId;
@@ -38,7 +33,10 @@ export type AgentDefinition = {
   purpose: string;
   inputs: string[];
   output: string;
+  /** Schema keys the kernel accepts. Anything else refuses the whole output. */
   writes: WritableField[];
+  /** Where those values land in the product. For the governance table. */
+  destination: string;
   /** True where a human must approve before the output has any effect. */
   requiresHumanReview: boolean;
   humanReview: string;
@@ -69,6 +67,7 @@ export const agents: AgentDefinition[] = [
     inputs: ["Case record", "Log entries", "Stage and days in stage"],
     output: "Two to four sentences plus one suggested next step, both labelled as machine written.",
     writes: ["summary", "suggestedAction"],
+    destination: "The case summary and suggested next step shown to a counselor",
     requiresHumanReview: false,
     humanReview: "Editable at any time by the counselor. Never shown to the student as written.",
     onFailure: "Falls back to a message pointing at the raw log. It does not guess.",
@@ -81,7 +80,8 @@ export const agents: AgentDefinition[] = [
     purpose: "Read an uploaded document and propose structured field values with a confidence for each.",
     inputs: ["An uploaded document"],
     output: "Proposed values in a staging area, marked pending verification.",
-    writes: ["extraction.staging"],
+    writes: ["fields", "unreadable", "note"],
+    destination: "A staging area, every field pending verification by a named person",
     requiresHumanReview: true,
     humanReview: "Mandatory. No extracted value becomes authoritative until a named person confirms it.",
     onFailure: "Marks the document for manual entry. The file is still stored.",
@@ -98,7 +98,8 @@ export const agents: AgentDefinition[] = [
     purpose: "Check a case against the human curated requirement list for a programme.",
     inputs: ["Case record", "Verified documents", "Requirement list"],
     output: "Checklist status and the specific missing items.",
-    writes: ["checklist"],
+    writes: [],
+    destination: "A checklist status, computed by rules rather than a model",
     requiresHumanReview: true,
     humanReview: "A counselor confirms before a student is told an application is complete.",
     onFailure: "An unlisted programme returns requirements not yet verified in system. It never guesses a requirement.",
@@ -114,7 +115,8 @@ export const agents: AgentDefinition[] = [
     purpose: "Watch stored dates and raise alerts at fixed thresholds.",
     inputs: ["Dates recorded on the case"],
     output: "Alert events queued for notification.",
-    writes: ["notification.queue"],
+    writes: [],
+    destination: "The notification queue, computed by rules rather than a model",
     requiresHumanReview: false,
     humanReview: "Not needed to raise an alert. Required for every response to one.",
     onFailure: "A missing date reports date not on file. It is never silently skipped.",
@@ -131,7 +133,8 @@ export const agents: AgentDefinition[] = [
     purpose: "Propose a ranked shortlist, each entry carrying its reason and its commission status.",
     inputs: ["Student profile", "Verified university data", "Stated preferences"],
     output: "A ranked proposal with a stated reason and flagged assumptions per entry.",
-    writes: ["shortlist.proposal"],
+    writes: [],
+    destination: "A ranked shortlist proposal, computed by rules rather than a model",
     requiresHumanReview: true,
     humanReview: "A counselor reviews the proposal before it reaches the student at the shortlist stage.",
     onFailure: "A destination without enough verified data is excluded, and the exclusion says why.",
@@ -148,7 +151,8 @@ export const agents: AgentDefinition[] = [
     purpose: "Draft replies, follow ups and handover notes for a counselor to edit and send.",
     inputs: ["Case history", "Communication history"],
     output: "Draft text only.",
-    writes: ["draft.text"],
+    writes: ["draft", "confidence"],
+    destination: "Draft text only, for a counselor to edit and send by hand",
     requiresHumanReview: true,
     humanReview: "The counselor sends it manually. The agent has no send capability at all.",
     onFailure: "A low confidence draft carries a visible warning.",
@@ -164,7 +168,8 @@ export const agents: AgentDefinition[] = [
     purpose: "Answer a student's process questions from their own case data and the published policy pages.",
     inputs: ["The signed in student's own case record", "Published policy content"],
     output: "A plain language answer that names its source.",
-    writes: ["answer.text"],
+    writes: ["answer", "basedOn", "routeToCounselor"],
+    destination: "An answer shown to the student, or a hand off to their counselor",
     requiresHumanReview: false,
     humanReview: "Anything it does not recognise is routed to the assigned counselor.",
     onFailure: "Routes to a counselor rather than improvising.",
@@ -181,7 +186,8 @@ export const agents: AgentDefinition[] = [
     purpose: "Condense an email, call or message thread into one dated history line.",
     inputs: ["Raw communication records"],
     output: "A dated summary line per interaction.",
-    writes: ["communication.summary"],
+    writes: ["line"],
+    destination: "One summary line beside a thread whose raw record it cannot touch",
     requiresHumanReview: false,
     humanReview: "Spot checked rather than reviewed per item. Always editable.",
     onFailure: "An unclear thread returns a pointer to the raw thread.",
@@ -194,7 +200,8 @@ export const agents: AgentDefinition[] = [
     purpose: "Help a student develop their own statement through structured questions.",
     inputs: ["The student's own answers", "Programme and destination context"],
     output: "Follow up questions and structural feedback. Never prose for the student to use.",
-    writes: ["coaching.questions"],
+    writes: ["questions", "structuralFeedback"],
+    destination: "Coaching questions and structural feedback, never statement content",
     requiresHumanReview: true,
     humanReview: "The finished statement is still reviewed by a counselor before submission.",
     onFailure: "If asked to write it, it declines and returns to coaching questions.",
@@ -211,7 +218,8 @@ export const agents: AgentDefinition[] = [
     purpose: "Detect SLA breaches and prolonged stagnation, and raise them to a manager.",
     inputs: ["Case timestamps", "SLA thresholds"],
     output: "An escalation event and a manager notification.",
-    writes: ["escalation.queue"],
+    writes: [],
+    destination: "The escalation queue, computed by rules rather than a model",
     requiresHumanReview: false,
     humanReview: "A manager decides the response. The agent never resolves anything.",
     onFailure: "An ambiguous breach escalates anyway. It errs towards visibility.",

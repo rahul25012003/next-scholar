@@ -5,6 +5,7 @@ import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import type { z } from "zod";
 import { agentById, type AgentDefinition, type AgentId } from "./registry";
 import { filterWrites, findViolations, type Violation } from "./guards";
+import { record as recordAudit } from "../audit";
 
 const MODEL = process.env.NEXT_SCHOLAR_AGENT_MODEL ?? "claude-opus-5";
 
@@ -50,6 +51,8 @@ type RunOptions<S extends z.ZodType> = {
   fallback: string;
   maxTokens?: number;
   coaching?: boolean;
+  /** What the run is about, so a refusal is traceable to a case or document. */
+  subjectId?: string;
 };
 
 /**
@@ -132,15 +135,43 @@ export async function runAgent<S extends z.ZodType>(
     };
   }
 
-  const { rejected } = filterWrites(
+  // The capability check. An agent that returns a key outside its declared set
+  // does not get a partial write: the whole output is refused. A model that has
+  // started answering a question it was not given is not a model to take the
+  // rest of the answer from.
+  const { accepted, rejected } = filterWrites(
     agent,
     parsed as Record<string, unknown>,
   );
 
+  if (rejected.length > 0) {
+    recordAudit({
+      actorId: agent.id,
+      actorName: agent.name,
+      actorRole: "agent",
+      action: "agent-blocked",
+      subjectType: "case",
+      subjectId: options.subjectId ?? agent.id,
+      note: `Output refused. Fields outside the capability set: ${rejected.join(", ")}`,
+    });
+
+    return {
+      status: "blocked",
+      agent: agent.id,
+      violations: [
+        {
+          rule: "An agent may only return the fields it was granted",
+          evidence: rejected.join(", "),
+        },
+      ],
+      fallback: options.fallback,
+    };
+  }
+
   return {
     status: "ok",
     agent: agent.id,
-    data: parsed,
+    data: accepted as z.infer<S>,
     source: "ai",
     requiresHumanReview: agent.requiresHumanReview,
     rejectedFields: rejected,

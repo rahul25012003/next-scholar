@@ -124,6 +124,11 @@ export default async function ConsolePage() {
                         >
                           {record.priority}
                         </span>
+                        {record.needsManualReview && (
+                          <span className="mt-1 ml-1.5 inline-block rounded-input bg-pending-bg px-2 py-0.5 text-[0.6875rem] font-medium text-pending">
+                            Needs a person
+                          </span>
+                        )}
                       </td>
                       <td className="px-6 py-4 text-[0.875rem] text-body">
                         {record.destination}

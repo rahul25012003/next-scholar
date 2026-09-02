@@ -4,10 +4,13 @@ import { revalidatePath } from "next/cache";
 import {
   appendNote,
   attachSummary,
+  clearManualReview,
+  flagForManualReview,
   getCase,
   markDocumentVerified,
   withdrawConsent,
 } from "@/data/store";
+import { findSensitiveInput } from "@/domain/agents/guards";
 import { demoCounselor, demoStudent } from "@/domain/demo-actors";
 import { assertCan, PermissionError } from "@/domain/rbac";
 import { summariseCase, draftReply } from "@/domain/agents/implementations";
@@ -60,6 +63,25 @@ export async function addNote(
 
   if (!saved) return { status: "error", message: "The note could not be saved." };
 
+  // The input side of the never-send rule, checked rather than requested. The
+  // note is already saved at this point, so refusing here costs the machine
+  // reading of it and nothing else.
+  const sensitive = findSensitiveInput(text);
+  if (sensitive) {
+    await flagForManualReview(
+      caseId,
+      text,
+      `Not sent to a model: ${sensitive.rule.toLowerCase()}`,
+    );
+    revalidatePath(`/console/${caseId}`);
+    revalidatePath("/console");
+    return {
+      status: "saved",
+      note: text,
+      agent: `Your note is saved. It was not sent to a model, because it looks like it contains something that must never leave this system: ${sensitive.evidence}. Set the priority and document status yourself, then clear the review flag.`,
+    };
+  }
+
   const run = await summariseCase(saved);
   let agentOutcome: string;
 
@@ -79,8 +101,10 @@ export async function addNote(
     agentOutcome = `Summary discarded. It broke a prohibition: ${run.violations
       .map((violation) => violation.rule)
       .join("; ")}.`;
+    await flagForManualReview(caseId, text, agentOutcome);
   } else {
     agentOutcome = `No summary this time. ${run.reason} Your note is saved either way.`;
+    await flagForManualReview(caseId, text, run.reason);
   }
 
   revalidatePath(`/console/${caseId}`);
@@ -190,6 +214,30 @@ export async function draftMessage(
   }
 
   return { status: "unavailable", message: `${run.reason} ${run.fallback}` };
+}
+
+export type ReviewResult =
+  | { status: "idle" }
+  | { status: "cleared"; message: string }
+  | { status: "error"; message: string };
+
+/** A person saying they have looked at the note the agent could not classify. */
+export async function clearReviewFlag(
+  _previous: ReviewResult,
+  formData: FormData,
+): Promise<ReviewResult> {
+  const caseId = String(formData.get("caseId") ?? "");
+  const updated = await clearManualReview(caseId, demoCounselor);
+
+  if (!updated) return { status: "error", message: "Not permitted on this case." };
+
+  revalidatePath(`/console/${caseId}`);
+  revalidatePath("/console");
+
+  return {
+    status: "cleared",
+    message: "Cleared against your name. The note stays in the log either way.",
+  };
 }
 
 export type ConsentResult =

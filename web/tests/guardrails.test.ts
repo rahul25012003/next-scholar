@@ -2,6 +2,15 @@ import { describe, expect, it } from "vitest";
 import { can, assertCan, visibleCases, PermissionError, type Actor } from "@/domain/rbac";
 import { findViolations, findGhostwriting, filterWrites } from "@/domain/agents/guards";
 import { agents, agentById, GLOBAL_PROHIBITIONS } from "@/domain/agents/registry";
+import { z } from "zod";
+import {
+  summarySchema,
+  draftSchema,
+  guidanceSchema,
+  coachingSchema,
+  threadSchema,
+  extractionSchema,
+} from "@/domain/agents/implementations";
 import { syntheticCases } from "@/data/synthetic-cases";
 import { ledgerRows } from "@/content/ledger";
 import { isPublishable } from "@/content/types";
@@ -99,12 +108,49 @@ describe("no agent can reach a high impact action", () => {
   });
 
   it("keeps the case summary agent away from stage, priority and document status", () => {
-    expect(agentById.get("case-summary")!.writes).toEqual(["summary", "suggestedAction"]);
+    const writes = agentById.get("case-summary")!.writes;
+    expect(writes).toEqual(["summary", "suggestedAction"]);
+    expect(writes).not.toContain("docStatus");
+    expect(writes).not.toContain("priority");
+    expect(writes).not.toContain("stage");
   });
 
-  it("gives the statement coach no document field at all", () => {
-    expect(agentById.get("sop-coach")!.writes).toEqual(["coaching.questions"]);
+  it("gives the statement coach questions and feedback, and no document field", () => {
+    expect(agentById.get("sop-coach")!.writes).toEqual([
+      "questions",
+      "structuralFeedback",
+    ]);
     expect(agentById.get("sop-coach")!.requiresHumanReview).toBe(true);
+  });
+
+  /**
+   * The regression guard for the bug this file previously missed. The kernel
+   * compares an agent's declared capability list against the keys its schema
+   * actually returns. If the two drift apart, the check either refuses every
+   * valid output or silently stops meaning anything, so they are asserted equal
+   * rather than trusted to stay in step.
+   */
+  it("declares exactly the keys each model backed agent's schema returns", () => {
+    const schemas: Record<string, z.ZodObject<z.ZodRawShape>> = {
+      "case-summary": summarySchema,
+      "counselor-copilot": draftSchema,
+      "student-guidance": guidanceSchema,
+      "sop-coach": coachingSchema,
+      "communication-summary": threadSchema,
+      "document-intelligence": extractionSchema,
+    };
+
+    for (const agent of agents.filter((item) => item.usesModel)) {
+      const schema = schemas[agent.id];
+      expect(schema, `no schema wired for ${agent.id}`).toBeDefined();
+      expect([...agent.writes].sort()).toEqual(Object.keys(schema.shape).sort());
+    }
+  });
+
+  it("grants the rule based agents no model output capability at all", () => {
+    for (const agent of agents.filter((item) => !item.usesModel)) {
+      expect(agent.writes).toEqual([]);
+    }
   });
 
   it("states the global prohibitions on every agent", () => {

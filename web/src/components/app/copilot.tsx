@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { WarningCircle } from "@phosphor-icons/react";
 import { draftMessage, type DraftResult } from "@/app/actions/case";
 import { Button } from "@/components/ui/button";
 
@@ -36,16 +37,21 @@ export function Copilot({ caseId }: { caseId: string }) {
 
       {state.status === "drafted" && (
         <div className="mt-4" role="status">
+          {state.confidence === "low" && (
+            <p className="mb-2 flex items-start gap-2 rounded-card border border-pending/25 bg-pending-bg/50 p-3 text-[0.8125rem] leading-relaxed text-ink-soft">
+              <WarningCircle size={16} weight="fill" className="mt-0.5 shrink-0 text-pending" aria-hidden />
+              Low confidence. Read this one properly before you send any of it.
+            </p>
+          )}
           <textarea
-            readOnly
+            defaultValue={state.draft}
             rows={6}
-            value={state.draft}
             aria-label="Draft message, editable before you send it"
-            className="w-full rounded-input border border-line-strong bg-surface px-3.5 py-2.5 text-[0.9375rem] leading-relaxed text-navy-900"
+            className="w-full rounded-input border border-line-strong bg-paper px-3.5 py-2.5 text-[0.9375rem] leading-relaxed text-navy-900 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/25"
           />
           <p className="mt-2 text-[0.75rem] text-muted">
-            Machine written, {state.confidence} confidence. Copy it, change what
-            is wrong, and send it yourself.
+            Machine written, {state.confidence} confidence. Edit it here, then
+            send it yourself. Nothing sends from this screen.
           </p>
         </div>
       )}

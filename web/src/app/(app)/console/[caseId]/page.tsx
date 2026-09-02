@@ -6,8 +6,10 @@ import { NoteForm } from "@/components/app/note-form";
 import { Copilot } from "@/components/app/copilot";
 import { CaseWorkflows } from "@/components/app/case-workflows";
 import { ThreadSummary } from "@/components/app/thread-summary";
+import { DocumentIntelligence } from "@/components/app/document-intelligence";
+import { ReviewFlag } from "@/components/app/review-flag";
 import { VerifyDocument } from "@/components/app/verify-document";
-import { getCase, listCommunications } from "@/data/store";
+import { getCase, getExtraction, listCommunications } from "@/data/store";
 import { demoCounselor } from "@/domain/demo-actors";
 import { byPriority, detectEvents } from "@/domain/events";
 import { assessRisk, RISK_DISCLAIMER } from "@/domain/risk";
@@ -38,6 +40,13 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
     ? proposeShortlist({ budgetInr: record.budgetInr })
     : null;
   const threads = newestFirst(await listCommunications(record.id, demoCounselor));
+  const extractions = await Promise.all(
+    record.documents.map(async (document) => [
+      document.id,
+      await getExtraction(document.id),
+    ] as const),
+  );
+  const extractionFor = new Map(extractions);
 
   return (
     <AppShell actor={demoCounselor} current="/console">
@@ -97,6 +106,15 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
               </div>
             </Panel>
 
+            {record.needsManualReview && (
+              <Panel
+                title="Needs a person"
+                description="Nothing falls through quietly. A note an agent could not read stays flagged here until someone says they have read it."
+              >
+                <ReviewFlag caseId={record.id} flag={record.needsManualReview} />
+              </Panel>
+            )}
+
             <Panel title="Notes">
               <NoteForm caseId={record.id} />
             </Panel>
@@ -149,7 +167,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
 
             <Panel
               title="Documents"
-              description="Verification is a person's action, recorded against their name. No agent has a capability that reaches it."
+              description="Reading a document proposes values. Confirming one is a person putting their name to it. No agent has a capability that reaches either the document status or the case record."
             >
               {record.documents.length === 0 ? (
                 <EmptyState
@@ -176,6 +194,12 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                             {document.issue}
                           </p>
                         )}
+                        <DocumentIntelligence
+                          caseId={record.id}
+                          documentId={document.id}
+                          documentName={document.name}
+                          extraction={extractionFor.get(document.id) ?? null}
+                        />
                       </div>
                       {document.status !== "Verified" && (
                         <VerifyDocument

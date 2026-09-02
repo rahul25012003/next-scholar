@@ -1,5 +1,5 @@
-import type { StudentCase } from "./case";
-import { categoryLabel } from "./consent";
+import type { DocStatus, StudentCase } from "./case";
+import { categoryLabel, type DocumentCategory } from "./consent";
 import { requirementsFor } from "@/content/requirements";
 
 /**
@@ -61,4 +61,50 @@ export function checkCompleteness(record: StudentCase): CompletenessResult {
       ? "Checked against the curated requirement list. A counselor confirms before a student is told anything is complete."
       : "This requirement list has never been checked at source by a named person, so treat it as a draft rather than as the university's word.",
   };
+}
+
+/**
+ * The case level document status, derived rather than stored.
+ *
+ * It used to be a field that `markDocumentVerified` never updated, so the
+ * roll-up drifted from the documents it claimed to summarise the moment anyone
+ * verified anything. Deriving it means the two cannot disagree.
+ */
+export function deriveDocStatus(record: StudentCase): DocStatus {
+  const set = requirementsFor(record.destination);
+  const required = set?.documents ?? [];
+
+  if (record.documents.length === 0) return "Not started";
+  if (record.documents.some((document) => document.status === "Issue found")) {
+    return "Issue found";
+  }
+
+  const held = required.map((category) =>
+    record.documents.find((document) => document.category === category),
+  );
+
+  if (required.length > 0 && held.every((document) => document?.status === "Verified")) {
+    return "Verified";
+  }
+
+  return "In review";
+}
+
+/** The document categories a stage cannot proceed without, from one source. */
+export function requiredAtStage(
+  destination: string,
+  stage: StudentCase["stage"],
+): DocumentCategory[] {
+  const set = requirementsFor(destination);
+  if (!set) return [];
+
+  const financeOnward = ["finance", "visa", "pre-departure", "arrival", "outcome"];
+  if (financeOnward.includes(stage)) return set.documents;
+
+  const applying = ["documents", "applications", "offers"];
+  if (applying.includes(stage)) {
+    return set.documents.filter((category) => category !== "funding");
+  }
+
+  return [];
 }

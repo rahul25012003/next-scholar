@@ -81,3 +81,36 @@ export function withdraw(
       : consent,
   );
 }
+
+/**
+ * Consent to be contacted on a channel, which is a separate question from
+ * consent to collect a document.
+ *
+ * WhatsApp in particular needs an explicit opt in. The notification planner
+ * asks this before it queues anything on a messaging channel, and it fails
+ * closed: no recorded opt in means no message, rather than a message sent on
+ * the assumption that nobody would mind.
+ */
+export type ContactChannel = "whatsapp" | "email";
+
+export type ChannelConsent = {
+  id: string;
+  caseId: string;
+  channel: ContactChannel;
+  grantedAt: string;
+  grantedBy: string;
+  withdrawnAt: string | null;
+};
+
+export function channelAllowed(
+  consents: ChannelConsent[],
+  caseId: string,
+  channel: ContactChannel,
+): boolean {
+  return consents.some(
+    (consent) =>
+      consent.caseId === caseId &&
+      consent.channel === channel &&
+      consent.withdrawnAt === null,
+  );
+}

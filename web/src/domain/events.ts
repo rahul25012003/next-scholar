@@ -3,9 +3,10 @@ import {
   daysUntil,
   stageIndex,
   type Priority,
-  type StageKey,
   type StudentCase,
 } from "./case";
+import { categoryLabel } from "./consent";
+import { requiredAtStage } from "./completeness";
 
 export type EventType =
   | "deadline"
@@ -37,23 +38,11 @@ export type LifecycleEvent = {
   basis: string;
 };
 
-/** Documents a stage cannot proceed without. */
-const requiredDocuments: Partial<Record<StageKey, string[]>> = {
-  documents: ["transcript", "passport", "english-test"],
-  applications: ["transcript", "passport", "english-test"],
-  offers: ["transcript", "passport", "english-test"],
-  finance: ["funding"],
-  visa: ["funding", "passport"],
-};
-
-const documentLabels: Record<string, string> = {
-  transcript: "Academic transcript",
-  passport: "Passport",
-  "english-test": "English test result",
-  funding: "Funding evidence",
-  recommendation: "Letter of recommendation",
-  other: "Supporting document",
-};
+/**
+ * Required documents come from the curated requirement list, not from a second
+ * copy kept here. The two used to disagree, which meant a case could read as
+ * complete on one screen and incomplete on another.
+ */
 
 /** How long a university may sit on an application before it is chased. */
 const universitySilenceDays: Record<string, number> = {
@@ -75,6 +64,27 @@ const ESCALATION_DAYS = 10;
 export function detectEvents(record: StudentCase, now = new Date()): LifecycleEvent[] {
   const events: LifecycleEvent[] = [];
 
+  const applyingOnward = [
+    "applications",
+    "offers",
+    "finance",
+    "visa",
+    "pre-departure",
+  ];
+  if (record.deadlines.length === 0 && applyingOnward.includes(record.stage)) {
+    events.push({
+      key: `${record.id}:deadline:none-on-file`,
+      caseId: record.id,
+      type: "deadline",
+      priority: "High",
+      audience: "counselor",
+      title: "No deadline is on file for this case",
+      detail:
+        "A case at this stage runs against dates. None have been entered, so nothing can be watched. Absent is not the same as none.",
+      basis: "The deadline list on the case record is empty",
+    });
+  }
+
   for (const deadline of record.deadlines) {
     const days = daysUntil(deadline.date, now);
     if (days < 0 || days > 30) continue;
@@ -91,7 +101,7 @@ export function detectEvents(record: StudentCase, now = new Date()): LifecycleEv
     });
   }
 
-  const required = requiredDocuments[record.stage] ?? [];
+  const required = requiredAtStage(record.destination, record.stage);
   for (const category of required) {
     const document = record.documents.find((item) => item.category === category);
     if (!document || document.status !== "Verified") {
@@ -101,7 +111,7 @@ export function detectEvents(record: StudentCase, now = new Date()): LifecycleEv
         type: "missing_doc",
         priority: document?.status === "Issue found" ? "High" : "Normal",
         audience: "student_and_counselor",
-        title: `${documentLabels[category]} is not verified`,
+        title: `${categoryLabel[category]} is not verified`,
         detail: document
           ? `Currently marked ${document.status.toLowerCase()}.${document.issue ? ` ${document.issue}` : ""}`
           : "Not uploaded yet.",
@@ -111,7 +121,22 @@ export function detectEvents(record: StudentCase, now = new Date()): LifecycleEv
   }
 
   for (const document of record.documents) {
-    if (!document.expiresOn) continue;
+    if (!document.expiresOn) {
+      if (document.category === "passport" || document.category === "english-test") {
+        events.push({
+          key: `${record.id}:expiry:missing:${document.id}`,
+          caseId: record.id,
+          type: "expiry",
+          priority: "Normal",
+          audience: "counselor",
+          title: `No expiry date on file for ${document.name}`,
+          detail:
+            "This document type expires, and the date has not been recorded, so nothing is watching it.",
+          basis: "The expiry field on the document is empty",
+        });
+      }
+      continue;
+    }
     const days = daysUntil(document.expiresOn, now);
     if (days < 0 || days > 60) continue;
     events.push({

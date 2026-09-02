@@ -1,5 +1,6 @@
 import type { Priority } from "./case";
 import type { EventType, LifecycleEvent } from "./events";
+import { channelAllowed, type ChannelConsent, type ContactChannel } from "./consent";
 
 export type Channel =
   | "in_app"
@@ -66,9 +67,12 @@ export function bodyFor(event: LifecycleEvent, channel: Channel): string {
  * One active notification per underlying event, updated rather than recreated.
  * Re-running detection on an unchanged case produces no new rows.
  */
+const optInChannels: Channel[] = ["whatsapp", "email"];
+
 export function planNotifications(
   events: LifecycleEvent[],
   existing: Notification[],
+  channelConsents: ChannelConsent[] = [],
   now = new Date(),
 ): Notification[] {
   const open = new Set(
@@ -79,6 +83,14 @@ export function planNotifications(
   for (const event of events) {
     const channels: Channel[] = ["in_app", ...(extraChannels[event.type] ?? [])];
     for (const channel of channels) {
+      // A messaging channel needs a recorded opt in. No consent, no message.
+      if (
+        optInChannels.includes(channel) &&
+        !channelAllowed(channelConsents, event.caseId, channel as ContactChannel)
+      ) {
+        continue;
+      }
+
       const dedupeKey = `${event.key}:${channel}`;
       if (open.has(dedupeKey)) continue;
       planned.push({
@@ -97,6 +109,42 @@ export function planNotifications(
     }
   }
   return planned;
+}
+
+/**
+ * The escalating part of an escalating reminder sequence.
+ *
+ * A deadline crosses thirty days, then fourteen, then three, and the event's
+ * priority rises each time while its key stays the same. Dedupe alone would
+ * mean one Normal priority message at thirty days and silence afterwards, which
+ * is the opposite of a sequence. An open notification whose event has become
+ * more urgent is updated and re-queued for delivery.
+ */
+export function escalateOpen(
+  existing: Notification[],
+  events: LifecycleEvent[],
+  now = new Date(),
+): { next: Notification[]; escalated: number } {
+  const rank: Record<Priority, number> = { Normal: 0, High: 1, Urgent: 2 };
+  const byKey = new Map(events.map((event) => [event.key, event]));
+  let escalated = 0;
+
+  const next = existing.map((item) => {
+    if (item.resolvedAt) return item;
+    const event = byKey.get(item.eventKey);
+    if (!event || rank[event.priority] <= rank[item.priority]) return item;
+
+    escalated += 1;
+    return {
+      ...item,
+      priority: event.priority,
+      body: bodyFor(event, item.channel),
+      deliveryStatus: "queued" as const,
+      createdAt: now.toISOString(),
+    };
+  });
+
+  return { next, escalated };
 }
 
 /** Notifications whose underlying event has cleared are resolved, not deleted. */
