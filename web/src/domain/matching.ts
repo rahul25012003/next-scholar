@@ -1,7 +1,7 @@
 import { destinations } from "@/content/destinations";
 import { requirementsFor } from "@/content/requirements";
 import { STATUS_LABEL, isPublishable } from "@/content/types";
-import type { StudentCase } from "./case";
+import type { LanguageTestResult, StudentCase } from "./case";
 import { assessRisk } from "./risk";
 
 /**
@@ -30,7 +30,7 @@ export type MatchProposal = {
 export type MatchProfile = {
   budgetInr: number | null;
   percentage?: number | null;
-  englishTest?: { name: string; score: string } | null;
+  languageTests?: LanguageTestResult[];
   intakePreference?: string;
   wantsLowTuition?: boolean;
   /** Risk factors already found on the case, carried into the shortlist. */
@@ -96,9 +96,12 @@ export function proposeShortlist(profile: MatchProfile): {
 
     const requirements = requirementsFor(destination.country, destination.route);
     if (requirements?.documents.includes("english-test")) {
-      if (profile.englishTest) {
+      const english = (profile.languageTests ?? []).find(
+        (test) => test.language === "english",
+      );
+      if (english) {
         reasons.push(
-          `An ${profile.englishTest.name} result of ${profile.englishTest.score} is already on file.`,
+          `An ${english.name} result of ${english.score} is already on file.`,
         );
       } else {
         assumptions.push(
@@ -157,7 +160,7 @@ export function profileFromCase(record: StudentCase): MatchProfile {
   return {
     budgetInr: record.budgetInr,
     percentage: record.profile.percentage,
-    englishTest: record.profile.englishTest,
+    languageTests: record.profile.languageTests,
     intakePreference: record.intake.split(" ")[0],
     riskNotes: assessRisk(record).indicators.map((indicator) => indicator.factor),
   };

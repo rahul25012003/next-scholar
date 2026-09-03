@@ -22,6 +22,49 @@ export type LogEntry = {
   author: string;
 };
 
+/**
+ * A language qualification, of any language.
+ *
+ * The record previously held one field, `englishTest`, which meant TestDaF, DSH,
+ * telc and Goethe could not be stored anywhere on a case. For the German route
+ * that is not a missing nicety: the language certificate is the admission
+ * condition, and a system that cannot record it cannot check it.
+ */
+export type LanguageTestResult = {
+  /** "IELTS", "IELTS for UKVI", "TestDaF", "DSH", "telc", "Goethe-Zertifikat". */
+  name: string;
+  /** Exactly as the provider states it: "7.0", "TDN 4", "DSH-2", "C1". */
+  score: string;
+  language: "english" | "german";
+  takenOn: string | null;
+  /** Null means the provider states no expiry, not that nobody checked. */
+  expiresOn: string | null;
+};
+
+/**
+ * The German recognition question, which decides more Indian applications than
+ * the language test does and which this record could not previously represent.
+ *
+ * Every field is nullable and null means unchecked. In particular `anabin` is
+ * "not-checked" until a person has looked it up, because assuming H+ is how a
+ * shortlist fills with universities the applicant cannot apply to.
+ */
+export type DegreeRecognition = {
+  /** The anabin rating of the awarding institution. */
+  anabin: "h-plus" | "h-plus-minus" | "h-minus" | "not-checked";
+  /** Three or four year Bachelor's. The German gate is credits, not years. */
+  bachelorYears: 3 | 4 | null;
+  /** ECTS-equivalent total, where a conversion has actually been done. */
+  totalCredits: number | null;
+  /** Subject-wise credits a programme's module handbook asks for. */
+  subjectCredits: { area: string; held: number }[];
+  studienkolleg: "not-required" | "required" | "in-progress" | "completed" | "unknown";
+  /** Only a named person may set this. No agent may write it. */
+  checkedBy: string | null;
+  checkedOn: string | null;
+  note: string | null;
+};
+
 export type DocumentRecord = {
   id: string;
   name: string;
@@ -29,6 +72,8 @@ export type DocumentRecord = {
     | "transcript"
     | "passport"
     | "english-test"
+    | "german-test"
+    | "degree-recognition"
     | "funding"
     | "recommendation"
     | "other";
@@ -92,6 +137,13 @@ export type StudentCase = {
   id: string;
   name: string;
   destination: string;
+  /**
+   * The route within the destination, where a country splits into routes with
+   * different requirements and different commission to us. Null where the
+   * country has one route. Without this a German private applicant was checked
+   * against the public university requirement set and nothing said so.
+   */
+  route: string | null;
   intake: string;
   counselor: string;
   /**
@@ -105,7 +157,10 @@ export type StudentCase = {
     /** Normalised to a percentage. A CGPA is converted on entry, not guessed. */
     percentage: number | null;
     graduationYear: number | null;
-    englishTest: { name: string; score: string } | null;
+    /** Every language qualification on file, English or German. */
+    languageTests: LanguageTestResult[];
+    /** Null until someone checks. Only meaningful on the German route today. */
+    recognition: DegreeRecognition | null;
   };
   stage: StageKey;
   stageUpdatedAt: string;
@@ -151,4 +206,14 @@ export function daysSince(iso: string, now = new Date()): number {
 export function daysUntil(iso: string, now = new Date()): number {
   const then = new Date(iso).getTime();
   return Math.ceil((then - now.getTime()) / 86_400_000);
+}
+
+/** The English qualification, where one is on file. */
+export function englishTestOf(record: StudentCase): LanguageTestResult | null {
+  return record.profile.languageTests.find((test) => test.language === "english") ?? null;
+}
+
+/** The German qualification, where one is on file. */
+export function germanTestOf(record: StudentCase): LanguageTestResult | null {
+  return record.profile.languageTests.find((test) => test.language === "german") ?? null;
 }

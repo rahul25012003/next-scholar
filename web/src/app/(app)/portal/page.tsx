@@ -7,6 +7,9 @@ import {
   ArrowSquareOut,
 } from "@phosphor-icons/react/ssr";
 import { AppShell, EmptyState, Panel } from "@/components/app/shell";
+import { NewAccountState } from "@/components/app/new-account";
+import { emptyOnboarding } from "@/domain/onboarding";
+import { findById } from "@/data/users";
 import {
   getCase,
   listCommunications,
@@ -52,15 +55,14 @@ export default async function PortalPage() {
   const record = actor.caseId ? await getCase(actor.caseId, actor) : null;
 
   if (!record || !can(actor, "case.read", record)) {
+    const user = findById(actor.id);
     return (
       <AppShell actor={actor} current="/portal">
         <div className="shell">
-          <Panel title="Your application">
-            <EmptyState
-              headline="No case record"
-              body="Nothing is loaded for this account. No case has been opened, and nothing has been invented to fill the screen."
-            />
-          </Panel>
+          <NewAccountState
+            name={actor.name}
+            profile={user?.onboarding ?? emptyOnboarding()}
+          />
         </div>
       </AppShell>
     );

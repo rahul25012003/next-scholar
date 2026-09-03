@@ -20,6 +20,8 @@ import { agentAvailability } from "@/domain/agents/kernel";
 import { daysSince } from "@/domain/case";
 import { stages } from "@/content/process";
 import { checkCompleteness } from "@/domain/completeness";
+import { germanGates } from "@/domain/recognition";
+import { routesFor } from "@/content/requirements";
 import { buildHandoverPacket } from "@/domain/counselor-ops";
 import { profileFromCase, proposeShortlist } from "@/domain/matching";
 import { channelLabel, newestFirst } from "@/domain/communications";
@@ -42,6 +44,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
   const stage = stages.find((item) => item.key === record.stage);
   const agents = agentAvailability();
   const completeness = checkCompleteness(record);
+  const gates = germanGates(record);
   const handover = buildHandoverPacket(record);
   const shortlist = proposeShortlist(profileFromCase(record));
   const threads = newestFirst(await listCommunications(record.id, actor));
@@ -68,9 +71,18 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
             {record.name}
           </h1>
           <p className="mt-1 text-[0.9375rem] text-body">
-            {record.destination}, {record.intake}. At {stage?.name.toLowerCase()} for{" "}
+            {record.destination}
+            {record.route ? `, ${record.route}` : ""}, {record.intake}. At{" "}
+            {stage?.name.toLowerCase()} for{" "}
             <span className="figures">{daysSince(record.stageUpdatedAt)}</span> days.
           </p>
+          {!record.route && routesFor(record.destination).length > 1 && (
+            <p className="mt-2 inline-flex items-center gap-1.5 rounded-input bg-pending-bg px-2.5 py-1.5 text-[0.8125rem] font-medium text-pending">
+              No route recorded. {record.destination} has{" "}
+              {routesFor(record.destination).length} routes with different requirements, so
+              the completeness check has nothing to run against.
+            </p>
+          )}
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[1.6fr_1fr]">
@@ -140,6 +152,60 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
               <Copilot caseId={record.id} />
             </Panel>
 
+            {gates.length > 0 && (
+              <Panel
+                title="Degree recognition"
+                description="The German gates that decide eligibility before a document is worth collecting. Only a named person can record an answer here."
+              >
+                <ul className="divide-y divide-line">
+                  {gates.map((gate) => (
+                    <li key={gate.id} className="flex gap-4 px-6 py-4">
+                      <span
+                        aria-hidden
+                        className={
+                          gate.state === "clear"
+                            ? "mt-1.5 h-2 w-2 shrink-0 rounded-full bg-verified"
+                            : gate.state === "attention"
+                              ? "mt-1.5 h-2 w-2 shrink-0 rounded-full bg-pending"
+                              : "mt-1.5 h-2 w-2 shrink-0 rounded-full bg-line-strong"
+                        }
+                      />
+                      <div className="min-w-0">
+                        <p className="text-[0.9375rem] font-medium text-navy-900">
+                          {gate.title}
+                        </p>
+                        <p className="mt-1 text-[0.875rem] leading-relaxed text-body">
+                          {gate.detail}
+                        </p>
+                        {gate.blocks && (
+                          <p className="mt-2 text-[0.8125rem] leading-relaxed text-pending">
+                            Holds up: {gate.blocks}
+                          </p>
+                        )}
+                        <p className="mt-1.5 text-[0.75rem] text-muted">
+                          Source: {gate.source}
+                        </p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+                {record.profile.recognition?.checkedBy ? (
+                  <p className="border-t border-line px-6 py-4 text-[0.8125rem] leading-relaxed text-muted">
+                    Recorded by {record.profile.recognition.checkedBy} on{" "}
+                    <span className="figures">{record.profile.recognition.checkedOn}</span>.
+                    {record.profile.recognition.note
+                      ? ` ${record.profile.recognition.note}`
+                      : ""}
+                  </p>
+                ) : (
+                  <p className="border-t border-line px-6 py-4 text-[0.8125rem] leading-relaxed text-pending">
+                    Nobody has recorded a recognition check on this case. Until someone
+                    does, every answer above is an absence rather than a finding.
+                  </p>
+                )}
+              </Panel>
+            )}
+
             <Panel
               title="Completeness"
               description="Checked against the human curated requirement list, and nothing else."
@@ -169,11 +235,24 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                       </li>
                     ))}
                   </ul>
+                  {completeness.recognitionGate && (
+                    <p className="mt-4 rounded-input bg-surface px-3.5 py-3 text-[0.8125rem] leading-relaxed text-ink-soft">
+                      <span className="font-medium text-navy-900">
+                        Ahead of the documents.
+                      </span>{" "}
+                      {completeness.recognitionGate}
+                    </p>
+                  )}
                   <p className="mt-4 text-[0.8125rem] leading-relaxed text-muted">
                     {completeness.note}
                   </p>
                   <p className="mt-2 text-[0.8125rem] leading-relaxed text-muted">
                     Remaining process steps: {completeness.steps.join(". ")}.
+                  </p>
+                  <p className="mt-3 border-t border-line pt-3 text-[0.8125rem] leading-relaxed text-muted">
+                    {record.destination}, {completeness.route}. Written down{" "}
+                    <span className="figures">{completeness.statedOn}</span> from{" "}
+                    {completeness.sources.join(", ")}.
                   </p>
                 </div>
               )}

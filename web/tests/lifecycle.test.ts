@@ -46,7 +46,9 @@ describe("events are read from stored values, never invented", () => {
     const events = detectEvents(
       caseWith({ stage: "applications", documents: [] }),
     ).filter((event) => event.type === "missing_doc");
-    expect(events).toHaveLength(3);
+    // Everything the German public route requires except funding, which is not
+    // due until the finance stage.
+    expect(events).toHaveLength(4);
     expect(events.every((event) => event.basis.includes("applications"))).toBe(true);
   });
 
@@ -277,7 +279,7 @@ describe("matching uses what is on file and flags what is not", () => {
   });
 
   it("flags a missing English test on routes that require one", () => {
-    const { proposals } = proposeShortlist({ budgetInr: 3_000_000, englishTest: null });
+    const { proposals } = proposeShortlist({ budgetInr: 3_000_000, languageTests: [] });
     expect(
       proposals.some((proposal) =>
         proposal.assumptions.some((note) => note.includes("English test")),
@@ -315,7 +317,10 @@ describe("matching uses what is on file and flags what is not", () => {
   it("builds a profile from a case, carrying its risk factors in", () => {
     const profile = profileFromCase(syntheticCases[0]);
     expect(profile.percentage).toBe(74);
-    expect(profile.englishTest?.name).toBe("IELTS");
+    expect(profile.languageTests?.map((test) => test.name)).toEqual([
+      "IELTS",
+      "Goethe-Zertifikat",
+    ]);
     expect(profile.riskNotes?.length).toBeGreaterThan(0);
   });
 });

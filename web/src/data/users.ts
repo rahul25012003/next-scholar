@@ -8,6 +8,7 @@ import {
 } from "@/domain/auth";
 import { record as recordAudit } from "@/domain/audit";
 import type { Actor } from "@/domain/rbac";
+import type { OnboardingProfile } from "@/domain/onboarding";
 
 /**
  * The user store.
@@ -161,6 +162,37 @@ export function register(input: {
   });
 
   return { ok: true, user };
+}
+
+/**
+ * Saves what a student told us about themselves before a case exists.
+ *
+ * Scoped to the account doing the saving. There is deliberately no way for one
+ * account to write another's profile, and no role that can: a counsellor who
+ * needs to correct one does it on the case record, where the correction is
+ * logged with their name and its reason.
+ */
+export function saveOnboarding(
+  userId: string,
+  profile: OnboardingProfile,
+): AuthUser | null {
+  const user = findById(userId);
+  if (!user || user.role !== "student") return null;
+
+  const updated: AuthUser = { ...user, onboarding: profile };
+  users = users.map((item) => (item.id === userId ? updated : item));
+
+  recordAudit({
+    actorId: user.id,
+    actorName: user.name,
+    actorRole: user.role,
+    action: "update",
+    subjectType: "case",
+    subjectId: "account",
+    note: "Student updated their own onboarding profile",
+  });
+
+  return updated;
 }
 
 /** The shape the permission matrix works with. */

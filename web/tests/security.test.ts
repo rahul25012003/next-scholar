@@ -146,7 +146,37 @@ describe("completeness never says an application is ready", () => {
 
     expect(result.state).toBe("unknown");
     if (result.state === "unknown") {
-      expect(result.reason).toContain("not yet verified");
+      expect(result.reason).toContain("Nothing has been guessed");
+    }
+  });
+
+  it("refuses to check a multi-route destination when the case has no route", () => {
+    const noRoute: StudentCase = { ...record, route: null };
+    const result = checkCompleteness(noRoute);
+
+    expect(result.state).toBe("unknown");
+    if (result.state === "unknown") {
+      expect(result.reason).toContain("no route recorded");
+      expect(result.reason).toContain("Private universities");
+    }
+  });
+
+  it("checks a private route against the private list, not the public one", () => {
+    const publicRoute = checkCompleteness(record);
+    const privateRoute = checkCompleteness({
+      ...record,
+      route: "Private universities",
+    });
+
+    expect(publicRoute.state).toBe("checked");
+    expect(privateRoute.state).toBe("checked");
+    if (publicRoute.state === "checked" && privateRoute.state === "checked") {
+      expect(publicRoute.route).toBe("Public universities");
+      expect(privateRoute.route).toBe("Private universities");
+      // The public route gates on anabin recognition. The private one does not.
+      expect(publicRoute.documents.length).toBeGreaterThan(privateRoute.documents.length);
+      expect(publicRoute.steps.join(" ")).toContain("uni-assist");
+      expect(privateRoute.steps.join(" ")).not.toContain("uni-assist");
     }
   });
 

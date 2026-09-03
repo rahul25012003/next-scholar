@@ -18,8 +18,8 @@ function caseWith(overrides: Partial<StudentCase>): StudentCase {
 
 describe("there is one source of truth for required documents", () => {
   it("reads the stage requirements from the curated list, not a second copy", () => {
-    const curated = requirementsFor("Germany")!.documents;
-    const atVisa = requiredAtStage("Germany", "visa");
+    const curated = requirementsFor("Germany", "Public universities")!.documents;
+    const atVisa = requiredAtStage("Germany", "visa", "Public universities");
     expect(atVisa).toEqual(curated);
   });
 
@@ -27,12 +27,23 @@ describe("there is one source of truth for required documents", () => {
     expect(requiredAtStage("Canada", "applications")).toEqual([]);
   });
 
+  it("returns nothing for a multi-route destination when no route is given", () => {
+    // Germany's public and private routes take different documents. Falling
+    // back to whichever set is first in the file is the bug this prevents.
+    expect(requiredAtStage("Germany", "visa")).toEqual([]);
+    expect(requiredAtStage("Germany", "visa", "Private universities")).not.toEqual(
+      requiredAtStage("Germany", "visa", "Public universities"),
+    );
+  });
+
   it("raises a missing document event for exactly the curated categories", () => {
     const events = detectEvents(
       caseWith({ stage: "visa", documents: [] }),
     ).filter((event) => event.type === "missing_doc");
 
-    expect(events).toHaveLength(requirementsFor("Germany")!.documents.length);
+    expect(events).toHaveLength(
+      requirementsFor("Germany", "Public universities")!.documents.length,
+    );
   });
 });
 
@@ -47,7 +58,8 @@ describe("the case document status is derived, so it cannot drift", () => {
 
   it("reports verified only when every required document is verified", () => {
     const allVerified = caseWith({
-      documents: requirementsFor("Germany")!.documents.map((category, index) => ({
+      documents: requirementsFor("Germany", "Public universities")!.documents.map(
+        (category, index) => ({
         id: `d${index}`,
         name: category,
         category,
@@ -58,7 +70,8 @@ describe("the case document status is derived, so it cannot drift", () => {
         verifiedAt: new Date().toISOString(),
         expiresOn: null,
         issue: null,
-      })),
+        }),
+      ),
     });
 
     expect(deriveDocStatus(allVerified)).toBe("Verified");

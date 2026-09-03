@@ -16,6 +16,8 @@ import type { Role } from "./rbac";
  * database changes `data/users.ts` and leaves this file alone.
  */
 
+import type { OnboardingProfile } from "./onboarding";
+
 export type AuthUser = {
   id: string;
   email: string;
@@ -26,6 +28,12 @@ export type AuthUser = {
   caseId?: string;
   assignedCaseIds?: string[];
   createdAt: string;
+  /**
+   * What a student told us about themselves before a case existed. Held on the
+   * account rather than on a case, because on the day someone signs up there is
+   * no case to hold it, and an empty portal is the thing this replaces.
+   */
+  onboarding?: OnboardingProfile;
 };
 
 const KEY_LENGTH = 64;

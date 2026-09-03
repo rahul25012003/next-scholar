@@ -29,6 +29,8 @@ export const categoryLabel: Record<DocumentCategory, string> = {
   transcript: "Academic transcripts and certificates",
   passport: "Passport copy",
   "english-test": "English test result",
+  "german-test": "German language certificate",
+  "degree-recognition": "Degree recognition evidence",
   funding: "Bank statements and funding evidence",
   recommendation: "Letters of recommendation",
   other: "Other supporting documents",
@@ -38,6 +40,10 @@ export const categoryPurpose: Record<DocumentCategory, string> = {
   transcript: "Verifying your academic record with universities you apply to.",
   passport: "Identity on university applications and the visa file.",
   "english-test": "Meeting the language requirement on each application.",
+  "german-test":
+    "Meeting the German language condition, where a programme is taught in German or a university asks for a level.",
+  "degree-recognition":
+    "Establishing that your degree is recognised as equivalent, which for Germany means anabin and the credits behind it.",
   funding: "Evidencing funds to the visa authority and, where required, the university.",
   recommendation: "Submitting with applications that ask for references.",
   other: "Whatever specific step it was requested for, named at the time.",

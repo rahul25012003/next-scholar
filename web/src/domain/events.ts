@@ -120,7 +120,7 @@ export function detectEvents(record: StudentCase, now = new Date()): LifecycleEv
     });
   }
 
-  const required = requiredAtStage(record.destination, record.stage);
+  const required = requiredAtStage(record.destination, record.stage, record.route);
   for (const category of required) {
     const document = record.documents.find((item) => item.category === category);
     if (!document || document.status !== "Verified") {
