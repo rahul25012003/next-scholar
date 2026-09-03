@@ -34,6 +34,12 @@ export type AuthUser = {
    * no case to hold it, and an empty portal is the thing this replaces.
    */
   onboarding?: OnboardingProfile;
+  /**
+   * Programme slugs the student has saved. A list of keys rather than copies,
+   * so a saved course cannot go stale against the catalogue it came from and
+   * a fee cannot be preserved in a shortlist after we have corrected it.
+   */
+  shortlist?: string[];
 };
 
 const KEY_LENGTH = 64;

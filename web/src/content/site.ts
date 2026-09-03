@@ -52,6 +52,21 @@ export const nav: NavItem[] = [
     ],
   },
   {
+    label: "Courses",
+    children: [
+      {
+        label: "Search the catalogue",
+        href: "/universities",
+        note: "Every row shows what we earn on it",
+      },
+      {
+        label: "Your shortlist",
+        href: "/shortlist",
+        note: "Saved courses, compared side by side",
+      },
+    ],
+  },
+  {
     label: "Free tools",
     children: [
       {

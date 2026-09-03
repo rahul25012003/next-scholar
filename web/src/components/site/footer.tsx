@@ -10,6 +10,8 @@ const columns = [
       { label: "Germany", href: "/destinations/germany" },
       { label: "Ireland", href: "/destinations/ireland" },
       { label: "All three", href: "/destinations" },
+      { label: "Courses and universities", href: "/universities" },
+      { label: "Your shortlist", href: "/shortlist" },
     ],
   },
   {

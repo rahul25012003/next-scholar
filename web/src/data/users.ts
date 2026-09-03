@@ -195,6 +195,43 @@ export function saveOnboarding(
   return updated;
 }
 
+/**
+ * Saves or removes a programme from a student's own shortlist.
+ *
+ * Stores the programme slug, never a copy of the programme. A shortlist that
+ * held its own copy of a fee would keep showing the old figure after we
+ * corrected it, which on this platform is the failure mode that matters most.
+ */
+export function toggleShortlist(userId: string, programmeSlug: string): string[] | null {
+  const user = findById(userId);
+  if (!user || user.role !== "student") return null;
+
+  const current = user.shortlist ?? [];
+  const next = current.includes(programmeSlug)
+    ? current.filter((slug) => slug !== programmeSlug)
+    : [...current, programmeSlug];
+
+  users = users.map((item) => (item.id === userId ? { ...item, shortlist: next } : item));
+
+  recordAudit({
+    actorId: user.id,
+    actorName: user.name,
+    actorRole: user.role,
+    action: "update",
+    subjectType: "case",
+    subjectId: "shortlist",
+    note: current.includes(programmeSlug)
+      ? `Removed ${programmeSlug} from their shortlist`
+      : `Saved ${programmeSlug} to their shortlist`,
+  });
+
+  return next;
+}
+
+export function shortlistFor(userId: string): string[] {
+  return findById(userId)?.shortlist ?? [];
+}
+
 /** The shape the permission matrix works with. */
 export function toActor(user: AuthUser): Actor {
   return {

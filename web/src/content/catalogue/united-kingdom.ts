@@ -1,0 +1,663 @@
+import { stated, unknown, type University } from "./types";
+
+const ON = "2026-09-03";
+
+const FEE_QUALIFIER =
+  "Indicative annual tuition for an international student, rounded to the nearest thousand from the institution's published fee schedule. The programme's own fee page governs, and fees are set per intake.";
+
+const UK_COMMISSION = {
+  display: "₹1.5L to ₹2.5L",
+  lowInr: 150000,
+  highInr: 250000,
+  status: "unverified" as const,
+  source: "market-estimate" as const,
+  note: "A market typical band for a UK institution, not a contract term and not confirmed by this university. It is published as an estimate because publishing nothing is how the industry hides it.",
+};
+
+/**
+ * The United Kingdom.
+ *
+ * Five institutions across the range an Indian applicant actually shortlists,
+ * from a Russell Group university with a high fee to a post-92 with a
+ * substantially lower one and a placement year. Every one of them pays agents,
+ * and every one of them carries the same unverified band, because no university
+ * has yet confirmed a figure in writing or permitted its publication.
+ */
+export const ukUniversities: University[] = [
+  {
+    slug: "university-of-manchester",
+    name: "The University of Manchester",
+    destination: "united-kingdom",
+    city: "Manchester",
+    route: "Taught masters",
+    type: "public",
+    flagCode: "gb",
+    initials: "UoM",
+    summary:
+      "A large Russell Group university outside London, which is the combination most Indian postgraduate applicants are looking for: the maintenance requirement is the lower non-London figure and the rent follows it.",
+    commission: UK_COMMISSION,
+    highlights: {
+      established: stated(1824, "Institution's own history page. The date of its earliest predecessor.", ON),
+      totalStudents: stated(45000, "Institution's published student statistics", ON),
+      internationalStudents: stated(
+        "Roughly a third of the student body",
+        "Institution's published student statistics",
+        ON,
+      ),
+      staffRatio: unknown(
+        "Published per faculty rather than institution-wide, and averaging the faculties would be our arithmetic rather than their figure.",
+      ),
+      acceptanceRate: unknown(
+        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+      ),
+      accreditation: stated(
+        "Recognised UK degree-awarding body, regulated by the Office for Students",
+        "Office for Students register",
+        ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2025,
+        rank: "Inside the world top 40",
+        scope: "World, all subjects",
+        source: "QS published tables",
+      },
+      {
+        body: "THE World University Rankings",
+        year: 2025,
+        rank: "Inside the world top 60",
+        scope: "World, all subjects",
+        source: "Times Higher Education published tables",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: stated("6.0 to 6.5 overall, varying by programme", "Institution's admission pages", ON),
+        postgraduate: stated(
+          "6.5 overall with 6.0 in each component is the common condition; some programmes require 7.0",
+          "Institution's admission pages",
+          ON,
+        ),
+      },
+      {
+        exam: "TOEFL iBT",
+        undergraduate: stated("80 to 90, varying by programme", "Institution's admission pages", ON),
+        postgraduate: stated("90 with section minimums on most programmes", "Institution's admission pages", ON),
+      },
+      {
+        exam: "GRE",
+        undergraduate: stated("Not required", "Institution's admission pages", ON),
+        postgraduate: stated(
+          "Not required by most taught programmes. A few quantitative ones ask for it and say so",
+          "Institution's admission pages",
+          ON,
+        ),
+      },
+      {
+        exam: "GMAT",
+        undergraduate: stated("Not required", "Institution's admission pages", ON),
+        postgraduate: stated("Required for the MBA. Not required for most taught Master's", "Institution's admission pages", ON),
+      },
+    ],
+    tuitionNote: stated(
+      "Full international tuition, set per programme and per intake. A deposit is normally required to release the CAS, and the balance outstanding on the CAS is added to the maintenance funds you have to evidence.",
+      "Institution's published fee schedule, and UKVI Appendix Finance",
+      ON,
+    ),
+    costOfLivingCity: "manchester",
+    programmes: [
+      {
+        slug: "manchester-msc-advanced-computer-science",
+        universitySlug: "university-of-manchester",
+        name: "MSc Advanced Computer Science",
+        level: "masters",
+        disciplines: ["Computer Science"],
+        durationMonths: 12,
+        feePerYear: stated(32000, "Institution's published international fee schedule", ON, FEE_QUALIFIER),
+        currency: "GBP",
+        feeQualifier: FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-06-30",
+            teachingStarts: "2027-09-20",
+            status: "not-yet-open",
+            statusAsOf: ON,
+            campus: "Manchester",
+          },
+        ],
+        entryRequirement: stated(
+          "An upper second class honours degree or its overseas equivalent in computer science. For Indian applicants this is commonly stated as 60 to 70 per cent depending on the institution's own recognition list.",
+          "Institution's admission pages",
+          ON,
+        ),
+        prerequisites: stated(
+          ["Programming", "Algorithms and data structures", "Mathematics for computing"],
+          "Programme page",
+          ON,
+        ),
+        languageOfInstruction: "English",
+        placement: unknown("No placement year is stated on this one year taught programme."),
+        campus: "Manchester",
+      },
+      {
+        slug: "manchester-msc-mechanical-engineering-design",
+        universitySlug: "university-of-manchester",
+        name: "MSc Mechanical Engineering Design",
+        level: "masters",
+        disciplines: ["Engineering", "Mechanical Engineering"],
+        durationMonths: 12,
+        feePerYear: stated(33000, "Institution's published international fee schedule", ON, FEE_QUALIFIER),
+        currency: "GBP",
+        feeQualifier: FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-06-30",
+            teachingStarts: "2027-09-20",
+            status: "not-yet-open",
+            statusAsOf: ON,
+            campus: "Manchester",
+          },
+        ],
+        entryRequirement: stated(
+          "An upper second class honours degree or overseas equivalent in mechanical engineering or a closely related discipline.",
+          "Institution's admission pages",
+          ON,
+        ),
+        prerequisites: unknown(
+          "The programme page states a degree discipline rather than a list of named prerequisite modules.",
+        ),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated."),
+        campus: "Manchester",
+      },
+    ],
+    notChecked: [
+      "The current fee for the coming intake, which is set annually and which we have rounded.",
+      "Whether either programme requires ATAS. It is subject-dependent and it has to be read on the programme page, because the CAS waits for it.",
+    ],
+  },
+
+  {
+    slug: "university-of-leeds",
+    name: "University of Leeds",
+    destination: "united-kingdom",
+    city: "Leeds",
+    route: "Taught masters",
+    type: "public",
+    flagCode: "gb",
+    initials: "UoL",
+    summary:
+      "Another large Russell Group university outside London, with a broad taught postgraduate portfolio and a student city that is cheaper than Manchester on rent.",
+    commission: UK_COMMISSION,
+    highlights: {
+      established: stated(1904, "Institution's own history page", ON),
+      totalStudents: stated(39000, "Institution's published student statistics", ON),
+      internationalStudents: stated(
+        "Around a quarter of the student body",
+        "Institution's published student statistics",
+        ON,
+      ),
+      staffRatio: unknown("Published per faculty rather than institution-wide."),
+      acceptanceRate: unknown(
+        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+      ),
+      accreditation: stated(
+        "Recognised UK degree-awarding body, regulated by the Office for Students",
+        "Office for Students register",
+        ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2025,
+        rank: "Inside the world top 90",
+        scope: "World, all subjects",
+        source: "QS published tables",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: stated("6.0 to 6.5 overall, varying by programme", "Institution's admission pages", ON),
+        postgraduate: stated("6.5 overall with 6.0 in each component on most programmes", "Institution's admission pages", ON),
+      },
+      {
+        exam: "TOEFL iBT",
+        undergraduate: stated("87 to 92, varying by programme", "Institution's admission pages", ON),
+        postgraduate: stated("92 with section minimums on most programmes", "Institution's admission pages", ON),
+      },
+      {
+        exam: "GRE",
+        undergraduate: stated("Not required", "Institution's admission pages", ON),
+        postgraduate: stated("Not required by most taught programmes", "Institution's admission pages", ON),
+      },
+    ],
+    tuitionNote: stated(
+      "Full international tuition, set per programme. A deposit is normally required before the CAS is issued.",
+      "Institution's published fee schedule",
+      ON,
+    ),
+    costOfLivingCity: "manchester",
+    programmes: [
+      {
+        slug: "leeds-msc-data-science-analytics",
+        universitySlug: "university-of-leeds",
+        name: "MSc Data Science and Analytics",
+        level: "masters",
+        disciplines: ["Computer Science", "Data Science"],
+        durationMonths: 12,
+        feePerYear: stated(30000, "Institution's published international fee schedule", ON, FEE_QUALIFIER),
+        currency: "GBP",
+        feeQualifier: FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-06-30",
+            teachingStarts: "2027-09-27",
+            status: "not-yet-open",
+            statusAsOf: ON,
+            campus: "Leeds",
+          },
+        ],
+        entryRequirement: stated(
+          "An upper second class honours degree or overseas equivalent in a quantitative subject, with evidence of mathematics and programming.",
+          "Institution's admission pages",
+          ON,
+        ),
+        prerequisites: stated(["Mathematics", "Statistics", "Programming"], "Programme page", ON),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated on this one year programme."),
+        campus: "Leeds",
+      },
+      {
+        slug: "leeds-msc-engineering-management",
+        universitySlug: "university-of-leeds",
+        name: "MSc Engineering Management",
+        level: "masters",
+        disciplines: ["Engineering", "Business", "Management"],
+        durationMonths: 12,
+        feePerYear: stated(29000, "Institution's published international fee schedule", ON, FEE_QUALIFIER),
+        currency: "GBP",
+        feeQualifier: FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-06-30",
+            teachingStarts: "2027-09-27",
+            status: "not-yet-open",
+            statusAsOf: ON,
+            campus: "Leeds",
+          },
+        ],
+        entryRequirement: stated(
+          "An engineering or science honours degree at upper second class or overseas equivalent.",
+          "Institution's admission pages",
+          ON,
+        ),
+        prerequisites: unknown("A degree discipline is stated rather than named prerequisite modules."),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated."),
+        campus: "Leeds",
+      },
+    ],
+    notChecked: [
+      "The current fee for the coming intake.",
+      "Whether the data science programme requires a specific mathematics credit count rather than evidence of the subject.",
+    ],
+  },
+
+  {
+    slug: "university-of-glasgow",
+    name: "University of Glasgow",
+    destination: "united-kingdom",
+    city: "Glasgow",
+    route: "Taught masters",
+    type: "public",
+    flagCode: "gb",
+    initials: "UoG",
+    summary:
+      "An old Russell Group university in Scotland. The immigration rules are the same as the rest of the UK, the academic calendar and some course structures are not, and the rent is lower than either English city above.",
+    commission: UK_COMMISSION,
+    highlights: {
+      established: stated(1451, "Institution's own history page", ON),
+      totalStudents: stated(36000, "Institution's published student statistics", ON),
+      internationalStudents: stated(
+        "Around a third of the student body",
+        "Institution's published student statistics",
+        ON,
+      ),
+      staffRatio: unknown("Published per college rather than institution-wide."),
+      acceptanceRate: unknown(
+        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+      ),
+      accreditation: stated(
+        "Recognised UK degree-awarding body, regulated by the Scottish Funding Council",
+        "Scottish Funding Council register",
+        ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2025,
+        rank: "Inside the world top 80",
+        scope: "World, all subjects",
+        source: "QS published tables",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: stated("6.0 to 6.5 overall, varying by programme", "Institution's admission pages", ON),
+        postgraduate: stated("6.5 overall with no sub-test below 6.0 on most programmes", "Institution's admission pages", ON),
+      },
+      {
+        exam: "TOEFL iBT",
+        undergraduate: stated("79 to 90, varying by programme", "Institution's admission pages", ON),
+        postgraduate: stated("90 with section minimums", "Institution's admission pages", ON),
+      },
+      {
+        exam: "GRE",
+        undergraduate: stated("Not required", "Institution's admission pages", ON),
+        postgraduate: stated("Not required by most taught programmes", "Institution's admission pages", ON),
+      },
+    ],
+    tuitionNote: stated(
+      "Full international tuition, set per programme. Scotland's fee position for home students does not extend to international students, and the international fee here is comparable with England.",
+      "Institution's published fee schedule",
+      ON,
+    ),
+    costOfLivingCity: "manchester",
+    programmes: [
+      {
+        slug: "glasgow-msc-computing-science",
+        universitySlug: "university-of-glasgow",
+        name: "MSc Computing Science",
+        level: "masters",
+        disciplines: ["Computer Science"],
+        durationMonths: 12,
+        feePerYear: stated(30000, "Institution's published international fee schedule", ON, FEE_QUALIFIER),
+        currency: "GBP",
+        feeQualifier: FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-06-30",
+            teachingStarts: "2027-09-13",
+            status: "not-yet-open",
+            statusAsOf: ON,
+            campus: "Glasgow",
+          },
+          {
+            name: "January",
+            applicationDeadline: "2027-10-31",
+            teachingStarts: "2028-01-10",
+            status: "not-yet-open",
+            statusAsOf: ON,
+            campus: "Glasgow",
+          },
+        ],
+        entryRequirement: stated(
+          "A 2:1 honours degree or overseas equivalent. A conversion route exists for applicants without a computing background and it is a different programme.",
+          "Institution's admission pages",
+          ON,
+        ),
+        prerequisites: stated(["Programming", "Mathematics"], "Programme page", ON),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated."),
+        campus: "Glasgow",
+      },
+    ],
+    notChecked: [
+      "Whether the January intake runs for this programme in the year you are applying. Second intakes are added and withdrawn more often than main ones.",
+    ],
+  },
+
+  {
+    slug: "coventry-university",
+    name: "Coventry University",
+    destination: "united-kingdom",
+    city: "Coventry",
+    route: "Taught masters",
+    type: "public",
+    flagCode: "gb",
+    initials: "CU",
+    summary:
+      "A post-92 university with a materially lower fee, multiple intakes a year and a strong placement culture. It is on this list precisely because a catalogue that only shows expensive institutions is not a catalogue, it is a sales sheet.",
+    commission: UK_COMMISSION,
+    highlights: {
+      established: stated(1992, "Institution's own history page. University status; its predecessor dates from 1843.", ON),
+      totalStudents: stated(30000, "Institution's published student statistics", ON),
+      internationalStudents: stated(
+        "A large proportion, published as a headline figure rather than a rate",
+        "Institution's published student statistics",
+        ON,
+      ),
+      staffRatio: unknown(
+        "Not published in a form comparable with the other institutions on this catalogue, so printing it next to them would invite a comparison the figures do not support.",
+      ),
+      acceptanceRate: unknown(
+        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+      ),
+      accreditation: stated(
+        "Recognised UK degree-awarding body, regulated by the Office for Students",
+        "Office for Students register",
+        ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2025,
+        rank: "Outside the world top 500",
+        scope: "World, all subjects",
+        source: "QS published tables",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: stated("6.0 overall with 5.5 in each component on most programmes", "Institution's admission pages", ON),
+        postgraduate: stated("6.5 overall with 5.5 in each component on most programmes", "Institution's admission pages", ON),
+      },
+      {
+        exam: "TOEFL iBT",
+        undergraduate: stated("Accepted; thresholds stated per programme", "Institution's admission pages", ON),
+        postgraduate: stated("Accepted; thresholds stated per programme", "Institution's admission pages", ON),
+      },
+      {
+        exam: "GRE",
+        undergraduate: stated("Not required", "Institution's admission pages", ON),
+        postgraduate: stated("Not required", "Institution's admission pages", ON),
+      },
+    ],
+    tuitionNote: stated(
+      "Full international tuition at a substantially lower level than the Russell Group institutions above, with more than one intake a year on many programmes.",
+      "Institution's published fee schedule",
+      ON,
+    ),
+    costOfLivingCity: "smaller",
+    programmes: [
+      {
+        slug: "coventry-msc-data-science-computational-intelligence",
+        universitySlug: "coventry-university",
+        name: "MSc Data Science and Computational Intelligence",
+        level: "masters",
+        disciplines: ["Computer Science", "Data Science"],
+        durationMonths: 12,
+        feePerYear: stated(19000, "Institution's published international fee schedule", ON, FEE_QUALIFIER),
+        currency: "GBP",
+        feeQualifier: FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-07-31",
+            teachingStarts: "2027-09-20",
+            status: "not-yet-open",
+            statusAsOf: ON,
+            campus: "Coventry",
+          },
+          {
+            name: "January",
+            applicationDeadline: "2027-11-30",
+            teachingStarts: "2028-01-17",
+            status: "not-yet-open",
+            statusAsOf: ON,
+            campus: "Coventry",
+          },
+        ],
+        entryRequirement: stated(
+          "A second class honours degree or overseas equivalent in a computing, engineering or quantitative subject. The published threshold is lower than the Russell Group institutions above.",
+          "Institution's admission pages",
+          ON,
+        ),
+        prerequisites: unknown("A degree discipline is stated rather than named prerequisite modules."),
+        languageOfInstruction: "English",
+        placement: stated(
+          "A professional placement variant of this programme exists and extends the course",
+          "Programme page",
+          ON,
+        ),
+        campus: "Coventry",
+      },
+    ],
+    notChecked: [
+      "Whether the placement variant is open to international students on a Student visa for the coming intake, which is a visa question as well as an academic one.",
+    ],
+  },
+
+  {
+    slug: "queen-mary-london",
+    name: "Queen Mary University of London",
+    destination: "united-kingdom",
+    city: "London",
+    route: "Taught masters",
+    type: "public",
+    flagCode: "gb",
+    initials: "QMUL",
+    summary:
+      "A Russell Group university inside Greater London, which changes the maintenance requirement from GBP 1,171 to GBP 1,529 a month before a single rent figure is considered. That is a GBP 3,222 difference on a nine month calculation.",
+    commission: UK_COMMISSION,
+    highlights: {
+      established: stated(1885, "Institution's own history page. The date of its earliest constituent college.", ON),
+      totalStudents: stated(31000, "Institution's published student statistics", ON),
+      internationalStudents: stated(
+        "Around a third of the student body",
+        "Institution's published student statistics",
+        ON,
+      ),
+      staffRatio: unknown("Published per faculty rather than institution-wide."),
+      acceptanceRate: unknown(
+        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+      ),
+      accreditation: stated(
+        "Recognised UK degree-awarding body, regulated by the Office for Students",
+        "Office for Students register",
+        ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2025,
+        rank: "Inside the world top 130",
+        scope: "World, all subjects",
+        source: "QS published tables",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: stated("6.0 to 6.5 overall, varying by programme", "Institution's admission pages", ON),
+        postgraduate: stated("6.5 overall with 6.0 in each component on most programmes", "Institution's admission pages", ON),
+      },
+      {
+        exam: "TOEFL iBT",
+        undergraduate: stated("Accepted; thresholds stated per programme", "Institution's admission pages", ON),
+        postgraduate: stated("92 with section minimums on most programmes", "Institution's admission pages", ON),
+      },
+      {
+        exam: "GRE",
+        undergraduate: stated("Not required", "Institution's admission pages", ON),
+        postgraduate: stated("Not required by most taught programmes", "Institution's admission pages", ON),
+      },
+    ],
+    tuitionNote: stated(
+      "Full international tuition, plus the London maintenance requirement on the visa side. Both figures move together and both belong in the same calculation.",
+      "Institution's published fee schedule, and UKVI Appendix Finance",
+      ON,
+    ),
+    costOfLivingCity: "london",
+    programmes: [
+      {
+        slug: "qmul-msc-computer-science",
+        universitySlug: "queen-mary-london",
+        name: "MSc Computer Science",
+        level: "masters",
+        disciplines: ["Computer Science"],
+        durationMonths: 12,
+        feePerYear: stated(31000, "Institution's published international fee schedule", ON, FEE_QUALIFIER),
+        currency: "GBP",
+        feeQualifier: FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-07-31",
+            teachingStarts: "2027-09-20",
+            status: "not-yet-open",
+            statusAsOf: ON,
+            campus: "Mile End, London",
+          },
+        ],
+        entryRequirement: stated(
+          "A 2:1 honours degree or overseas equivalent. A conversion route exists for applicants from other disciplines and is a separate programme.",
+          "Institution's admission pages",
+          ON,
+        ),
+        prerequisites: stated(["Programming", "Mathematics"], "Programme page", ON),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated on this one year programme."),
+        campus: "Mile End, London",
+      },
+      {
+        slug: "qmul-msc-finance",
+        universitySlug: "queen-mary-london",
+        name: "MSc Finance",
+        level: "masters",
+        disciplines: ["Business", "Finance"],
+        durationMonths: 12,
+        feePerYear: stated(34000, "Institution's published international fee schedule", ON, FEE_QUALIFIER),
+        currency: "GBP",
+        feeQualifier: FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-06-30",
+            teachingStarts: "2027-09-20",
+            status: "not-yet-open",
+            statusAsOf: ON,
+            campus: "Mile End, London",
+          },
+        ],
+        entryRequirement: stated(
+          "A 2:1 honours degree or overseas equivalent, with quantitative content. Some finance programmes here state a mathematics requirement explicitly.",
+          "Institution's admission pages",
+          ON,
+        ),
+        prerequisites: stated(["Mathematics", "Statistics"], "Programme page", ON),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated."),
+        campus: "Mile End, London",
+      },
+    ],
+    notChecked: [
+      "Whether the finance programme asks for GMAT or GRE in the coming cycle. Finance programmes change this more often than others.",
+    ],
+  },
+];

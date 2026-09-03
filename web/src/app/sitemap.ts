@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { lastReviewed } from "@/content/site";
 import { guides } from "@/content/guides";
 import { legalDocuments } from "@/content/legal";
+import { catalogueScope, programmes, universities } from "@/content/catalogue";
 
 /**
  * Every public page, built from the same modules that render them, so a new
@@ -36,6 +37,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     at("/destinations", 0.9),
     ...guides.map((guide) =>
       at(`/destinations/${guide.slug}`, 0.9, new Date(guide.verification.statedOn)),
+    ),
+    at("/universities", 0.9, new Date(catalogueScope.statedOn)),
+    ...universities.map((university) =>
+      at(`/universities/${university.slug}`, 0.7, new Date(catalogueScope.statedOn)),
+    ),
+    ...programmes.map((programme) =>
+      at(
+        `/universities/${programme.universitySlug}/${programme.slug}`,
+        0.6,
+        new Date(catalogueScope.statedOn),
+      ),
     ),
     at("/tools", 0.8),
     ...tools.map((tool) => at(`/tools/${tool}`, 0.8)),
