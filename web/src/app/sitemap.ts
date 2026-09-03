@@ -3,6 +3,7 @@ import { lastReviewed } from "@/content/site";
 import { guides } from "@/content/guides";
 import { legalDocuments } from "@/content/legal";
 import { catalogueScope, programmes, universities } from "@/content/catalogue";
+import { articles } from "@/content/articles";
 
 /**
  * Every public page, built from the same modules that render them, so a new
@@ -49,6 +50,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
         new Date(catalogueScope.statedOn),
       ),
     ),
+    at("/our-numbers", 0.9),
+    at("/services", 0.9),
+    at("/guides", 0.8),
+    ...articles.map((article) => at(`/guides/${article.slug}`, 0.7, new Date(article.updatedOn))),
     at("/tools", 0.8),
     ...tools.map((tool) => at(`/tools/${tool}`, 0.8)),
     at("/zero-commission", 0.8),

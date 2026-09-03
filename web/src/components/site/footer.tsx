@@ -29,6 +29,9 @@ const columns = [
     heading: "What we publish",
     links: [
       { label: "Open Ledger", href: "/open-ledger" },
+      { label: "Our numbers, one source", href: "/our-numbers" },
+      { label: "Written guides", href: "/guides" },
+      { label: "Services and what we earn", href: "/services" },
       { label: "Zero commission list", href: "/zero-commission" },
       { label: "Anti fraud and documents", href: "/anti-fraud-policy" },
       { label: "How it works", href: "/#process" },

@@ -97,7 +97,19 @@ export const nav: NavItem[] = [
       { label: "Grade converters", href: "/tools/grade-converter", note: "Eight of them" },
     ],
   },
-  { label: "Open Ledger", href: "/open-ledger" },
+  {
+    label: "What we publish",
+    children: [
+      { label: "Open Ledger", href: "/open-ledger", note: "What we earn, per route" },
+      {
+        label: "Our numbers, one source",
+        href: "/our-numbers",
+        note: "Every figure, its source, its date",
+      },
+      { label: "Written guides", href: "/guides", note: "Six pieces, four filter axes" },
+      { label: "Services and what we earn", href: "/services", note: "Including where it is nothing" },
+    ],
+  },
   {
     label: "Policies",
     children: [
@@ -140,6 +152,25 @@ export const legalIdentity = {
     { label: "Grievance officer", value: null },
   ],
 };
+
+/**
+ * The channels a student can actually reach us on.
+ *
+ * WhatsApp is the channel this market runs on and we do not have a number yet,
+ * because a business number belongs to a registered entity. Rather than
+ * printing a personal number or, worse, a plausible looking one, the sticky
+ * contact control reads this: a null number renders the honest state and the
+ * consultation route, and the day a number exists it renders the button. The
+ * environment variable exists so that change is a deployment rather than a
+ * code change.
+ */
+export const channels = {
+  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? null,
+  whatsappMessage:
+    "Hello, I found Next Scholar online and I have a question about studying abroad.",
+  pending:
+    "A WhatsApp line goes live with the registered entity. Until then the consultation form is the only channel that reaches us, and it is read by a person rather than a queue.",
+} as const;
 
 export const contact = {
   status: "partial" as const,
