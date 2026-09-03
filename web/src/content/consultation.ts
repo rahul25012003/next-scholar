@@ -8,8 +8,39 @@ export const consultation = {
     "That assessment includes the recommendation nobody sells, which is that some applicants should not go abroad at all, or not this year.",
 };
 
+/**
+ * The intake, in three steps.
+ *
+ * The order matters more than the questions do. A country is a choice and
+ * discloses nothing; a transcript is a disclosure. Asking for the second before
+ * the first is how a form loses someone who was still deciding whether the site
+ * was worth their attention.
+ */
+export const intakeSteps = [
+  {
+    id: "where",
+    title: "Where",
+    blurb:
+      "A choice, not a disclosure. Nothing personal is asked on this step, and every country here has a full guide on this site you are welcome to read instead.",
+  },
+  {
+    id: "record",
+    title: "Your record",
+    blurb:
+      "Enough to rank destinations honestly. A gap or an arrear is workable when disclosed and fatal when discovered, so both are asked about directly.",
+  },
+  {
+    id: "money",
+    title: "Money and history",
+    blurb:
+      "The question that decides which routes are real, and the one about a previous consultant, which matters more than it sounds.",
+  },
+] as const;
+
 export type IntakeQuestion = {
   id: string;
+  /** Which of the three steps this question belongs to. */
+  step: 0 | 1 | 2;
   label: string;
   help?: string;
   type: "text" | "textarea" | "select" | "number";
@@ -22,6 +53,7 @@ export type IntakeQuestion = {
 export const intakeQuestions: IntakeQuestion[] = [
   {
     id: "academicBackground",
+    step: 1,
     label: "Academic background, with your percentage or CGPA",
     help: "Degree, discipline and institution, plus the number as it appears on your transcript.",
     type: "textarea",
@@ -30,6 +62,7 @@ export const intakeQuestions: IntakeQuestion[] = [
   },
   {
     id: "graduationYear",
+    step: 1,
     label: "Year of graduation, and an explanation of any gap since",
     help: "A gap is not a problem. An unexplained gap on a visa file is.",
     type: "textarea",
@@ -38,6 +71,7 @@ export const intakeQuestions: IntakeQuestion[] = [
   },
   {
     id: "englishTest",
+    step: 1,
     label: "English test status",
     help: "IELTS, PTE, TOEFL or Duolingo. Include the score and test date if you have taken it.",
     type: "textarea",
@@ -46,6 +80,7 @@ export const intakeQuestions: IntakeQuestion[] = [
   },
   {
     id: "budget",
+    step: 2,
     label: "Total year one budget, tuition and living combined",
     help: "The real number, including what family can contribute and what a loan would need to cover.",
     type: "text",
@@ -54,6 +89,7 @@ export const intakeQuestions: IntakeQuestion[] = [
   },
   {
     id: "targetIntake",
+    step: 0,
     label: "Target intake",
     type: "select",
     options: [
@@ -67,6 +103,7 @@ export const intakeQuestions: IntakeQuestion[] = [
   },
   {
     id: "priorConsultant",
+    step: 2,
     label: "Has another consultant already submitted an application for you?",
     help: "This matters more than it sounds. A duplicate application to the same university can sink both.",
     type: "select",

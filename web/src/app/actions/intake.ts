@@ -10,6 +10,10 @@ const intakeSchema = z.object({
   budget: z.string().trim().min(2, "A number, including what a loan would need to cover."),
   targetIntake: z.string().trim().min(2, "Pick an intake, or say it is not decided."),
   priorConsultant: z.string().trim().min(2, "Answer this one. A duplicate application can sink both."),
+  // Not decided yet is a legitimate answer to the first step, so this one is
+  // optional. A form that refuses to proceed until you have picked a country is
+  // a form that has decided for you.
+  destinations: z.string().trim().optional(),
 });
 
 export type IntakeState =

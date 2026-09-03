@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { CaretDown, List, X } from "@phosphor-icons/react";
+import { CaretDown, List, MagnifyingGlass, X } from "@phosphor-icons/react";
 import { nav, primaryCta, secondaryCta, site } from "@/content/site";
 import { ButtonLink } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
@@ -133,6 +133,13 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden items-center gap-2.5 lg:flex">
+          <Link
+            href="/search"
+            aria-label="Search this site"
+            className="grid h-11 w-11 place-items-center rounded-full text-ink-soft transition-colors hover:bg-surface hover:text-navy-900"
+          >
+            <MagnifyingGlass size={18} weight="bold" aria-hidden />
+          </Link>
           <ButtonLink href={secondaryCta.href} variant="outline">
             {secondaryCta.label}
           </ButtonLink>
@@ -191,6 +198,15 @@ export function SiteHeader() {
                       </Link>,
                     ],
               )}
+              <Link
+                href="/search"
+                onClick={() => setMobileOpen(false)}
+                className="mt-3 flex items-center gap-2 rounded-input border border-line-strong px-3 py-2.5 text-[1.0625rem] font-medium text-navy-900"
+              >
+                <MagnifyingGlass size={17} weight="bold" aria-hidden />
+                Search this site
+              </Link>
+
               <div className="mt-4 grid gap-2.5">
                 <ButtonLink
                   href={secondaryCta.href}

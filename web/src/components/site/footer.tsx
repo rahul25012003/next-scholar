@@ -35,6 +35,7 @@ const columns = [
       { label: "Zero commission list", href: "/zero-commission" },
       { label: "Anti fraud and documents", href: "/anti-fraud-policy" },
       { label: "How it works", href: "/#process" },
+      { label: "Search this site", href: "/search" },
       { label: "Student login", href: "/portal" },
     ],
   },

@@ -65,6 +65,8 @@ const PAGES = [
   "/cookies",
   "/refund-policy",
   "/non-affiliation",
+  "/search",
+  "/search?q=blocked+account",
   "/login",
   "/signup",
 ];
