@@ -11,7 +11,9 @@ that there cannot be one.
 
 ```
 web/                 the Next.js application
+docs/STATUS.md       what is built, what is open, and why each open item is open
 docs/AUDIT.md        the no-fabricated-data audit, and how to re-run it
+docs/BACKLOG.md      the numbered backlog the status page is measured against
 reference/           the source specification and the design reference image
 ```
 
@@ -21,8 +23,11 @@ reference/           the source specification and the design reference image
 cd web
 npm install
 npm run dev          # http://localhost:3000
-npm test             # 197 tests
+npm test             # 305 tests
+npm run lint
 npm run build
+npm start &          # the smoke check needs a running production build
+npm run smoke        # 52 routes, structure and route guards
 ```
 
 No environment variables are needed to run it. See `web/.env.example` for the
@@ -36,9 +41,43 @@ them.
 ## What is here
 
 **Marketing** (`/`, `/open-ledger`, `/zero-commission`, `/anti-fraud-policy`,
-`/book-consultation`). Design tokens are derived from the reference screenshot
-in `reference/design-reference.png`. Anything sampled by eye rather than pixel
-picked is flagged `[VERIFY]` in `web/src/app/globals.css`.
+`/book-consultation`, `/search`). Design tokens are derived from the reference
+screenshot in `reference/design-reference.png`. Anything sampled by eye rather
+than pixel picked is flagged `[VERIFY]` in `web/src/app/globals.css`.
+
+**Destination guides** (`/destinations`, `/destinations/[slug]`). Sixteen
+sections per country: tuition, cost of living, the money the visa authority
+wants to see, academic gates, language qualifications, intakes as dates, a
+timeline, the visa steps and document file, fees, insurance, arrival, work
+rights, post-study, what goes wrong, and questions. Every figure names the
+official body it came from; a banner at the top states plainly that nobody has
+re-checked the set at source.
+
+**The catalogue** (`/universities`, `/universities/[slug]`,
+`/universities/[slug]/[programme]`, `/shortlist`). Fifteen universities and
+thirty courses, seeded by hand. Every row carries what we earn if a student
+enrols there. A catalogue field has exactly two shapes in the type system, a
+value with its source and date or an absence with a stated reason, so a bare
+"not available" cannot be rendered because it cannot be represented.
+
+**Free tools** (`/tools` and six calculators). Requirements checklist, cost of
+living, the Modified Bavarian Formula, an ECTS credit check, the IELTS band
+rule and eight grade converters. Every one is ungated, shows its arithmetic,
+names its source, states its limits, and runs entirely in the browser.
+
+**Written guides** (`/guides`, `/guides/[slug]`). Six pieces on a four-axis
+taxonomy, with read time computed from the text. Two of them are corrections to
+figures this site published wrongly.
+
+**Trust and services** (`/our-numbers`, `/services`). Every published figure in
+one list, generated from the same modules the pages render from. And what each
+service costs you next to what we earn on it, including the six where the
+answer is nothing.
+
+**Legal** (`/privacy`, `/terms`, `/cookies`, `/refund-policy`,
+`/non-affiliation`). Each carries its review state at the top and lists its own
+gaps, because a policy for an entity that does not exist yet cannot pretend to
+be settled.
 
 **Sign in and sign up** (`/login`, `/signup`). Scrypt hashed passwords, signed
 httpOnly session cookies, a route guard in `proxy.ts`, and role based landing.
@@ -67,6 +106,14 @@ workload and assignment suggestion, deadlines across every case, retention
 state, commission verification status, the quarterly report, the agent
 governance table, the live audit trail, notification channel status, and the two
 actions a counselor cannot take alone: reassignment and closure.
+
+**Route smoke check** (`npm run smoke`). Fetches every public route against a
+running production build and asserts one h1, an alt attribute on every image, a
+caption on every table, no inline pixel widths, no empty interactive elements,
+and that the three authenticated surfaces redirect rather than render. It is in
+CI, and it caught a real regression the type checker could not: a helper
+exported from a `"use client"` module, called by server components, which a dev
+server hides by falling back to the loading skeleton.
 
 **Scheduled sweep** (`/api/sweep`, GET or POST). Runs detection across every
 case, queues what is new, escalates a reminder whose deadline has closed in,
