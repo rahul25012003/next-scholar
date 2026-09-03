@@ -1,0 +1,56 @@
+name: CI
+
+# Everything that was only ever run by hand. A pull request that breaks the
+# lint rules, the tests or the production build does not merge, which matters
+# most for the guardrail tests: they are the difference between "no fabricated
+# data" being a policy and it being a control.
+#
+# There is deliberately no standalone `tsc --noEmit` step. This version of
+# Next generates the typed-route definitions during the build, so on a clean
+# checkout tsc has no AppRoutes to check against and fails on every dynamic
+# page. The build runs the same type check with those types present, so it is
+# the one that counts, and it runs last because lint and tests fail faster.
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: web
+
+jobs:
+  check:
+    name: Lint, test, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+
+      # Type checks as part of the build. Built without
+      # NEXT_SCHOLAR_DEMO_DATA, so this also proves the production build
+      # withholds the synthetic fixtures rather than shipping them.
+      - name: Build
+        run: npm run build

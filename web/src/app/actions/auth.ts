@@ -1,6 +1,6 @@
 "use server";
 
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import {
   checkPasswordStrength,
@@ -12,6 +12,23 @@ import {
   SESSION_MAX_AGE_SECONDS,
 } from "@/domain/auth";
 import { authenticate, register } from "@/data/users";
+import { check, clientKey, policies } from "@/domain/rate-limit";
+
+/**
+ * Both auth actions do a real scrypt hash on every attempt, including for an
+ * address that has no account, which is what stops the response being usable to
+ * enumerate addresses. That same property makes an unthrottled endpoint a way
+ * to burn the CPU of every other request, so both are limited, and the limit
+ * counts attempts rather than failures: counting only failures would tell an
+ * attacker which attempts were right.
+ */
+async function withinRateLimit(): Promise<string | null> {
+  const key = clientKey(await headers());
+  const result = check(key, policies.auth);
+  if (result.allowed) return null;
+  const minutes = Math.max(1, Math.ceil(result.retryAfter / 60));
+  return `Too many attempts from this connection. Try again in ${minutes} minute${minutes === 1 ? "" : "s"}.`;
+}
 
 export type AuthResult =
   | { status: "idle" }
@@ -36,6 +53,9 @@ export async function signIn(
   _previous: AuthResult,
   formData: FormData,
 ): Promise<AuthResult> {
+  const throttled = await withinRateLimit();
+  if (throttled) return { status: "error", message: throttled };
+
   const email = String(formData.get("email") ?? "");
   const password = String(formData.get("password") ?? "");
 
@@ -57,6 +77,9 @@ export async function signUp(
   _previous: AuthResult,
   formData: FormData,
 ): Promise<AuthResult> {
+  const throttled = await withinRateLimit();
+  if (throttled) return { status: "error", message: throttled };
+
   const name = String(formData.get("name") ?? "").trim();
   const email = String(formData.get("email") ?? "");
   const password = String(formData.get("password") ?? "");

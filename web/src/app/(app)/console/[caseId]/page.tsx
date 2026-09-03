@@ -21,6 +21,7 @@ import { daysSince } from "@/domain/case";
 import { stages } from "@/content/process";
 import { checkCompleteness } from "@/domain/completeness";
 import { germanGates } from "@/domain/recognition";
+import { slaFor, slaLabel } from "@/domain/sla";
 import { routesFor } from "@/content/requirements";
 import { buildHandoverPacket } from "@/domain/counselor-ops";
 import { profileFromCase, proposeShortlist } from "@/domain/matching";
@@ -45,6 +46,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
   const agents = agentAvailability();
   const completeness = checkCompleteness(record);
   const gates = germanGates(record);
+  const sla = slaFor(record);
   const handover = buildHandoverPacket(record);
   const shortlist = proposeShortlist(profileFromCase(record));
   const threads = newestFirst(await listCommunications(record.id, actor));
@@ -150,6 +152,44 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
               description="The copilot writes. You send. It holds no send capability at all."
             >
               <Copilot caseId={record.id} />
+            </Panel>
+
+            <Panel
+              title="Service level"
+              description="Subtraction over timestamps already on the record. A clock that is not running says so rather than counting against anyone."
+            >
+              <ul className="divide-y divide-line">
+                {sla.map((check) => (
+                  <li key={check.id} className="flex flex-wrap gap-4 px-6 py-4">
+                    <span
+                      aria-hidden
+                      className={
+                        check.state === "breached"
+                          ? "mt-1.5 h-2 w-2 shrink-0 rounded-full bg-denied"
+                          : check.state === "due"
+                            ? "mt-1.5 h-2 w-2 shrink-0 rounded-full bg-pending"
+                            : check.state === "within"
+                              ? "mt-1.5 h-2 w-2 shrink-0 rounded-full bg-verified"
+                              : "mt-1.5 h-2 w-2 shrink-0 rounded-full bg-line-strong"
+                      }
+                    />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+                        <p className="text-[0.9375rem] font-medium text-navy-900">
+                          {check.label}
+                        </p>
+                        <p className="figures text-[0.8125rem] text-body">{check.actual}</p>
+                      </div>
+                      <p className="mt-1 text-[0.875rem] leading-relaxed text-body">
+                        {check.detail}
+                      </p>
+                      <p className="mt-1 text-[0.75rem] text-muted">
+                        Target: {check.target}. {slaLabel[check.state]}.
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </Panel>
 
             {gates.length > 0 && (

@@ -3,7 +3,12 @@ import "server-only";
 import type { LogEntry, StudentCase } from "@/domain/case";
 import { can, visibleCases, type Action, type Actor } from "@/domain/rbac";
 import { record as recordAudit } from "@/domain/audit";
-import { withdraw, type ChannelConsent, type ConsentRecord } from "@/domain/consent";
+import {
+  withdraw,
+  type ChannelConsent,
+  type ConsentRecord,
+  type ContactChannel,
+} from "@/domain/consent";
 import {
   escalateOpen,
   planNotifications,
@@ -444,6 +449,58 @@ export async function listChannelConsents(
   const record = await getCase(caseId, actor);
   if (!record) return [];
   return channelConsents.filter((consent) => consent.caseId === caseId);
+}
+
+/**
+ * Opting a channel back on.
+ *
+ * Only the student whose case it is may do this. A counsellor cannot grant
+ * consent to message someone on the student's behalf, which is the whole point
+ * of recording it: the notification planner fails closed on a missing opt in,
+ * and a staff member who could add one could route around that.
+ *
+ * A previous withdrawal is left in place rather than edited, and a new record
+ * is written, because the fact that consent was once withdrawn is part of the
+ * audit answer.
+ */
+export async function grantChannelConsent(
+  caseId: string,
+  channel: ContactChannel,
+  actor: Actor,
+): Promise<ChannelConsent | null> {
+  const record = await getCase(caseId, actor);
+  if (!record) return null;
+  if (actor.role !== "student" || actor.caseId !== caseId) return null;
+
+  const live = channelConsents.find(
+    (consent) =>
+      consent.caseId === caseId &&
+      consent.channel === channel &&
+      consent.withdrawnAt === null,
+  );
+  if (live) return live;
+
+  const granted: ChannelConsent = {
+    id: `chan-${channel}-${Date.now()}`,
+    caseId,
+    channel,
+    grantedAt: new Date().toISOString(),
+    grantedBy: actor.name,
+    withdrawnAt: null,
+  };
+  channelConsents = [...channelConsents, granted];
+
+  recordAudit({
+    actorId: actor.id,
+    actorName: actor.name,
+    actorRole: actor.role,
+    action: "grant-consent",
+    subjectType: "consent",
+    subjectId: granted.id,
+    note: `Contact channel opted in: ${channel}`,
+  });
+
+  return granted;
 }
 
 export async function withdrawChannelConsent(

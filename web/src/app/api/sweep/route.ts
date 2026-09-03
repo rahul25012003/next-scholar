@@ -1,4 +1,5 @@
 import { syncNotifications } from "@/data/store";
+import { check, clientKey, policies } from "@/domain/rate-limit";
 
 /**
  * The scheduled sweep. A cron hits this, it runs detection across every case,
@@ -20,6 +21,16 @@ export async function GET(request: Request): Promise<Response> {
 }
 
 export async function POST(request: Request): Promise<Response> {
+  // Throttled ahead of the secret check, so a wrong secret cannot be retried in
+  // a loop. A cron calls this once a day; six an hour is already generous.
+  const limit = check(clientKey(request.headers), policies.sweep);
+  if (!limit.allowed) {
+    return Response.json(
+      { ran: false, reason: "Rate limited." },
+      { status: 429, headers: { "Retry-After": String(limit.retryAfter) } },
+    );
+  }
+
   const configured = process.env.SWEEP_SECRET;
 
   if (!configured) {

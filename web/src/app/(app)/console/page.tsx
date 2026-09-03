@@ -9,6 +9,8 @@ import { byPriority, detectEvents } from "@/domain/events";
 import { daysSince } from "@/domain/case";
 import type { Priority } from "@/domain/case";
 import { assessRisk, RISK_DISCLAIMER } from "@/domain/risk";
+import { slaLabel, worstSla, type SlaState } from "@/domain/sla";
+import { stages } from "@/content/process";
 
 export const metadata: Metadata = { title: "Counselor console" };
 
@@ -21,36 +23,86 @@ const priorityTone: Record<Priority, string> = {
 /** Reads live case state per request. Never a build time snapshot. */
 export const dynamic = "force-dynamic";
 
-export default async function ConsolePage() {
+const rank: Record<Priority, number> = { Urgent: 0, High: 1, Normal: 2 };
+const slaRank: Record<SlaState, number> = {
+  breached: 0,
+  due: 1,
+  within: 2,
+  "not-applicable": 3,
+};
+
+/**
+ * Sort options, each stating what it orders by. The default is the one a
+ * counsellor actually needs on opening the page, and it is named rather than
+ * being an unexplained "smart" order.
+ */
+const sorts = [
+  { key: "priority", label: "Priority, then how long it has been stuck" },
+  { key: "sla", label: "Service level, worst first" },
+  { key: "stuck", label: "Longest without moving" },
+  { key: "open", label: "Most open items" },
+  { key: "name", label: "Student name, A to Z" },
+];
+
+export default async function ConsolePage(props: PageProps<"/console">) {
   const actor = await currentActor();
   if (!actor) redirect("/login");
   if (actor.role === "student") redirect("/portal");
 
+  const params = await props.searchParams;
+  const text = (key: string) => (typeof params[key] === "string" ? params[key] : "");
+  const query = text("q").trim().toLowerCase();
+  const stageFilter = text("stage");
+  const priorityFilter = text("priority");
+  const slaFilter = text("sla");
+  const sort = text("sort") || "priority";
+
   const mine = await listCases(actor);
   const { teamAverage } = await caseloadStats(actor);
 
-  const rows = mine
-    .map((record) => {
-      const events = detectEvents(record).sort(byPriority);
-      return {
-        record,
-        events,
-        risk: assessRisk(record),
-        stuckFor: daysSince(record.stageUpdatedAt),
-      };
+  const all = mine.map((record) => ({
+    record,
+    events: detectEvents(record).sort(byPriority),
+    risk: assessRisk(record),
+    stuckFor: daysSince(record.stageUpdatedAt),
+    sla: worstSla(record),
+  }));
+
+  const rows = all
+    .filter(({ record, sla }) => {
+      if (query) {
+        const haystack = [record.name, record.destination, record.route ?? "", record.intake]
+          .join(" ")
+          .toLowerCase();
+        if (!haystack.includes(query)) return false;
+      }
+      if (stageFilter && record.stage !== stageFilter) return false;
+      if (priorityFilter && record.priority !== priorityFilter) return false;
+      if (slaFilter && sla !== slaFilter) return false;
+      return true;
     })
     .sort((a, b) => {
-      const rank: Record<Priority, number> = { Urgent: 0, High: 1, Normal: 2 };
+      if (sort === "sla") {
+        return (
+          slaRank[a.sla] - slaRank[b.sla] ||
+          rank[a.record.priority] - rank[b.record.priority]
+        );
+      }
+      if (sort === "stuck") return b.stuckFor - a.stuckFor;
+      if (sort === "open") return b.events.length - a.events.length;
+      if (sort === "name") return a.record.name.localeCompare(b.record.name);
       const byRank = rank[a.record.priority] - rank[b.record.priority];
       return byRank !== 0 ? byRank : b.stuckFor - a.stuckFor;
     });
 
-  const followUps = rows
+  const filtered = rows.length !== all.length;
+
+  const followUps = all
     .flatMap((row) => row.events)
     .filter((event) => event.audience === "counselor" && event.type !== "escalation")
     .sort(byPriority);
 
-  const escalations = rows
+  const escalations = all
     .flatMap((row) => row.events)
     .filter((event) => event.type === "escalation" || event.audience === "manager");
 
@@ -92,19 +144,120 @@ export default async function ConsolePage() {
 
         <Panel
           title="Cases assigned to you"
-          description="Sorted by priority, then by how long a case has sat without moving."
+          description={`${sorts.find((option) => option.key === sort)?.label}. Filtering changes this table only: the follow up and escalation counts above always read your whole caseload.`}
+          action={
+            <form method="get" action="/console" className="flex flex-wrap items-end gap-2">
+              <label className="block">
+                <span className="block text-[0.6875rem] text-muted">Search</span>
+                <input
+                  name="q"
+                  defaultValue={query}
+                  placeholder="Name, route or intake"
+                  className="mt-1 w-44 rounded-input border border-line-strong px-2.5 py-1.5 text-[0.8125rem] text-navy-900"
+                />
+              </label>
+              <label className="block">
+                <span className="block text-[0.6875rem] text-muted">Stage</span>
+                <select
+                  name="stage"
+                  defaultValue={stageFilter}
+                  className="mt-1 rounded-input border border-line-strong bg-paper px-2.5 py-1.5 text-[0.8125rem] text-navy-900"
+                >
+                  <option value="">Any</option>
+                  {stages.map((stage) => (
+                    <option key={stage.key} value={stage.key}>
+                      {stage.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="block">
+                <span className="block text-[0.6875rem] text-muted">Priority</span>
+                <select
+                  name="priority"
+                  defaultValue={priorityFilter}
+                  className="mt-1 rounded-input border border-line-strong bg-paper px-2.5 py-1.5 text-[0.8125rem] text-navy-900"
+                >
+                  <option value="">Any</option>
+                  {["Urgent", "High", "Normal"].map((value) => (
+                    <option key={value} value={value}>
+                      {value}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="block">
+                <span className="block text-[0.6875rem] text-muted">Service level</span>
+                <select
+                  name="sla"
+                  defaultValue={slaFilter}
+                  className="mt-1 rounded-input border border-line-strong bg-paper px-2.5 py-1.5 text-[0.8125rem] text-navy-900"
+                >
+                  <option value="">Any</option>
+                  {(["breached", "due", "within", "not-applicable"] as SlaState[]).map(
+                    (value) => (
+                      <option key={value} value={value}>
+                        {slaLabel[value]}
+                      </option>
+                    ),
+                  )}
+                </select>
+              </label>
+              <label className="block">
+                <span className="block text-[0.6875rem] text-muted">Order by</span>
+                <select
+                  name="sort"
+                  defaultValue={sort}
+                  className="mt-1 rounded-input border border-line-strong bg-paper px-2.5 py-1.5 text-[0.8125rem] text-navy-900"
+                >
+                  {sorts.map((option) => (
+                    <option key={option.key} value={option.key}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <button
+                type="submit"
+                className="rounded-full bg-blue-600 px-4 py-2 text-[0.8125rem] font-medium text-white transition-colors hover:bg-blue-500"
+              >
+                Apply
+              </button>
+              {filtered && (
+                <Link
+                  href="/console"
+                  className="px-1 py-2 text-[0.8125rem] font-medium text-muted hover:text-blue-600"
+                >
+                  Clear
+                </Link>
+              )}
+            </form>
+          }
         >
           {rows.length === 0 ? (
             <EmptyState
-              headline="No cases assigned"
-              body="Your caseload is empty. Nothing has been generated to fill the table."
+              headline={filtered ? "Nothing matches those filters" : "No cases assigned"}
+              body={
+                filtered
+                  ? `You have ${all.length} case${all.length === 1 ? "" : "s"}, and none of them matches. Clear the filters to see the rest.`
+                  : "Your caseload is empty. Nothing has been generated to fill the table."
+              }
             />
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full min-w-[52rem] border-collapse text-left">
                 <thead>
                   <tr className="border-b border-line">
-                    {["Student", "Route", "Stage", "Documents", "Open items", "Risk", ""].map(
+                    {[
+                      "Student",
+                      "Route",
+                      "Stage",
+                      "Documents",
+                      "Service level",
+                      "Open items",
+                      "Risk",
+                      "",
+                    ].map(
                       (heading) => (
                         <th
                           key={heading}
@@ -118,7 +271,7 @@ export default async function ConsolePage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {rows.map(({ record, events, risk, stuckFor }) => (
+                  {rows.map(({ record, events, risk, stuckFor, sla }) => (
                     <tr key={record.id} className="border-b border-line last:border-b-0">
                       <td className="px-6 py-4">
                         <p className="text-[0.9375rem] font-medium text-navy-900">
@@ -137,9 +290,15 @@ export default async function ConsolePage() {
                       </td>
                       <td className="px-6 py-4 text-[0.875rem] text-body">
                         {record.destination}
+                        {record.route ? `, ${record.route}` : ""}
                         <span className="mt-0.5 block text-[0.8125rem] text-muted">
                           {record.intake}
                         </span>
+                        {!record.route && (
+                          <span className="mt-1 inline-block rounded-input bg-pending-bg px-2 py-0.5 text-[0.6875rem] font-medium text-pending">
+                            No route set
+                          </span>
+                        )}
                       </td>
                       <td className="px-6 py-4 text-[0.875rem] capitalize text-body">
                         {record.stage.replace("-", " ")}
@@ -149,6 +308,21 @@ export default async function ConsolePage() {
                       </td>
                       <td className="px-6 py-4 text-[0.875rem] text-body">
                         {record.docStatus}
+                      </td>
+                      <td className="px-6 py-4">
+                        <span
+                          className={
+                            sla === "breached"
+                              ? "rounded-input bg-denied-bg px-2.5 py-1 text-[0.6875rem] font-medium text-denied"
+                              : sla === "due"
+                                ? "rounded-input bg-pending-bg px-2.5 py-1 text-[0.6875rem] font-medium text-pending"
+                                : sla === "within"
+                                  ? "rounded-input bg-verified-bg px-2.5 py-1 text-[0.6875rem] font-medium text-verified"
+                                  : "rounded-input bg-neutral-chip-bg px-2.5 py-1 text-[0.6875rem] font-medium text-neutral-chip"
+                          }
+                        >
+                          {slaLabel[sla]}
+                        </span>
                       </td>
                       <td className="figures px-6 py-4 text-[0.875rem] text-navy-900">
                         {events.length}

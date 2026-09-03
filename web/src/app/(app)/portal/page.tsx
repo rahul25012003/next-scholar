@@ -13,12 +13,14 @@ import { findById } from "@/data/users";
 import {
   getCase,
   listCommunications,
+  listChannelConsents,
   listConsents,
   listNotifications,
 } from "@/data/store";
 import { AskGuidance } from "@/components/app/ask-guidance";
 import { SopCoach } from "@/components/app/sop-coach";
 import { ConsentList } from "@/components/app/consent-list";
+import { ChannelPreferences } from "@/components/app/channel-preferences";
 import { redirect } from "next/navigation";
 import { currentActor } from "@/domain/session";
 import { can } from "@/domain/rbac";
@@ -76,6 +78,7 @@ export default async function PortalPage() {
   const currentStage = stages[currentIndex];
   const consents = await listConsents(record.id, actor);
   const notifications = await listNotifications(record.id, actor);
+  const channelConsents = await listChannelConsents(record.id, actor);
   const threads = studentVisible(await listCommunications(record.id, actor));
 
   return (
@@ -349,6 +352,13 @@ export default async function PortalPage() {
             ) : (
               <ConsentList consents={consents} />
             )}
+          </Panel>
+
+          <Panel
+            title="How we may contact you"
+            description="The permission, recorded per channel. The notification planner refuses to queue a message on a channel with no live opt in, so turning one off actually stops messages rather than filtering them."
+          >
+            <ChannelPreferences caseId={record.id} consents={channelConsents} />
           </Panel>
 
           <Panel

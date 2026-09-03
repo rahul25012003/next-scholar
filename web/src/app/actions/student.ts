@@ -2,7 +2,13 @@
 
 import { currentActor } from "@/domain/session";
 
-import { getCase } from "@/data/store";
+import {
+  getCase,
+  grantChannelConsent,
+  listChannelConsents,
+  withdrawChannelConsent,
+} from "@/data/store";
+import { revalidatePath } from "next/cache";
 import { answerStudentQuestion, coachStatement } from "@/domain/agents/implementations";
 import { record as recordAudit } from "@/domain/audit";
 
@@ -115,4 +121,69 @@ export async function coachSop(
   }
 
   return { status: "unavailable", message: `${run.reason} ${run.fallback}` };
+}
+
+export type ChannelResult =
+  | { status: "idle" }
+  | { status: "changed"; message: string }
+  | { status: "error"; message: string };
+
+/**
+ * A student changing their own contact preferences.
+ *
+ * The actor comes from the session and the case is checked against it, so a
+ * submitted case id cannot move someone else's consent. A staff account is
+ * refused outright: the notification planner fails closed on a missing opt in,
+ * and a counsellor who could add one on a student's behalf would be routing
+ * around exactly the control that makes the failure closed.
+ */
+export async function setChannelPreference(
+  _previous: ChannelResult,
+  formData: FormData,
+): Promise<ChannelResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+  if (actor.role !== "student") {
+    return {
+      status: "error",
+      message:
+        "Only the student can change their own contact preferences. That is deliberate: consent a counsellor could add on someone's behalf is not consent.",
+    };
+  }
+
+  const caseId = String(formData.get("caseId") ?? "");
+  if (!caseId || caseId !== actor.caseId) {
+    return { status: "error", message: "That case is not yours." };
+  }
+
+  const channel = String(formData.get("channel") ?? "");
+  if (channel !== "email" && channel !== "whatsapp") {
+    return { status: "error", message: "Unknown channel." };
+  }
+
+  const turningOn = String(formData.get("on") ?? "") === "on";
+
+  if (turningOn) {
+    const granted = await grantChannelConsent(caseId, channel, actor);
+    if (!granted) return { status: "error", message: "That could not be recorded." };
+    revalidatePath("/portal");
+    return {
+      status: "changed",
+      message: `${channel === "email" ? "Email" : "WhatsApp"} is on. The opt in is timestamped against your name.`,
+    };
+  }
+
+  const live = (await listChannelConsents(caseId, actor)).find(
+    (consent) => consent.channel === channel && consent.withdrawnAt === null,
+  );
+  if (!live) {
+    return { status: "changed", message: "That channel was already off." };
+  }
+
+  await withdrawChannelConsent(live.id, actor);
+  revalidatePath("/portal");
+  return {
+    status: "changed",
+    message: `${channel === "email" ? "Email" : "WhatsApp"} is off. The withdrawal is stamped rather than deleted, because the fact that consent once existed is part of the audit answer.`,
+  };
 }
