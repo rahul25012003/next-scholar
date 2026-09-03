@@ -4,9 +4,13 @@ What has been implemented against `BACKLOG.md`, what is still open, and why each
 open item is open. The backlog itself is left unedited so the two can be read
 against each other.
 
+**132 of 207 backlog items done, 75 open.** Of the 75, 18 are blocked on
+something outside this repository and 57 are not. `REMAINING.md` breaks all 75
+down with what unblocks each and where it goes.
+
 Verified at the point of writing: `npm test` 305 passing, `npm run lint` clean,
-`npm run build` clean, `npm run smoke` 52 routes clean against a production
-build.
+`npm run build` clean across 44 routes, `npm run smoke` 52 routes clean against
+a production build.
 
 ---
 
@@ -86,6 +90,7 @@ build.
 | ID | Item |
 |---|---|
 | 5.02 | Content hub, four filter axes, read time computed, updated dates |
+| 5.14 | The four axes themselves: destination, topic, service, journey stage |
 | 5.03 | "Our numbers, one source", generated from the content modules |
 | 5.04 | FAQ accordions |
 | 5.05 | Table-of-contents jump lists |

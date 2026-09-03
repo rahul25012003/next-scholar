@@ -11,7 +11,8 @@ that there cannot be one.
 
 ```
 web/                 the Next.js application
-docs/STATUS.md       what is built, what is open, and why each open item is open
+docs/STATUS.md       what is built, and the correction record
+docs/REMAINING.md    every open item, what unblocks it, and where it goes
 docs/AUDIT.md        the no-fabricated-data audit, and how to re-run it
 docs/BACKLOG.md      the numbered backlog the status page is measured against
 reference/           the source specification and the design reference image
