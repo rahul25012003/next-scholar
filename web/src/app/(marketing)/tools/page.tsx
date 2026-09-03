@@ -11,6 +11,7 @@ import {
 } from "@phosphor-icons/react/ssr";
 import { PageHero } from "@/components/marketing/page-hero";
 import { Reveal } from "@/components/ui/reveal";
+import { staggerDelay } from "@/lib/stagger";
 import { Accordion } from "@/components/ui/accordion";
 
 export const metadata: Metadata = {
@@ -120,10 +121,10 @@ export default function ToolsPage() {
           {tools.map((tool, index) => {
             const Icon = tool.icon;
             return (
-              <Reveal key={tool.href} delay={index * 0.05}>
+              <Reveal key={tool.href} delay={staggerDelay(index, 0.05)}>
                 <Link
                   href={tool.href}
-                  className="group flex h-full flex-col rounded-panel border border-line bg-paper p-7 shadow-card transition-shadow duration-300 hover:shadow-lift"
+                  className="card-lift group flex h-full flex-col rounded-panel border border-line bg-paper p-7 shadow-card"
                 >
                   <span
                     aria-hidden

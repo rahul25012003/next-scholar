@@ -8,6 +8,7 @@ import { photos, photoUrl } from "@/content/photos";
 import { PageHero } from "@/components/marketing/page-hero";
 import { StatusChip } from "@/components/ui/chip";
 import { Reveal } from "@/components/ui/reveal";
+import { staggerDelay } from "@/lib/stagger";
 
 export const metadata: Metadata = {
   title: "Destinations",
@@ -55,10 +56,10 @@ export default function DestinationsIndexPage() {
             const funds = guide.funds[0];
 
             return (
-              <Reveal key={guide.slug} delay={index * 0.06}>
+              <Reveal key={guide.slug} delay={staggerDelay(index, 0.06)}>
                 <Link
                   href={`/destinations/${guide.slug}`}
-                  className="group flex h-full flex-col overflow-hidden rounded-panel border border-line bg-paper shadow-card transition-shadow duration-300 hover:shadow-lift"
+                  className="card-lift group flex h-full flex-col overflow-hidden rounded-panel border border-line bg-paper shadow-card"
                 >
                   <div className="relative h-40 overflow-hidden">
                     <Image

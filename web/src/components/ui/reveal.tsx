@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
+import { staggerDelay } from "@/lib/stagger";
 
 /**
  * Entry motion, used only where sequence carries meaning: a heading arriving
@@ -47,7 +48,7 @@ export function RevealGroup({
   return (
     <div className={className}>
       {children.map((child, index) => (
-        <Reveal key={index} delay={index * step}>
+        <Reveal key={index} delay={staggerDelay(index, step)}>
           {child}
         </Reveal>
       ))}

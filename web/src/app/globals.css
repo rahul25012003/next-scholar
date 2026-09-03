@@ -88,6 +88,10 @@
     font-size: 1rem;
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
+    /* A single long token, a reference number or a formula, must wrap rather
+       than widen the page. At 390px this is the difference between a readable
+       column and a document that scrolls sideways. */
+    overflow-wrap: break-word;
   }
 
   h1,
@@ -145,6 +149,23 @@
     padding-block: 4.5rem;
   }
 
+  /* One hover treatment for every card surface on the site.
+     It used to exist only on the destination cards, so a catalogue row and a
+     tool card lifted differently from a country card on the same page. */
+  .card-lift {
+    transition:
+      box-shadow 0.3s ease-out,
+      border-color 0.2s ease-out,
+      transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @media (hover: hover) {
+    .card-lift:hover {
+      box-shadow: var(--shadow-lift);
+      transform: translateY(-2px);
+    }
+  }
+
   @media (min-width: 768px) {
     .band {
       padding-block: 6.5rem;
@@ -162,5 +183,100 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+
+/*
+  Print.
+
+  The Open Ledger, the quarterly outcomes report and the destination guides get
+  printed and taken into conversations with parents and lenders, which is the
+  whole point of publishing figures nobody else does. So the printed page keeps
+  the figures and the sources, and drops the parts that only work on a screen.
+
+  A URL is expanded after every link, because a printed page that says "the
+  full guide" and does not say where is a dead end on paper.
+*/
+@media print {
+  :root {
+    color-scheme: light;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+    font-size: 11pt;
+    line-height: 1.4;
+  }
+
+  /* Screen furniture. None of it means anything on paper. */
+  header[class*="sticky"],
+  nav[aria-label="University sections"],
+  nav[aria-label="On this page"],
+  nav[aria-label="Legal"],
+  footer,
+  form,
+  details > summary,
+  [data-print="hide"] {
+    display: none !important;
+  }
+
+  .band {
+    padding-block: 1rem;
+  }
+
+  .shell {
+    max-width: none;
+    padding-inline: 0;
+  }
+
+  /* Everything opens, so a printed page is not a page of closed accordions. */
+  details {
+    display: block !important;
+  }
+
+  details > *:not(summary) {
+    display: revert !important;
+  }
+
+  /* A source or a verification date must not be orphaned from its figure. */
+  table,
+  figure,
+  li,
+  dl > div {
+    break-inside: avoid;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+
+  /* Wide tables print in full rather than clipped at the scroller's edge. */
+  [class*="overflow-x-auto"] {
+    overflow: visible !important;
+  }
+
+  table[class*="min-w-"] {
+    min-width: 0 !important;
+    font-size: 9pt;
+  }
+
+  a[href^="/"]::after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    color: #444;
+  }
+
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    color: #444;
   }
 }

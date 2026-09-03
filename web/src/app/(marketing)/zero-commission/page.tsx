@@ -3,6 +3,7 @@ import Image from "next/image";
 import { CheckCircle, Clock } from "@phosphor-icons/react/ssr";
 import { PageHero } from "@/components/marketing/page-hero";
 import { Reveal } from "@/components/ui/reveal";
+import { staggerDelay } from "@/lib/stagger";
 import { ButtonLink } from "@/components/ui/button";
 import {
   selfApplySteps,
@@ -29,7 +30,7 @@ export default function ZeroCommissionPage() {
         <div className="shell">
           <div className="grid gap-5 lg:grid-cols-3">
             {zeroCommissionEntries.map((entry, index) => (
-              <Reveal key={entry.destination + entry.headline} delay={index * 0.07}>
+              <Reveal key={entry.destination + entry.headline} delay={staggerDelay(index, 0.07)}>
                 <article className="flex h-full flex-col rounded-panel border border-line bg-paper p-7 shadow-card">
                   <div className="flex items-center gap-3">
                     <Image
@@ -87,7 +88,7 @@ export default function ZeroCommissionPage() {
 
           <ol className="mt-12 grid gap-x-10 gap-y-8 md:grid-cols-2 lg:grid-cols-3">
             {selfApplySteps.map((step, index) => (
-              <Reveal key={step.title} delay={index * 0.05} as="li">
+              <Reveal key={step.title} delay={staggerDelay(index, 0.05)} as="li">
                 <div className="border-t border-line-strong pt-5">
                   <h3 className="font-display text-[1.0625rem] font-bold leading-snug text-navy-900">
                     {step.title}

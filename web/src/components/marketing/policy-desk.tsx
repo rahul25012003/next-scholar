@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Sparkle } from "@phosphor-icons/react/ssr";
 import { policyDesk } from "@/content/destinations";
 import { Reveal } from "@/components/ui/reveal";
+import { staggerDelay } from "@/lib/stagger";
 
 /**
  * The policy desk.
@@ -30,7 +31,7 @@ export function PolicyDesk() {
 
         <div className="mt-12 grid gap-px overflow-hidden rounded-panel bg-line md:grid-cols-2">
           {policyDesk.map((note, index) => (
-            <Reveal key={note.title} delay={Math.min(index, 3) * 0.07}>
+            <Reveal key={note.title} delay={staggerDelay(index, 0.07)}>
               <article className="flex h-full flex-col bg-paper p-7">
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
                   <p className="text-[0.8125rem] font-semibold text-blue-600">

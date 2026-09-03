@@ -54,3 +54,16 @@ jobs:
       # withholds the synthetic fixtures rather than shipping them.
       - name: Build
         run: npm run build
+
+      # Starts the built server and walks every public route. It exists because
+      # it caught a real regression that both the type check and the dev server
+      # missed: a helper exported from a "use client" module, called by server
+      # components, which dev hides by falling back to the loading skeleton.
+      - name: Smoke check every route
+        run: |
+          npm start &
+          for i in $(seq 1 30); do
+            if curl -sf -o /dev/null http://localhost:3000/; then break; fi
+            sleep 1
+          done
+          npm run smoke

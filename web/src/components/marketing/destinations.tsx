@@ -4,6 +4,7 @@ import { destinations } from "@/content/destinations";
 import { photos, photoUrl } from "@/content/photos";
 import { StatusChip } from "@/components/ui/chip";
 import { Reveal } from "@/components/ui/reveal";
+import { staggerDelay } from "@/lib/stagger";
 
 /**
  * A destination card leads with the place, so the country registers before a
@@ -34,8 +35,8 @@ export function Destinations() {
             const photo = photos.destinations[row.slug];
 
             return (
-              <Reveal key={row.slug} delay={index * 0.06}>
-                <article className="group flex h-full flex-col overflow-hidden rounded-panel border border-line bg-paper shadow-card transition-shadow duration-300 hover:shadow-lift">
+              <Reveal key={row.slug} delay={staggerDelay(index, 0.06)}>
+                <article className="card-lift group flex h-full flex-col overflow-hidden rounded-panel border border-line bg-paper shadow-card">
                   <div className="relative h-44 overflow-hidden">
                     <Image
                       src={photoUrl(photo, 900, 500)}

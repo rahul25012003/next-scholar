@@ -7,6 +7,7 @@ import {
 } from "@phosphor-icons/react/ssr";
 import { dayOneFigures } from "@/content/outcomes";
 import { Reveal } from "@/components/ui/reveal";
+import { staggerDelay } from "@/lib/stagger";
 import { cn } from "@/lib/cn";
 
 const icons = [GlobeHemisphereWest, ListChecks, HandCoins, Clock, Receipt];
@@ -38,7 +39,7 @@ export function DayOneFigures() {
           {dayOneFigures.map((figure, index) => {
             const Icon = icons[index];
             return (
-              <Reveal key={figure.label} delay={index * 0.06}>
+              <Reveal key={figure.label} delay={staggerDelay(index, 0.06)}>
                 <div className="text-center">
                   <span
                     className={cn(

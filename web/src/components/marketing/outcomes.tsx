@@ -1,5 +1,6 @@
 import { outcomeMetrics, reportingRules } from "@/content/outcomes";
 import { Reveal } from "@/components/ui/reveal";
+import { staggerDelay } from "@/lib/stagger";
 
 export function Outcomes() {
   return (
@@ -42,7 +43,7 @@ export function Outcomes() {
 
         <div className="mt-12 grid gap-x-10 gap-y-5 md:grid-cols-2">
           {reportingRules.map((rule, index) => (
-            <Reveal key={rule} delay={index * 0.05}>
+            <Reveal key={rule} delay={staggerDelay(index, 0.05)}>
               <p className="border-t border-line-strong pt-4 text-[0.9375rem] leading-relaxed text-body">
                 {rule}
               </p>

@@ -10,6 +10,7 @@ import {
 } from "@/content/articles";
 import { PageHero } from "@/components/marketing/page-hero";
 import { Reveal } from "@/components/ui/reveal";
+import { staggerDelay } from "@/lib/stagger";
 import { cn } from "@/lib/cn";
 
 export const metadata: Metadata = {
@@ -166,8 +167,8 @@ export default async function GuidesPage(props: PageProps<"/guides">) {
             ) : (
               <div className="mt-5 grid gap-5">
                 {rows.map((article, index) => (
-                  <Reveal key={article.slug} delay={Math.min(index, 3) * 0.05}>
-                    <article className="rounded-panel border border-line bg-paper p-7 transition-shadow duration-300 hover:shadow-card">
+                  <Reveal key={article.slug} delay={staggerDelay(index, 0.05)}>
+                    <article className="card-lift rounded-panel border border-line bg-paper p-7">
                       <div className="flex flex-wrap items-center gap-2">
                         <Tag>{destinationLabel[article.destination]}</Tag>
                         {article.topics.map((topic) => (

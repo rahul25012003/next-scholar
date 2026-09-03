@@ -4,6 +4,7 @@ import { CheckCircle, Prohibit } from "@phosphor-icons/react/ssr";
 import { services, servicesIntro, type Availability, type Remuneration } from "@/content/services";
 import { PageHero } from "@/components/marketing/page-hero";
 import { Reveal } from "@/components/ui/reveal";
+import { staggerDelay } from "@/lib/stagger";
 import { ButtonLink } from "@/components/ui/button";
 import { primaryCta } from "@/content/site";
 import { cn } from "@/lib/cn";
@@ -69,7 +70,7 @@ export default function ServicesPage() {
 
                 <div className="mt-7 grid gap-5 lg:grid-cols-2">
                   {rows.map((service, index) => (
-                    <Reveal key={service.slug} delay={Math.min(index, 3) * 0.05}>
+                    <Reveal key={service.slug} delay={staggerDelay(index, 0.05)}>
                       <article
                         id={service.slug}
                         className="flex h-full scroll-mt-24 flex-col rounded-panel border border-line bg-paper p-7"

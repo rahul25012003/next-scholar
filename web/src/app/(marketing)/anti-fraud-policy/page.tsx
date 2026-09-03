@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Prohibit, ShieldCheck, WarningDiamond } from "@phosphor-icons/react/ssr";
 import { PageHero } from "@/components/marketing/page-hero";
 import { Reveal } from "@/components/ui/reveal";
+import { staggerDelay } from "@/lib/stagger";
 import {
   dataProtection,
   documentIntegrity,
@@ -81,7 +82,7 @@ export default function AntiFraudPolicyPage() {
 
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {platformSafeguards.items.map((item, index) => (
-              <Reveal key={item} delay={index * 0.05}>
+              <Reveal key={item} delay={staggerDelay(index, 0.05)}>
                 <div className="flex h-full gap-3.5 rounded-card border border-line bg-paper p-6">
                   <Prohibit
                     size={20}

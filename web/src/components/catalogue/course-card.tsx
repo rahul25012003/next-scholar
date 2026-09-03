@@ -43,7 +43,7 @@ export function CourseCard({
   const rest = row.intakes.slice(1);
 
   return (
-    <article className="rounded-panel border border-line bg-paper p-6 transition-shadow duration-300 hover:shadow-card">
+    <article className="card-lift rounded-panel border border-line bg-paper p-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="flex min-w-0 items-start gap-3.5">
           <span

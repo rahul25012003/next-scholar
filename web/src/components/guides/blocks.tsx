@@ -142,7 +142,7 @@ export function RequirementList({ items }: { items: Requirement[] }) {
       {items.map((item) => (
         <article
           key={item.title}
-          className="flex flex-col rounded-card border border-line bg-paper p-6 transition-shadow duration-300 hover:shadow-card"
+          className="card-lift flex flex-col rounded-card border border-line bg-paper p-6"
         >
           <h3 className="font-display text-[1.0625rem] font-semibold leading-snug text-navy-900">
             {item.title}
