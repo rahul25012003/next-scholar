@@ -1,15 +1,26 @@
 import Link from "next/link";
-import { contact, lastReviewed, legalIdentity, nav, site } from "@/content/site";
+import { contact, lastReviewed, legalIdentity, site } from "@/content/site";
 import { permanentDisclaimers } from "@/content/outcomes";
 
 const columns = [
   {
-    heading: "The platform",
+    heading: "Destinations",
     links: [
-      { label: "How it works", href: "/#process" },
-      { label: "Destinations", href: "/#destinations" },
-      { label: "Outcomes", href: "/#outcomes" },
-      { label: "Student login", href: "/portal" },
+      { label: "United Kingdom", href: "/destinations/united-kingdom" },
+      { label: "Germany", href: "/destinations/germany" },
+      { label: "Ireland", href: "/destinations/ireland" },
+      { label: "All three", href: "/destinations" },
+    ],
+  },
+  {
+    heading: "Free tools",
+    links: [
+      { label: "Requirements checklist", href: "/tools/requirements-check" },
+      { label: "Cost of living", href: "/tools/cost-of-living" },
+      { label: "German grade calculator", href: "/tools/german-grade-calculator" },
+      { label: "ECTS credit check", href: "/tools/ects-check" },
+      { label: "IELTS band calculator", href: "/tools/ielts-band-calculator" },
+      { label: "Grade converters", href: "/tools/grade-converter" },
     ],
   },
   {
@@ -17,16 +28,31 @@ const columns = [
     links: [
       { label: "Open Ledger", href: "/open-ledger" },
       { label: "Zero commission list", href: "/zero-commission" },
-      { label: "Anti fraud and data protection", href: "/anti-fraud-policy" },
+      { label: "Anti fraud and documents", href: "/anti-fraud-policy" },
+      { label: "How it works", href: "/#process" },
+      { label: "Student login", href: "/portal" },
     ],
   },
+];
+
+/**
+ * Kept apart from the columns above because these five are the ones a reader
+ * goes looking for when something has gone wrong, and burying them among the
+ * marketing links is how sites make them hard to find on purpose.
+ */
+const legalLinks = [
+  { label: "Privacy policy", href: "/privacy" },
+  { label: "Terms of use", href: "/terms" },
+  { label: "Cookie policy", href: "/cookies" },
+  { label: "Refunds and cancellation", href: "/refund-policy" },
+  { label: "Non affiliation", href: "/non-affiliation" },
 ];
 
 export function SiteFooter() {
   return (
     <footer className="mt-auto bg-navy-900 text-white/70">
       <div className="shell py-16 md:py-20">
-        <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr]">
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
           <div className="max-w-sm">
             <div className="flex items-center gap-2.5">
               <span
@@ -68,7 +94,7 @@ export function SiteFooter() {
           ))}
         </div>
 
-        <div className="mt-14 grid gap-10 border-t border-white/12 pt-10 lg:grid-cols-[1.4fr_1fr_1fr]">
+        <div className="mt-14 grid gap-10 border-t border-white/12 pt-10 lg:grid-cols-[1.5fr_2fr]">
           <div>
             <h2 className="font-display text-[0.9375rem] font-semibold text-white">
               Registration details
@@ -86,7 +112,7 @@ export function SiteFooter() {
             </dl>
           </div>
 
-          <div className="lg:col-span-2">
+          <div>
             <h2 className="font-display text-[0.9375rem] font-semibold text-white">
               What we never promise
             </h2>
@@ -103,23 +129,29 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-3 border-t border-white/12 pt-7 text-[0.8125rem] text-white/40 sm:flex-row sm:items-center sm:justify-between">
+        <nav
+          aria-label="Legal"
+          className="mt-12 flex flex-wrap gap-x-6 gap-y-2 border-t border-white/12 pt-7"
+        >
+          {legalLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-[0.875rem] text-white/70 transition-colors hover:text-white"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="mt-7 flex flex-col gap-3 border-t border-white/12 pt-7 text-[0.8125rem] text-white/40 sm:flex-row sm:items-center sm:justify-between">
           <p>
             {site.name}. Page content last reviewed{" "}
             <span className="figures">{lastReviewed}</span>.
           </p>
-          <p className="flex flex-wrap gap-x-5 gap-y-1">
-            {nav
-              .filter((item) => item.href)
-              .map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href!}
-                  className="transition-colors hover:text-white/70"
-                >
-                  {item.label}
-                </Link>
-              ))}
+          <p className="max-w-md sm:text-right">
+            Every figure on this site names its source and says whether a person has
+            re-checked it. None of them has been re-checked this quarter.
           </p>
         </div>
       </div>

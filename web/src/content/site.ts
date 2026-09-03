@@ -22,14 +22,64 @@ export const secondaryCta = {
 export type NavChild = { label: string; href: string; note?: string };
 export type NavItem = { label: string; href?: string; children?: NavChild[] };
 
+/**
+ * The navigation.
+ *
+ * Four groups, and it is deliberately four rather than seven: the catalogue
+ * arriving does not get its own top level item, it goes under Destinations,
+ * because a student thinks in countries first and in universities second.
+ */
 export const nav: NavItem[] = [
-  { label: "How it works", href: "/#process" },
   {
     label: "Destinations",
     children: [
-      { label: "United Kingdom", href: "/#destinations", note: "September and January intakes" },
-      { label: "Germany", href: "/#destinations", note: "Public and private routes" },
-      { label: "Ireland", href: "/#destinations", note: "September and January intakes" },
+      {
+        label: "United Kingdom",
+        href: "/destinations/united-kingdom",
+        note: "Maintenance funds, the 28 day rule, the surcharge",
+      },
+      {
+        label: "Germany",
+        href: "/destinations/germany",
+        note: "APS, the dMAT, anabin, the blocked account",
+      },
+      {
+        label: "Ireland",
+        href: "/destinations/ireland",
+        note: "Six months of statements, tuition paid before the visa",
+      },
+      { label: "All three, compared", href: "/destinations", note: "Sixteen sections each" },
+    ],
+  },
+  {
+    label: "Free tools",
+    children: [
+      {
+        label: "Requirements checklist",
+        href: "/tools/requirements-check",
+        note: "Met, not met, or cannot tell. No score",
+      },
+      {
+        label: "Cost of living calculator",
+        href: "/tools/cost-of-living",
+        note: "Line by line, editable, sourced",
+      },
+      {
+        label: "German grade calculator",
+        href: "/tools/german-grade-calculator",
+        note: "Modified Bavarian Formula, working shown",
+      },
+      {
+        label: "ECTS credit check",
+        href: "/tools/ects-check",
+        note: "How German admission is actually decided",
+      },
+      {
+        label: "IELTS band calculator",
+        href: "/tools/ielts-band-calculator",
+        note: "Overall band, plus the per-section trap",
+      },
+      { label: "Grade converters", href: "/tools/grade-converter", note: "Eight of them" },
     ],
   },
   { label: "Open Ledger", href: "/open-ledger" },
@@ -42,12 +92,21 @@ export const nav: NavItem[] = [
         note: "Universities that pay us nothing",
       },
       {
-        label: "Anti fraud and data protection",
+        label: "Anti fraud and document integrity",
         href: "/anti-fraud-policy",
-        note: "Document integrity and DPDP",
+        note: "What we will not do to a document",
+      },
+      { label: "Privacy policy", href: "/privacy", note: "What we collect and why" },
+      { label: "Terms of use", href: "/terms", note: "What governs the service" },
+      { label: "Refunds and cancellation", href: "/refund-policy", note: "Windows and exclusions" },
+      {
+        label: "Non affiliation",
+        href: "/non-affiliation",
+        note: "We are not APS, DAAD, uni-assist or UKVI",
       },
     ],
   },
+  { label: "How it works", href: "/#process" },
 ];
 
 /**
