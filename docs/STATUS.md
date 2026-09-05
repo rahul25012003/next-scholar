@@ -4,13 +4,14 @@ What has been implemented against `BACKLOG.md`, what is still open, and why each
 open item is open. The backlog itself is left unedited so the two can be read
 against each other.
 
-**159 of 207 backlog items done, 48 open.** Of the 48, 18 are blocked on
-something outside this repository and 30 are not, one of which (additional
-destinations) is a research-scope decision rather than a task. `REMAINING.md`
-breaks all 48 down with what unblocks each and where it goes.
+**167 of 207 backlog items done, 40 open.** Of the 40, 18 are blocked on
+something outside this repository and 22 are not, most of which are a
+decision — funding, a partnership, a legal policy call, a research-scope
+call — rather than a task. `REMAINING.md` breaks all 40 down with what
+unblocks each and where it goes.
 
-Verified at the point of writing: `npm test` 327 passing, `npm run lint` clean,
-`npm run build` clean, `npm run smoke` 67 routes clean against a production
+Verified at the point of writing: `npm test` 337 passing, `npm run lint` clean,
+`npm run build` clean, `npm run smoke` 71 routes clean against a production
 build.
 
 ---
@@ -186,6 +187,22 @@ commercial claim needing a currency this session cannot verify. 4.16
 whole catalogue is fifteen institutions in memory with no external fetch
 anywhere in the path, so there is nothing slow to cache.
 
+### Phase 10 — Reviews, counsellors and events built honestly empty; a real install manifest
+
+| ID | Item | Where |
+|---|---|---|
+| 5.06, 5.13 | Reviews modelled the way the Open Ledger models a commission: `verifiedBy: string \| null`, and `publishableReviews()` is the only path to the page, filtering out anything unverified. `/reviews` is paginated, filterable by destination and outcome (refusals included as a filter value), and starts correctly empty | `src/content/reviews.ts`, `/reviews` |
+| 5.07 | Counsellor profiles, identical shape: a credential checked against its issuing body by a named person, or no profile | `src/content/counsellors.ts`, `/counsellors` |
+| 5.10, 5.15, 5.16, E.06 | Events modelled with a registration count as `Measured<number>`, `state: "pending"` until a real one exists rather than a placeholder that never moves. `/events` lists upcoming and past and today, correctly, lists nothing | `src/content/events.ts`, `/events` |
+| 6.05 | Not a native app — a web app manifest instead, honestly labelled as the difference. `next/og` generates every icon from the same navy "N" mark the header already uses, so there is no separate icon asset to drift out of sync | `src/app/manifest.ts`, `icon.tsx`, `apple-icon.tsx`, `icon-192/route.tsx`, `icon-512/route.tsx` |
+
+F.11 (a funded scholarship), S.07 (accepting under-18 applicants) and S.08
+(an ISIC partnership) were not attempted: the first needs real money, the
+second is a legal-exposure policy decision for whoever owns the business to
+make rather than an engineering default, and the third needs a real signed
+partnership. None of the three has anything left to engineer until that
+outside decision is made.
+
 ---
 
 ## Open, and why
@@ -212,8 +229,9 @@ anywhere in the path, so there is nothing slow to cache.
 | 1.11, D.01 | Mobile verification of every route | The structural checks pass in CI and every wide table scrolls in its own container. Nobody has looked at these routes on a phone, and that is not the same thing. The in-session Chrome browser tool has not been connected in either of the last two sessions |
 | 2.08, 2.09, 2.10 | Ledger write path, commission change history, retention deletion | All three want durable storage first |
 | 3.49 | dMAT preparation guidance | Deliberately waiting until the test's format is known rather than guessing |
-| 5.06, 5.07, 5.11–5.17 | Reviews, counsellor profiles, city pages, events | Need real students, real counsellors and a real office |
-| 6.02–6.06 | Accommodation partners, forex, exam prep, mobile app, more destinations | Partnerships and scope decisions rather than engineering |
+| 5.11, 5.17, 5.12, E.02 | City and office pages, student stories and ambassadors | Need a real address and named contact, and real students |
+| 6.02, 6.03, 6.04, 6.06 | Accommodation, forex, insurance, exam prep partnerships; a fourth destination | Partnerships, and a research-scope decision, rather than engineering |
+| F.11, S.07, S.08 | Our own fee waiver, under-18 guardianship, an ISIC partnership | Funding, a legal policy decision, and a partnership respectively — see Phase 10 |
 | D.14 | A design-token lint rule | Needs a real audit first; see Phase 8 |
 
 ---

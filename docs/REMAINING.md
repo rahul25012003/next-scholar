@@ -3,11 +3,12 @@
 A resumable handover. Every open item from `BACKLOG.md`, with what it is, why it
 is open, what unblocks it, and where in the codebase it goes.
 
-**48 open of 207.** 18 blocked on something outside this repository, 30 not
-blocked, one of which is a decision rather than a task. `STATUS.md` has the completed side.
+**40 open of 207.** 18 blocked on something outside this repository, 22 not
+blocked, most of which are a decision (funding, a partnership, a legal
+policy call, a research-scope call) rather than a task. `STATUS.md` has the completed side.
 
-State at handover: `npm test` 327 passing, `npm run lint` clean, `npm run build`
-clean, `npm run smoke` clean across 67 checked URLs.
+State at handover: `npm test` 337 passing, `npm run lint` clean, `npm run build`
+clean, `npm run smoke` clean across 71 checked URLs.
 
 ---
 
@@ -27,13 +28,23 @@ In this order, because each one unblocks or de-risks what follows.
    Until this happens, six features are theoretical.
 3. **Create the Supabase project** (1.07–1.09, P0). Everything in Phase 2 that
    is not the API key waits behind it, plus 2.08, 2.09, 2.10 and 2.12.
-4. Everything left in the P1, P2 and P3 lists (B2, B3, B4 below) is now
-   blocked on something outside this repository — real students, real
-   counsellors, a real office, a partnership, or the same durable store as
-   item 3 — except one open decision: 6.06 (additional destinations) is
-   engineering-reachable the day someone is prepared to research a fourth
-   country as thoroughly as the first three, which this session did not
-   attempt rather than guess at.
+4. Everything left in the P1 through P4 lists (B2 through B5 below) is now
+   blocked on something outside this repository, and each one names exactly
+   what: real students, a real counsellor's credential, a real office
+   address, a signed partnership, real funding, or the same durable store as
+   item 3. Two are worth flagging by name rather than left to be found by
+   reading the tables:
+   - **S.07** (guardianship for under-18 applicants) needs an explicit
+     decision from whoever owns the business's legal exposure, not an
+     engineering judgement call. The privacy policy currently declines
+     under-18 applicants and states why; reversing that is a policy change
+     to make deliberately, not a feature to ship by default.
+   - **6.06** (a fourth destination) is engineering-reachable the day
+     someone is prepared to research it as thoroughly, and with sources as
+     checkable, as the first three. This session deliberately did not
+     attempt it rather than guess from training data the way the two
+     corrections already on record (Germany tuition, Ireland post-study)
+     happened the first time.
 
 ---
 
@@ -300,13 +311,25 @@ Seven of the original eight are done. What each session found:
   article is about, or the general checklist if it is not about one
   destination. "Adopt sparingly" was the audit's own verdict on this pattern.
 
+**5.06, 5.13, 5.07 — done in the only honest form available.** The engine and
+the page are both real and production-ready; what they wait on is a real
+outcome and a real credential, not more code:
+
+- `src/content/reviews.ts` models a review the way the Open Ledger models a
+  commission figure: `verifiedBy: string | null`. `publishableReviews()` is
+  the only path from the list to the page and it filters out anything with
+  no named verifier — pinned in `tests/reviews-counsellors-events.test.ts`.
+  `/reviews` is paginated, filterable by destination and by outcome
+  (refusals included as their own filter value, not hidden), and sortable
+  by verification date. It starts, correctly, completely empty.
+- `src/content/counsellors.ts` and `/counsellors` follow the identical
+  shape: a credential is either checked against the issuing body by a named
+  person, or the profile does not render.
+
 **Still open**
 
 | ID | Item | Note |
 |---|---|---|
-| 5.06 | Verified reviews with ledger-grade verification | Needs real students. Design it so an unverified review cannot render |
-| 5.13 | Reviews page structure: paginated, filterable, sortable | Follows 5.06 |
-| 5.07 | Counsellor profiles with checkable credentials | Needs real counsellors |
 | 3.49 | dMAT preparation guidance | The requirement is now published across four surfaces. Preparation guidance is the follow-up, and it should wait until the test's format is actually known rather than guessed |
 | 2.09 | Commission change history | Required by the source guide schema. Needs storage |
 | 2.10 | Retention deletion enforcement | `src/domain/retention.ts` computes the clock; nothing deletes. The privacy policy states this gap explicitly, so closing it also updates that page |
@@ -358,26 +381,43 @@ programmes held in memory, with no external fetch anywhere in the path, and
 every read is a plain synchronous loop over that array. Wrapping it in a
 cache would add a layer with nothing slow underneath it.
 
+**5.10, 5.15, 5.16, E.06 — done in the only honest form available.**
+`src/content/events.ts` models an event's registration count as a
+`Measured<number>`: `state: "pending"` with a reason until a real count
+exists, never a plausible-looking placeholder that never moves, which was
+the specific failure named in the audit this item came from. `/events`
+lists upcoming and past separately, and today, correctly, lists nothing:
+no webinar is scheduled.
+
 **Still open, all blocked on something outside engineering**
-
-| ID | Item |
-|---|---|
-| 5.10, 5.15, 5.16, E.06 | Events and webinars: the pages, the card fields, filters beyond subject and sort, and live registration counters only when real |
-| 5.11, 5.17 | Bengaluru and nearby city pages; city and office pages with address, hours and a named contact |
-| 5.12, E.02 | Student stories and student ambassadors, once there are students |
-| E.07 | Newsroom or digest as a separate stream |
-| 6.03 | Forex, insurance, banking, SIM as delivered services rather than guidance |
-| 6.04 | Exam preparation, or a partnership |
-| 6.06 | Additional destinations, only when answerable without looking anything up |
-
-### B5. P4 — 4 items
 
 | ID | Item | Note |
 |---|---|---|
-| 6.05 | Mobile app | |
-| F.11 | Our own scholarship or fee waiver | Only if ever funded |
-| S.07 | Guardianship for under-18 applicants | The privacy policy currently states we do not take under-18 applicants, and says why. Reversing that is a policy decision before it is a feature |
-| S.08 | ISIC or student discount card | |
+| 5.11, 5.17 | Bengaluru and nearby city pages; city and office pages with address, hours and a named contact | A specific office address and named on-site contact do not exist yet beyond "Bengaluru, Karnataka", already published in `content/site.ts`. A dedicated page would either restate that one fact or invent the rest |
+| 5.12, E.02 | Student stories and student ambassadors, once there are students | |
+| E.07 | Newsroom or digest as a separate stream | |
+| 6.02, 6.03, 6.04 | Accommodation partners, forex, insurance, banking, SIM, exam preparation | Each needs a real signed partnership before there is a real term to disclose |
+| 6.06 | Additional destinations | Deliberately not attempted this session. `content/destinations.ts` states the rule this backlog item repeats: "a country is added only once its full profile can be answered without looking anything up." Guessing at a fourth country's tuition, funding threshold and visa steps from training data, the way this session cannot verify against a live source, is exactly the failure mode that produced the Germany tuition and Ireland post-study corrections already on record |
+
+### B5. P4 — one done, in the only honest form available; three genuinely need something from you
+
+- **6.05** — Not a native app: there is no separate codebase, app store account
+  or team for one, and building a half-working native shell would be exactly
+  the "partially implemented flow" this project was told not to leave. What
+  is real and shippable today is a web app manifest: `src/app/manifest.ts`,
+  plus generated icons (`icon.tsx`, `apple-icon.tsx`, `icon-192/route.tsx`,
+  `icon-512/route.tsx`, all rendered from the same navy-square "N" mark the
+  header already uses, via `next/og`, so there is no separate icon asset to
+  drift out of sync). The site installs to a home screen and opens without
+  browser chrome. If an actual native app is still wanted, that is a
+  different project with its own team and its own timeline, not a checkbox
+  this session could tick.
+
+| ID | Item | Needs |
+|---|---|---|
+| F.11 | Our own scholarship or fee waiver | Real money. There is nothing to engineer here; a fee waiver with no funds behind it is a lie the moment someone tries to redeem it |
+| S.07 | Guardianship for under-18 applicants | An explicit decision from you, not an engineering judgement call. The privacy policy currently states plainly that under-18 applicants are declined, and why: the DPDP Act requires verifiable parental consent and forbids tracking or targeted advertising directed at children, and the honest position taken was that getting that wrong is worse than the lost business. Reversing it needs someone who owns that legal exposure to say so first |
+| S.08 | ISIC or student discount card | A real partnership with ISIC or an equivalent issuer. Nothing to build until one exists |
 
 ### B6. Decided, not pending
 
@@ -438,6 +478,19 @@ Written down because each one looks like an omission and is a decision.
     TOEFL, PTE and Duolingo looks precise, varies by publisher, and changes
     over time; the offer letter's own named test and threshold governs, not
     an equivalence this site computed.
+14. **A review or a counsellor profile cannot render without a named
+    verifier, and there is no rating number.** `publishableReviews` and
+    `publishableCounsellors` in `src/content/reviews.ts` and
+    `counsellors.ts` are the only paths to `/reviews` and `/counsellors`,
+    and both filter out anything with `verifiedBy: null`. Do not add a
+    "draft" or "pending" review state that renders anyway, and do not add a
+    star rating: it would be a number this site computed, not one the
+    reviewer gave.
+15. **An event's registration count is a `Measured<number>`, never a
+    plausible-looking placeholder.** `src/content/events.ts` states
+    `{ state: "pending", reason }` until a real count exists. The benchmark
+    this item was audited against runs counters that never move; that is
+    the specific failure this shape exists to prevent.
 
 ---
 
@@ -448,12 +501,12 @@ cd web
 npm install
 npm run dev          # http://localhost:3000
 
-npm test             # 327 tests
+npm test             # 337 tests
 npm run lint
 npm run build        # type checks as part of the build
 
 npm start &          # the smoke check needs a running production build
-npm run smoke        # 67 routes: structure, and the three route guards
+npm run smoke        # 71 routes: structure, and the three route guards
 ```
 
 `web/.env.example` lists every optional key. Each unset one produces a stated

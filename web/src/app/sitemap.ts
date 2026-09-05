@@ -79,6 +79,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...articles.map((article) => at(`/guides/${article.slug}`, 0.7, new Date(article.updatedOn))),
     at("/tools", 0.8),
     ...tools.map((tool) => at(`/tools/${tool}`, 0.8)),
+    at("/reviews", 0.5),
+    at("/counsellors", 0.5),
+    at("/events", 0.5),
     at("/zero-commission", 0.8),
     at("/anti-fraud-policy", 0.7),
     ...legalDocuments.map((doc) =>

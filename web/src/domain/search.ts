@@ -128,6 +128,27 @@ const pages: Record_[] = [
     href: "/masters-in-ireland",
     body: "masters in ireland courses catalogue",
   },
+  {
+    kind: "Page",
+    title: "Reviews",
+    detail: "Checked against the case record by a named person before publication, refusals included.",
+    href: "/reviews",
+    body: "reviews testimonials outcomes verified checked",
+  },
+  {
+    kind: "Page",
+    title: "Counsellors",
+    detail: "A credential checked against the issuing body, not a job title.",
+    href: "/counsellors",
+    body: "counsellors staff team credentials",
+  },
+  {
+    kind: "Page",
+    title: "Events and webinars",
+    detail: "Nothing invented while nothing is scheduled.",
+    href: "/events",
+    body: "events webinars sessions register registration",
+  },
 ];
 
 const tools: Record_[] = [
