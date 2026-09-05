@@ -162,6 +162,13 @@ export default async function DestinationTopicPage(
                     ))}
                   </ul>
                 )}
+                <Link
+                  href="/scholarships"
+                  className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-blue-600 hover:text-blue-500"
+                >
+                  See scholarships for all three destinations
+                  <ArrowUpRight size={13} weight="bold" aria-hidden />
+                </Link>
               </div>
             )}
           </div>

@@ -81,9 +81,18 @@ export default async function ScholarshipsPage(props: PageProps<"/scholarships">
                       <h2 className="font-display text-[1.0625rem] font-bold text-navy-900">
                         {scholarship.name}
                       </h2>
-                      <span className="shrink-0 rounded-input bg-surface px-2.5 py-1 text-[0.75rem] font-medium text-navy-900">
-                        {guide?.country ?? scholarship.destination}
-                      </span>
+                      {guide ? (
+                        <Link
+                          href={`/destinations/${guide.slug}`}
+                          className="shrink-0 rounded-input bg-surface px-2.5 py-1 text-[0.75rem] font-medium text-navy-900 hover:bg-line"
+                        >
+                          {guide.country}
+                        </Link>
+                      ) : (
+                        <span className="shrink-0 rounded-input bg-surface px-2.5 py-1 text-[0.75rem] font-medium text-navy-900">
+                          {scholarship.destination}
+                        </span>
+                      )}
                     </div>
                     <p className="mt-1 text-[0.8125rem] text-muted">{scholarship.funder}</p>
                     <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-body">

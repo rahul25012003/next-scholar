@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { ArrowRight } from "@phosphor-icons/react/ssr";
 import { ToolPage } from "@/components/tools/shell";
 import { RequirementsCheck } from "@/components/tools/requirements-check";
 
@@ -33,6 +35,13 @@ export default async function RequirementsCheckPage(
             A row that says not met is not a rejection either. Most of them name the thing to
             fix and the order to fix it in, which is the part that is actually worth having.
           </p>
+          <Link
+            href="/services/profile-evaluation"
+            className="mt-5 inline-flex items-center gap-1.5 font-medium text-blue-600 hover:text-blue-500"
+          >
+            Want a person to read your actual transcript and confirm this in writing?
+            <ArrowRight size={14} weight="bold" aria-hidden />
+          </Link>
         </div>
       }
     >
