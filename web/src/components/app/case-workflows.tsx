@@ -154,10 +154,14 @@ export function CaseWorkflows({
       >
         <select name="field" defaultValue="" className={fieldClass} aria-label="Field">
           <option value="">Which field</option>
+          <option value="name">Name</option>
           <option value="intake">Intake</option>
           <option value="destination">Destination</option>
           <option value="priority">Priority</option>
           <option value="budgetInr">Budget</option>
+          <option value="counselor">Counsellor</option>
+          <option value="deadline">A deadline (name it below)</option>
+          <option value="reference">An application reference (name the application below)</option>
         </select>
         <input
           name="value"
@@ -165,6 +169,13 @@ export function CaseWorkflows({
           placeholder="New value"
           className={fieldClass}
           aria-label="New value"
+        />
+        <input
+          name="targetId"
+          type="text"
+          placeholder="Deadline label or application id, only for those two"
+          className={`${fieldClass} sm:col-span-2`}
+          aria-label="Which deadline or application this correction is on"
         />
         <input
           name="reason"

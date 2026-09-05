@@ -1,4 +1,4 @@
-import { Hero } from "@/components/marketing/hero";
+import { Hero, HeroQuickLinks } from "@/components/marketing/hero";
 import { CredentialsBanner } from "@/components/marketing/credentials-banner";
 import { DayOneFigures } from "@/components/marketing/day-one-figures";
 import { TheProblem } from "@/components/marketing/the-problem";
@@ -13,6 +13,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <HeroQuickLinks />
       <CredentialsBanner />
       <DayOneFigures />
       <TheProblem />

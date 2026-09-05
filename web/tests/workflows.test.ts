@@ -43,6 +43,60 @@ describe("nothing is deleted and nothing is overwritten silently", () => {
     expect(entry.source).toBe("human");
   });
 
+  it("corrects one deadline by its label, leaving the others alone", () => {
+    const corrected = applyCorrection(
+      plain,
+      {
+        field: "deadline",
+        targetId: "APS document submission",
+        value: "2027-11-01",
+        reason: "APS India pushed the appointment slot back a week.",
+      },
+      author,
+    );
+    const target = corrected.deadlines.find((item) => item.label === "APS document submission");
+    const other = corrected.deadlines.find((item) => item.label === "uni-assist application");
+
+    expect(target?.date).toBe("2027-11-01");
+    expect(other?.date).toBe(plain.deadlines.find((item) => item.label === "uni-assist application")?.date);
+    expect(corrected.log.at(-1)!.text).toContain("deadline (APS document submission)");
+  });
+
+  it("corrects one application's reference by its id, leaving the others alone", () => {
+    const corrected = applyCorrection(
+      withApps,
+      {
+        field: "reference",
+        targetId: "app-1",
+        value: "LEE-2027-999999",
+        reason: "The portal reissued the reference after a name correction.",
+      },
+      author,
+    );
+    const target = corrected.applications.find((item) => item.id === "app-1");
+    const other = corrected.applications.find((item) => item.id === "app-2");
+
+    expect(target?.reference).toBe("LEE-2027-999999");
+    expect(other?.reference).toBe(withApps.applications.find((item) => item.id === "app-2")?.reference);
+    expect(corrected.log.at(-1)!.text).toContain("reference (app-1)");
+  });
+
+  it("corrects the student's name and the assigned counsellor", () => {
+    const nameCorrected = applyCorrection(
+      plain,
+      { field: "name", value: "Meghana Rangaswamy Rao", reason: "Legal name added after marriage." },
+      author,
+    );
+    expect(nameCorrected.name).toBe("Meghana Rangaswamy Rao");
+
+    const counselorCorrected = applyCorrection(
+      plain,
+      { field: "counselor", value: "Devika Suresh", reason: "Caseload rebalanced." },
+      author,
+    );
+    expect(counselorCorrected.counselor).toBe("Devika Suresh");
+  });
+
   it("marks a withdrawn application rather than removing it", () => {
     const updated = withdrawApplication(
       withApps,

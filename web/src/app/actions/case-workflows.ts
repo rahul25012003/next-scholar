@@ -207,6 +207,7 @@ export async function correct(
   const field = String(formData.get("field") ?? "") as CorrectableField;
   const value = String(formData.get("value") ?? "").trim();
   const reason = String(formData.get("reason") ?? "").trim();
+  const targetId = String(formData.get("targetId") ?? "").trim() || undefined;
 
   if (!field || !value || reason.length < 4) {
     return {
@@ -215,11 +216,18 @@ export async function correct(
     };
   }
 
+  if ((field === "deadline" || field === "reference") && !targetId) {
+    return {
+      status: "error",
+      message: "This correction needs to name which deadline or which application it corrects.",
+    };
+  }
+
   const updated = await mutateCase(
     caseId,
     actor,
     "case.note.write",
-    (record) => applyCorrection(record, { field, value, reason }, actor.name),
+    (record) => applyCorrection(record, { field, value, reason, targetId }, actor.name),
     `Corrected ${field}`,
   );
 

@@ -18,6 +18,7 @@ describe("site search", () => {
       "Tool",
       "Policy",
       "Service",
+      "Scholarship",
       "Page",
     ]) {
       expect(kinds).toContain(kind);

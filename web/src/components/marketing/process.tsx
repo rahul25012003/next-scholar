@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { stageGroups, stages } from "@/content/process";
 import { Reveal } from "@/components/ui/reveal";
 
@@ -40,7 +41,9 @@ export function Process() {
                           className="absolute -left-[4.5px] top-2 h-2 w-2 rounded-full bg-blue-600"
                         />
                         <h4 className="font-display text-[1rem] font-bold text-navy-900">
-                          {stage.name}
+                          <Link href={`/process/${stage.key}`} className="hover:text-blue-600">
+                            {stage.name}
+                          </Link>
                         </h4>
                         <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-body">
                           {stage.summary}

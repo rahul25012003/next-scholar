@@ -35,10 +35,24 @@ function withEntry(
   return { ...record, log: [...record.log, entry] };
 }
 
-export type CorrectableField = "intake" | "destination" | "priority" | "budgetInr";
+export type CorrectableField =
+  | "intake"
+  | "destination"
+  | "priority"
+  | "budgetInr"
+  | "name"
+  | "counselor"
+  | "deadline"
+  | "reference";
 
 export type Correction = {
   field: CorrectableField;
+  /**
+   * Set only when the field lives inside a list rather than on the case
+   * directly: the deadline's label for "deadline", the application's id for
+   * "reference".
+   */
+  targetId?: string;
   value: string;
   reason: string;
 };
@@ -54,21 +68,37 @@ export function applyCorrection(
   author: string,
   now = new Date(),
 ): StudentCase {
-  const before = String(record[correction.field] ?? "not set");
   const next: StudentCase = { ...record };
+  let before: string;
 
   if (correction.field === "budgetInr") {
+    before = String(record.budgetInr ?? "not set");
     const parsed = Number(correction.value.replace(/[^\d]/g, ""));
     next.budgetInr = Number.isFinite(parsed) && parsed > 0 ? parsed : null;
   } else if (correction.field === "priority") {
+    before = record.priority;
     next.priority = correction.value as StudentCase["priority"];
+  } else if (correction.field === "deadline") {
+    const target = record.deadlines.find((item) => item.label === correction.targetId);
+    before = target?.date ?? "not set";
+    next.deadlines = record.deadlines.map((item) =>
+      item.label === correction.targetId ? { ...item, date: correction.value } : item,
+    );
+  } else if (correction.field === "reference") {
+    const target = record.applications.find((item) => item.id === correction.targetId);
+    before = target?.reference ?? "not set";
+    next.applications = record.applications.map((item) =>
+      item.id === correction.targetId ? { ...item, reference: correction.value } : item,
+    );
   } else {
+    before = String(record[correction.field] ?? "not set");
     next[correction.field] = correction.value;
   }
 
+  const label = correction.targetId ? `${correction.field} (${correction.targetId})` : correction.field;
   return withEntry(
     next,
-    `Corrected ${correction.field} from "${before}" to "${correction.value}". Reason: ${correction.reason}`,
+    `Corrected ${label} from "${before}" to "${correction.value}". Reason: ${correction.reason}`,
     author,
     now,
   );

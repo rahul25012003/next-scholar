@@ -3,11 +3,11 @@
 A resumable handover. Every open item from `BACKLOG.md`, with what it is, why it
 is open, what unblocks it, and where in the codebase it goes.
 
-**68 open of 207.** 18 blocked on something outside this repository, 50 not
+**55 open of 207.** 18 blocked on something outside this repository, 37 not
 blocked, one of which is a decision rather than a task. `STATUS.md` has the completed side.
 
-State at handover: `npm test` 319 passing, `npm run lint` clean, `npm run build`
-clean across 45 routes, `npm run smoke` clean across 53 routes.
+State at handover: `npm test` 327 passing, `npm run lint` clean, `npm run build`
+clean across 68 route entries, `npm run smoke` clean across 66 checked URLs.
 
 ---
 
@@ -27,11 +27,13 @@ In this order, because each one unblocks or de-risks what follows.
    Until this happens, six features are theoretical.
 3. **Create the Supabase project** (1.07–1.09, P0). Everything in Phase 2 that
    is not the API key waits behind it, plus 2.08, 2.09, 2.10 and 2.12.
-4. Then the P2s: 4.29/4.07 (scholarship finder) and 4.10/4.11 (country
-   sub-pages, rankings table) are the highest-value ones now that the
-   catalogue and matching both reach programme level. `2.08` (Open Ledger
-   write path) is the one P1 item still open, and it is genuinely blocked on
-   the same durable store as item 3.
+4. Then the remaining P2s in `docs/REMAINING.md`'s B3 section: everything
+   engineering could reach without real students, real counsellors or a
+   database has been reached. What is left there (reviews, counsellor
+   profiles, commission history, retention deletion) is blocked the same way
+   items 2 and 3 are. `2.08` (Open Ledger write path) is the one P1 item still
+   open, and it too is blocked on the same durable store as item 3. After
+   that, move to the P3 list.
 
 ---
 
@@ -240,53 +242,76 @@ Seven of the original eight are done. What each session found:
 |---|---|---|---|
 | 2.08 | Open Ledger write path, founder gated | `src/content/ledger.ts` is repository-edited content today | Wants durable storage first, but the RBAC action already exists |
 
-### B3. P2 — 22 items
+### B3. P2 — 13 of 22 done this session
 
-**Catalogue depth**
+**Done.** What each one turned into:
 
-| ID | Item | Note |
-|---|---|---|
-| 4.07 | Scholarship finder | Needs 4.29 first |
-| 4.29 | Scholarship record: name, institution, destination, level, award type, deadline | Model it the way the catalogue is modelled: a `Field<T>` per value, so a scholarship with an unknown deadline states why |
-| 4.10 | Country sub-pages: cost of studying, cost of living, scholarships, jobs, post-study work | The content already exists inside the destination guides. This is a routing and navigation decision, not new research |
-| 4.11 | Top universities table with rankings per country | `src/content/catalogue/index.ts` has the data; it needs a view |
-| F.06 | Course-level landing pages, e.g. "Masters in Germany" | A filtered `/universities` view with its own copy and metadata |
-| F.07 | Country menu carrying top cities, top courses, top universities | `src/content/site.ts` nav, which was restructured with this in mind |
-| F.03 | Shortlist sorted by eligibility, with the reason stated | `src/domain/eligibility.ts` already produces the reason. Careful: sorting by eligibility must not become a ranking that implies a probability |
+- **4.29 / 4.07** — `src/content/scholarships.ts` models five real, named schemes
+  (Chevening, GREAT, DAAD EPOS, Erasmus Mundus, Government of Ireland) the
+  same way the catalogue is modelled: a `Field<T>` per value. A deadline is
+  never stated as a specific current-cycle date unless that date is already
+  public; otherwise it is framed as the historical cycle with a qualifier
+  pointing at the funder's own page, or left `unknown` with a reason.
+  `/scholarships` lists and filters them by destination.
+- **4.10** — `/destinations/[slug]/[topic]` for five topics (cost of studying,
+  cost of living, scholarships, jobs, post-study work) across all three
+  countries, fifteen static pages, all reading the same `DestinationGuide` and
+  `scholarships` data the full guide already renders. No new research.
+- **4.11** — `/universities/rankings`. Alphabetical by institution, never by
+  rank: a QS band and a Times Higher band are different scales, and ordering
+  by them would be a number nobody published.
+- **F.06** — `/masters-in-germany`, `/masters-in-uk`, `/masters-in-ireland`,
+  each the same `applyFilters`/`FilterRail`/`CourseCard` the general catalogue
+  uses, pinned to one destination, with its own metadata. Only "Masters"
+  exists as a landing page because the seeded catalogue has zero Bachelor's
+  programmes; a "Bachelors in X" page would be an empty page.
+- **F.07** — The "Courses" nav group now carries the three Masters pages,
+  Rankings and Scholarships alongside the catalogue search.
+- **F.03** — The shortlist comparison table gained a "Where you stand" row: it
+  reads the signed-in student's own onboarding profile against each row's own
+  destination (not one fixed destination, since a shortlist can span
+  countries) and states met/not-met/cannot-tell counts. It does not reorder
+  the columns, and the page's existing "there is no best row" copy was
+  extended to say so explicitly, because sorting a side-by-side comparison
+  by eligibility would have meant reordering courses by a count that reads
+  exactly like a ranking.
+- **5.18** — `/process/[stage]`, one page per stage, with what you receive,
+  hand-picked links to pages that already exist for that stage (skipped
+  entirely for stages with no genuine link rather than inventing one), and
+  previous/next navigation. Linked from the homepage timeline.
+- **3.41** — see the B2 write-up above; done alongside the other correction
+  work.
+- **D.13** — Reviewed `revenue-chart.tsx` in full: `role="img"` with a
+  complete `aria-label`, a full `sr-only` data table, a hatch pattern
+  distinguishing unconfirmed ranges from color alone, and no interactive
+  state to make keyboard-accessible. Nothing to fix, verified rather than
+  assumed.
+- **4.15 / D.23** — `HeroQuickLinks` under the hero on the homepage, six
+  pills straight to the catalogue, the checklist, the cost calculator and
+  the three destination guides.
+- **E.01** — Already satisfied, not duplicated. `/shortlist`'s "a shortlist
+  needs an account" panel for a signed-out visitor is exactly this pattern,
+  and it is the one place on the site an account earns its keep. Deliberately
+  not added to the ungated tools: their own badge states "No signup. No
+  email." and a save prompt there would contradict a promise the site makes
+  on the page itself.
+- **E.03** — One inline widget, at the midpoint of every article's body, not
+  several: a "check your own profile" prompt pointed at the destination the
+  article is about, or the general checklist if it is not about one
+  destination. "Adopt sparingly" was the audit's own verdict on this pattern.
 
-**Content and trust**
+**Still open**
 
 | ID | Item | Note |
 |---|---|---|
 | 5.06 | Verified reviews with ledger-grade verification | Needs real students. Design it so an unverified review cannot render |
 | 5.13 | Reviews page structure: paginated, filterable, sortable | Follows 5.06 |
 | 5.07 | Counsellor profiles with checkable credentials | Needs real counsellors |
-| 5.18 | Journey spine as a navigable content structure | The eleven stages in `src/content/process.ts` are already one model driving three surfaces; what is missing is a page per stage |
 | 3.49 | dMAT preparation guidance | The requirement is now published across four surfaces. Preparation guidance is the follow-up, and it should wait until the test's format is actually known rather than guessed |
 | 2.09 | Commission change history | Required by the source guide schema. Needs storage |
 | 2.10 | Retention deletion enforcement | `src/domain/retention.ts` computes the clock; nothing deletes. The privacy policy states this gap explicitly, so closing it also updates that page |
-| 3.41 | Wider correction scope: name, counsellor, deadlines, references | `src/domain/case-operations.ts` — extend the existing correction path, keeping the reason mandatory |
-
-**Design and UX**
-
-| ID | Item | Note |
-|---|---|---|
-| D.13 | Chart accessibility beyond the screen-reader table | `src/components/marketing/revenue-chart.tsx` |
-| D.14 | Enforce radius and shadow tokens as new surfaces are built | A lint rule would do it better than vigilance |
-| 4.15, D.23 | Quick-entry chips under the hero | The same item twice. There is now somewhere to send them: `/universities`, `/tools`, the three guides |
-
-**Services**
-
-| ID | Item | Note |
-|---|---|---|
+| D.14 | Enforce radius and shadow tokens as new surfaces are built | Tried and deliberately not shipped this session: a blanket lint rule bans exactly the kind of bespoke arbitrary value the hero card's cut-corner shape legitimately needs, and the codebase has no existing inventory of which arbitrary values are drift versus which are intentional. Needs a real design-token audit before a rule can tell the two apart, not a rule first |
 | 6.02 | Accommodation partners with disclosed referral terms | `/services` already carries the disclosure shape and states that nobody pays us today. Adding a partner means filling in `remuneration: { kind: "referral", weEarn }` and the page renders the warning treatment automatically |
-
-**Conversion patterns**
-
-| ID | Item | Verdict from the benchmark audit |
-|---|---|---|
-| E.01 | Sign-in prompt as an inline interstitial offering saved preferences | Adopt, without gating anything |
-| E.03 | Inline conversion widgets on content and university pages | Adopt sparingly |
 
 ### B4. P3 — 20 items
 
@@ -360,6 +385,16 @@ Written down because each one looks like an omission and is a decision.
     `universityMatchesFor` in `src/domain/matching.ts` sorts by name. A fee
     comparison and a language-requirement readout are stated as facts, not
     folded into a score or an order that would imply one.
+11. **The shortlist comparison never reorders its columns.** The "Where you
+    stand" eligibility row (F.03) states met/not-met/cannot-tell counts per
+    saved course but the column order stays the order the student saved them
+    in. Sorting a side-by-side comparison by an eligibility count would read
+    exactly like the ranking the rest of the site refuses to compute.
+12. **A scholarship's deadline is never a specific current-cycle date unless
+    that date is already public.** `src/content/scholarships.ts` states a
+    historical cycle with a qualifier, or leaves the field `unknown`, rather
+    than asserting this year's date from a training-data snapshot that could
+    be wrong by the time anyone reads it.
 
 ---
 
@@ -370,12 +405,12 @@ cd web
 npm install
 npm run dev          # http://localhost:3000
 
-npm test             # 319 tests
+npm test             # 327 tests
 npm run lint
 npm run build        # type checks as part of the build
 
 npm start &          # the smoke check needs a running production build
-npm run smoke        # 53 routes: structure, and the three route guards
+npm run smoke        # 66 routes: structure, and the three route guards
 ```
 
 `web/.env.example` lists every optional key. Each unset one produces a stated

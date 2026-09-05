@@ -161,6 +161,27 @@ export default async function DestinationGuidePage(
         <div className="min-w-0">
           <VerificationBanner verification={guide.verification} />
 
+          <nav aria-label="Read one topic on its own page" className="mt-6">
+            <ul className="flex flex-wrap gap-2.5">
+              {[
+                { href: `/destinations/${guide.slug}/cost-of-studying`, label: "Cost of studying" },
+                { href: `/destinations/${guide.slug}/cost-of-living`, label: "Cost of living" },
+                { href: `/destinations/${guide.slug}/scholarships`, label: "Scholarships" },
+                { href: `/destinations/${guide.slug}/jobs`, label: "Working while you study" },
+                { href: `/destinations/${guide.slug}/post-study-work`, label: "Working after you graduate" },
+              ].map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="inline-flex items-center rounded-full border border-line-strong bg-surface px-4 py-2 text-[0.8125rem] font-medium text-navy-900 transition-colors hover:border-blue-600 hover:text-blue-600"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
           <div className="mt-10 space-y-0 [&>section:first-child]:border-t-0 [&>section:first-child]:pt-0">
             <GuideSection
               id="routes"

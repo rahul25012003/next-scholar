@@ -4,6 +4,16 @@ import { guides } from "@/content/guides";
 import { legalDocuments } from "@/content/legal";
 import { catalogueScope, programmes, universities } from "@/content/catalogue";
 import { articles } from "@/content/articles";
+import { scholarshipScope } from "@/content/scholarships";
+import { stages } from "@/content/process";
+
+const destinationTopics = [
+  "cost-of-studying",
+  "cost-of-living",
+  "scholarships",
+  "jobs",
+  "post-study-work",
+];
 
 /**
  * Every public page, built from the same modules that render them, so a new
@@ -39,7 +49,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...guides.map((guide) =>
       at(`/destinations/${guide.slug}`, 0.9, new Date(guide.verification.statedOn)),
     ),
+    ...guides.flatMap((guide) =>
+      destinationTopics.map((topic) =>
+        at(`/destinations/${guide.slug}/${topic}`, 0.6, new Date(guide.verification.statedOn)),
+      ),
+    ),
     at("/universities", 0.9, new Date(catalogueScope.statedOn)),
+    at("/universities/rankings", 0.6, new Date(catalogueScope.statedOn)),
+    at("/masters-in-germany", 0.7, new Date(catalogueScope.statedOn)),
+    at("/masters-in-uk", 0.7, new Date(catalogueScope.statedOn)),
+    at("/masters-in-ireland", 0.7, new Date(catalogueScope.statedOn)),
     ...universities.map((university) =>
       at(`/universities/${university.slug}`, 0.7, new Date(catalogueScope.statedOn)),
     ),
@@ -50,6 +69,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
         new Date(catalogueScope.statedOn),
       ),
     ),
+    at("/scholarships", 0.7, new Date(scholarshipScope.statedOn)),
+    ...stages.map((stage) => at(`/process/${stage.key}`, 0.5)),
     at("/our-numbers", 0.9),
     at("/services", 0.9),
     at("/services/profile-evaluation", 0.7),

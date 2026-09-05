@@ -4,6 +4,9 @@ import { ArrowRight } from "@phosphor-icons/react/ssr";
 import { programmeFor, type ProgrammeRow } from "@/content/catalogue";
 import { currentShortlist } from "@/app/actions/shortlist";
 import { currentActor } from "@/domain/session";
+import { findById } from "@/data/users";
+import { toChecklistProfile } from "@/domain/onboarding";
+import { runChecklist, tally } from "@/domain/eligibility";
 import { CommissionBadge, formatFee } from "@/components/catalogue/field";
 import { SaveToShortlist } from "@/components/catalogue/save-button";
 import { nextDeadline } from "@/content/catalogue";
@@ -26,6 +29,17 @@ export default async function ShortlistPage() {
   const rows = slugs
     .map((slug) => programmeFor(slug))
     .filter((row): row is ProgrammeRow => row !== null);
+
+  // Read against the destination each row actually is, not a single fixed
+  // one, since a shortlist can span more than one country and the same
+  // student profile is checked differently in each.
+  const onboarding = actor ? findById(actor.id)?.onboarding : null;
+  const baseProfile = onboarding ? toChecklistProfile(onboarding) : null;
+  const eligibility = baseProfile
+    ? rows.map((row) =>
+        tally(runChecklist({ ...baseProfile, destination: row.university.destination })),
+      )
+    : null;
 
   return (
     <>
@@ -83,8 +97,9 @@ export default async function ShortlistPage() {
               <div className="overflow-x-auto rounded-panel border border-line bg-paper">
                 <table className="w-full border-collapse text-left">
                   <caption className="sr-only">
-                    Your saved courses compared on fee, duration, deadline, language and the
-                    commission we earn.
+                    Your saved courses compared on fee, duration, deadline, language, the
+                    commission we earn, and, if you have filled in your profile, where you
+                    stand against each destination&rsquo;s own requirements.
                   </caption>
                   <thead>
                     <tr className="border-b border-line bg-surface">
@@ -173,6 +188,31 @@ export default async function ShortlistPage() {
                       ))}
                     </Row>
 
+                    {eligibility && (
+                      <Row label="Where you stand">
+                        {rows.map((row, index) => {
+                          const counts = eligibility[index];
+                          return (
+                            <td key={row.slug} className="px-5 py-4 align-top">
+                              <p className="text-[0.875rem] leading-relaxed text-body">
+                                <span className="font-medium text-verified">{counts.met} met</span>
+                                {", "}
+                                <span className="font-medium text-denied">{counts["not-met"]} not met</span>
+                                {", "}
+                                <span className="font-medium text-pending">{counts.unknown} we cannot tell</span>
+                              </p>
+                              <Link
+                                href={`/tools/requirements-check?destination=${row.university.destination}`}
+                                className="mt-1.5 inline-block text-[0.8125rem] font-medium text-blue-600 hover:text-blue-500"
+                              >
+                                See the full breakdown
+                              </Link>
+                            </td>
+                          );
+                        })}
+                      </Row>
+                    )}
+
                     <Row label="Saved">
                       {rows.map((row) => (
                         <td key={row.slug} className="px-5 py-4 align-top">
@@ -198,7 +238,9 @@ export default async function ShortlistPage() {
                     It is not a ranking and there is no best row. Nothing here is ordered by
                     a fit score, because a fit score computed from a fee and a deadline
                     would be arithmetic dressed as judgement. The order is the order you
-                    saved them in.
+                    saved them in, including the &ldquo;Where you stand&rdquo; row: it reads
+                    your own profile against each destination&rsquo;s own requirements and
+                    states the counts, and the counts do not reorder anything either.
                   </p>
                 </div>
                 <div className="rounded-panel border border-line bg-surface p-6">

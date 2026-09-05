@@ -4,6 +4,7 @@ import { programmes, universities } from "@/content/catalogue";
 import { legalDocuments } from "@/content/legal";
 import { services } from "@/content/services";
 import { destinations } from "@/content/destinations";
+import { scholarships } from "@/content/scholarships";
 
 /**
  * Site search.
@@ -29,6 +30,7 @@ export type SearchKind =
   | "Tool"
   | "Policy"
   | "Service"
+  | "Scholarship"
   | "Page";
 
 export type SearchResult = {
@@ -97,6 +99,34 @@ const pages: Record_[] = [
     detail: "Saved courses compared side by side, including what we earn on each.",
     href: "/shortlist",
     body: "shortlist saved compare comparison courses",
+  },
+  {
+    kind: "Page",
+    title: "Rankings",
+    detail: "Every published ranking for each institution, alphabetical, never averaged.",
+    href: "/universities/rankings",
+    body: "rankings qs times higher world university rank table top universities",
+  },
+  {
+    kind: "Page",
+    title: "Masters in Germany",
+    detail: "The catalogue, filtered to Germany.",
+    href: "/masters-in-germany",
+    body: "masters in germany courses catalogue",
+  },
+  {
+    kind: "Page",
+    title: "Masters in the UK",
+    detail: "The catalogue, filtered to the United Kingdom.",
+    href: "/masters-in-uk",
+    body: "masters in uk united kingdom courses catalogue",
+  },
+  {
+    kind: "Page",
+    title: "Masters in Ireland",
+    detail: "The catalogue, filtered to Ireland.",
+    href: "/masters-in-ireland",
+    body: "masters in ireland courses catalogue",
   },
 ];
 
@@ -243,6 +273,18 @@ function corpus(): Record_[] {
       detail: doc.lede,
       href: `/${doc.slug}`,
       body: [doc.lede, ...doc.sections.map((section) => section.heading)].join(" "),
+    });
+  }
+
+  for (const scholarship of scholarships) {
+    records.push({
+      kind: "Scholarship",
+      title: scholarship.name,
+      detail: `${scholarship.funder}. ${
+        scholarship.coverage.state === "stated" ? scholarship.coverage.value : scholarship.coverage.reason
+      }`,
+      href: `/scholarships?destination=${scholarship.destination}`,
+      body: [scholarship.funder, scholarship.eligibility, scholarship.awardType].join(" "),
     });
   }
 

@@ -4,13 +4,13 @@ What has been implemented against `BACKLOG.md`, what is still open, and why each
 open item is open. The backlog itself is left unedited so the two can be read
 against each other.
 
-**139 of 207 backlog items done, 68 open.** Of the 68, 18 are blocked on
-something outside this repository and 50 are not. `REMAINING.md` breaks all 68
+**152 of 207 backlog items done, 55 open.** Of the 55, 18 are blocked on
+something outside this repository and 37 are not. `REMAINING.md` breaks all 55
 down with what unblocks each and where it goes.
 
-Verified at the point of writing: `npm test` 319 passing, `npm run lint` clean,
-`npm run build` clean across 45 routes, `npm run smoke` 53 routes clean against
-a production build.
+Verified at the point of writing: `npm test` 327 passing, `npm run lint` clean,
+`npm run build` clean, `npm run smoke` 66 routes clean against a production
+build.
 
 ---
 
@@ -145,6 +145,28 @@ a production build.
 Only 2.08 (Open Ledger write path) remains open from the original eight; it is
 genuinely blocked on durable storage, the same as items 1.07–1.09.
 
+### Phase 8 — Thirteen more P2s, everything engineering could reach
+
+| ID | Item | Where |
+|---|---|---|
+| 4.29, 4.07 | Scholarship record model and finder: five real, named schemes, each a `Field<T>` per value, deadlines framed as historical cycles rather than asserted as this year's date | `src/content/scholarships.ts`, `/scholarships` |
+| 4.10 | Country sub-pages: cost of studying, cost of living, scholarships, jobs, post-study work, fifteen static pages across three destinations, all reading the existing guide and scholarship data | `/destinations/[slug]/[topic]` |
+| 4.11 | Rankings table, alphabetical by institution and never by rank, because comparing a QS band against a Times Higher band would be a number nobody published | `/universities/rankings` |
+| F.06 | "Masters in Germany/the UK/Ireland" landing pages, the same catalogue components pinned to one destination | `/masters-in-germany`, `/masters-in-uk`, `/masters-in-ireland` |
+| F.07 | Nav carries the three Masters pages, Rankings and Scholarships | `src/content/site.ts` |
+| F.03 | Shortlist gained a "Where you stand" row reading the student's own profile against each row's own destination, counts only, no reordering | `src/app/(marketing)/shortlist/page.tsx` |
+| 5.18 | One page per journey stage, with hand-picked links to pages that already exist and no invented ones for stages that have none | `/process/[stage]` |
+| 3.41 | Correction path widened to name, counsellor, a named deadline, and a named application's reference | `src/domain/case-operations.ts` |
+| D.13 | Chart accessibility reviewed in full: complete `aria-label`, full `sr-only` table, a hatch pattern for colour-independent distinction, nothing interactive to make keyboard-accessible. Nothing to fix |
+| 4.15, D.23 | Six quick-entry chips under the homepage hero | `src/components/marketing/hero.tsx` |
+| E.01 | Already satisfied at `/shortlist`; deliberately not duplicated onto the ungated tools, whose own badge promises no signup ever |
+| E.03 | One inline "check your own profile" widget per article, at the midpoint, matching the audit's own "adopt sparingly" verdict | `src/app/(marketing)/guides/[slug]/page.tsx` |
+
+D.14 (a lint rule for radius and shadow tokens) was attempted and deliberately
+not shipped: the codebase has legitimate bespoke arbitrary values (the hero
+card's cut corner) that a blanket rule cannot distinguish from drift without
+a real design-token audit first.
+
 ---
 
 ## Open, and why
@@ -170,11 +192,12 @@ genuinely blocked on durable storage, the same as items 1.07–1.09.
 |---|---|---|
 | 1.11, D.01 | Mobile verification of every route | The structural checks pass in CI and every wide table scrolls in its own container. Nobody has looked at these routes on a phone, and that is not the same thing. The in-session Chrome browser tool has not been connected in either of the last two sessions |
 | 2.08, 2.09, 2.10 | Ledger write path, commission change history, retention deletion | All three want durable storage first |
-| 3.41, 3.42 | Wider correction scope, one-click summarise | Small console additions |
-| 4.07, 4.10, 4.11, 4.16, 4.29–4.31 | Scholarship finder, country sub-pages, rankings explorer, caching | Catalogue depth beyond the seeded set |
-| 5.06, 5.07, 5.11–5.18 | Reviews, counsellor profiles, city pages, events | Need real students, real counsellors and a real office |
+| 3.42 | One-click summarise | Small console addition |
+| 3.49 | dMAT preparation guidance | Deliberately waiting until the test's format is known rather than guessing |
+| 4.16, 4.30, 4.31 | Caching, related-search blocks, a searchable rankings explorer | Catalogue depth beyond what exists |
+| 5.06, 5.07, 5.11–5.17 | Reviews, counsellor profiles, city pages, events | Need real students, real counsellors and a real office |
 | 6.02–6.06 | Accommodation partners, forex, exam prep, mobile app, more destinations | Partnerships and scope decisions rather than engineering |
-| D.13, D.16, D.17, D.23 | Chart accessibility beyond the screen-reader table, nav condensing, scroll restoration, hero chips | Polish |
+| D.14, D.16, D.17 | A design-token lint rule, nav condensing, scroll restoration | Polish |
 
 ---
 

@@ -61,6 +61,41 @@ export function Hero() {
   );
 }
 
+const quickLinks = [
+  { label: "Browse 30 courses", href: "/universities" },
+  { label: "Check your requirements", href: "/tools/requirements-check" },
+  { label: "Cost of living calculator", href: "/tools/cost-of-living" },
+  { label: "Germany guide", href: "/destinations/germany" },
+  { label: "UK guide", href: "/destinations/united-kingdom" },
+  { label: "Ireland guide", href: "/destinations/ireland" },
+] as const;
+
+/**
+ * Six places to go besides "sign up", right under the hero. Every one of them
+ * is a page that works without an account, so this is a shortcut into the
+ * site rather than a funnel into a form.
+ */
+export function HeroQuickLinks() {
+  return (
+    <div className="bg-[#f4f7ff] pb-8">
+      <div className="shell">
+        <ul className="flex flex-wrap gap-2.5">
+          {quickLinks.map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                className="inline-flex items-center rounded-full border border-line-strong bg-paper px-4 py-2 text-[0.8125rem] font-medium text-navy-900 transition-colors hover:border-blue-600 hover:text-blue-600"
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 /**
  * Where the reference has a university search box. Three destinations do not
  * need a search, so this goes straight to what each one earns us.

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Fragment, type ReactNode } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, Clock, Info } from "@phosphor-icons/react/ssr";
@@ -88,29 +89,20 @@ export default async function ArticlePage(props: PageProps<"/guides/[slug]">) {
         <div className="shell max-w-3xl py-10 md:py-14">
           <div className="space-y-6">
             {article.body.map((block, index) => {
+              let content: ReactNode;
               if ("h" in block) {
-                return (
-                  <h2
-                    key={index}
-                    className="pt-4 font-display text-[1.375rem] font-bold text-navy-900 md:text-[1.5rem]"
-                  >
+                content = (
+                  <h2 className="pt-4 font-display text-[1.375rem] font-bold text-navy-900 md:text-[1.5rem]">
                     {block.h}
                   </h2>
                 );
-              }
-              if ("p" in block) {
-                return (
-                  <p key={index} className="text-[1.0625rem] leading-relaxed text-body">
-                    {block.p}
-                  </p>
+              } else if ("p" in block) {
+                content = (
+                  <p className="text-[1.0625rem] leading-relaxed text-body">{block.p}</p>
                 );
-              }
-              if ("note" in block) {
-                return (
-                  <p
-                    key={index}
-                    className="flex gap-3.5 rounded-card border border-line bg-surface p-5 text-[1rem] leading-relaxed text-body"
-                  >
+              } else if ("note" in block) {
+                content = (
+                  <p className="flex gap-3.5 rounded-card border border-line bg-surface p-5 text-[1rem] leading-relaxed text-body">
                     <Info
                       size={18}
                       weight="fill"
@@ -120,22 +112,50 @@ export default async function ArticlePage(props: PageProps<"/guides/[slug]">) {
                     {block.note}
                   </p>
                 );
+              } else {
+                content = (
+                  <ul className="space-y-2.5">
+                    {block.list.map((item) => (
+                      <li key={item} className="flex gap-3 text-[1.0625rem] leading-relaxed text-body">
+                        <span
+                          aria-hidden
+                          className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-600"
+                        />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                );
               }
+
+              // One inline conversion widget per article, at the midpoint,
+              // rather than several: "adopt sparingly" was the verdict on this
+              // pattern, and one well-placed prompt is what that means.
+              const showWidget = index === Math.floor(article.body.length / 2);
+
               return (
-                <ul key={index} className="space-y-2.5">
-                  {block.list.map((item) => (
-                    <li
-                      key={item}
-                      className="flex gap-3 text-[1.0625rem] leading-relaxed text-body"
-                    >
-                      <span
-                        aria-hidden
-                        className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-600"
-                      />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+                <Fragment key={index}>
+                  {showWidget && (
+                    <div className="flex flex-wrap items-center justify-between gap-4 rounded-card border border-blue-600/20 bg-blue-50/60 p-5">
+                      <p className="text-[0.9375rem] leading-relaxed text-navy-900">
+                        {guide
+                          ? `Check your own profile against ${guide.country}'s published requirements.`
+                          : "Check your own profile against a published requirement, in your browser."}
+                      </p>
+                      <ButtonLink
+                        href={
+                          guide
+                            ? `/tools/requirements-check?destination=${guide.slug}`
+                            : "/tools/requirements-check"
+                        }
+                        size="md"
+                      >
+                        Run the checklist
+                      </ButtonLink>
+                    </div>
+                  )}
+                  {content}
+                </Fragment>
               );
             })}
           </div>
