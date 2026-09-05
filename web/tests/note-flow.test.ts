@@ -126,7 +126,7 @@ describe("a failed classification leaves something behind", () => {
     const cleared = await clearManualReview("case-1041", demoCounselor);
     expect(cleared?.needsManualReview).toBeNull();
 
-    const entry = auditFor("case-1041").find(
+    const entry = (await auditFor("case-1041")).find(
       (item) => item.field === "needsManualReview",
     );
     expect(entry?.actorName).toBe(demoCounselor.name);

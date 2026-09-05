@@ -52,7 +52,7 @@ export async function runExtraction(
   }
 
   if (run.status === "blocked") {
-    recordAudit({
+    await recordAudit({
       actorId: "document-intelligence",
       actorName: "Document Intelligence agent",
       actorRole: "agent",

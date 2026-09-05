@@ -56,7 +56,7 @@ export async function askGuidance(
   }
 
   if (run.status === "blocked") {
-    recordAudit({
+    await recordAudit({
       actorId: "student-guidance",
       actorName: "Student Guidance agent",
       actorRole: "agent",

@@ -93,7 +93,7 @@ export async function addNote(
     await attachSummary(caseId, run.data.summary, run.data.suggestedAction, "Case Summary agent");
     agentOutcome = "Case summary updated, labelled as machine written.";
   } else if (run.status === "blocked") {
-    recordAudit({
+    await recordAudit({
       actorId: "case-summary",
       actorName: "Case Summary agent",
       actorRole: "agent",
@@ -157,7 +157,7 @@ export async function resummarise(
     await attachSummary(caseId, run.data.summary, run.data.suggestedAction, "Case Summary agent");
     message = "Summary updated, labelled as machine written.";
   } else if (run.status === "blocked") {
-    recordAudit({
+    await recordAudit({
       actorId: "case-summary",
       actorName: "Case Summary agent",
       actorRole: "agent",

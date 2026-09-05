@@ -52,7 +52,7 @@ export async function attemptUpload(
   );
 
   if (!check.ok) {
-    recordAudit({
+    await recordAudit({
       actorId: actor.id,
       actorName: actor.name,
       actorRole: actor.role,

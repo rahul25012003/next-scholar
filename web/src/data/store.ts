@@ -1,24 +1,37 @@
 import "server-only";
 
-import type { LogEntry, StudentCase } from "@/domain/case";
+import type {
+  ApplicationRecord,
+  DocumentRecord,
+  FollowUpTask,
+  LogEntry,
+  Priority,
+  Source,
+  StageKey,
+  StudentCase,
+} from "@/domain/case";
 import { can, visibleCases, type Action, type Actor } from "@/domain/rbac";
-import { record as recordAudit } from "@/domain/audit";
+import { auditFor, record as recordAudit } from "@/domain/audit";
 import {
   withdraw,
   type ChannelConsent,
   type ConsentRecord,
   type ContactChannel,
+  type DocumentCategory,
 } from "@/domain/consent";
 import {
   escalateOpen,
   planNotifications,
   resolveStale,
+  type Channel as NotificationChannel,
+  type DeliveryStatus,
   type Notification,
 } from "@/domain/notifications";
 import { deriveDocStatus } from "@/domain/completeness";
-import { byPriority, detectAll } from "@/domain/events";
-import type { CommunicationRecord } from "@/domain/communications";
-import { decideField, type Extraction } from "@/domain/extraction";
+import { byPriority, detectAll, type EventType } from "@/domain/events";
+import type { Channel as CommsChannel, CommunicationRecord } from "@/domain/communications";
+import { decideField, type Extraction, type StagedField } from "@/domain/extraction";
+import { supabaseAdmin, supabaseConfigured } from "@/lib/supabase";
 import { syntheticCases } from "./synthetic-cases";
 import { syntheticConsents } from "./synthetic-consents";
 import { syntheticCommunications } from "./synthetic-communications";
@@ -27,9 +40,11 @@ import { syntheticChannelConsents } from "./synthetic-channel-consents";
 /**
  * The one place that knows where case records live.
  *
- * Today that is an in memory copy of the synthetic fixtures. The migration path
- * from the build spec is to replace the bodies below with Supabase queries under
- * row level security, at which point nothing above this file changes.
+ * Two modes, chosen once per call by `supabaseConfigured()`, same as
+ * `data/users.ts`: with a database connected, every function below queries
+ * `supabase/migrations/0001_schema.sql`; without one, it reads the in-memory
+ * copy of the synthetic fixtures a few lines down. Nothing above this file,
+ * and no caller, needs to know which mode is live.
  *
  * Two rules this file exists to enforce, whatever the storage is underneath:
  * fabricated records never load in production unless someone explicitly asks
@@ -47,7 +62,6 @@ let channelConsents: ChannelConsent[] = syntheticChannelConsents.map((item) => (
 }));
 let extractions: Extraction[] = [];
 let notifications: Notification[] = [];
-let reportSignOff: { by: string; at: string } | null = null;
 
 export type StoreMode = "synthetic" | "empty";
 
@@ -64,11 +78,145 @@ export function storeNotice(): string {
     : "No case records. The platform is not connected to a database, and fabricated records are not served here.";
 }
 
+type CaseRow = {
+  id: string;
+  name: string;
+  destination: string;
+  route: string | null;
+  intake: string;
+  counselor: string;
+  budget_inr: number | null;
+  profile: StudentCase["profile"];
+  stage: StageKey;
+  stage_updated_at: string;
+  priority: Priority;
+  summary: string | null;
+  summary_source: Source | null;
+  suggested_action: string | null;
+  suggested_action_source: Source | null;
+  last_student_contact_at: string;
+  last_counselor_reply_at: string;
+  deadlines: StudentCase["deadlines"];
+  tasks: FollowUpTask[];
+  documents: DocumentRecord[];
+  applications: ApplicationRecord[];
+  visa: StudentCase["visa"];
+  log: LogEntry[];
+  closed_at: string | null;
+  needs_manual_review: StudentCase["needsManualReview"];
+  synthetic: boolean;
+};
+
+function caseFromRow(row: CaseRow): StudentCase {
+  return {
+    id: row.id,
+    name: row.name,
+    destination: row.destination,
+    route: row.route,
+    intake: row.intake,
+    counselor: row.counselor,
+    budgetInr: row.budget_inr,
+    profile: row.profile,
+    stage: row.stage,
+    stageUpdatedAt: row.stage_updated_at,
+    // Never read off the row: recomputed by `all()` from the documents below.
+    docStatus: "Not started",
+    priority: row.priority,
+    summary: row.summary,
+    summarySource: row.summary_source,
+    suggestedAction: row.suggested_action,
+    suggestedActionSource: row.suggested_action_source,
+    lastStudentContactAt: row.last_student_contact_at,
+    lastCounselorReplyAt: row.last_counselor_reply_at,
+    deadlines: row.deadlines,
+    tasks: row.tasks,
+    documents: row.documents,
+    applications: row.applications,
+    visa: row.visa,
+    log: row.log,
+    closedAt: row.closed_at,
+    needsManualReview: row.needs_manual_review,
+    synthetic: row.synthetic,
+  };
+}
+
+function caseToRow(record: StudentCase): CaseRow {
+  return {
+    id: record.id,
+    name: record.name,
+    destination: record.destination,
+    route: record.route,
+    intake: record.intake,
+    counselor: record.counselor,
+    budget_inr: record.budgetInr,
+    profile: record.profile,
+    stage: record.stage,
+    stage_updated_at: record.stageUpdatedAt,
+    priority: record.priority,
+    summary: record.summary,
+    summary_source: record.summarySource,
+    suggested_action: record.suggestedAction,
+    suggested_action_source: record.suggestedActionSource,
+    last_student_contact_at: record.lastStudentContactAt,
+    last_counselor_reply_at: record.lastCounselorReplyAt,
+    deadlines: record.deadlines,
+    tasks: record.tasks,
+    documents: record.documents,
+    applications: record.applications,
+    visa: record.visa,
+    log: record.log,
+    closed_at: record.closedAt,
+    needs_manual_review: record.needsManualReview,
+    synthetic: record.synthetic,
+  };
+}
+
+/**
+ * Writes one full case row. `counselor` is a display name (see
+ * `supabase/migrations/0001_schema.sql`'s comment on `cases.counselor`), so
+ * `counselor_id` is best-effort resolved from it by name on every save, the
+ * "application's saveCase helper" that migration comment refers to. A name
+ * that matches no counselor account resolves to null, same as an unresolved
+ * reassignment in the schema's own edge case.
+ */
+async function saveCase(record: StudentCase): Promise<void> {
+  if (supabaseConfigured()) {
+    const client = supabaseAdmin()!;
+    const { data: counselor, error: lookupError } = await client
+      .from("users")
+      .select("id")
+      .eq("role", "counselor")
+      .eq("name", record.counselor)
+      .maybeSingle<{ id: string }>();
+    if (lookupError) throw lookupError;
+
+    const { error } = await client
+      .from("cases")
+      .update({ ...caseToRow(record), counselor_id: counselor?.id ?? null })
+      .eq("id", record.id);
+    if (error) throw error;
+    return;
+  }
+
+  records = records.map((item) => (item.id === record.id ? record : item));
+}
+
 /**
  * The case level document status is derived here rather than stored, so the
  * roll-up cannot drift from the documents it summarises.
  */
-function all(): StudentCase[] {
+async function all(): Promise<StudentCase[]> {
+  if (supabaseConfigured()) {
+    let query = supabaseAdmin()!.from("cases").select("*");
+    if (storeMode() !== "synthetic") query = query.eq("synthetic", false);
+    const { data, error } = await query.returns<CaseRow[]>();
+    if (error) throw error;
+    return (data ?? []).map((row) => {
+      const record = caseFromRow(row);
+      return { ...record, docStatus: deriveDocStatus(record) };
+    });
+  }
+
   if (storeMode() !== "synthetic") return [];
   return records.map((record) => ({
     ...record,
@@ -78,15 +226,16 @@ function all(): StudentCase[] {
 
 /** Scoped by the permission matrix, then logged. Both, every time. */
 export async function listCases(actor: Actor): Promise<StudentCase[]> {
-  const scoped = visibleCases(actor, all());
-  recordAudit({
+  const everything = await all();
+  const scoped = visibleCases(actor, everything);
+  await recordAudit({
     actorId: actor.id,
     actorName: actor.name,
     actorRole: actor.role,
     action: "read",
     subjectType: "case",
     subjectId: "caseload",
-    note: `Listed ${scoped.length} of ${all().length} cases`,
+    note: `Listed ${scoped.length} of ${everything.length} cases`,
   });
   return scoped;
 }
@@ -95,8 +244,8 @@ export async function getCase(
   id: string,
   actor: Actor,
 ): Promise<StudentCase | null> {
-  const found = visibleCases(actor, all()).find((item) => item.id === id) ?? null;
-  recordAudit({
+  const found = visibleCases(actor, await all()).find((item) => item.id === id) ?? null;
+  await recordAudit({
     actorId: actor.id,
     actorName: actor.name,
     actorRole: actor.role,
@@ -123,9 +272,9 @@ export async function appendNote(
 
   const logEntry: LogEntry = { ts: entry.ts ?? new Date().toISOString(), ...entry };
   const updated: StudentCase = { ...record, log: [...record.log, logEntry] };
-  records = records.map((item) => (item.id === caseId ? updated : item));
+  await saveCase(updated);
 
-  recordAudit({
+  await recordAudit({
     actorId: actor.id,
     actorName: actor.name,
     actorRole: actor.role,
@@ -149,16 +298,15 @@ export async function flagForManualReview(
   note: string,
   reason: string,
 ): Promise<void> {
-  records = records.map((record) =>
-    record.id === caseId
-      ? {
-          ...record,
-          needsManualReview: { at: new Date().toISOString(), note, reason },
-        }
-      : record,
-  );
+  const record = (await all()).find((item) => item.id === caseId);
+  if (record) {
+    await saveCase({
+      ...record,
+      needsManualReview: { at: new Date().toISOString(), note, reason },
+    });
+  }
 
-  recordAudit({
+  await recordAudit({
     actorId: "system",
     actorName: "System",
     actorRole: "system",
@@ -180,9 +328,9 @@ export async function clearManualReview(
   if (!can(actor, "case.note.write", record)) return null;
 
   const updated = { ...record, needsManualReview: null };
-  records = records.map((item) => (item.id === caseId ? updated : item));
+  await saveCase(updated);
 
-  recordAudit({
+  await recordAudit({
     actorId: actor.id,
     actorName: actor.name,
     actorRole: actor.role,
@@ -204,20 +352,20 @@ export async function attachSummary(
   suggestedAction: string,
   agentName: string,
 ): Promise<void> {
-  const before = records.find((item) => item.id === caseId)?.summary ?? null;
-  records = records.map((record) =>
-    record.id === caseId
-      ? {
-          ...record,
-          summary,
-          summarySource: "ai" as const,
-          suggestedAction,
-          suggestedActionSource: "ai" as const,
-        }
-      : record,
-  );
+  const record = (await all()).find((item) => item.id === caseId);
+  const before = record?.summary ?? null;
 
-  recordAudit({
+  if (record) {
+    await saveCase({
+      ...record,
+      summary,
+      summarySource: "ai" as const,
+      suggestedAction,
+      suggestedActionSource: "ai" as const,
+    });
+  }
+
+  await recordAudit({
     actorId: agentName,
     actorName: agentName,
     actorRole: "agent",
@@ -254,10 +402,10 @@ export async function markDocumentVerified(
         : document,
     ),
   };
-  records = records.map((item) => (item.id === caseId ? updated : item));
+  await saveCase(updated);
 
   const document = record.documents.find((item) => item.id === documentId);
-  recordAudit({
+  await recordAudit({
     actorId: actor.id,
     actorName: actor.name,
     actorRole: actor.role,
@@ -290,9 +438,9 @@ export async function mutateCase(
   if (!can(actor, action, record)) return null;
 
   const updated = transform(record);
-  records = records.map((item) => (item.id === caseId ? updated : item));
+  await saveCase(updated);
 
-  recordAudit({
+  await recordAudit({
     actorId: actor.id,
     actorName: actor.name,
     actorRole: actor.role,
@@ -305,12 +453,48 @@ export async function mutateCase(
   return updated;
 }
 
+type CommunicationRow = {
+  id: string;
+  case_id: string;
+  channel: CommsChannel;
+  direction: "inbound" | "outbound";
+  occurred_at: string;
+  participants: string;
+  raw: string;
+  summary: string | null;
+  summary_source: Source | null;
+  student_visible: boolean;
+};
+
+function communicationFromRow(row: CommunicationRow): CommunicationRecord {
+  return {
+    id: row.id,
+    caseId: row.case_id,
+    channel: row.channel,
+    direction: row.direction,
+    occurredAt: row.occurred_at,
+    participants: row.participants,
+    raw: row.raw,
+    summary: row.summary,
+    summarySource: row.summary_source,
+    studentVisible: row.student_visible,
+  };
+}
+
 export async function listCommunications(
   caseId: string,
   actor: Actor,
 ): Promise<CommunicationRecord[]> {
   const record = await getCase(caseId, actor);
   if (!record) return [];
+
+  if (supabaseConfigured()) {
+    let query = supabaseAdmin()!.from("communications").select("*").eq("case_id", caseId);
+    if (actor.role === "student") query = query.eq("student_visible", true);
+    const { data, error } = await query.returns<CommunicationRow[]>();
+    if (error) throw error;
+    return (data ?? []).map(communicationFromRow);
+  }
 
   const scoped = communications.filter((item) => item.caseId === caseId);
   return actor.role === "student"
@@ -323,13 +507,21 @@ export async function attachThreadSummary(
   communicationId: string,
   line: string,
 ): Promise<void> {
-  communications = communications.map((item) =>
-    item.id === communicationId
-      ? { ...item, summary: line, summarySource: "ai" as const }
-      : item,
-  );
+  if (supabaseConfigured()) {
+    const { error } = await supabaseAdmin()!
+      .from("communications")
+      .update({ summary: line, summary_source: "ai" })
+      .eq("id", communicationId);
+    if (error) throw error;
+  } else {
+    communications = communications.map((item) =>
+      item.id === communicationId
+        ? { ...item, summary: line, summarySource: "ai" as const }
+        : item,
+    );
+  }
 
-  recordAudit({
+  await recordAudit({
     actorId: "communication-summary",
     actorName: "Communication Summary agent",
     actorRole: "agent",
@@ -345,7 +537,37 @@ export async function attachThreadSummary(
 export async function getCommunication(
   communicationId: string,
 ): Promise<CommunicationRecord | null> {
+  if (supabaseConfigured()) {
+    const { data, error } = await supabaseAdmin()!
+      .from("communications")
+      .select("*")
+      .eq("id", communicationId)
+      .maybeSingle<CommunicationRow>();
+    if (error) throw error;
+    return data ? communicationFromRow(data) : null;
+  }
+
   return communications.find((item) => item.id === communicationId) ?? null;
+}
+
+type ExtractionRow = {
+  document_id: string;
+  case_id: string;
+  extracted_at: string;
+  fields: StagedField[];
+  note: string;
+  unreadable: boolean;
+};
+
+function extractionFromRow(row: ExtractionRow): Extraction {
+  return {
+    documentId: row.document_id,
+    caseId: row.case_id,
+    extractedAt: row.extracted_at,
+    fields: row.fields,
+    note: row.note,
+    unreadable: row.unreadable,
+  };
 }
 
 /**
@@ -354,12 +576,24 @@ export async function getCommunication(
  * person has promoted a specific field.
  */
 export async function stageExtraction(extraction: Extraction): Promise<void> {
-  extractions = [
-    ...extractions.filter((item) => item.documentId !== extraction.documentId),
-    extraction,
-  ];
+  if (supabaseConfigured()) {
+    const { error } = await supabaseAdmin()!.from("extractions").upsert({
+      document_id: extraction.documentId,
+      case_id: extraction.caseId,
+      extracted_at: extraction.extractedAt,
+      fields: extraction.fields,
+      note: extraction.note,
+      unreadable: extraction.unreadable,
+    });
+    if (error) throw error;
+  } else {
+    extractions = [
+      ...extractions.filter((item) => item.documentId !== extraction.documentId),
+      extraction,
+    ];
+  }
 
-  recordAudit({
+  await recordAudit({
     actorId: "document-intelligence",
     actorName: "Document Intelligence agent",
     actorRole: "agent",
@@ -374,6 +608,16 @@ export async function stageExtraction(extraction: Extraction): Promise<void> {
 export async function getExtraction(
   documentId: string,
 ): Promise<Extraction | null> {
+  if (supabaseConfigured()) {
+    const { data, error } = await supabaseAdmin()!
+      .from("extractions")
+      .select("*")
+      .eq("document_id", documentId)
+      .maybeSingle<ExtractionRow>();
+    if (error) throw error;
+    return data ? extractionFromRow(data) : null;
+  }
+
   return extractions.find((item) => item.documentId === documentId) ?? null;
 }
 
@@ -394,11 +638,20 @@ export async function decideExtractedField(
 
   const before = extraction.fields.find((field) => field.name === fieldName);
   const updated = decideField(extraction, fieldName, decision, actor.name);
-  extractions = extractions.map((item) =>
-    item.documentId === documentId ? updated : item,
-  );
 
-  recordAudit({
+  if (supabaseConfigured()) {
+    const { error } = await supabaseAdmin()!
+      .from("extractions")
+      .update({ fields: updated.fields })
+      .eq("document_id", documentId);
+    if (error) throw error;
+  } else {
+    extractions = extractions.map((item) =>
+      item.documentId === documentId ? updated : item,
+    );
+  }
+
+  await recordAudit({
     actorId: actor.id,
     actorName: actor.name,
     actorRole: actor.role,
@@ -421,11 +674,11 @@ export async function decideExtractedField(
 export async function caseloadStats(
   actor: Actor,
 ): Promise<{ mine: number; teamAverage: number; counselors: number }> {
-  const everything = all();
+  const everything = await all();
   const mine = visibleCases(actor, everything).length;
   const counselors = new Set(everything.map((record) => record.counselor)).size;
 
-  recordAudit({
+  await recordAudit({
     actorId: actor.id,
     actorName: actor.name,
     actorRole: actor.role,
@@ -442,13 +695,45 @@ export async function caseloadStats(
   };
 }
 
+type ChannelConsentRow = {
+  id: string;
+  case_id: string;
+  channel: ContactChannel;
+  granted_at: string;
+  granted_by: string;
+  withdrawn_at: string | null;
+};
+
+function channelConsentFromRow(row: ChannelConsentRow): ChannelConsent {
+  return {
+    id: row.id,
+    caseId: row.case_id,
+    channel: row.channel,
+    grantedAt: row.granted_at,
+    grantedBy: row.granted_by,
+    withdrawnAt: row.withdrawn_at,
+  };
+}
+
+async function allChannelConsents(): Promise<ChannelConsent[]> {
+  if (supabaseConfigured()) {
+    const { data, error } = await supabaseAdmin()!
+      .from("channel_consents")
+      .select("*")
+      .returns<ChannelConsentRow[]>();
+    if (error) throw error;
+    return (data ?? []).map(channelConsentFromRow);
+  }
+  return channelConsents;
+}
+
 export async function listChannelConsents(
   caseId: string,
   actor: Actor,
 ): Promise<ChannelConsent[]> {
   const record = await getCase(caseId, actor);
   if (!record) return [];
-  return channelConsents.filter((consent) => consent.caseId === caseId);
+  return (await allChannelConsents()).filter((consent) => consent.caseId === caseId);
 }
 
 /**
@@ -472,7 +757,7 @@ export async function grantChannelConsent(
   if (!record) return null;
   if (actor.role !== "student" || actor.caseId !== caseId) return null;
 
-  const live = channelConsents.find(
+  const live = (await allChannelConsents()).find(
     (consent) =>
       consent.caseId === caseId &&
       consent.channel === channel &&
@@ -488,9 +773,22 @@ export async function grantChannelConsent(
     grantedBy: actor.name,
     withdrawnAt: null,
   };
-  channelConsents = [...channelConsents, granted];
 
-  recordAudit({
+  if (supabaseConfigured()) {
+    const { error } = await supabaseAdmin()!.from("channel_consents").insert({
+      id: granted.id,
+      case_id: granted.caseId,
+      channel: granted.channel,
+      granted_at: granted.grantedAt,
+      granted_by: granted.grantedBy,
+      withdrawn_at: granted.withdrawnAt,
+    });
+    if (error) throw error;
+  } else {
+    channelConsents = [...channelConsents, granted];
+  }
+
+  await recordAudit({
     actorId: actor.id,
     actorName: actor.name,
     actorRole: actor.role,
@@ -507,14 +805,24 @@ export async function withdrawChannelConsent(
   consentId: string,
   actor: Actor,
 ): Promise<void> {
-  const before = channelConsents.find((consent) => consent.id === consentId);
-  channelConsents = channelConsents.map((consent) =>
-    consent.id === consentId && consent.withdrawnAt === null
-      ? { ...consent, withdrawnAt: new Date().toISOString() }
-      : consent,
-  );
+  const before = (await allChannelConsents()).find((consent) => consent.id === consentId);
 
-  recordAudit({
+  if (before && before.withdrawnAt === null) {
+    const withdrawnAt = new Date().toISOString();
+    if (supabaseConfigured()) {
+      const { error } = await supabaseAdmin()!
+        .from("channel_consents")
+        .update({ withdrawn_at: withdrawnAt })
+        .eq("id", consentId);
+      if (error) throw error;
+    } else {
+      channelConsents = channelConsents.map((consent) =>
+        consent.id === consentId ? { ...consent, withdrawnAt } : consent,
+      );
+    }
+  }
+
+  await recordAudit({
     actorId: actor.id,
     actorName: actor.name,
     actorRole: actor.role,
@@ -525,23 +833,70 @@ export async function withdrawChannelConsent(
   });
 }
 
+type ConsentRow = {
+  id: string;
+  case_id: string;
+  category: DocumentCategory;
+  purpose: string;
+  shared_with: string[];
+  granted_at: string;
+  granted_by: string;
+  withdrawn_at: string | null;
+};
+
+function consentFromRow(row: ConsentRow): ConsentRecord {
+  return {
+    id: row.id,
+    caseId: row.case_id,
+    category: row.category,
+    purpose: row.purpose,
+    sharedWith: row.shared_with,
+    grantedAt: row.granted_at,
+    grantedBy: row.granted_by,
+    withdrawnAt: row.withdrawn_at,
+  };
+}
+
+async function allConsents(): Promise<ConsentRecord[]> {
+  if (supabaseConfigured()) {
+    const { data, error } = await supabaseAdmin()!
+      .from("consents")
+      .select("*")
+      .returns<ConsentRow[]>();
+    if (error) throw error;
+    return (data ?? []).map(consentFromRow);
+  }
+  return consents;
+}
+
 export async function listConsents(
   caseId: string,
   actor: Actor,
 ): Promise<ConsentRecord[]> {
   const record = await getCase(caseId, actor);
   if (!record) return [];
-  return consents.filter((consent) => consent.caseId === caseId);
+  return (await allConsents()).filter((consent) => consent.caseId === caseId);
 }
 
 export async function withdrawConsent(
   consentId: string,
   actor: Actor,
 ): Promise<ConsentRecord[]> {
-  const before = consents.find((consent) => consent.id === consentId);
-  consents = withdraw(consents, consentId);
+  const before = (await allConsents()).find((consent) => consent.id === consentId);
 
-  recordAudit({
+  if (before && before.withdrawnAt === null) {
+    if (supabaseConfigured()) {
+      const { error } = await supabaseAdmin()!
+        .from("consents")
+        .update({ withdrawn_at: new Date().toISOString() })
+        .eq("id", consentId);
+      if (error) throw error;
+    } else {
+      consents = withdraw(consents, consentId);
+    }
+  }
+
+  await recordAudit({
     actorId: actor.id,
     actorName: actor.name,
     actorRole: actor.role,
@@ -554,7 +909,93 @@ export async function withdrawConsent(
     note: before ? `Category: ${before.category}` : undefined,
   });
 
-  return consents.filter((consent) => consent.caseId === before?.caseId);
+  return (await allConsents()).filter((consent) => consent.caseId === before?.caseId);
+}
+
+/**
+ * The founder signing off a quarterly report. A figure nobody has put their
+ * name to does not publish, however finished the arithmetic looks.
+ *
+ * There is no dedicated table for this: the sign-off is exactly the audit
+ * entry this writes, so reading the most recent one back (`auditFor` is
+ * already newest first) is the sign-off, in either storage mode.
+ */
+export async function signOffReport(actor: Actor): Promise<boolean> {
+  if (!can(actor, "report.publish")) return false;
+
+  const at = new Date().toISOString().slice(0, 10);
+  await recordAudit({
+    actorId: actor.id,
+    actorName: actor.name,
+    actorRole: actor.role,
+    action: "update",
+    subjectType: "report",
+    subjectId: "quarterly",
+    after: at,
+    note: "Quarterly report signed off for publication",
+  });
+  return true;
+}
+
+export async function currentSignOff(): Promise<{ by: string; at: string } | null> {
+  const [latest] = await auditFor("quarterly");
+  return latest ? { by: latest.actorName, at: latest.after ?? "" } : null;
+}
+
+type NotificationRow = {
+  id: string;
+  event_key: string;
+  case_id: string;
+  type: EventType;
+  priority: Priority;
+  channel: NotificationChannel;
+  delivery_status: DeliveryStatus;
+  body: string;
+  created_at: string;
+  resolved_at: string | null;
+};
+
+function notificationFromRow(row: NotificationRow): Notification {
+  return {
+    id: row.id,
+    eventKey: row.event_key,
+    caseId: row.case_id,
+    type: row.type,
+    priority: row.priority,
+    channel: row.channel,
+    deliveryStatus: row.delivery_status,
+    body: row.body,
+    createdAt: row.created_at,
+    resolvedAt: row.resolved_at,
+    source: "system",
+  };
+}
+
+function notificationToRow(item: Notification): NotificationRow {
+  return {
+    id: item.id,
+    event_key: item.eventKey,
+    case_id: item.caseId,
+    type: item.type,
+    priority: item.priority,
+    channel: item.channel,
+    delivery_status: item.deliveryStatus,
+    body: item.body,
+    created_at: item.createdAt,
+    resolved_at: item.resolvedAt,
+  };
+}
+
+async function allNotifications(): Promise<Notification[]> {
+  if (supabaseConfigured()) {
+    const { data, error } = await supabaseAdmin()!
+      .from("notifications")
+      .select("*")
+      .returns<NotificationRow[]>();
+    if (error) throw error;
+    return (data ?? []).map(notificationFromRow);
+  }
+  return notifications;
 }
 
 /**
@@ -562,47 +1003,34 @@ export async function withdrawConsent(
  * cleared. Intended to be called by a scheduled sweep, and safe to call twice:
  * a repeat run on unchanged state produces nothing.
  */
-/**
- * The founder signing off a quarterly report. A figure nobody has put their
- * name to does not publish, however finished the arithmetic looks.
- */
-export async function signOffReport(actor: Actor): Promise<boolean> {
-  if (!can(actor, "report.publish")) return false;
-
-  reportSignOff = { by: actor.name, at: new Date().toISOString().slice(0, 10) };
-  recordAudit({
-    actorId: actor.id,
-    actorName: actor.name,
-    actorRole: actor.role,
-    action: "update",
-    subjectType: "report",
-    subjectId: "quarterly",
-    after: reportSignOff.at,
-    note: "Quarterly report signed off for publication",
-  });
-  return true;
-}
-
-export function currentSignOff(): { by: string; at: string } | null {
-  return reportSignOff;
-}
-
 export async function syncNotifications(): Promise<{
   queued: number;
   escalated: number;
   resolved: number;
   open: number;
 }> {
-  const events = detectAll(all()).sort(byPriority);
-  const previouslyOpen = notifications.filter((item) => !item.resolvedAt).length;
+  const events = detectAll(await all()).sort(byPriority);
+  const existing = await allNotifications();
+  const previouslyOpen = existing.filter((item) => !item.resolvedAt).length;
 
   // An open reminder whose event has become more urgent is re-queued, so a
   // deadline sequence actually escalates instead of firing once at thirty days.
-  const { next: escalatedRows, escalated } = escalateOpen(notifications, events);
-  const planned = planNotifications(events, escalatedRows, channelConsents);
+  const { next: escalatedRows, escalated } = escalateOpen(existing, events);
+  const planned = planNotifications(events, escalatedRows, await allChannelConsents());
+  const resolved = resolveStale([...escalatedRows, ...planned], events);
 
-  notifications = resolveStale([...escalatedRows, ...planned], events);
-  const openNow = notifications.filter((item) => !item.resolvedAt).length;
+  if (supabaseConfigured()) {
+    if (resolved.length > 0) {
+      const { error } = await supabaseAdmin()!
+        .from("notifications")
+        .upsert(resolved.map(notificationToRow));
+      if (error) throw error;
+    }
+  } else {
+    notifications = resolved;
+  }
+
+  const openNow = resolved.filter((item) => !item.resolvedAt).length;
 
   return {
     queued: planned.length,
@@ -617,8 +1045,8 @@ export async function listNotifications(
   actor: Actor,
 ): Promise<Notification[]> {
   await syncNotifications();
-  const scopedIds = new Set(visibleCases(actor, all()).map((item) => item.id));
-  return notifications
+  const scopedIds = new Set(visibleCases(actor, await all()).map((item) => item.id));
+  return (await allNotifications())
     .filter((item) => !item.resolvedAt)
     .filter((item) => scopedIds.has(item.caseId))
     .filter((item) => (caseId ? item.caseId === caseId : true));

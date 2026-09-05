@@ -149,7 +149,7 @@ export async function authenticate(email: string, password: string): Promise<Aut
 
   const matches = verifyPassword(password, stored);
   if (!user || !matches) {
-    recordAudit({
+    await recordAudit({
       actorId: "anonymous",
       actorName: normaliseEmail(email),
       actorRole: "system",
@@ -161,7 +161,7 @@ export async function authenticate(email: string, password: string): Promise<Aut
     return null;
   }
 
-  recordAudit({
+  await recordAudit({
     actorId: user.id,
     actorName: user.name,
     actorRole: user.role,
@@ -220,7 +220,7 @@ export async function register(input: {
     users = [...users, user];
   }
 
-  recordAudit({
+  await recordAudit({
     actorId: user.id,
     actorName: user.name,
     actorRole: user.role,
@@ -260,7 +260,7 @@ export async function saveOnboarding(
     users = users.map((item) => (item.id === userId ? updated : item));
   }
 
-  recordAudit({
+  await recordAudit({
     actorId: user.id,
     actorName: user.name,
     actorRole: user.role,
@@ -310,7 +310,7 @@ export async function toggleShortlist(
     users = users.map((item) => (item.id === userId ? { ...item, shortlist: next } : item));
   }
 
-  recordAudit({
+  await recordAudit({
     actorId: user.id,
     actorName: user.name,
     actorRole: user.role,

@@ -31,14 +31,14 @@ export default async function OpsPage() {
 
   const all = await listCases(actor);
   const events = detectAll(all).sort(byPriority);
-  const report = buildQuarterlyReport(all, currentSignOff());
+  const report = buildQuarterlyReport(all, await currentSignOff());
   const availability = agentAvailability();
   const providers = providerStatus();
   const posture = securityPosture();
   const postureCounts = postureSummary();
   const sweep = await syncNotifications();
   const assignment = suggestAssignment(all);
-  const audit = recentAudit(12);
+  const audit = await recentAudit(12);
   const counselors = [...new Set(all.map((record) => record.counselor))];
   const escalated = all.filter((record) =>
     events.some(

@@ -10,7 +10,7 @@ decision — funding, a partnership, a legal policy call, a research-scope
 call — rather than a task. `REMAINING.md` breaks all 40 down with what
 unblocks each and where it goes.
 
-Verified at the point of writing: `npm test` 337 passing, `npm run lint` clean,
+Verified at the point of writing: `npm test` 343 passing, `npm run lint` clean,
 `npm run build` clean, `npm run smoke` 71 routes clean against a production
 build.
 
@@ -211,7 +211,7 @@ outside decision is made.
 
 | ID | Item | Blocked on |
 |---|---|---|
-| 1.07, 1.08, 1.09 | Supabase, migration, durable audit | A Supabase project. Every write is still lost on restart, and the platform says so on every authenticated page |
+| 1.07, 1.08, 1.09 | Supabase, migration, durable audit | Code-complete and tested against a real Postgres instance: schema and RLS mirroring `rbac.ts` (`supabase/`, 11 assertions passing including a fail-closed no-actor check), `data/store.ts` and `data/users.ts` fully migrated behind `supabaseConfigured()`, `domain/audit.ts` reading and writing the same `audit_log` table it always wrote to. Needs an actual Supabase project and `SUPABASE_URL`/`SUPABASE_SERVICE_ROLE_KEY` in the environment; every write is still lost on restart until one exists, and the platform says so on every authenticated page |
 | 2.01, 2.02, 2.03 | Document storage, Document Intelligence, versioning | Object storage plus a malware scanner. The upload pipeline refuses everything by design until both exist |
 | 2.04, 2.05 | A live run of the six model agents, and adversarial testing of the prohibition checks | `ANTHROPIC_API_KEY`. No model call has ever executed; the guards are proven against mocked strings only. This remains the largest untested surface in the codebase |
 | 2.06 | Email and WhatsApp delivery | Provider credentials. `deliveryStatus` never leaves `queued`, and the consent control now exists ahead of the delivery it governs |

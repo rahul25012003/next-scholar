@@ -145,7 +145,7 @@ export async function runAgent<S extends z.ZodType>(
   );
 
   if (rejected.length > 0) {
-    recordAudit({
+    await recordAudit({
       actorId: agent.id,
       actorName: agent.name,
       actorRole: "agent",

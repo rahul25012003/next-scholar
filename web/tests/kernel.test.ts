@@ -109,7 +109,7 @@ describe("the capability filter actually filters", () => {
     );
 
     await run();
-    const entry = recentAudit()[0];
+    const entry = (await recentAudit())[0];
 
     expect(entry.action).toBe("agent-blocked");
     expect(entry.actorRole).toBe("agent");

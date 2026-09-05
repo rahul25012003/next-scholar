@@ -62,12 +62,22 @@ create table public.cases (
   destination text not null,
   route text,
   intake text not null,
-  -- The single source of truth for who owns this case, superseding the
-  -- separate, never-updated assignedCaseIds array the in-memory Actor type
-  -- carried on the user record. Reassignment now means updating this one
-  -- column, and visibility for a counselor is a straight equality check
-  -- against it instead of an array membership test that nothing kept current.
-  counselor_id text not null references public.users (id),
+  -- `counselor` is the display name exactly as src/domain/case.ts's
+  -- StudentCase.counselor holds it today: whatever a person typed into the
+  -- reassignment form, not necessarily a real account. `counselor_id` is
+  -- resolved from it by name at write time (see the application's saveCase
+  -- helper) and is what RLS and Actor.assignedCaseIds actually key off, so
+  -- it is nullable: a name that matches no account resolves to null and
+  -- that case is then visible only to manager and founder, which is the
+  -- honest outcome rather than a guess. This still fixes the real gap the
+  -- in-memory model had, where a reassignment changed the display name and
+  -- nothing else, leaving the old counselor's assignedCaseIds array stale.
+  -- ponytail: name-based resolution, not a real foreign key relationship.
+  -- Upgrade path is a counselor picker in the UI that submits an id
+  -- directly instead of free text, at which point counselor_id can become
+  -- the source of truth and not null.
+  counselor text not null,
+  counselor_id text references public.users (id),
   budget_inr integer,
   profile jsonb not null default '{}'::jsonb,
   stage text not null,
@@ -77,8 +87,8 @@ create table public.cases (
   summary_source text check (summary_source in ('human', 'ai', 'system')),
   suggested_action text,
   suggested_action_source text check (suggested_action_source in ('human', 'ai', 'system')),
-  last_student_contact_at timestamptz,
-  last_counselor_reply_at timestamptz,
+  last_student_contact_at timestamptz not null default now(),
+  last_counselor_reply_at timestamptz not null default now(),
   deadlines jsonb not null default '[]'::jsonb,
   tasks jsonb not null default '[]'::jsonb,
   documents jsonb not null default '[]'::jsonb,

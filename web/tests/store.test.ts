@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import {
   appendNote,
+  currentSignOff,
   mutateCase,
   caseloadStats,
   getCase,
@@ -8,6 +9,7 @@ import {
   listConsents,
   listNotifications,
   markDocumentVerified,
+  signOffReport,
   syncNotifications,
   withdrawConsent,
 } from "@/data/store";
@@ -29,7 +31,7 @@ describe("reads are scoped and recorded", () => {
     const cases = await listCases(demoStudent);
     expect(cases.map((item) => item.id)).toEqual(["case-1041"]);
 
-    const entries = recentAudit();
+    const entries = await recentAudit();
     expect(entries).toHaveLength(1);
     expect(entries[0].actorRole).toBe("student");
     expect(entries[0].action).toBe("read");
@@ -39,7 +41,7 @@ describe("reads are scoped and recorded", () => {
     const denied = await getCase("case-1043", demoCounselor);
     expect(denied).toBeNull();
 
-    const entry = auditFor("case-1043")[0];
+    const entry = (await auditFor("case-1043"))[0];
     expect(entry.note).toContain("refused");
   });
 
@@ -66,7 +68,7 @@ describe("writes carry their author", () => {
     expect(updated?.log.at(-1)?.author).toBe(demoCounselor.name);
     expect(updated?.log.at(-1)?.source).toBe("human");
 
-    const write = auditFor("case-1041").find((entry) => entry.action === "create");
+    const write = (await auditFor("case-1041")).find((entry) => entry.action === "create");
     expect(write?.actorName).toBe(demoCounselor.name);
     expect(write?.field).toBe("log");
   });
@@ -87,7 +89,7 @@ describe("writes carry their author", () => {
     expect(document?.status).toBe("Verified");
     expect(document?.verifiedBy).toBe(demoCounselor.name);
 
-    const entry = auditFor("doc-2")[0];
+    const entry = (await auditFor("doc-2"))[0];
     expect(entry.action).toBe("verify");
     expect(entry.before).toBeDefined();
     expect(entry.after).toBe("Verified");
@@ -127,7 +129,7 @@ describe("case operations are gated by the permission matrix", () => {
     );
 
     expect(result?.counselor).toBe("Karthik Menon");
-    const entry = auditFor("case-1042").find((item) => item.action === "update");
+    const entry = (await auditFor("case-1042")).find((item) => item.action === "update");
     expect(entry?.note).toContain("Karthik Menon");
   });
 
@@ -151,7 +153,7 @@ describe("consent and notifications move through the store", () => {
 
   it("logs a withdrawal against the person who withdrew it", async () => {
     await withdrawConsent("consent-3", demoStudent);
-    const entry = auditFor("consent-3")[0];
+    const entry = (await auditFor("consent-3"))[0];
 
     expect(entry.action).toBe("withdraw-consent");
     expect(entry.actorRole).toBe("student");
@@ -169,5 +171,22 @@ describe("consent and notifications move through the store", () => {
   it("scopes a student's notifications to their own case", async () => {
     const mine = await listNotifications(null, demoStudent);
     expect(mine.every((item) => item.caseId === "case-1041")).toBe(true);
+  });
+});
+
+describe("the quarterly report sign off", () => {
+  it("is unsigned until a founder signs it, and carries their name and the date", async () => {
+    expect(await currentSignOff()).toBeNull();
+
+    expect(await signOffReport(demoFounder)).toBe(true);
+
+    const signOff = await currentSignOff();
+    expect(signOff?.by).toBe(demoFounder.name);
+    expect(signOff?.at).toBe(new Date().toISOString().slice(0, 10));
+  });
+
+  it("refuses a counselor, who has no report.publish permission", async () => {
+    expect(await signOffReport(demoCounselor)).toBe(false);
+    expect(await currentSignOff()).toBeNull();
   });
 });

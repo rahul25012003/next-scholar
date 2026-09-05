@@ -16,9 +16,9 @@ insert into public.users (id, email, name, role, password_hash, case_id) values
   ('user-student-a', 'student-a@example.com', 'Student A', 'student', 'x', 'case-a'),
   ('user-student-b', 'student-b@example.com', 'Student B', 'student', 'x', 'case-b');
 
-insert into public.cases (id, name, destination, intake, counselor_id, stage, priority) values
-  ('case-a', 'Student A', 'Germany', 'October 2027', 'user-counselor-a', 'documents', 'Normal'),
-  ('case-b', 'Student B', 'Ireland', 'September 2027', 'user-counselor-b', 'shortlist', 'Normal');
+insert into public.cases (id, name, destination, intake, counselor, counselor_id, stage, priority) values
+  ('case-a', 'Student A', 'Germany', 'October 2027', 'Counselor A', 'user-counselor-a', 'documents', 'Normal'),
+  ('case-b', 'Student B', 'Ireland', 'September 2027', 'Counselor B', 'user-counselor-b', 'shortlist', 'Normal');
 
 insert into public.communications (id, case_id, channel, direction, participants, raw, student_visible) values
   ('comm-a-visible', 'case-a', 'portal', 'outbound', 'Counselor A', 'A visible message', true),

@@ -7,7 +7,7 @@ is open, what unblocks it, and where in the codebase it goes.
 blocked, most of which are a decision (funding, a partnership, a legal
 policy call, a research-scope call) rather than a task. `STATUS.md` has the completed side.
 
-State at handover: `npm test` 337 passing, `npm run lint` clean, `npm run build`
+State at handover: `npm test` 343 passing, `npm run lint` clean, `npm run build`
 clean, `npm run smoke` clean across 71 checked URLs.
 
 ---
@@ -26,8 +26,10 @@ In this order, because each one unblocks or de-risks what follows.
    This is the largest untested surface in the codebase: no model call has ever
    executed, and the prohibition guards are proven only against mocked strings.
    Until this happens, six features are theoretical.
-3. **Create the Supabase project** (1.07–1.09, P0). Everything in Phase 2 that
-   is not the API key waits behind it, plus 2.08, 2.09, 2.10 and 2.12.
+3. **Create the Supabase project** (1.07–1.09, P0). The code side is done and
+   tested (see A1 below); this is now purely two environment variables away.
+   Everything in Phase 2 that is not the API key waits behind it, plus 2.08,
+   2.09, 2.10 and 2.12.
 4. Everything left in the P1 through P4 lists (B2 through B5 below) is now
    blocked on something outside this repository, and each one names exactly
    what: real students, a real counsellor's credential, a real office
@@ -53,28 +55,33 @@ In this order, because each one unblocks or de-risks what follows.
 Eighteen items. Each is grouped by the one thing that unblocks it, so a single
 decision clears a group.
 
-### A1. A Supabase project — 3 items, all P0
+### A1. A Supabase project — 3 items, all P0, code side now done
 
-Nothing here is hard; it is gated on a project existing.
+All three are code-complete and tested; what remains is a project existing.
 
-| ID | Item | Where it goes |
+| ID | Item | Where it went |
 |---|---|---|
-| 1.07 | Supabase project, schema, row level security mirroring the permission matrix | New. The matrix to mirror is `src/domain/rbac.ts` |
-| 1.08 | Migrate `data/store.ts` and `data/users.ts` | `src/data/store.ts` and `src/data/users.ts` are the only two files that know where records live. Replace the function bodies; nothing above them changes |
-| 1.09 | Durable audit trail with pagination and retention | `src/domain/audit.ts`, currently an in-memory ring |
+| 1.07 | Supabase project, schema, row level security mirroring the permission matrix | `supabase/migrations/0001_schema.sql`, `0002_rls.sql`, `0003_functions.sql`. The matrix mirrored is `src/domain/rbac.ts` |
+| 1.08 | Migrate `data/store.ts` and `data/users.ts` | Done. Both files branch on `supabaseConfigured()` and fall back to the in-memory fixtures otherwise; nothing above either file changed |
+| 1.09 | Durable audit trail, bounded reads | `src/domain/audit.ts` now reads and writes `audit_log` the same way. "Bounded" rather than a cursor pager: `recentAudit(limit)` and `auditFor(subjectId)` were already the only two read shapes anything calls, and both stay narrow queries rather than loading the table. Retention deletion is 2.10, separately, on purpose |
 
-**Why it matters.** Every write is lost on restart today, including a consent
-grant, a verification and a correction. The platform states this on every
-authenticated page rather than hiding it, but the disputed-figure promise on the
-Open Ledger does not survive a deploy, which is a promise the business cannot
-keep as things stand.
+**Verification, not taken on faith.** `supabase/tests/rls-check.sql` seeded two
+students, two counsellors, a manager and a founder and ran eleven assertions as
+a real non-superuser Postgres role, including the fail-closed case (no actor
+context set at all sees nothing). All eleven passed, checked by hand against
+`can`/`visibleCases`. `supabase/README.md` has the full account, including what
+was deliberately left out (Supabase Auth, a table per nested array, 2.09, 2.10).
 
-**Note on shape.** `store.ts` already enforces two rules the database must not
-lose: a read is scoped by the permission matrix, and a read is recorded. Row
-level security should mirror `visibleCases()` rather than replace it, so the
-check exists in both places.
+**Why it still matters, and what is genuinely left.** Every write is lost on
+restart today, including a consent grant, a verification and a correction — the
+platform states this on every authenticated page rather than hiding it, and
+that stays true until a real Supabase project exists and `SUPABASE_URL` /
+`SUPABASE_SERVICE_ROLE_KEY` are set. At that point the switch is the environment
+variables, nothing else: `npm test`, `npm run lint` and `npm run build` all
+pass today with no project configured, exercising the in-memory fallback path
+exactly as before.
 
-**Downstream, once this lands:** 2.08, 2.09, 2.10, 2.12.
+**Downstream, once a project exists:** 2.08, 2.09, 2.10, 2.12.
 
 ### A2. An Anthropic API key — 2 items, both P0
 
@@ -501,7 +508,7 @@ cd web
 npm install
 npm run dev          # http://localhost:3000
 
-npm test             # 337 tests
+npm test             # 343 tests
 npm run lint
 npm run build        # type checks as part of the build
 
