@@ -33,7 +33,7 @@ export default async function ShortlistPage() {
   // Read against the destination each row actually is, not a single fixed
   // one, since a shortlist can span more than one country and the same
   // student profile is checked differently in each.
-  const onboarding = actor ? findById(actor.id)?.onboarding : null;
+  const onboarding = actor ? (await findById(actor.id))?.onboarding : null;
   const baseProfile = onboarding ? toChecklistProfile(onboarding) : null;
   const eligibility = baseProfile
     ? rows.map((row) =>

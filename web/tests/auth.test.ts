@@ -101,25 +101,25 @@ describe("a session cannot be forged or edited", () => {
 });
 
 describe("signing in", () => {
-  it("refuses a wrong password", () => {
-    expect(authenticate("rohini@example.in", "definitely-not-it")).toBeNull();
+  it("refuses a wrong password", async () => {
+    expect(await authenticate("rohini@example.in", "definitely-not-it")).toBeNull();
   });
 
-  it("refuses an unknown address the same way", () => {
-    expect(authenticate("nobody@example.in", "next-scholar-dev-1")).toBeNull();
+  it("refuses an unknown address the same way", async () => {
+    expect(await authenticate("nobody@example.in", "next-scholar-dev-1")).toBeNull();
   });
 
-  it("accepts a seeded account and carries its caseload onto the actor", () => {
-    const user = authenticate("rohini@example.in", "next-scholar-dev-1");
+  it("accepts a seeded account and carries its caseload onto the actor", async () => {
+    const user = await authenticate("rohini@example.in", "next-scholar-dev-1");
     expect(user).not.toBeNull();
 
-    const actor = toActor(user!);
+    const actor = await toActor(user!);
     expect(actor.role).toBe("counselor");
     expect(actor.assignedCaseIds).toEqual(["case-1041", "case-1042"]);
   });
 
-  it("treats the address case insensitively", () => {
-    expect(authenticate("ROHINI@Example.IN", "next-scholar-dev-1")).not.toBeNull();
+  it("treats the address case insensitively", async () => {
+    expect(await authenticate("ROHINI@Example.IN", "next-scholar-dev-1")).not.toBeNull();
     expect(normaliseEmail("  Foo@Bar.COM ")).toBe("foo@bar.com");
   });
 
@@ -131,8 +131,8 @@ describe("signing in", () => {
 });
 
 describe("signing up", () => {
-  it("creates a student, never a member of staff", () => {
-    const result = register({
+  it("creates a student, never a member of staff", async () => {
+    const result = await register({
       name: "Nivedita Rao",
       email: "nivedita@example.in",
       password: "a-good-password-1",
@@ -145,9 +145,9 @@ describe("signing up", () => {
     }
   });
 
-  it("refuses a duplicate address", () => {
-    register({ name: "First", email: "dup@example.in", password: "a-good-password-1" });
-    const second = register({
+  it("refuses a duplicate address", async () => {
+    await register({ name: "First", email: "dup@example.in", password: "a-good-password-1" });
+    const second = await register({
       name: "Second",
       email: "DUP@example.in",
       password: "a-good-password-1",
@@ -156,10 +156,10 @@ describe("signing up", () => {
     expect(second.ok).toBe(false);
   });
 
-  it("lets the new account sign in immediately", () => {
-    register({ name: "Arjun Nair", email: "arjun@example.in", password: "a-good-password-1" });
-    expect(authenticate("arjun@example.in", "a-good-password-1")).not.toBeNull();
-    expect(findByEmail("arjun@example.in")?.role).toBe("student");
+  it("lets the new account sign in immediately", async () => {
+    await register({ name: "Arjun Nair", email: "arjun@example.in", password: "a-good-password-1" });
+    expect(await authenticate("arjun@example.in", "a-good-password-1")).not.toBeNull();
+    expect((await findByEmail("arjun@example.in"))?.role).toBe("student");
   });
 
   it("validates the address shape", () => {

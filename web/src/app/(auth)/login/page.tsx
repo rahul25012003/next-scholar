@@ -5,9 +5,9 @@ import { seedAccountHint } from "@/data/users";
 export const metadata: Metadata = { title: "Sign in" };
 export const dynamic = "force-dynamic";
 
-export default function LoginPage() {
+export default async function LoginPage() {
   const showHint = process.env.NODE_ENV !== "production";
-  const accounts = showHint ? seedAccountHint() : [];
+  const accounts = showHint ? await seedAccountHint() : [];
 
   return (
     <>

@@ -17,7 +17,7 @@ export async function currentActor(): Promise<Actor | null> {
   const payload = readSession(store.get(SESSION_COOKIE)?.value);
   if (!payload) return null;
 
-  const user = findById(payload.sub);
+  const user = await findById(payload.sub);
   if (!user) return null;
 
   // The role comes from the user record, not from the token. A token whose

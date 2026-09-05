@@ -38,7 +38,7 @@ export async function toggleShortlistEntry(
     };
   }
 
-  const slugs = toggleShortlist(actor.id, slug);
+  const slugs = await toggleShortlist(actor.id, slug);
   if (!slugs) return { status: "error", message: "That could not be saved. Try again." };
 
   revalidatePath("/shortlist");
@@ -49,5 +49,5 @@ export async function toggleShortlistEntry(
 export async function currentShortlist(): Promise<string[]> {
   const actor = await currentActor();
   if (!actor || actor.role !== "student") return [];
-  return shortlistFor(actor.id);
+  return await shortlistFor(actor.id);
 }

@@ -38,10 +38,10 @@ export async function saveOnboardingProfile(
     if (typeof value === "string") entries.set(key, value);
   }
 
-  const existing = findById(actor.id)?.onboarding ?? emptyOnboarding();
+  const existing = (await findById(actor.id))?.onboarding ?? emptyOnboarding();
   const updated = parseOnboarding(entries, existing);
 
-  const saved = saveOnboarding(actor.id, updated);
+  const saved = await saveOnboarding(actor.id, updated);
   if (!saved) {
     return { status: "error", message: "That profile could not be saved. Try again." };
   }

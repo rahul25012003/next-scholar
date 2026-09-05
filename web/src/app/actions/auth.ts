@@ -63,7 +63,7 @@ export async function signIn(
     return { status: "error", message: "Enter your email address and password." };
   }
 
-  const user = authenticate(email, password);
+  const user = await authenticate(email, password);
   if (!user) {
     return { status: "error", message: "That email and password do not match an account." };
   }
@@ -100,7 +100,7 @@ export async function signUp(
     return { status: "error", message: strength.reason };
   }
 
-  const result = register({ name, email, password });
+  const result = await register({ name, email, password });
   if (!result.ok) {
     return { status: "error", message: result.reason };
   }

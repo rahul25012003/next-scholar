@@ -57,7 +57,7 @@ export default async function PortalPage() {
   const record = actor.caseId ? await getCase(actor.caseId, actor) : null;
 
   if (!record || !can(actor, "case.read", record)) {
-    const user = findById(actor.id);
+    const user = await findById(actor.id);
     return (
       <AppShell actor={actor} current="/portal">
         <div className="shell">

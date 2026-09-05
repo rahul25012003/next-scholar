@@ -9,17 +9,27 @@ import {
 import { record as recordAudit } from "@/domain/audit";
 import type { Actor } from "@/domain/rbac";
 import type { OnboardingProfile } from "@/domain/onboarding";
+import { supabaseAdmin, supabaseConfigured } from "@/lib/supabase";
 
 /**
  * The user store.
  *
- * Seeded staff and student accounts, plus anyone who signs up, held in memory.
- * The passwords are hashed the same way a real one would be, and the seeded
- * ones come from an environment variable so a deployment cannot accidentally
- * ship with a password that is written down in a public repository.
+ * Two modes, chosen once per call by `supabaseConfigured()`, never mixed:
+ * with a database connected, every function below queries
+ * `supabase/migrations/0001_schema.sql`'s `users` table; without one, it
+ * reads the in-memory seed a few lines down. Nothing above this file, and no
+ * caller, needs to know which mode is live.
  *
- * Replacing this file with a users table is the whole of the migration. Nothing
- * above it knows where a user came from.
+ * The seeded passwords come from an environment variable so a deployment
+ * cannot accidentally ship with a password that is written down in a public
+ * repository, whichever mode is running.
+ *
+ * `assignedCaseIds` on the returned `Actor` is derived from `cases.counselor_id`
+ * in the database mode rather than stored on the user, which is a real fix
+ * over the in-memory mode below: there, it is a static array on the seed
+ * data that a reassignment never updates, so a case moved between counselors
+ * in memory does not actually change who can see it. The database schema
+ * makes `counselor_id` the single source of truth for both.
  */
 
 const seedPassword = process.env.SEED_ACCOUNT_PASSWORD ?? "next-scholar-dev-1";
@@ -70,12 +80,59 @@ let users: AuthUser[] = [
   },
 ];
 
-export function findByEmail(email: string): AuthUser | null {
+type UserRow = {
+  id: string;
+  email: string;
+  name: string;
+  role: AuthUser["role"];
+  password_hash: string;
+  case_id: string | null;
+  created_at: string;
+  onboarding: OnboardingProfile | null;
+  shortlist: string[] | null;
+};
+
+function fromRow(row: UserRow): AuthUser {
+  return {
+    id: row.id,
+    email: row.email,
+    name: row.name,
+    role: row.role,
+    passwordHash: row.password_hash,
+    caseId: row.case_id ?? undefined,
+    createdAt: row.created_at,
+    onboarding: row.onboarding ?? undefined,
+    shortlist: row.shortlist ?? undefined,
+  };
+}
+
+export async function findByEmail(email: string): Promise<AuthUser | null> {
   const wanted = normaliseEmail(email);
+
+  if (supabaseConfigured()) {
+    const { data, error } = await supabaseAdmin()!
+      .from("users")
+      .select("*")
+      .eq("email", wanted)
+      .maybeSingle<UserRow>();
+    if (error) throw error;
+    return data ? fromRow(data) : null;
+  }
+
   return users.find((user) => normaliseEmail(user.email) === wanted) ?? null;
 }
 
-export function findById(id: string): AuthUser | null {
+export async function findById(id: string): Promise<AuthUser | null> {
+  if (supabaseConfigured()) {
+    const { data, error } = await supabaseAdmin()!
+      .from("users")
+      .select("*")
+      .eq("id", id)
+      .maybeSingle<UserRow>();
+    if (error) throw error;
+    return data ? fromRow(data) : null;
+  }
+
   return users.find((user) => user.id === id) ?? null;
 }
 
@@ -84,8 +141,8 @@ export function findById(id: string): AuthUser | null {
  * password, and does the hash work either way, so the response cannot be used
  * to find out which addresses have accounts.
  */
-export function authenticate(email: string, password: string): AuthUser | null {
-  const user = findByEmail(email);
+export async function authenticate(email: string, password: string): Promise<AuthUser | null> {
+  const user = await findByEmail(email);
   const stored =
     user?.passwordHash ??
     "0000000000000000000000000000000000000000000000000000000000000000:00";
@@ -126,14 +183,14 @@ export type SignupResult =
  * account is made by someone who already holds one, never by whoever fills in
  * the public form.
  */
-export function register(input: {
+export async function register(input: {
   name: string;
   email: string;
   password: string;
-}): SignupResult {
+}): Promise<SignupResult> {
   const email = normaliseEmail(input.email);
 
-  if (findByEmail(email)) {
+  if (await findByEmail(email)) {
     return {
       ok: false,
       reason: "An account already exists for that address. Sign in instead.",
@@ -149,7 +206,19 @@ export function register(input: {
     createdAt: new Date().toISOString(),
   };
 
-  users = [...users, user];
+  if (supabaseConfigured()) {
+    const { error } = await supabaseAdmin()!.from("users").insert({
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+      password_hash: user.passwordHash,
+      created_at: user.createdAt,
+    });
+    if (error) return { ok: false, reason: "That account could not be created. Try again." };
+  } else {
+    users = [...users, user];
+  }
 
   recordAudit({
     actorId: user.id,
@@ -172,15 +241,24 @@ export function register(input: {
  * needs to correct one does it on the case record, where the correction is
  * logged with their name and its reason.
  */
-export function saveOnboarding(
+export async function saveOnboarding(
   userId: string,
   profile: OnboardingProfile,
-): AuthUser | null {
-  const user = findById(userId);
+): Promise<AuthUser | null> {
+  const user = await findById(userId);
   if (!user || user.role !== "student") return null;
 
   const updated: AuthUser = { ...user, onboarding: profile };
-  users = users.map((item) => (item.id === userId ? updated : item));
+
+  if (supabaseConfigured()) {
+    const { error } = await supabaseAdmin()!
+      .from("users")
+      .update({ onboarding: profile })
+      .eq("id", userId);
+    if (error) throw error;
+  } else {
+    users = users.map((item) => (item.id === userId ? updated : item));
+  }
 
   recordAudit({
     actorId: user.id,
@@ -201,17 +279,36 @@ export function saveOnboarding(
  * Stores the programme slug, never a copy of the programme. A shortlist that
  * held its own copy of a fee would keep showing the old figure after we
  * corrected it, which on this platform is the failure mode that matters most.
+ *
+ * The database path calls `toggle_shortlist`, a single atomic statement
+ * (`supabase/migrations/0003_functions.sql`), rather than reading the array
+ * and writing it back in two round trips: two tabs toggling the same
+ * shortlist at once would otherwise race.
  */
-export function toggleShortlist(userId: string, programmeSlug: string): string[] | null {
-  const user = findById(userId);
+export async function toggleShortlist(
+  userId: string,
+  programmeSlug: string,
+): Promise<string[] | null> {
+  const user = await findById(userId);
   if (!user || user.role !== "student") return null;
 
   const current = user.shortlist ?? [];
-  const next = current.includes(programmeSlug)
-    ? current.filter((slug) => slug !== programmeSlug)
-    : [...current, programmeSlug];
+  const wasSaved = current.includes(programmeSlug);
+  let next: string[];
 
-  users = users.map((item) => (item.id === userId ? { ...item, shortlist: next } : item));
+  if (supabaseConfigured()) {
+    const { data, error } = await supabaseAdmin()!.rpc("toggle_shortlist", {
+      p_user_id: userId,
+      p_slug: programmeSlug,
+    });
+    if (error) throw error;
+    next = (data as string[] | null) ?? [];
+  } else {
+    next = wasSaved
+      ? current.filter((slug) => slug !== programmeSlug)
+      : [...current, programmeSlug];
+    users = users.map((item) => (item.id === userId ? { ...item, shortlist: next } : item));
+  }
 
   recordAudit({
     actorId: user.id,
@@ -220,7 +317,7 @@ export function toggleShortlist(userId: string, programmeSlug: string): string[]
     action: "update",
     subjectType: "case",
     subjectId: "shortlist",
-    note: current.includes(programmeSlug)
+    note: wasSaved
       ? `Removed ${programmeSlug} from their shortlist`
       : `Saved ${programmeSlug} to their shortlist`,
   });
@@ -228,12 +325,35 @@ export function toggleShortlist(userId: string, programmeSlug: string): string[]
   return next;
 }
 
-export function shortlistFor(userId: string): string[] {
-  return findById(userId)?.shortlist ?? [];
+export async function shortlistFor(userId: string): Promise<string[]> {
+  const user = await findById(userId);
+  return user?.shortlist ?? [];
 }
 
-/** The shape the permission matrix works with. */
-export function toActor(user: AuthUser): Actor {
+/**
+ * The shape the permission matrix works with.
+ *
+ * In the database mode a counselor's `assignedCaseIds` is computed from
+ * `cases.counselor_id` rather than read off the user, which is the fix
+ * described at the top of this file. In the in-memory mode it stays exactly
+ * what the seed data says, matching the platform's behaviour today.
+ */
+export async function toActor(user: AuthUser): Promise<Actor> {
+  if (supabaseConfigured() && user.role === "counselor") {
+    const { data, error } = await supabaseAdmin()!
+      .from("cases")
+      .select("id")
+      .eq("counselor_id", user.id);
+    if (error) throw error;
+    return {
+      id: user.id,
+      name: user.name,
+      role: user.role,
+      caseId: user.caseId,
+      assignedCaseIds: (data ?? []).map((row) => row.id as string),
+    };
+  }
+
   return {
     id: user.id,
     name: user.name,
@@ -244,7 +364,16 @@ export function toActor(user: AuthUser): Actor {
 }
 
 /** Shown on the sign in page so a reviewer can get in. Never real people. */
-export function seedAccountHint(): { email: string; role: string }[] {
+export async function seedAccountHint(): Promise<{ email: string; role: string }[]> {
+  if (supabaseConfigured()) {
+    const { data, error } = await supabaseAdmin()!
+      .from("users")
+      .select("email, role")
+      .like("id", "user-%");
+    if (error) throw error;
+    return data ?? [];
+  }
+
   return users
     .filter((user) => user.id.startsWith("user-"))
     .map((user) => ({ email: user.email, role: user.role }));
