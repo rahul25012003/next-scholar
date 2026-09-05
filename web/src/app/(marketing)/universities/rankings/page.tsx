@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { universities } from "@/content/catalogue";
+import { guides } from "@/content/guides";
 import { PageHero } from "@/components/marketing/page-hero";
+import { cn } from "@/lib/cn";
 
 export const metadata: Metadata = {
   title: "Rankings",
@@ -10,8 +12,33 @@ export const metadata: Metadata = {
   alternates: { canonical: "/universities/rankings" },
 };
 
-export default function RankingsPage() {
-  const rows = [...universities].sort((a, b) => a.name.localeCompare(b.name));
+const rankingBodies = ["QS World University Rankings", "QS Subject Rankings", "THE World University Rankings"];
+
+const countryName: Record<string, string> = {
+  "united-kingdom": "United Kingdom",
+  germany: "Germany",
+  ireland: "Ireland",
+};
+
+export default async function RankingsPage(props: PageProps<"/universities/rankings">) {
+  const params = await props.searchParams;
+  const query = (typeof params.q === "string" ? params.q : "").trim().toLowerCase();
+  const destination = typeof params.destination === "string" ? params.destination : "";
+  const body = typeof params.body === "string" ? params.body : "";
+
+  const rows = [...universities]
+    .filter((university) => !destination || university.destination === destination)
+    .filter(
+      (university) => !body || university.rankings.some((ranking) => ranking.body === body),
+    )
+    .filter((university) => {
+      if (!query) return true;
+      return (
+        university.name.toLowerCase().includes(query) ||
+        university.city.toLowerCase().includes(query)
+      );
+    })
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   return (
     <>
@@ -22,10 +49,69 @@ export default function RankingsPage() {
 
       <section className="band bg-paper">
         <div className="shell">
-          <div className="overflow-x-auto rounded-panel border border-line">
+          <form method="get" action="/universities/rankings" className="grid gap-4">
+            <input
+              type="text"
+              name="q"
+              defaultValue={typeof params.q === "string" ? params.q : ""}
+              placeholder="Search by institution or city"
+              aria-label="Search by institution or city"
+              className="w-full max-w-md rounded-input border border-line-strong bg-paper px-3.5 py-2.5 text-[0.9375rem] text-navy-900 placeholder:text-muted"
+            />
+
+            <div className="flex flex-wrap items-center gap-2.5">
+              <span className="text-[0.8125rem] font-medium text-muted">Destination</span>
+              <FilterPill href="/universities/rankings" active={!destination} label="All" q={query} body={body} />
+              {guides.map((guide) => (
+                <FilterPill
+                  key={guide.slug}
+                  href="/universities/rankings"
+                  active={destination === guide.slug}
+                  label={guide.country}
+                  paramName="destination"
+                  paramValue={guide.slug}
+                  q={query}
+                  body={body}
+                />
+              ))}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2.5">
+              <span className="text-[0.8125rem] font-medium text-muted">Ranking body</span>
+              <FilterPill href="/universities/rankings" active={!body} label="All" q={query} destination={destination} />
+              {rankingBodies.map((item) => (
+                <FilterPill
+                  key={item}
+                  href="/universities/rankings"
+                  active={body === item}
+                  label={item}
+                  paramName="body"
+                  paramValue={item}
+                  q={query}
+                  destination={destination}
+                />
+              ))}
+            </div>
+
+            <div>
+              <button
+                type="submit"
+                className="rounded-full bg-blue-600 px-5 py-2.5 text-[0.875rem] font-medium text-white transition-colors hover:bg-blue-500"
+              >
+                Search
+              </button>
+            </div>
+          </form>
+
+          <p className="mt-6 text-[0.8125rem] text-muted">
+            {rows.length} of {universities.length} institutions match.
+          </p>
+
+          <div className="mt-4 overflow-x-auto rounded-panel border border-line">
             <table className="w-full min-w-[42rem] border-collapse text-left">
               <caption className="sr-only">
-                Every published ranking for each institution in the catalogue
+                Every published ranking for each institution in the catalogue, filtered by the
+                controls above
               </caption>
               <thead>
                 <tr className="border-b border-line bg-surface">
@@ -48,7 +134,7 @@ export default function RankingsPage() {
                         {university.name}
                       </Link>
                       <p className="mt-0.5 text-[0.8125rem] text-muted">
-                        {university.city}, {university.destination === "united-kingdom" ? "United Kingdom" : university.destination === "germany" ? "Germany" : "Ireland"}
+                        {university.city}, {countryName[university.destination] ?? university.destination}
                       </p>
                     </td>
                     <td className="px-5 py-4 align-top">
@@ -73,6 +159,13 @@ export default function RankingsPage() {
                     </td>
                   </tr>
                 ))}
+                {rows.length === 0 && (
+                  <tr>
+                    <td colSpan={2} className="px-5 py-8 text-center text-[0.9375rem] text-body">
+                      Nothing matches those filters in this catalogue.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
@@ -87,5 +180,49 @@ export default function RankingsPage() {
         </div>
       </section>
     </>
+  );
+}
+
+function FilterPill({
+  href,
+  active,
+  label,
+  paramName,
+  paramValue,
+  q,
+  destination,
+  body,
+}: {
+  href: string;
+  active: boolean;
+  label: string;
+  paramName?: "destination" | "body";
+  paramValue?: string;
+  q?: string;
+  destination?: string;
+  body?: string;
+}) {
+  const params = new URLSearchParams();
+  if (q) params.set("q", q);
+  if (paramName === "destination" ? paramValue : destination) {
+    params.set("destination", paramName === "destination" ? paramValue! : destination!);
+  }
+  if (paramName === "body" ? paramValue : body) {
+    params.set("body", paramName === "body" ? paramValue! : body!);
+  }
+  const url = params.toString() ? `${href}?${params.toString()}` : href;
+
+  return (
+    <Link
+      href={url}
+      className={cn(
+        "rounded-full border px-3.5 py-1.5 text-[0.8125rem] font-medium transition-colors",
+        active
+          ? "border-blue-600 bg-blue-600 text-white"
+          : "border-line-strong bg-paper text-navy-900 hover:border-blue-600 hover:text-blue-600",
+      )}
+    >
+      {label}
+    </Link>
   );
 }

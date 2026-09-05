@@ -8,7 +8,12 @@ import { CaseWorkflows } from "@/components/app/case-workflows";
 import { ThreadSummary } from "@/components/app/thread-summary";
 import { DocumentIntelligence } from "@/components/app/document-intelligence";
 import { ReviewFlag } from "@/components/app/review-flag";
-import { StageControl, TaskControl, SummaryOverride } from "@/components/app/case-controls";
+import {
+  StageControl,
+  TaskControl,
+  SummaryOverride,
+  ResummariseButton,
+} from "@/components/app/case-controls";
 import { UploadDocument } from "@/components/app/upload-document";
 import { VerifyDocument } from "@/components/app/verify-document";
 import { getCase, getExtraction, listCommunications } from "@/data/store";
@@ -137,6 +142,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
 
             <Panel title="Notes">
               <NoteForm caseId={record.id} />
+              <ResummariseButton caseId={record.id} />
               <SummaryOverride caseId={record.id} current={record.summary} />
             </Panel>
 

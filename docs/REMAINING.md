@@ -3,11 +3,11 @@
 A resumable handover. Every open item from `BACKLOG.md`, with what it is, why it
 is open, what unblocks it, and where in the codebase it goes.
 
-**55 open of 207.** 18 blocked on something outside this repository, 37 not
+**48 open of 207.** 18 blocked on something outside this repository, 30 not
 blocked, one of which is a decision rather than a task. `STATUS.md` has the completed side.
 
 State at handover: `npm test` 327 passing, `npm run lint` clean, `npm run build`
-clean across 68 route entries, `npm run smoke` clean across 66 checked URLs.
+clean, `npm run smoke` clean across 67 checked URLs.
 
 ---
 
@@ -27,13 +27,13 @@ In this order, because each one unblocks or de-risks what follows.
    Until this happens, six features are theoretical.
 3. **Create the Supabase project** (1.07–1.09, P0). Everything in Phase 2 that
    is not the API key waits behind it, plus 2.08, 2.09, 2.10 and 2.12.
-4. Then the remaining P2s in `docs/REMAINING.md`'s B3 section: everything
-   engineering could reach without real students, real counsellors or a
-   database has been reached. What is left there (reviews, counsellor
-   profiles, commission history, retention deletion) is blocked the same way
-   items 2 and 3 are. `2.08` (Open Ledger write path) is the one P1 item still
-   open, and it too is blocked on the same durable store as item 3. After
-   that, move to the P3 list.
+4. Everything left in the P1, P2 and P3 lists (B2, B3, B4 below) is now
+   blocked on something outside this repository — real students, real
+   counsellors, a real office, a partnership, or the same durable store as
+   item 3 — except one open decision: 6.06 (additional destinations) is
+   engineering-reachable the day someone is prepared to research a fourth
+   country as thoroughly as the first three, which this session did not
+   attempt rather than guess at.
 
 ---
 
@@ -313,16 +313,55 @@ Seven of the original eight are done. What each session found:
 | D.14 | Enforce radius and shadow tokens as new surfaces are built | Tried and deliberately not shipped this session: a blanket lint rule bans exactly the kind of bespoke arbitrary value the hero card's cut-corner shape legitimately needs, and the codebase has no existing inventory of which arbitrary values are drift versus which are intentional. Needs a real design-token audit before a rule can tell the two apart, not a rule first |
 | 6.02 | Accommodation partners with disclosed referral terms | `/services` already carries the disclosure shape and states that nobody pays us today. Adding a partner means filling in `remuneration: { kind: "referral", weEarn }` and the page renders the warning treatment automatically |
 
-### B4. P3 — 20 items
+### B4. P3 — 6 of 20 done this session
+
+**Done.**
+
+- **3.42** — `resummarise` in `src/app/actions/case.ts`, and a "Read the case
+  again" button in the case page's Notes panel (`ResummariseButton` in
+  `case-controls.tsx`). Same agent, same prohibitions, same fields it may
+  write as the note-triggered path; the only difference is what caused the
+  run.
+- **4.30** — `RelatedSearches` (`src/components/catalogue/related-searches.tsx`),
+  built from queries the catalogue can actually answer — three
+  destination-filtered views, zero commission, rankings, scholarships, and
+  the top disciplines by how many programmes carry them — not decoration.
+  On `/universities` and all three "Masters in X" pages.
+- **4.31** — `/universities/rankings` gained a text search (institution or
+  city) and filters by destination and by ranking body, all as GET
+  parameters, so a filtered result is a real URL.
+- **D.16** — The header now reads scroll position and condenses its height
+  (h-18 to h-14) and logo size past an 8px threshold, with a CSS transition
+  the global reduced-motion rule already collapses.
+- **D.17** — Found the actual cause: Lenis (the smooth-scroll library
+  wrapping the whole app) owns scroll position once mounted, so the browser's
+  native scroll-to-top-on-navigation never visibly did anything — the native
+  offset moved, Lenis's virtualised one did not. Fixed with a small
+  `usePathname` + `useLenis().scrollTo(0, { immediate: true })` effect in
+  `smooth-scroll.tsx`, active only in the Lenis-mounted branch; the
+  reduced-motion branch never had the bug since it uses native scrolling.
+- **F.09** — `/tools/english-tests` compares IELTS, TOEFL iBT, PTE Academic
+  and the Duolingo English Test on scale, sections, format, validity and
+  whether each has historically been on the UK's Secure English Language
+  Test list, with an official link per test. Deliberately no cross-test
+  score conversion table (concordance guidance varies by publisher and
+  changes over time) and deliberately excludes GRE, GMAT and SAT: this
+  business covers three destinations for Master's applicants, and none of
+  the existing destination guides names any of the three as a requirement.
+  Also covers F.10's real content (an official resources link per test)
+  without recommending specific books, which would be a commercial claim
+  needing a currency this session cannot verify.
+
+**Investigated, not done.** 4.16 (caching of verified university data): there
+is nothing to cache. The whole catalogue is fifteen institutions and thirty
+programmes held in memory, with no external fetch anywhere in the path, and
+every read is a plain synchronous loop over that array. Wrapping it in a
+cache would add a layer with nothing slow underneath it.
+
+**Still open, all blocked on something outside engineering**
 
 | ID | Item |
 |---|---|
-| 3.42 | One-click summarise on the case page |
-| 4.16 | Caching of verified university data |
-| 4.30 | Related-search blocks at the foot of results pages |
-| 4.31 | Rankings explorer, searchable and filterable |
-| D.16 | Sticky nav condensing on scroll |
-| D.17 | Scroll to top on route change |
 | 5.10, 5.15, 5.16, E.06 | Events and webinars: the pages, the card fields, filters beyond subject and sort, and live registration counters only when real |
 | 5.11, 5.17 | Bengaluru and nearby city pages; city and office pages with address, hours and a named contact |
 | 5.12, E.02 | Student stories and student ambassadors, once there are students |
@@ -330,8 +369,6 @@ Seven of the original eight are done. What each session found:
 | 6.03 | Forex, insurance, banking, SIM as delivered services rather than guidance |
 | 6.04 | Exam preparation, or a partnership |
 | 6.06 | Additional destinations, only when answerable without looking anything up |
-| F.09 | Exam pages beyond IELTS: PTE, TOEFL, Duolingo, GRE, GMAT, SAT |
-| F.10 | Recommended books and resources per exam |
 
 ### B5. P4 — 4 items
 
@@ -395,6 +432,12 @@ Written down because each one looks like an omission and is a decision.
     historical cycle with a qualifier, or leaves the field `unknown`, rather
     than asserting this year's date from a training-data snapshot that could
     be wrong by the time anyone reads it.
+13. **No English test score converts into another test's score anywhere on
+    this site.** `/tools/english-tests` compares scale, format and SELT
+    status side by side and stops there. A concordance table between IELTS,
+    TOEFL, PTE and Duolingo looks precise, varies by publisher, and changes
+    over time; the offer letter's own named test and threshold governs, not
+    an equivalence this site computed.
 
 ---
 
@@ -410,7 +453,7 @@ npm run lint
 npm run build        # type checks as part of the build
 
 npm start &          # the smoke check needs a running production build
-npm run smoke        # 66 routes: structure, and the three route guards
+npm run smoke        # 67 routes: structure, and the three route guards
 ```
 
 `web/.env.example` lists every optional key. Each unset one produces a stated

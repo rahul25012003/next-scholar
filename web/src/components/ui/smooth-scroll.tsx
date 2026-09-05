@@ -1,7 +1,28 @@
 "use client";
 
-import { ReactLenis } from "lenis/react";
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { ReactLenis, useLenis } from "lenis/react";
 import { useReducedMotion } from "motion/react";
+
+/**
+ * Lenis owns scroll position once mounted, which means Next's own
+ * scroll-to-top-on-navigation never runs: the browser's native scroll offset
+ * moves, but Lenis's virtualised position does not, so a route change lands
+ * wherever the previous page happened to leave the reader. Reset it by hand
+ * on every pathname change instead of on window scroll, which Lenis already
+ * intercepts.
+ */
+function ScrollToTopOnNavigate() {
+  const pathname = usePathname();
+  const lenis = useLenis();
+
+  useEffect(() => {
+    lenis?.scrollTo(0, { immediate: true });
+  }, [pathname, lenis]);
+
+  return null;
+}
 
 /**
  * Global smooth scroll. Anchor links inside the page inherit it, so the nav and
@@ -25,6 +46,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
         smoothWheel: true,
       }}
     >
+      <ScrollToTopOnNavigate />
       {children}
     </ReactLenis>
   );

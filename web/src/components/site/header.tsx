@@ -11,6 +11,7 @@ import { cn } from "@/lib/cn";
 export function SiteHeader() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [condensed, setCondensed] = useState(false);
   const reduced = useReducedMotion();
 
   useEffect(() => {
@@ -31,16 +32,31 @@ export function SiteHeader() {
     };
   }, [mobileOpen]);
 
+  useEffect(() => {
+    const onScroll = () => setCondensed(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-paper/90 backdrop-blur-md">
-      <div className="shell flex h-18 items-center justify-between gap-6">
+      <div
+        className={cn(
+          "shell flex items-center justify-between gap-6 transition-[height] duration-200",
+          condensed ? "h-14" : "h-18",
+        )}
+      >
         <Link
           href="/"
           className="flex items-center gap-2.5"
           onClick={() => setMobileOpen(false)}
         >
           <span
-            className="grid h-9 w-9 place-items-center rounded-input bg-navy-900 font-display text-[1.05rem] font-bold text-white"
+            className={cn(
+              "grid place-items-center rounded-input bg-navy-900 font-display font-bold text-white transition-[height,width] duration-200",
+              condensed ? "h-7 w-7 text-[0.875rem]" : "h-9 w-9 text-[1.05rem]",
+            )}
             aria-hidden
           >
             N

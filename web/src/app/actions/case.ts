@@ -117,6 +117,70 @@ export async function addNote(
   return { status: "saved", note: text, agent: agentOutcome };
 }
 
+export type ResummariseResult =
+  | { status: "idle" }
+  | { status: "done"; message: string }
+  | { status: "error"; message: string };
+
+/**
+ * A counselor asking the agent to read the case again, on demand, rather than
+ * waiting for the next note to trigger it. Same agent, same prohibitions, same
+ * fields it may write; the only difference from the note flow is what caused
+ * the run.
+ */
+export async function resummarise(
+  _previous: ResummariseResult,
+  formData: FormData,
+): Promise<ResummariseResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
+  const caseId = String(formData.get("caseId") ?? "");
+  const record = await getCase(caseId, actor);
+  if (!record) {
+    return { status: "error", message: "That case is not readable by this account." };
+  }
+
+  try {
+    assertCan(actor, "case.note.write", record);
+  } catch (error) {
+    if (error instanceof PermissionError) {
+      return { status: "error", message: error.message };
+    }
+    throw error;
+  }
+
+  const run = await summariseCase(record);
+  let message: string;
+
+  if (run.status === "ok") {
+    await attachSummary(caseId, run.data.summary, run.data.suggestedAction, "Case Summary agent");
+    message = "Summary updated, labelled as machine written.";
+  } else if (run.status === "blocked") {
+    recordAudit({
+      actorId: "case-summary",
+      actorName: "Case Summary agent",
+      actorRole: "agent",
+      action: "agent-blocked",
+      subjectType: "case",
+      subjectId: caseId,
+      note: run.violations.map((violation) => violation.rule).join("; "),
+    });
+    message = `Summary discarded. It broke a prohibition: ${run.violations
+      .map((violation) => violation.rule)
+      .join("; ")}.`;
+    await flagForManualReview(caseId, "Requested a fresh summary", message);
+  } else {
+    message = `No summary this time. ${run.reason}`;
+    await flagForManualReview(caseId, "Requested a fresh summary", run.reason);
+  }
+
+  revalidatePath(`/console/${caseId}`);
+  revalidatePath("/console");
+
+  return { status: "done", message };
+}
+
 export type VerifyResult =
   | { status: "idle" }
   | { status: "done"; message: string }

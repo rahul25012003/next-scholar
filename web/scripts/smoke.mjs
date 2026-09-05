@@ -57,6 +57,7 @@ const PAGES = [
   "/tools/ects-check",
   "/tools/ielts-band-calculator",
   "/tools/grade-converter",
+  "/tools/english-tests",
   "/guides",
   "/guides?destination=germany",
   "/guides/the-dmat-is-coming",

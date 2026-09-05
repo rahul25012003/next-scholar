@@ -13,6 +13,7 @@ import {
 import { currentShortlist } from "@/app/actions/shortlist";
 import { FilterRail } from "@/components/catalogue/filters";
 import { CourseCard } from "@/components/catalogue/course-card";
+import { RelatedSearches } from "@/components/catalogue/related-searches";
 import { PageHero } from "@/components/marketing/page-hero";
 
 export const metadata: Metadata = {
@@ -155,6 +156,8 @@ export default async function UniversitiesPage(props: PageProps<"/universities">
                 .
               </p>
             </div>
+
+            <RelatedSearches />
           </div>
         </div>
       </section>

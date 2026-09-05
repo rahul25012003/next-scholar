@@ -28,6 +28,7 @@ const tools = [
   "ects-check",
   "ielts-band-calculator",
   "grade-converter",
+  "english-tests",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

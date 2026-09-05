@@ -9,7 +9,14 @@ import {
 } from "@/content/catalogue";
 import { FilterRail } from "@/components/catalogue/filters";
 import { CourseCard } from "@/components/catalogue/course-card";
+import { RelatedSearches } from "@/components/catalogue/related-searches";
 import { PageHero } from "@/components/marketing/page-hero";
+
+const ownLink: Record<string, string> = {
+  germany: "/masters-in-germany",
+  "united-kingdom": "/masters-in-uk",
+  ireland: "/masters-in-ireland",
+};
 
 /**
  * "Masters in X", one filtered view of the same catalogue `/universities`
@@ -110,6 +117,8 @@ export async function MastersLanding({
                 .
               </p>
             </div>
+
+            <RelatedSearches exclude={ownLink[destinationSlug]} />
           </div>
         </div>
       </section>

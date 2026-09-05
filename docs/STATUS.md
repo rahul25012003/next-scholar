@@ -4,12 +4,13 @@ What has been implemented against `BACKLOG.md`, what is still open, and why each
 open item is open. The backlog itself is left unedited so the two can be read
 against each other.
 
-**152 of 207 backlog items done, 55 open.** Of the 55, 18 are blocked on
-something outside this repository and 37 are not. `REMAINING.md` breaks all 55
-down with what unblocks each and where it goes.
+**159 of 207 backlog items done, 48 open.** Of the 48, 18 are blocked on
+something outside this repository and 30 are not, one of which (additional
+destinations) is a research-scope decision rather than a task. `REMAINING.md`
+breaks all 48 down with what unblocks each and where it goes.
 
 Verified at the point of writing: `npm test` 327 passing, `npm run lint` clean,
-`npm run build` clean, `npm run smoke` 66 routes clean against a production
+`npm run build` clean, `npm run smoke` 67 routes clean against a production
 build.
 
 ---
@@ -167,6 +168,24 @@ not shipped: the codebase has legitimate bespoke arbitrary values (the hero
 card's cut corner) that a blanket rule cannot distinguish from drift without
 a real design-token audit first.
 
+### Phase 9 — Six P3s, and everything else in P3 was genuinely blocked
+
+| ID | Item | Where |
+|---|---|---|
+| 3.42 | "Read the case again" button, running the Case Summary agent on demand instead of only on the next note | `src/app/actions/case.ts` (`resummarise`), `src/components/app/case-controls.tsx` |
+| 4.30 | Related-search blocks built from queries the catalogue can actually answer: destination views, zero commission, rankings, scholarships, top disciplines | `src/components/catalogue/related-searches.tsx` |
+| 4.31 | Rankings gained text search and destination/body filters, all as GET parameters | `/universities/rankings` |
+| D.16 | Header condenses height and logo size past an 8px scroll threshold | `src/components/site/header.tsx` |
+| D.17 | Found the real cause of a scroll-to-top failure: Lenis owns scroll position once mounted, so Next's native scroll reset on navigation moved the browser's offset but not Lenis's virtualised one. Fixed with `usePathname` plus `useLenis().scrollTo(0, { immediate: true })` | `src/components/ui/smooth-scroll.tsx` |
+| F.09 | English test comparison: IELTS, TOEFL iBT, PTE Academic, Duolingo, on scale, format, validity and historical UK SELT status, with an official link per test. No cross-test score conversion, and GRE/GMAT/SAT excluded as genuinely out of scope for a UK/Germany/Ireland Master's audience | `/tools/english-tests` |
+
+F.10 (recommended books per exam) is folded into F.09 in reduced form: an
+official resources link per test, not a named book, which would be a
+commercial claim needing a currency this session cannot verify. 4.16
+(caching of verified university data) was investigated and not built: the
+whole catalogue is fifteen institutions in memory with no external fetch
+anywhere in the path, so there is nothing slow to cache.
+
 ---
 
 ## Open, and why
@@ -192,12 +211,10 @@ a real design-token audit first.
 |---|---|---|
 | 1.11, D.01 | Mobile verification of every route | The structural checks pass in CI and every wide table scrolls in its own container. Nobody has looked at these routes on a phone, and that is not the same thing. The in-session Chrome browser tool has not been connected in either of the last two sessions |
 | 2.08, 2.09, 2.10 | Ledger write path, commission change history, retention deletion | All three want durable storage first |
-| 3.42 | One-click summarise | Small console addition |
 | 3.49 | dMAT preparation guidance | Deliberately waiting until the test's format is known rather than guessing |
-| 4.16, 4.30, 4.31 | Caching, related-search blocks, a searchable rankings explorer | Catalogue depth beyond what exists |
 | 5.06, 5.07, 5.11–5.17 | Reviews, counsellor profiles, city pages, events | Need real students, real counsellors and a real office |
 | 6.02–6.06 | Accommodation partners, forex, exam prep, mobile app, more destinations | Partnerships and scope decisions rather than engineering |
-| D.14, D.16, D.17 | A design-token lint rule, nav condensing, scroll restoration | Polish |
+| D.14 | A design-token lint rule | Needs a real audit first; see Phase 8 |
 
 ---
 

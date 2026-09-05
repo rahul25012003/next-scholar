@@ -7,6 +7,7 @@ import {
   Exam,
   ListChecks,
   Percent,
+  Scales,
   Stack,
 } from "@phosphor-icons/react/ssr";
 import { PageHero } from "@/components/marketing/page-hero";
@@ -17,7 +18,7 @@ import { Accordion } from "@/components/ui/accordion";
 export const metadata: Metadata = {
   title: "Free tools",
   description:
-    "Six calculators and checklists, every one ungated: cost of living, the German grade formula, eight grade converters, the IELTS band rule, an ECTS credit check and a requirements checklist.",
+    "Seven calculators and checklists, every one ungated: cost of living, the German grade formula, eight grade converters, the IELTS band rule, an ECTS credit check, a requirements checklist and an English test comparison.",
   alternates: { canonical: "/tools" },
 };
 
@@ -70,6 +71,14 @@ const tools = [
     detail: "Each one names the convention it rests on rather than presenting it as a standard.",
     tone: "bg-pastel-blue",
   },
+  {
+    href: "/tools/english-tests",
+    icon: Scales,
+    title: "English test comparison",
+    lede: "IELTS, TOEFL iBT, PTE Academic and the Duolingo English Test, side by side on scale, format and UK visa status.",
+    detail: "No score converts between them here. A concordance table looks precise and is not.",
+    tone: "bg-pastel-mint",
+  },
 ];
 
 const faqs = [
@@ -99,7 +108,7 @@ export default function ToolsPage() {
   return (
     <>
       <PageHero
-        title="Six tools, none of them behind a form"
+        title="Seven tools, none of them behind a form"
         lede="These exist because the questions they answer are answerable, and because the industry standard is to answer them only after collecting a phone number. Every one shows its arithmetic, names its source, and states what it does not decide."
         aside={
           <div className="rounded-panel border border-line bg-paper p-6 shadow-card">

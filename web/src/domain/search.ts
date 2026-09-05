@@ -173,6 +173,13 @@ const tools: Record_[] = [
     href: "/tools/grade-converter",
     body: "cgpa percentage gpa marks sgpa conversion 9.5 convert",
   },
+  {
+    kind: "Tool",
+    title: "English test comparison",
+    detail: "IELTS, TOEFL iBT, PTE Academic and Duolingo, side by side, no score converted between them.",
+    href: "/tools/english-tests",
+    body: "ielts toefl pte duolingo english test selt ukvi secure english language test scale sections",
+  },
 ];
 
 function corpus(): Record_[] {

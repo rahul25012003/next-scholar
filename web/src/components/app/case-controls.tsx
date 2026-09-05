@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 
 import { createTask, finishTask, rewriteSummary, setStage } from "@/app/actions/case-workflows";
+import { resummarise } from "@/app/actions/case";
 import { WorkflowForm, fieldClass } from "@/components/app/workflow-form";
 import { stages } from "@/content/process";
 import type { FollowUpTask } from "@/domain/case";
@@ -143,6 +144,25 @@ export function SummaryOverride({
         className={`${fieldClass} sm:col-span-2`}
         aria-label="Case summary"
       />
+    </WorkflowForm>
+  );
+}
+
+/**
+ * The one-click version of what already happens on every note: the same
+ * agent, over the case as it stands right now, without waiting for a new
+ * note to trigger it.
+ */
+export function ResummariseButton({ caseId }: { caseId: string }) {
+  return (
+    <WorkflowForm
+      action={resummarise}
+      caseId={caseId}
+      title="Read the case again"
+      description="Runs the Case Summary agent now, over the case as it stands, rather than waiting for the next note."
+      submitLabel="Summarise now"
+    >
+      <></>
     </WorkflowForm>
   );
 }
