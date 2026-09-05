@@ -87,17 +87,45 @@ etc.) are not rendered anywhere yet — a curated bank for the D.09 work once
 real photography exists — so nothing was spent optimizing images nobody
 serves.
 
+## Follow-up: the LCP element itself, named and fixed
+
+A later pass named the LCP element directly (Lighthouse's newer
+`lcp-breakdown-insight` audit, which this version of Lighthouse reports
+instead of the older `largest-contentful-paint-element`): the hero portrait
+on `/`, exactly as suspected above. Its breakdown split as time to first
+byte 49 ms and **element render delay 1,700 ms**, with `lcp-discovery-insight`
+scoring "not applicable" — meaning discovery was never the problem, since
+`priority` was already set correctly. The delay was Next's own image
+optimizer: the hero's `srcset` requests `/_next/image?...` variants up to
+3840px wide from a 760px-wide source, and confirmed by hand (`curl` twice
+against the same optimizer URL), a cold size variant cost 390 ms against a
+warm one at 14 ms.
+
+Fixed by adding `unoptimized` to the hero `<Image>` and dropping its now
+meaningless `sizes` prop. The source is already a 64 KB crop at display
+size — Next's resize pipeline had almost nothing to shrink and nothing to
+gain from generating eight srcset variants of a file that small, only a
+cold-cache round trip to pay on every miss. Re-measured clean: LCP 4.3 s →
+3.7 s, and the breakdown's hidden 1,700 ms collapsed into two honest,
+separate line items (resource load delay 39 ms, resource load duration
+54 ms) plus a smaller, more plausible 590 ms element render delay left over,
+which is main-thread/hydration cost rather than image-pipeline cost and a
+separate question from this one. The comment left on the `<Image>` names
+the trade-off and when to revisit it (if the source is ever swapped for
+something meaningfully larger than a phone-sized crop).
+
 ## What is left to decide, not yet done
 
-- **LCP sits at 3.7–4.6 s across every content page**, comfortably clear of
-  "poor" (4 s) on some routes. `largest-contentful-paint-element` did not
-  resolve cleanly in this run's traces to name the element; the next session
-  should capture that explicitly (`lighthouse ... --output=html` renders the
-  filmstrip) before guessing at a fix.
-- **`unused-javascript` flags roughly 64–85 KiB per route** — real and stable
-  (a static bytes count, not timing-sensitive), consistent enough to act on.
-- **`mainthread-work-breakdown` and `bootup-time`** were also measured but are
-  timing-based and inherited the same noise described above; re-measure
-  cleanly before treating either as a target.
+- **The remaining ~590 ms of element render delay** is main-thread/hydration
+  work, not image loading. `mainthread-work-breakdown` read 7.0 s and 3.2 s
+  across two consecutive clean runs of the identical build seconds apart —
+  still the same machine-noise problem documented above, just no longer
+  entangled with the image-pipeline cost that was hiding inside it. Untangling
+  further needs a quiet run of its own, ideally on a different machine.
+- **`unused-javascript` flags roughly 78 KiB on the home page** — real and
+  stable (a static bytes count, not timing-sensitive) but spread across three
+  minified framework/vendor chunks with no single obvious culprit from the
+  audit alone. Worth a bundle-analyzer pass before cutting anything, not a
+  guess.
 - No route was measured at 390 px viewport width or on throttled mobile
   hardware beyond Lighthouse's own default CPU/network throttling profile.

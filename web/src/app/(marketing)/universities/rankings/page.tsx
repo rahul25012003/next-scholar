@@ -50,6 +50,8 @@ export default async function RankingsPage(props: PageProps<"/universities/ranki
       <section className="band bg-paper">
         <div className="shell">
           <form method="get" action="/universities/rankings" className="grid gap-4">
+            {destination && <input type="hidden" name="destination" value={destination} />}
+            {body && <input type="hidden" name="body" value={body} />}
             <input
               type="text"
               name="q"

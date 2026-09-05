@@ -179,12 +179,16 @@ function HeroPortrait() {
         className="absolute -left-px -top-px z-10 hidden h-[4.5rem] w-[4.5rem] rounded-br-[2rem] bg-[#e8effe] sm:block"
       />
       <div className="relative overflow-hidden rounded-t-[1.75rem] rounded-bl-[1.75rem] bg-[linear-gradient(160deg,#2e6bf0_0%,#1553d6_55%,#0e2a5e_100%)]">
+        {/* unoptimized: this is the LCP element, the source file is already a
+            64KB crop at display size, and Next's resize proxy adds a real
+            cold-cache round trip for a size it barely shrinks. Revisit if the
+            source is ever swapped for something meaningfully larger. */}
         <Image
           src={heroPortraitImage}
           alt={photos.heroPortrait.alt}
           priority
           placeholder="blur"
-          sizes="(min-width: 1024px) 26rem, 90vw"
+          unoptimized
           className="h-[21rem] w-full object-cover object-[50%_28%] md:h-[25rem] lg:h-[27rem]"
         />
         {/* Ties the photograph into the card so it reads as one object. */}
