@@ -477,10 +477,15 @@ function Offers({ record }: { record: StudentCase }) {
               )}
 
               {application.portalUrl && (
-                <p className="mt-3 inline-flex items-center gap-1.5 text-[0.8125rem] text-muted">
+                <a
+                  href={application.portalUrl}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="mt-3 inline-flex items-center gap-1.5 text-[0.8125rem] font-medium text-blue-600 hover:text-blue-500"
+                >
                   <ArrowSquareOut size={14} weight="bold" aria-hidden />
                   {application.portalUrl}
-                </p>
+                </a>
               )}
             </li>
           ))}

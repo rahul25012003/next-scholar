@@ -18,14 +18,21 @@ export default function NotFound() {
           <ButtonLink href="/" size="lg">
             Back to the start
           </ButtonLink>
-          <ButtonLink href={primaryCta.href} variant="outline" size="lg">
-            {primaryCta.label}
+          <ButtonLink href="/search" variant="outline" size="lg">
+            Search the site
           </ButtonLink>
         </div>
         <p className="mt-10 text-[0.875rem] leading-relaxed text-muted">
           Looking for the commission figures? They are on the{" "}
           <Link href="/open-ledger" className="font-medium text-blue-600 hover:text-blue-500">
             Open Ledger
+          </Link>
+          . Looking for a consultation instead?{" "}
+          <Link
+            href={primaryCta.href}
+            className="font-medium text-blue-600 hover:text-blue-500"
+          >
+            {primaryCta.label}
           </Link>
           .
         </p>
