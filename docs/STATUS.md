@@ -4,12 +4,12 @@ What has been implemented against `BACKLOG.md`, what is still open, and why each
 open item is open. The backlog itself is left unedited so the two can be read
 against each other.
 
-**132 of 207 backlog items done, 75 open.** Of the 75, 18 are blocked on
-something outside this repository and 57 are not. `REMAINING.md` breaks all 75
+**139 of 207 backlog items done, 68 open.** Of the 68, 18 are blocked on
+something outside this repository and 50 are not. `REMAINING.md` breaks all 68
 down with what unblocks each and where it goes.
 
-Verified at the point of writing: `npm test` 305 passing, `npm run lint` clean,
-`npm run build` clean across 44 routes, `npm run smoke` 52 routes clean against
+Verified at the point of writing: `npm test` 319 passing, `npm run lint` clean,
+`npm run build` clean across 45 routes, `npm run smoke` 53 routes clean against
 a production build.
 
 ---
@@ -130,6 +130,21 @@ a production build.
 | D.24 | Read time and updated date on articles |
 | D.25 | Qualifier plus date wherever money is shown |
 
+### Phase 7 — Seven of the eight P1s not blocked externally
+
+| ID | Item | Where |
+|---|---|---|
+| 4.06 | Matching upgraded to institution level: commission, a fee-versus-budget read, and a stated language requirement, per institution the catalogue has curated for the matched destination and route | `src/domain/matching.ts` |
+| F.08 | Free profile evaluation given an actual route: the requirements checklist ungated at `/services/profile-evaluation`, plus a written-evaluation request that honestly states delivery is not connected yet | `src/app/(marketing)/services/profile-evaluation`, `src/components/marketing/evaluation-request-form.tsx` |
+| 1.14 | Lighthouse baseline recorded, and two real bugs it found fixed: `--color-muted` failed WCAG AA contrast sitewide, and the homepage's `<dl>` markup was structurally invalid | `docs/LIGHTHOUSE.md`, `src/app/globals.css`, `src/components/marketing/destinations.tsx`, `src/components/site/footer.tsx`, `src/components/marketing/hero.tsx` |
+| 1.15 | The hero image's `preload` prop (not a real `next/image` prop) fixed to `priority`, given a real `sizes`, and self-hosted with a blur placeholder | `src/components/marketing/hero.tsx`, `src/content/photos.ts`, `src/content/photos-assets/` |
+| 3.36 | Component tests added for the filter rail's rendered form state and the grade converter's live input handling | `web/tests/filter-rail.test.tsx`, `web/tests/grade-converter.test.tsx`, `@testing-library/react` and `jsdom` added as devDependencies |
+| D.02 | Reduced-motion audited end to end: all five motion-using components branch correctly on `useReducedMotion`. Nothing to fix, verified rather than assumed | — |
+| D.03 | Focus and keyboard audit found and fixed two real gaps: the header dropdown had no way to close on blur, and `TalkToUs`'s dialog moved no focus on open or close | `src/components/site/header.tsx`, `src/components/site/talk-to-us.tsx` |
+
+Only 2.08 (Open Ledger write path) remains open from the original eight; it is
+genuinely blocked on durable storage, the same as items 1.07–1.09.
+
 ---
 
 ## Open, and why
@@ -153,16 +168,12 @@ a production build.
 
 | ID | Item | Note |
 |---|---|---|
-| 1.11, D.01 | Mobile verification of every route | The structural checks pass in CI and every wide table scrolls in its own container. Nobody has looked at these routes on a phone, and that is not the same thing |
-| 1.14 | Lighthouse baseline | No LCP, INP or CLS figure exists for any route |
-| 1.15 | Production image strategy | `sizes` is set on the newer images; self-hosting or pre-optimisation is not done |
+| 1.11, D.01 | Mobile verification of every route | The structural checks pass in CI and every wide table scrolls in its own container. Nobody has looked at these routes on a phone, and that is not the same thing. The in-session Chrome browser tool has not been connected in either of the last two sessions |
 | 2.08, 2.09, 2.10 | Ledger write path, commission change history, retention deletion | All three want durable storage first |
-| 3.36 | Component and browser tests | The route smoke check covers structure; component behaviour is untested |
 | 3.41, 3.42 | Wider correction scope, one-click summarise | Small console additions |
 | 4.07, 4.10, 4.11, 4.16, 4.29–4.31 | Scholarship finder, country sub-pages, rankings explorer, caching | Catalogue depth beyond the seeded set |
 | 5.06, 5.07, 5.11–5.18 | Reviews, counsellor profiles, city pages, events | Need real students, real counsellors and a real office |
 | 6.02–6.06 | Accommodation partners, forex, exam prep, mobile app, more destinations | Partnerships and scope decisions rather than engineering |
-| D.02, D.03 | Reduced-motion and focus-order walkthroughs | Every motion component reads `useReducedMotion` and the global rule collapses CSS transitions, but nobody has tabbed through a route with the setting on |
 | D.13, D.16, D.17, D.23 | Chart accessibility beyond the screen-reader table, nav condensing, scroll restoration, hero chips | Polish |
 
 ---

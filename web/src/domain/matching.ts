@@ -1,6 +1,8 @@
-import { destinations } from "@/content/destinations";
+import { destinations, type DestinationRow } from "@/content/destinations";
 import { requirementsFor } from "@/content/requirements";
 import { STATUS_LABEL, isPublishable } from "@/content/types";
+import { universitiesIn, type University } from "@/content/catalogue";
+import { rateFor, toInr } from "@/content/guides";
 import type { LanguageTestResult, StudentCase } from "./case";
 import { assessRisk } from "./risk";
 
@@ -13,10 +15,22 @@ import { assessRisk } from "./risk";
  * reason is not a recommendation. And anything the engine does not actually
  * know is listed as an assumption rather than folded silently into the ranking.
  *
- * It ranks destinations and routes, not individual universities. Ranking
- * universities needs verified per programme data that nobody has curated yet,
- * and inventing it here is exactly what the Open Ledger exists to prevent.
+ * It ranks destinations and routes at the top level, then lists the
+ * institutions the catalogue has curated for that destination and route,
+ * alphabetically rather than by an invented fit score. Each one carries only
+ * facts already on file: its commission band, its lowest published fee read
+ * against the stated budget, and its stated postgraduate language requirement
+ * read against whatever test result the case has. None of that is a rank.
  */
+
+export type UniversityMatch = {
+  slug: string;
+  name: string;
+  city: string;
+  commission: { display: string; statusLabel: string; verified: boolean; flag?: string };
+  tuitionNote: string;
+  languageNote: string | null;
+};
 
 export type MatchProposal = {
   destination: string;
@@ -25,7 +39,81 @@ export type MatchProposal = {
   commission: { display: string; statusLabel: string; verified: boolean; flag?: string };
   clientFee: string;
   assumptions: string[];
+  universities: UniversityMatch[];
 };
+
+/** "germany-public" and "germany-private" both draw from the one German pool. */
+const catalogueDestinationKey: Record<string, string> = {
+  "united-kingdom": "united-kingdom",
+  "germany-public": "germany",
+  "germany-private": "germany",
+  ireland: "ireland",
+};
+
+function lowestFee(university: University): { amount: number; currency: "GBP" | "EUR" } | null {
+  let lowest: { amount: number; currency: "GBP" | "EUR" } | null = null;
+  for (const programme of university.programmes) {
+    if (programme.feePerYear.state !== "stated") continue;
+    if (lowest === null || programme.feePerYear.value < lowest.amount) {
+      lowest = { amount: programme.feePerYear.value, currency: programme.currency };
+    }
+  }
+  return lowest;
+}
+
+function tuitionNoteFor(university: University, budgetInr: number | null): string {
+  const fee = lowestFee(university);
+  if (!fee) {
+    return "No programme at this institution has a published fee yet. Check the course page directly.";
+  }
+  const converted = toInr(fee.amount, fee.currency);
+  if (budgetInr === null) {
+    return `Lowest published annual tuition here is ${converted}, at today's reference rate.`;
+  }
+  const inrFee = fee.amount * rateFor(fee.currency).inrPerUnit;
+  return budgetInr >= inrFee
+    ? `Lowest published annual tuition here is ${converted}, inside the stated budget.`
+    : `Lowest published annual tuition here is ${converted}, above the stated budget on its own.`;
+}
+
+function languageNoteFor(university: University, profile: MatchProfile): string | null {
+  for (const exam of university.exams) {
+    if (exam.postgraduate.state !== "stated") continue;
+    const stated = `This institution states a postgraduate ${exam.exam} requirement of ${exam.postgraduate.value}.`;
+    const english = (profile.languageTests ?? []).find((test) => test.language === "english");
+    return english
+      ? `${stated} An ${english.name} result of ${english.score} is already on file.`
+      : `${stated} No English test result is on file to read against it.`;
+  }
+  return null;
+}
+
+function universityMatchesFor(
+  destination: DestinationRow,
+  profile: MatchProfile,
+): UniversityMatch[] {
+  const key = catalogueDestinationKey[destination.slug];
+  if (!key) return [];
+  let pool = universitiesIn(key);
+  if (destination.route) {
+    pool = pool.filter((university) => university.route === destination.route);
+  }
+  return pool
+    .map((university) => ({
+      slug: university.slug,
+      name: university.name,
+      city: university.city,
+      commission: {
+        display: university.commission.display,
+        statusLabel: STATUS_LABEL[university.commission.status],
+        verified: isPublishable(university.commission.status),
+        flag: university.commission.aboveAverage ? "Above category average" : undefined,
+      },
+      tuitionNote: tuitionNoteFor(university, profile.budgetInr),
+      languageNote: languageNoteFor(university, profile),
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
 
 export type MatchProfile = {
   budgetInr: number | null;
@@ -149,6 +237,7 @@ export function proposeShortlist(profile: MatchProfile): {
       },
       clientFee: destination.clientFee,
       assumptions,
+      universities: universityMatchesFor(destination, profile),
     });
   }
 

@@ -119,7 +119,7 @@ export function RevenueChart() {
                     x={PLOT_X + x(tick)}
                     y={TOP + rows.length * ROW_H}
                     textAnchor="middle"
-                    fill="#77808f"
+                    fill="#6a7280"
                     fontSize="11"
                     className="figures"
                   >
@@ -141,7 +141,7 @@ export function RevenueChart() {
                     <text x="0" y={y + 5} fill="#0e2a5e" fontSize="14" fontWeight="600">
                       {row.label}
                     </text>
-                    <text x="0" y={y + 22} fill="#77808f" fontSize="12">
+                    <text x="0" y={y + 22} fill="#6a7280" fontSize="12">
                       {row.sub}
                     </text>
 

@@ -43,6 +43,7 @@ export function Destinations() {
                       alt={photo.alt}
                       width={900}
                       height={500}
+                      sizes="(min-width: 1024px) 50vw, 100vw"
                       className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
                     />
                     {/* Dark at the foot, clear at the head, so the name reads. */}
@@ -77,7 +78,7 @@ export function Destinations() {
                       {row.intakes} intakes
                     </p>
 
-                    <dl className="mt-4 divide-y divide-line">
+                    <div className="mt-4 divide-y divide-line">
                       <Row label="Tuition, year one" value={row.tuition} note={row.tuitionNote} />
                       <Row
                         label="Post study window"
@@ -85,23 +86,25 @@ export function Destinations() {
                         note={row.postStudyNote}
                         flagNote={Boolean(row.postStudyNote)}
                       />
-                      <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-2 py-3.5">
-                        <dt className="text-[0.9375rem] text-body">We earn</dt>
-                        <dd className="flex flex-col items-end gap-1.5">
-                          <span className="figures text-[0.9375rem] font-semibold text-navy-900">
-                            {row.commission.display}
-                          </span>
-                          <StatusChip status={row.commission.status} />
-                          {row.commission.aboveAverage && (
-                            <span className="inline-flex items-center gap-1 rounded-input bg-pending-bg px-2 py-1 text-[0.6875rem] font-medium text-pending">
-                              <WarningDiamond size={12} weight="fill" aria-hidden />
-                              Above category average
+                      <div className="py-3.5">
+                        <dl className="flex flex-wrap items-start justify-between gap-x-6 gap-y-2">
+                          <dt className="text-[0.9375rem] text-body">We earn</dt>
+                          <dd className="flex flex-col items-end gap-1.5">
+                            <span className="figures text-[0.9375rem] font-semibold text-navy-900">
+                              {row.commission.display}
                             </span>
-                          )}
-                        </dd>
+                            <StatusChip status={row.commission.status} />
+                            {row.commission.aboveAverage && (
+                              <span className="inline-flex items-center gap-1 rounded-input bg-pending-bg px-2 py-1 text-[0.6875rem] font-medium text-pending">
+                                <WarningDiamond size={12} weight="fill" aria-hidden />
+                                Above category average
+                              </span>
+                            )}
+                          </dd>
+                        </dl>
                       </div>
                       <Row label="You pay us" value={row.clientFee} note={row.clientFeeNote} />
-                    </dl>
+                    </div>
 
                     {row.commission.note && (
                       <p className="mt-5 rounded-card bg-surface p-4 text-[0.8125rem] leading-relaxed text-body">
@@ -136,12 +139,12 @@ function Row({
 }) {
   return (
     <div className="py-3.5">
-      <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+      <dl className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
         <dt className="text-[0.9375rem] text-body">{label}</dt>
         <dd className="figures text-[0.9375rem] font-semibold text-navy-900">
           {value}
         </dd>
-      </div>
+      </dl>
       {note && (
         <p className="mt-1.5 max-w-prose text-[0.8125rem] leading-relaxed text-muted">
           {flagNote && (

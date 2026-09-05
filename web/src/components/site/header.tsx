@@ -61,6 +61,11 @@ export function SiteHeader() {
                 key={item.label}
                 className="relative"
                 onMouseEnter={() => setOpenMenu(item.label)}
+                onBlur={(event) => {
+                  if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+                    setOpenMenu(null);
+                  }
+                }}
               >
                 <button
                   type="button"

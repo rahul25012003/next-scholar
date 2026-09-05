@@ -111,8 +111,8 @@ export function SiteFooter() {
             <dl className="mt-5 space-y-2">
               {legalIdentity.fields.map((field) => (
                 <div key={field.label} className="flex items-baseline gap-3 text-[0.8125rem]">
-                  <dt className="w-40 shrink-0 text-white/45">{field.label}</dt>
-                  <dd className="figures text-white/35">Not yet issued</dd>
+                  <dt className="w-40 shrink-0 text-white/60">{field.label}</dt>
+                  <dd className="figures text-white/55">Not yet issued</dd>
                 </div>
               ))}
             </dl>
@@ -129,7 +129,7 @@ export function SiteFooter() {
                 </li>
               ))}
             </ul>
-            <p className="mt-6 max-w-xl text-[0.875rem] leading-relaxed text-white/45">
+            <p className="mt-6 max-w-xl text-[0.875rem] leading-relaxed text-white/55">
               {contact.note}
             </p>
           </div>
@@ -150,7 +150,7 @@ export function SiteFooter() {
           ))}
         </nav>
 
-        <div className="mt-7 flex flex-col gap-3 border-t border-white/12 pt-7 text-[0.8125rem] text-white/40 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-7 flex flex-col gap-3 border-t border-white/12 pt-7 text-[0.8125rem] text-white/55 sm:flex-row sm:items-center sm:justify-between">
           <p>
             {site.name}. Page content last reviewed{" "}
             <span className="figures">{lastReviewed}</span>.

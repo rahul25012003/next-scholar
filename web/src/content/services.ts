@@ -39,6 +39,8 @@ export type Service = {
   remuneration: Remuneration;
   availability: Availability;
   group: "Before you commit" | "The engagement" | "Specific help" | "Introductions";
+  /** Set only where the service has an actual page to send someone to. */
+  cta?: { href: string; label: string };
 };
 
 export const services: Service[] = [
@@ -69,6 +71,7 @@ export const services: Service[] = [
         "Run the checklist yourself in the browser first: it is ungated and it answers the same questions from the same figures. Ask for the written evaluation when you want a person to read your transcript.",
     },
     group: "Before you commit",
+    cta: { href: "/services/profile-evaluation", label: "Run it, or ask for the written version" },
   },
   {
     slug: "consultation",

@@ -24,6 +24,15 @@ const unsplash = (id: string, alt: string): Photo => ({
   credit: `https://unsplash.com/photos/${id}`,
 });
 
+/**
+ * The one photograph on the LCP path: self-hosted rather than hotlinked, so
+ * it does not wait on Unsplash's CDN and Next can generate a blur placeholder
+ * for it. Fetched once, at the exact crop `photoUrl` already requested, and
+ * committed here rather than pulled at request time. The Unsplash credit
+ * above still names where it came from.
+ */
+export { default as heroPortraitImage } from "./photos-assets/hero-portrait.jpg";
+
 export const photos = {
   /**
    * Chosen by rendering six candidates inside the actual hero card and looking

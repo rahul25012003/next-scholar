@@ -137,6 +137,12 @@ export default function ServicesPage() {
                         <p className="mt-3 text-[0.8125rem] leading-relaxed text-muted">
                           {service.availability.detail}
                         </p>
+
+                        {service.cta && (
+                          <ButtonLink href={service.cta.href} variant="outline" className="mt-4 self-start">
+                            {service.cta.label}
+                          </ButtonLink>
+                        )}
                       </article>
                     </Reveal>
                   ))}

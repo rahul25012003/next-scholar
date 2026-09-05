@@ -512,6 +512,30 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                           ))}
                         </ul>
                       )}
+                      {proposal.universities.length > 0 && (
+                        <ul className="mt-3 space-y-3 border-t border-line pt-3">
+                          {proposal.universities.map((university) => (
+                            <li key={university.slug}>
+                              <p className="text-[0.8125rem] font-medium text-navy-900">
+                                {university.name}
+                                <span className="font-normal text-muted"> · {university.city}</span>
+                              </p>
+                              <p className="mt-0.5 text-[0.75rem] leading-relaxed text-body">
+                                {university.tuitionNote}
+                              </p>
+                              {university.languageNote && (
+                                <p className="mt-0.5 text-[0.75rem] leading-relaxed text-body">
+                                  {university.languageNote}
+                                </p>
+                              )}
+                              <p className="figures mt-0.5 text-[0.75rem] text-muted">
+                                We earn {university.commission.display}, {university.commission.statusLabel}
+                                {university.commission.flag ? `, ${university.commission.flag.toLowerCase()}` : ""}
+                              </p>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </li>
                   ))}
                   {shortlist.excluded.map((entry) => (

@@ -32,7 +32,7 @@
   --color-ink: #0e2a5e;
   --color-ink-soft: #3f4a5c;
   --color-body: #5b6472; /* [VERIFY] paragraph copy, 5.6:1 on paper */
-  --color-muted: #77808f;
+  --color-muted: #6a7280; /* 4.55:1 on surface, 4.85:1 on paper; was #77808f at 3.75:1, failing WCAG AA */
 
   /* --- Status --------------------------------------------------------- */
   --color-verified: #15803d;

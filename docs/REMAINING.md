@@ -3,11 +3,11 @@
 A resumable handover. Every open item from `BACKLOG.md`, with what it is, why it
 is open, what unblocks it, and where in the codebase it goes.
 
-**75 open of 207.** 18 blocked on something outside this repository, 57 not
+**68 open of 207.** 18 blocked on something outside this repository, 50 not
 blocked, one of which is a decision rather than a task. `STATUS.md` has the completed side.
 
-State at handover: `npm test` 305 passing, `npm run lint` clean, `npm run build`
-clean across 44 routes, `npm run smoke` clean across 52 routes.
+State at handover: `npm test` 319 passing, `npm run lint` clean, `npm run build`
+clean across 45 routes, `npm run smoke` clean across 53 routes.
 
 ---
 
@@ -18,15 +18,20 @@ In this order, because each one unblocks or de-risks what follows.
 1. **Look at the site on a phone** (1.11, D.01, both P0). The only P0 left that
    needs nothing but a device. Structural checks pass in CI and every wide table
    scrolls inside its own container, but nobody has actually seen a route at
-   390px. Half a day, and it will find things.
+   390px. Half a day, and it will find things. (The Chrome browser tool needed
+   to do this from inside a session has not been connected in either of the
+   last two sessions — connect it, or use a real phone.)
 2. **Set `ANTHROPIC_API_KEY` and run the six agents once** (2.04, 2.05, P0).
    This is the largest untested surface in the codebase: no model call has ever
    executed, and the prohibition guards are proven only against mocked strings.
    Until this happens, six features are theoretical.
 3. **Create the Supabase project** (1.07–1.09, P0). Everything in Phase 2 that
    is not the API key waits behind it, plus 2.08, 2.09, 2.10 and 2.12.
-4. Then the P1s in whatever order suits: 4.06 matching at programme level is the
-   highest-value one now that the catalogue exists.
+4. Then the P2s: 4.29/4.07 (scholarship finder) and 4.10/4.11 (country
+   sub-pages, rankings table) are the highest-value ones now that the
+   catalogue and matching both reach programme level. `2.08` (Open Ledger
+   write path) is the one P1 item still open, and it is genuinely blocked on
+   the same durable store as item 3.
 
 ---
 
@@ -186,18 +191,54 @@ on a sticky bar), the shortlist comparison table (sticky first column), the
 console caseload filter form (six controls in a `flex-wrap`), the cost of living
 calculator's editable table, and the `TalkToUs` panel at the bottom right.
 
-### B2. P1 — 8 items
+### B2. P1 — 1 item
+
+Seven of the original eight are done. What each session found:
+
+- **4.06** — `src/domain/matching.ts` now attaches the catalogue's institutions
+  to every proposed destination and route: commission band, a fee comparison
+  against the stated budget, and a stated language requirement read against
+  whatever test result is on file. Alphabetical, not ranked — see the "should
+  not undo" list below. Tests in `tests/lifecycle.test.ts`.
+- **F.08** — `/services/profile-evaluation` runs the same checklist logic
+  ungated, then offers a written-evaluation request form. The request itself
+  is honestly not deliverable yet: no contact channel is connected and no
+  anonymous visitor's details are stored ahead of the security/DPDP
+  foundation, so it validates and says exactly that, the same pattern
+  `submitIntake` already uses for the paid consultation.
+- **1.14** — `docs/LIGHTHOUSE.md`. Found and fixed a real one: `--color-muted`
+  failed WCAG AA contrast (3.75–3.99:1) against both `bg-paper` and
+  `bg-surface`, used sitewide for captions and sources. Also fixed an invalid
+  `<dl>` structure on the homepage's destination cards, three footer text
+  tones too faint even for the fixed token, and one hero card's bespoke
+  background. Home page accessibility: 89 → 100. The doc is explicit about
+  which of its own numbers are trustworthy: this machine's `npx lighthouse`
+  repeatedly failed to clean up its Chrome process on Windows, and the
+  resulting pile-up inflated later TBT readings by 10x+ in the same run.
+- **1.15** — The hero portrait was passed a `preload` prop, which does not
+  exist on `next/image` and silently did nothing, so the likely LCP element on
+  the busiest page was never actually prioritized. Fixed to `priority`, given
+  a real `sizes`, and self-hosted (`src/content/photos-assets/`) so it also
+  gets a blur placeholder. The four destination cards got the `sizes` they
+  were missing but stay on Unsplash's CDN; they are not the LCP candidate.
+- **3.36** — Added `@testing-library/react` and `jsdom` (devDependencies only)
+  and `tests/filter-rail.test.tsx`, `tests/grade-converter.test.tsx`. Use the
+  `// @vitest-environment jsdom` docblock per file, not a global config
+  switch, so the existing pure-logic suite stays on the faster node
+  environment. `tests/stubs/jest-dom-setup.ts` registers `afterEach(cleanup)`
+  by hand, since this project does not run with vitest's `globals: true`.
+- **D.02** — Every motion component already branched correctly on
+  `useReducedMotion`; nothing to fix. Verified, not assumed: read all five.
+- **D.03** — Found and fixed two real gaps. The header's dropdown menu had no
+  `onBlur` handler, so tabbing through it and past it left a stale menu open
+  over the page with no way to close it but Escape. `TalkToUs`'s panel claims
+  `role="dialog"` but moved no focus on open and returned none on close;
+  fixed with a pair of refs. `positive tabindex` and `div`-with-`onClick`
+  anti-patterns: none found anywhere in the codebase.
 
 | ID | Item | Where | Note |
 |---|---|---|---|
-| 4.06 | Matching upgraded to university and programme level | `src/domain/matching.ts` | The highest-value P1 now that the catalogue exists. Today it ranks destinations and routes only, and the comment saying it cannot rank universities "because nobody has curated the data" is now out of date: `src/content/catalogue/` has it. Keep the two existing rules — a reason stated per entry, and assumptions listed rather than folded in — and keep the commission on every proposal |
-| F.08 | Free profile evaluation as a named, scoped product | Named on `/services`; needs the actual intake and delivery | The scoped product is described. What is missing is the route that takes a transcript and returns the written answer within three working days |
-| 1.14 | Lighthouse baseline for all routes | New | No LCP, INP or CLS figure exists for any route. Run it, record the numbers in `docs/`, then decide what to fix. Guessing at performance work before measuring is the wrong order |
-| 1.15 | Production image strategy | `next.config.ts`, `src/content/photos.ts` | `sizes` is set on the newer images; self-hosting or pre-optimising the eight remote ones is not done. Blur placeholders need the images to be local first |
 | 2.08 | Open Ledger write path, founder gated | `src/content/ledger.ts` is repository-edited content today | Wants durable storage first, but the RBAC action already exists |
-| 3.36 | Component and browser tests for marketing and portal | `web/tests/` | `npm run smoke` covers route structure; component behaviour is untested. The highest-value targets are the calculators' input handling and the filter rail's URL round trip |
-| D.02 | Reduced-motion audit end to end | Every motion component | All of them read `useReducedMotion` and the global CSS rule collapses transitions, but nobody has turned the setting on and walked the site |
-| D.03 | Focus states and keyboard tab order on every route | Every route | Same shape of gap: `:focus-visible` is defined globally in `globals.css`, and no one has tabbed a route end to end. Check the header dropdowns, the university tab strip, and the `TalkToUs` panel's focus trap first |
 
 ### B3. P2 — 22 items
 
@@ -315,6 +356,10 @@ Written down because each one looks like an omission and is a decision.
    copy.
 9. **Synthetic fixtures are withheld from a production build.** Set
    `NEXT_SCHOLAR_DEMO_DATA=true` to walk the authenticated surfaces.
+10. **Matching lists institutions alphabetically, never by an invented fit.**
+    `universityMatchesFor` in `src/domain/matching.ts` sorts by name. A fee
+    comparison and a language-requirement readout are stated as facts, not
+    folded into a score or an order that would imply one.
 
 ---
 
@@ -325,14 +370,22 @@ cd web
 npm install
 npm run dev          # http://localhost:3000
 
-npm test             # 305 tests
+npm test             # 319 tests
 npm run lint
 npm run build        # type checks as part of the build
 
 npm start &          # the smoke check needs a running production build
-npm run smoke        # 52 routes: structure, and the three route guards
+npm run smoke        # 53 routes: structure, and the three route guards
 ```
 
 `web/.env.example` lists every optional key. Each unset one produces a stated
 "not connected" state rather than a fabricated result, so the whole site runs
 with none of them set.
+
+Running Lighthouse locally (`npx lighthouse <url> --chrome-flags="--headless=new"`)
+on Windows: `chrome-launcher` has failed to clean up its own Chrome process
+after almost every run this session, leaving zombies that pile up across
+repeated runs and quietly wreck the timing numbers of whichever run follows
+(see `docs/LIGHTHOUSE.md`). Run `taskkill //F //IM chrome.exe //T` between
+runs, or don't trust a TBT or LCP figure from a batch you didn't check for
+leftover `chrome.exe` processes first.

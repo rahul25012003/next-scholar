@@ -56,6 +56,7 @@ const PAGES = [
   "/guides/what-a-consultant-cannot-do",
   "/our-numbers",
   "/services",
+  "/services/profile-evaluation",
   "/open-ledger",
   "/zero-commission",
   "/anti-fraud-policy",

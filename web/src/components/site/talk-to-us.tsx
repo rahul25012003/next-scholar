@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ChatCircleDots, WhatsappLogo, X } from "@phosphor-icons/react";
@@ -24,6 +24,9 @@ export function TalkToUs() {
   const [open, setOpen] = useState(false);
   const [dismissed, setDismissed] = useState(false);
   const reduced = useReducedMotion();
+  const panelRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const wasOpen = useRef(false);
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 600);
@@ -39,6 +42,19 @@ export function TalkToUs() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
+
+  // A keyboard or screen reader user who opens this panel should land inside
+  // it, and get their focus back on the toggle when it closes, rather than
+  // being left wherever the page happened to put them.
+  useEffect(() => {
+    if (open) {
+      panelRef.current?.focus();
+      wasOpen.current = true;
+    } else if (wasOpen.current) {
+      toggleRef.current?.focus();
+      wasOpen.current = false;
+    }
+  }, [open]);
 
   if (dismissed) return null;
 
@@ -60,6 +76,8 @@ export function TalkToUs() {
         >
           {open && (
             <motion.div
+              ref={panelRef}
+              tabIndex={-1}
               initial={reduced ? false : { opacity: 0, scale: 0.96, y: 8 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.18, ease: "easeOut" }}
@@ -128,6 +146,7 @@ export function TalkToUs() {
           )}
 
           <button
+            ref={toggleRef}
             type="button"
             onClick={() => setOpen((value) => !value)}
             aria-expanded={open}

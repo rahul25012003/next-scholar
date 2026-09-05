@@ -52,6 +52,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ),
     at("/our-numbers", 0.9),
     at("/services", 0.9),
+    at("/services/profile-evaluation", 0.7),
     at("/guides", 0.8),
     ...articles.map((article) => at(`/guides/${article.slug}`, 0.7, new Date(article.updatedOn))),
     at("/tools", 0.8),

@@ -4,7 +4,7 @@ import { ArrowRight, MagnifyingGlass } from "@phosphor-icons/react/ssr";
 import { ButtonLink } from "@/components/ui/button";
 import { primaryCta } from "@/content/site";
 import { destinations } from "@/content/destinations";
-import { photos, photoUrl } from "@/content/photos";
+import { heroPortraitImage, photos } from "@/content/photos";
 
 /**
  * The hero, following the reference layout: a soft blue panel holding the
@@ -44,7 +44,7 @@ export function Hero() {
                 <ButtonLink href={primaryCta.href} size="lg">
                   {primaryCta.label}
                 </ButtonLink>
-                <p className="text-[0.8125rem] leading-snug text-muted">
+                <p className="text-[0.8125rem] leading-snug text-body">
                   45 minutes, ₹1,500, credited against the fee
                   <br className="hidden sm:block" /> if you go ahead.
                 </p>
@@ -145,11 +145,11 @@ function HeroPortrait() {
       />
       <div className="relative overflow-hidden rounded-t-[1.75rem] rounded-bl-[1.75rem] bg-[linear-gradient(160deg,#2e6bf0_0%,#1553d6_55%,#0e2a5e_100%)]">
         <Image
-          src={photoUrl(photos.heroPortrait, 760, 1000)}
+          src={heroPortraitImage}
           alt={photos.heroPortrait.alt}
-          width={760}
-          height={1000}
-          preload
+          priority
+          placeholder="blur"
+          sizes="(min-width: 1024px) 26rem, 90vw"
           className="h-[21rem] w-full object-cover object-[50%_28%] md:h-[25rem] lg:h-[27rem]"
         />
         {/* Ties the photograph into the card so it reads as one object. */}

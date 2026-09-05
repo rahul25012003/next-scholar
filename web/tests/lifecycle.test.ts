@@ -324,3 +324,51 @@ describe("matching uses what is on file and flags what is not", () => {
     expect(profile.riskNotes?.length).toBeGreaterThan(0);
   });
 });
+
+describe("matching lists the catalogue's curated institutions per proposal", () => {
+  it("attaches the catalogue's institutions to a proposed route, alphabetically", () => {
+    const { proposals } = proposeShortlist({ budgetInr: 3_000_000 });
+    const uk = proposals.find((proposal) => proposal.destination === "United Kingdom");
+    expect(uk?.universities.length).toBeGreaterThan(0);
+    const names = uk?.universities.map((university) => university.name) ?? [];
+    expect(names).toEqual([...names].sort((a, b) => a.localeCompare(b)));
+  });
+
+  it("splits German institutions by the matched route, public and private", () => {
+    const { proposals } = proposeShortlist({ budgetInr: 3_000_000 });
+    const germanPublic = proposals.find((proposal) => proposal.route === "Public universities");
+    expect(germanPublic?.universities.length).toBeGreaterThan(0);
+  });
+
+  it("carries a commission band onto every listed institution", () => {
+    const { proposals } = proposeShortlist({ budgetInr: 3_000_000 });
+    for (const proposal of proposals) {
+      for (const university of proposal.universities) {
+        expect(university.commission.display).toBeTruthy();
+        expect(university.tuitionNote.length).toBeGreaterThan(10);
+      }
+    }
+  });
+
+  it("reads a stated language requirement against a test already on file, without judging it", () => {
+    const { proposals } = proposeShortlist({
+      budgetInr: 3_000_000,
+      languageTests: [
+        { language: "english", name: "IELTS", score: "7.5", takenOn: null, expiresOn: null },
+      ],
+    });
+    const withLanguageNote = proposals
+      .flatMap((proposal) => proposal.universities)
+      .find((university) => university.languageNote);
+    expect(withLanguageNote?.languageNote).toContain("IELTS result of 7.5 is already on file");
+  });
+
+  it("never turns a fee comparison or a language readout into a probability", () => {
+    const { proposals } = proposeShortlist({ budgetInr: 3_000_000 });
+    const banned = /\bscore\b|\bmatch percentage\b|\badmission chance\b|\bprobability\b/i;
+    for (const university of proposals.flatMap((proposal) => proposal.universities)) {
+      expect(university.tuitionNote).not.toMatch(banned);
+      expect(university.languageNote ?? "").not.toMatch(banned);
+    }
+  });
+});
