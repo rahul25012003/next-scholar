@@ -74,7 +74,7 @@ export const privacyPolicy: LegalDocument = {
     "A lawyer has not reviewed this text. It is published in that state rather than presented as settled.",
     "The grievance officer is a defined role with no named holder yet, because there is no entity to appoint one. The interim route is set out in the Complaints section.",
     "The storage provider and its region are not yet contracted, so the cross-border transfer position in the Transfers section is stated as intent rather than as implemented fact.",
-    "Retention periods are computed by the platform today and enforced by deletion only once the database is in place. That gap is stated in the Retention section rather than hidden.",
+    "A case past its retention period is now deleted automatically; that deletion does not yet survive a server restart, and does not yet prune the audit trail. Both gaps are stated in the Retention section rather than hidden.",
   ],
   sections: [
     {
