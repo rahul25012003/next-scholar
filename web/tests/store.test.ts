@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import {
   appendNote,
   currentSignOff,
+  enforceRetention,
   mutateCase,
   caseloadStats,
   getCase,
@@ -15,6 +16,7 @@ import {
 } from "@/data/store";
 import { auditFor, recentAudit, resetAudit } from "@/domain/audit";
 import { demoCounselor, demoFounder, demoStudent } from "@/domain/demo-actors";
+import { closeCase } from "@/domain/case-operations";
 
 /**
  * The store is where the two structural promises meet: a read is scoped by the
@@ -188,5 +190,46 @@ describe("the quarterly report sign off", () => {
   it("refuses a counselor, who has no report.publish permission", async () => {
     expect(await signOffReport(demoCounselor)).toBe(false);
     expect(await currentSignOff()).toBeNull();
+  });
+});
+
+describe("retention deletion runs on the sweep", () => {
+  it("leaves a recently closed case alone", async () => {
+    await mutateCase(
+      "case-1043",
+      demoFounder,
+      "escalation.resolve",
+      (record) => closeCase(record, "enrolled", "Confirmed enrolment.", demoFounder.name),
+      "Closed",
+    );
+
+    const result = await enforceRetention();
+    expect(result.deleted).not.toContain("case-1043");
+    expect(await getCase("case-1043", demoFounder)).not.toBeNull();
+  });
+
+  it("deletes a case whose retention date has passed, and audits who did it", async () => {
+    const longAgo = new Date();
+    longAgo.setFullYear(longAgo.getFullYear() - 6);
+
+    await mutateCase(
+      "case-1042",
+      demoFounder,
+      "escalation.resolve",
+      (record) =>
+        closeCase(record, "withdrawn-by-student", "Lost contact.", demoFounder.name, longAgo),
+      "Closed",
+    );
+
+    const result = await enforceRetention();
+    expect(result.deleted).toContain("case-1042");
+    expect(await getCase("case-1042", demoFounder)).toBeNull();
+
+    const entry = (await auditFor("case-1042")).find((item) => item.action === "delete");
+    expect(entry?.actorRole).toBe("system");
+    expect(entry?.note).toContain("retention");
+
+    const second = await enforceRetention();
+    expect(second.deleted).not.toContain("case-1042");
   });
 });

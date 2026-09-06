@@ -71,9 +71,11 @@ matters most — a connection with no actor context set at all sees nothing.
   app makes, and they inherit `cases`' RLS for free as a column rather than
   needing their own policy to get right.
 - **Retention deletion (2.10).** `src/domain/retention.ts` computes the
-  clock; nothing here deletes on it yet. `audit_log` is append-only from the
-  application by design, and a scheduled deletion job is a separate piece of
-  work layered on top of this schema existing, not part of it.
+  clock; `src/data/store.ts`'s `enforceRetention()` now deletes on it, wired
+  into the daily `/api/sweep`, exactly the separate piece of work layered on
+  top of this schema that this note originally called for, not part of the
+  schema itself. `audit_log` stays append-only from the application by
+  design: that job does not prune it, a stated, separate gap.
 - **Commission change history (2.09).** Needs its own table once this one is
   live; not attempted here since it was explicitly listed as following 1.07–1.09
   rather than part of them.

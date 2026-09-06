@@ -28,6 +28,7 @@ import {
   type Notification,
 } from "@/domain/notifications";
 import { deriveDocStatus } from "@/domain/completeness";
+import { retentionFor, RETENTION_YEARS, RETENTION_CAVEAT } from "@/domain/retention";
 import { byPriority, detectAll, type EventType } from "@/domain/events";
 import type { Channel as CommsChannel, CommunicationRecord } from "@/domain/communications";
 import { decideField, type Extraction, type StagedField } from "@/domain/extraction";
@@ -1050,4 +1051,64 @@ export async function listNotifications(
     .filter((item) => !item.resolvedAt)
     .filter((item) => scopedIds.has(item.caseId))
     .filter((item) => (caseId ? item.caseId === caseId : true));
+}
+
+/**
+ * 2.10: the clock `domain/retention.ts` computes now has an enforcement path.
+ * Intended to be called by the scheduled sweep, alongside `syncNotifications`,
+ * and safe to call twice: a case already deleted is not found on the next run.
+ *
+ * A student account can hold `case_id` pointing at the row being deleted
+ * (`users_case_id_fkey` in `supabase/migrations/0001_schema.sql`), so that
+ * link is cleared first rather than left to fail the delete. The other child
+ * tables (`consents`, `channel_consents`, `communications`, `extractions`,
+ * `notifications`) are declared `on delete cascade`, so Supabase mode drops
+ * them for free; in-memory mode does the same cleanup by hand, so a demo run
+ * cannot leave a row pointing at a case that no longer exists.
+ *
+ * What this does not yet do: prune the audit trail for the same case, which
+ * the retention policy also promises after five years. `audit_log` addresses
+ * its rows by subject, not by case, across document, consent, commission and
+ * report entries as well as case ones, and reconstructing which of those
+ * belong to one case reliably is a separate, harder problem than deleting the
+ * case file itself. `content/legal.ts` states that gap rather than implying
+ * it is closed.
+ */
+export async function enforceRetention(now = new Date()): Promise<{ deleted: string[] }> {
+  const deletable = (await all()).filter(
+    (record) => retentionFor(record.closedAt, now).state === "deletable",
+  );
+
+  for (const record of deletable) {
+    if (supabaseConfigured()) {
+      const client = supabaseAdmin()!;
+      const { error: unlinkError } = await client
+        .from("users")
+        .update({ case_id: null })
+        .eq("case_id", record.id);
+      if (unlinkError) throw unlinkError;
+
+      const { error } = await client.from("cases").delete().eq("id", record.id);
+      if (error) throw error;
+    } else {
+      records = records.filter((item) => item.id !== record.id);
+      consents = consents.filter((item) => item.caseId !== record.id);
+      channelConsents = channelConsents.filter((item) => item.caseId !== record.id);
+      communications = communications.filter((item) => item.caseId !== record.id);
+      extractions = extractions.filter((item) => item.caseId !== record.id);
+      notifications = notifications.filter((item) => item.caseId !== record.id);
+    }
+
+    await recordAudit({
+      actorId: "system",
+      actorName: "System",
+      actorRole: "system",
+      action: "delete",
+      subjectType: "case",
+      subjectId: record.id,
+      note: `Deleted by the scheduled retention sweep. Closed ${record.closedAt}, past the ${RETENTION_YEARS} year retention period. ${RETENTION_CAVEAT}`,
+    });
+  }
+
+  return { deleted: deletable.map((record) => record.id) };
 }

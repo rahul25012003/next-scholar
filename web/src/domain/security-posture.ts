@@ -61,13 +61,13 @@ export function securityPosture(): PostureItem[] {
     {
       requirement: "Retention and deletion",
       state: "needs-provider",
-      detail: `The ${RETENTION_YEARS} year period is computed per case and a case past it reports as deletable. Actually deleting it needs the database. ${RETENTION_CAVEAT}`,
+      detail: `The ${RETENTION_YEARS} year period is computed per case, and the case file itself is now deleted automatically by the scheduled sweep once it passes that date, not just reported as deletable. The audit trail for that case is not pruned by the same job yet, and neither survives a restart without a database connected. ${RETENTION_CAVEAT}`,
     },
     {
       requirement: "Managed storage with row level security",
       state: "needs-provider",
       detail:
-        "Cases live in memory from synthetic fixtures. One file, data/store.ts, is the whole of the swap to Supabase, and the permission matrix moves down into row level policies at the same time.",
+        "data/store.ts and data/users.ts already branch on a database being connected, with row level policies written and tested against the same permission matrix; what's missing is a live Supabase project and its two environment variables. Until then, every write happens in memory from synthetic fixtures and does not survive a restart.",
     },
     {
       requirement: "Encryption at rest and in transit",

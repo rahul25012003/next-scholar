@@ -3,11 +3,11 @@
 A resumable handover. Every open item from `BACKLOG.md`, with what it is, why it
 is open, what unblocks it, and where in the codebase it goes.
 
-**40 open of 207.** 18 blocked on something outside this repository, 22 not
+**39 open of 207.** 18 blocked on something outside this repository, 21 not
 blocked, most of which are a decision (funding, a partnership, a legal
 policy call, a research-scope call) rather than a task. `STATUS.md` has the completed side.
 
-State at handover: `npm test` 343 passing, `npm run lint` clean, `npm run build`
+State at handover: `npm test` 345 passing, `npm run lint` clean, `npm run build`
 clean, `npm run smoke` clean across 71 checked URLs.
 
 ---
@@ -20,8 +20,8 @@ In this order, because each one unblocks or de-risks what follows.
    needs nothing but a device. Structural checks pass in CI and every wide table
    scrolls inside its own container, but nobody has actually seen a route at
    390px. Half a day, and it will find things. (The Chrome browser tool needed
-   to do this from inside a session has not been connected in either of the
-   last two sessions — connect it, or use a real phone.)
+   to do this from inside a session has not been connected in any of the last
+   three sessions — connect it, or use a real phone.)
 2. **Set `ANTHROPIC_API_KEY` and run the six agents once** (2.04, 2.05, P0).
    This is the largest untested surface in the codebase: no model call has ever
    executed, and the prohibition guards are proven only against mocked strings.
@@ -29,7 +29,8 @@ In this order, because each one unblocks or de-risks what follows.
 3. **Create the Supabase project** (1.07–1.09, P0). The code side is done and
    tested (see A1 below); this is now purely two environment variables away.
    Everything in Phase 2 that is not the API key waits behind it, plus 2.08,
-   2.09, 2.10 and 2.12.
+   2.09 and 2.12 — and full durability for 2.10, whose deletion logic is
+   already built and running against the in-memory store (see B3 below).
 4. Everything left in the P1 through P4 lists (B2 through B5 below) is now
    blocked on something outside this repository, and each one names exactly
    what: real students, a real counsellor's credential, a real office
@@ -63,14 +64,14 @@ All three are code-complete and tested; what remains is a project existing.
 |---|---|---|
 | 1.07 | Supabase project, schema, row level security mirroring the permission matrix | `supabase/migrations/0001_schema.sql`, `0002_rls.sql`, `0003_functions.sql`. The matrix mirrored is `src/domain/rbac.ts` |
 | 1.08 | Migrate `data/store.ts` and `data/users.ts` | Done. Both files branch on `supabaseConfigured()` and fall back to the in-memory fixtures otherwise; nothing above either file changed |
-| 1.09 | Durable audit trail, bounded reads | `src/domain/audit.ts` now reads and writes `audit_log` the same way. "Bounded" rather than a cursor pager: `recentAudit(limit)` and `auditFor(subjectId)` were already the only two read shapes anything calls, and both stay narrow queries rather than loading the table. Retention deletion is 2.10, separately, on purpose |
+| 1.09 | Durable audit trail, bounded reads | `src/domain/audit.ts` now reads and writes `audit_log` the same way. "Bounded" rather than a cursor pager: `recentAudit(limit)` and `auditFor(subjectId)` were already the only two read shapes anything calls, and both stay narrow queries rather than loading the table. Retention deletion of the case file itself is 2.10, now done separately (see B3 below); pruning the audit trail on the same clock is not, deliberately |
 
 **Verification, not taken on faith.** `supabase/tests/rls-check.sql` seeded two
 students, two counsellors, a manager and a founder and ran eleven assertions as
 a real non-superuser Postgres role, including the fail-closed case (no actor
 context set at all sees nothing). All eleven passed, checked by hand against
 `can`/`visibleCases`. `supabase/README.md` has the full account, including what
-was deliberately left out (Supabase Auth, a table per nested array, 2.09, 2.10).
+was deliberately left out (Supabase Auth, a table per nested array, 2.09).
 
 **Why it still matters, and what is genuinely left.** Every write is lost on
 restart today, including a consent grant, a verification and a correction — the
@@ -333,13 +334,26 @@ outcome and a real credential, not more code:
   shape: a credential is either checked against the issuing body by a named
   person, or the profile does not render.
 
+**2.10 — closed in a later session.** `retentionFor` in `src/domain/retention.ts`
+computed the clock; it had nothing to trigger. `src/data/store.ts`'s
+`enforceRetention()` now deletes a case past its retention date and is wired
+into the daily `/api/sweep`, right before `syncNotifications` so nothing gets a
+fresh reminder queued moments before it is removed. Both modes stay in parity:
+Supabase mode clears the referencing student account's `case_id` first (the
+foreign key would otherwise refuse the delete) and lets `on delete cascade`
+take the rest; in-memory mode filters every dependent array by hand the same
+way. Two things this does not do, stated rather than glossed: it does not
+survive a restart until the same Supabase project as A1 exists, and it does
+not prune the audit trail for the deleted case, which `content/legal.ts` and
+`domain/security-posture.ts` both still say plainly. Tests in
+`tests/store.test.ts`'s "retention deletion runs on the sweep" block.
+
 **Still open**
 
 | ID | Item | Note |
 |---|---|---|
 | 3.49 | dMAT preparation guidance | The requirement is now published across four surfaces. Preparation guidance is the follow-up, and it should wait until the test's format is actually known rather than guessed |
 | 2.09 | Commission change history | Required by the source guide schema. Needs storage |
-| 2.10 | Retention deletion enforcement | `src/domain/retention.ts` computes the clock; nothing deletes. The privacy policy states this gap explicitly, so closing it also updates that page |
 | D.14 | Enforce radius and shadow tokens as new surfaces are built | Tried and deliberately not shipped this session: a blanket lint rule bans exactly the kind of bespoke arbitrary value the hero card's cut-corner shape legitimately needs, and the codebase has no existing inventory of which arbitrary values are drift versus which are intentional. Needs a real design-token audit before a rule can tell the two apart, not a rule first |
 | 6.02 | Accommodation partners with disclosed referral terms | `/services` already carries the disclosure shape and states that nobody pays us today. Adding a partner means filling in `remuneration: { kind: "referral", weEarn }` and the page renders the warning treatment automatically |
 
@@ -508,7 +522,7 @@ cd web
 npm install
 npm run dev          # http://localhost:3000
 
-npm test             # 343 tests
+npm test             # 345 tests
 npm run lint
 npm run build        # type checks as part of the build
 

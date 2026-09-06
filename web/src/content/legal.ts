@@ -271,8 +271,8 @@ export const privacyPolicy: LegalDocument = {
         {
           kind: "callout",
           tone: "warning",
-          title: "The clock is computed. The deletion is not yet enforced.",
-          body: "Today the platform calculates the retention state of every record and shows it on the operations dashboard. It does not yet delete anything automatically, because the durable database that would hold the deletion job is not in place. That is a real gap between this policy and the running system, and it is stated here rather than glossed. Until it closes, deletion on request is performed by hand and is not slower for it.",
+          title: "The case file's deletion now runs. Two gaps remain, stated rather than glossed.",
+          body: "A case past its five year retention date is deleted automatically today, by the same scheduled job that runs the rest of the platform's daily housekeeping, not by a person checking a dashboard first. What is not yet true: the audit trail of who read and changed that file is not pruned by the same job, so it currently outlives the five years stated above; and until a durable database is connected, this deletion, like every other write on the platform today, does not survive a server restart. Ask us in writing and either gap is closed by hand in the meantime.",
         },
       ],
     },

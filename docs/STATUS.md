@@ -4,13 +4,13 @@ What has been implemented against `BACKLOG.md`, what is still open, and why each
 open item is open. The backlog itself is left unedited so the two can be read
 against each other.
 
-**167 of 207 backlog items done, 40 open.** Of the 40, 18 are blocked on
-something outside this repository and 22 are not, most of which are a
+**168 of 207 backlog items done, 39 open.** Of the 39, 18 are blocked on
+something outside this repository and 21 are not, most of which are a
 decision — funding, a partnership, a legal policy call, a research-scope
-call — rather than a task. `REMAINING.md` breaks all 40 down with what
+call — rather than a task. `REMAINING.md` breaks all 39 down with what
 unblocks each and where it goes.
 
-Verified at the point of writing: `npm test` 343 passing, `npm run lint` clean,
+Verified at the point of writing: `npm test` 345 passing, `npm run lint` clean,
 `npm run build` clean, `npm run smoke` 71 routes clean against a production
 build.
 
@@ -40,6 +40,7 @@ build.
 | ID | Item | Note |
 |---|---|---|
 | 2.11 | Contact channel consent control | Students grant and withdraw their own; a staff account is refused |
+| 2.10 | Retention deletion enforcement | `data/store.ts`'s `enforceRetention()` deletes a case past its retention date, wired into the daily `/api/sweep`. Durable only once the same Supabase project as 1.07–1.09 exists; does not prune the audit trail, a stated separate gap |
 
 ### Phase 3 — Country completeness and honest tools
 
@@ -212,6 +213,7 @@ outside decision is made.
 | ID | Item | Blocked on |
 |---|---|---|
 | 1.07, 1.08, 1.09 | Supabase, migration, durable audit | Code-complete and tested against a real Postgres instance: schema and RLS mirroring `rbac.ts` (`supabase/`, 11 assertions passing including a fail-closed no-actor check), `data/store.ts` and `data/users.ts` fully migrated behind `supabaseConfigured()`, `domain/audit.ts` reading and writing the same `audit_log` table it always wrote to. Needs an actual Supabase project and `SUPABASE_URL`/`SUPABASE_SERVICE_ROLE_KEY` in the environment; every write is still lost on restart until one exists, and the platform says so on every authenticated page |
+| 2.10 (durability) | Retention deletion surviving a restart | The deletion logic itself is done (see Phase 2 above) and runs today against the in-memory store; it needs the same Supabase project as 1.07–1.09 to persist a deletion across a restart |
 | 2.01, 2.02, 2.03 | Document storage, Document Intelligence, versioning | Object storage plus a malware scanner. The upload pipeline refuses everything by design until both exist |
 | 2.04, 2.05 | A live run of the six model agents, and adversarial testing of the prohibition checks | `ANTHROPIC_API_KEY`. No model call has ever executed; the guards are proven against mocked strings only. This remains the largest untested surface in the codebase |
 | 2.06 | Email and WhatsApp delivery | Provider credentials. `deliveryStatus` never leaves `queued`, and the consent control now exists ahead of the delivery it governs |
@@ -226,8 +228,8 @@ outside decision is made.
 
 | ID | Item | Note |
 |---|---|---|
-| 1.11, D.01 | Mobile verification of every route | The structural checks pass in CI and every wide table scrolls in its own container. Nobody has looked at these routes on a phone, and that is not the same thing. The in-session Chrome browser tool has not been connected in either of the last two sessions |
-| 2.08, 2.09, 2.10 | Ledger write path, commission change history, retention deletion | All three want durable storage first |
+| 1.11, D.01 | Mobile verification of every route | The structural checks pass in CI and every wide table scrolls in its own container. Nobody has looked at these routes on a phone, and that is not the same thing. The in-session Chrome browser tool has not been connected in any of the last three sessions |
+| 2.08, 2.09 | Ledger write path, commission change history | Both want durable storage first |
 | 3.49 | dMAT preparation guidance | Deliberately waiting until the test's format is known rather than guessing |
 | 5.11, 5.17, 5.12, E.02 | City and office pages, student stories and ambassadors | Need a real address and named contact, and real students |
 | 6.02, 6.03, 6.04, 6.06 | Accommodation, forex, insurance, exam prep partnerships; a fourth destination | Partnerships, and a research-scope decision, rather than engineering |

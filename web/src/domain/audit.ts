@@ -26,6 +26,7 @@ export type AuditAction =
   | "read"
   | "create"
   | "update"
+  | "delete"
   | "verify"
   | "withdraw-consent"
   | "grant-consent"

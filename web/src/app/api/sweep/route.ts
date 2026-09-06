@@ -1,13 +1,18 @@
-import { syncNotifications } from "@/data/store";
+import { enforceRetention, syncNotifications } from "@/data/store";
 import { check, clientKey, policies } from "@/domain/rate-limit";
 
 /**
  * The scheduled sweep. A cron hits this, it runs detection across every case,
- * queues what is new and resolves what has cleared.
+ * queues what is new, resolves what has cleared, and deletes what has passed
+ * its retention date (2.10).
+ *
+ * Retention runs first, so a case deleted this run cannot also get a fresh
+ * notification queued for it a moment later.
  *
  * It is safe to call twice: detection reads stored values only, and the
  * notification planner dedupes on the event key, so a repeat run on unchanged
- * state queues nothing.
+ * state queues nothing. A case already deleted is not found on the next run
+ * either.
  *
  * Protected by a shared secret. Without one configured it refuses to run in
  * production rather than leaving an unauthenticated endpoint that walks every
@@ -48,11 +53,13 @@ export async function POST(request: Request): Promise<Response> {
     return Response.json({ ran: false, reason: "Bad secret." }, { status: 401 });
   }
 
+  const retention = await enforceRetention();
   const result = await syncNotifications();
 
   return Response.json({
     ran: true,
     ...result,
+    deletedForRetention: retention.deleted,
     note: "Counts describe notifications, not messages sent. Delivery depends on the channel providers, which report their own status on the operations dashboard.",
   });
 }
