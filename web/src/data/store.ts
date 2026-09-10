@@ -1,5 +1,6 @@
 import "server-only";
 
+import { createCase, type NewCaseInput } from "@/domain/case";
 import type {
   ApplicationRecord,
   DocumentRecord,
@@ -172,34 +173,71 @@ function caseToRow(record: StudentCase): CaseRow {
   };
 }
 
+/** Shared by `saveCase` and `insertCase`. Unresolved resolves to null, same as an unresolved reassignment. */
+async function counselorIdFor(
+  client: NonNullable<ReturnType<typeof supabaseAdmin>>,
+  name: string,
+): Promise<string | null> {
+  const { data, error } = await client
+    .from("users")
+    .select("id")
+    .eq("role", "counselor")
+    .eq("name", name)
+    .maybeSingle<{ id: string }>();
+  if (error) throw error;
+  return data?.id ?? null;
+}
+
 /**
  * Writes one full case row. `counselor` is a display name (see
  * `supabase/migrations/0001_schema.sql`'s comment on `cases.counselor`), so
  * `counselor_id` is best-effort resolved from it by name on every save, the
- * "application's saveCase helper" that migration comment refers to. A name
- * that matches no counselor account resolves to null, same as an unresolved
- * reassignment in the schema's own edge case.
+ * "application's saveCase helper" that migration comment refers to.
  */
 async function saveCase(record: StudentCase): Promise<void> {
   if (supabaseConfigured()) {
     const client = supabaseAdmin()!;
-    const { data: counselor, error: lookupError } = await client
-      .from("users")
-      .select("id")
-      .eq("role", "counselor")
-      .eq("name", record.counselor)
-      .maybeSingle<{ id: string }>();
-    if (lookupError) throw lookupError;
-
+    const counselorId = await counselorIdFor(client, record.counselor);
     const { error } = await client
       .from("cases")
-      .update({ ...caseToRow(record), counselor_id: counselor?.id ?? null })
+      .update({ ...caseToRow(record), counselor_id: counselorId })
       .eq("id", record.id);
     if (error) throw error;
     return;
   }
 
   records = records.map((item) => (item.id === record.id ? record : item));
+}
+
+/**
+ * The insert counterpart to `saveCase`, which only ever updates. Before this,
+ * no path in either storage mode could bring a new case into existence: every
+ * case that ever existed came from the synthetic fixtures.
+ */
+async function insertCase(record: StudentCase): Promise<void> {
+  if (supabaseConfigured()) {
+    const client = supabaseAdmin()!;
+    const counselorId = await counselorIdFor(client, record.counselor);
+    const { error } = await client
+      .from("cases")
+      .insert({ ...caseToRow(record), counselor_id: counselorId });
+    if (error) throw error;
+    return;
+  }
+
+  records = [...records, record];
+}
+
+/**
+ * In-memory counterpart to the Supabase branch of `data/users.ts`'s
+ * `toActor()`, which computes a counselor's caseload from `counselor_id` on
+ * every call rather than trusting a stored list. Without this, the in-memory
+ * mode's static `assignedCaseIds` seed array never grows: a case opened or
+ * reassigned mid-session stayed invisible to the very counselor holding it,
+ * found while verifying `openCase` above actually works end to end.
+ */
+export function caseIdsForCounselor(name: string): string[] {
+  return records.filter((record) => record.counselor === name).map((record) => record.id);
 }
 
 /**
@@ -461,6 +499,33 @@ export async function mutateCase(
   });
 
   return updated;
+}
+
+/**
+ * Opens a new case. The creation counterpart to `mutateCase`: checks the
+ * permission first, then writes and audits, so a case cannot come into
+ * existence off this one path either.
+ */
+export async function openCase(
+  actor: Actor,
+  input: NewCaseInput,
+): Promise<StudentCase | null> {
+  if (!can(actor, "case.create")) return null;
+
+  const opened = createCase(input, actor.name);
+  await insertCase(opened);
+
+  await recordAudit({
+    actorId: actor.id,
+    actorName: actor.name,
+    actorRole: actor.role,
+    action: "create",
+    subjectType: "case",
+    subjectId: opened.id,
+    note: `Case opened for ${opened.name}, assigned to ${opened.counselor}.`,
+  });
+
+  return opened;
 }
 
 type CommunicationRow = {

@@ -16,6 +16,7 @@ import {
   overrideSummary,
   reviewEscalation,
 } from "@/domain/case-operations";
+import { createCase } from "@/domain/case";
 import { detectEvents } from "@/domain/events";
 import { forStudent, newestFirst } from "@/domain/communications";
 import { retentionFor } from "@/domain/retention";
@@ -413,5 +414,55 @@ describe("reviewing an escalation records a decision without silencing it", () =
 
     expect(reviewed.log.at(-1)?.text).toContain("Waiting on the passport office");
     expect(detectEvents(reviewed).some((event) => event.type === "escalation")).toBe(true);
+  });
+});
+
+describe("opening a case starts everything empty rather than guessed", () => {
+  it("starts at the consultation stage with nothing invented", () => {
+    const opened = createCase(
+      {
+        id: "case-new-1",
+        name: "Priya Nair",
+        destination: "Ireland",
+        route: null,
+        intake: "September 2027",
+        counselor: "Rohini Bhat",
+        budgetInr: 2_000_000,
+      },
+      author,
+    );
+
+    expect(opened.stage).toBe("consultation");
+    expect(opened.profile).toEqual({
+      degree: null,
+      percentage: null,
+      graduationYear: null,
+      languageTests: [],
+      recognition: null,
+    });
+    expect(opened.documents).toHaveLength(0);
+    expect(opened.applications).toHaveLength(0);
+    expect(opened.tasks).toHaveLength(0);
+    expect(opened.synthetic).toBe(false);
+    expect(opened.closedAt).toBeNull();
+  });
+
+  it("records who opened it in the log", () => {
+    const opened = createCase(
+      {
+        id: "case-new-2",
+        name: "Priya Nair",
+        destination: "Ireland",
+        route: null,
+        intake: "September 2027",
+        counselor: "Rohini Bhat",
+        budgetInr: null,
+      },
+      author,
+    );
+
+    expect(opened.log).toHaveLength(1);
+    expect(opened.log[0].author).toBe(author);
+    expect(opened.log[0].text).toContain("opened");
   });
 });

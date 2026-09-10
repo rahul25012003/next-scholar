@@ -3,10 +3,12 @@
 import { currentActor } from "@/domain/session";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import {
   attachThreadSummary,
   getCommunication,
   mutateCase,
+  openCase as openCaseRecord,
 } from "@/data/store";
 import {
   addTask,
@@ -47,6 +49,52 @@ const refreshed = (caseId: string) => {
  * them run on a schedule, and every one of them writes a log entry naming who
  * acted and why before the state changes.
  */
+
+/**
+ * Opens a new case. Lives on the caseload page rather than a case page,
+ * because there is no case yet: this is how a real consultation, once one
+ * has actually happened, gets a case at all. Nothing about the booking or
+ * payment gap changes what happens after this button, and nothing here
+ * pretends a booking or a payment happened either.
+ */
+export async function openCase(
+  _previous: WorkflowResult,
+  formData: FormData,
+): Promise<WorkflowResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
+  const name = String(formData.get("name") ?? "").trim();
+  const destination = String(formData.get("destination") ?? "").trim();
+  const route = String(formData.get("route") ?? "").trim();
+  const intake = String(formData.get("intake") ?? "").trim();
+  const counselor = String(formData.get("counselor") ?? "").trim();
+  const budgetRaw = String(formData.get("budgetInr") ?? "").trim();
+
+  if (name.length < 2 || destination.length < 2 || intake.length < 2 || counselor.length < 2) {
+    return {
+      status: "error",
+      message: "Name, destination, intake and the assigned counsellor are all required.",
+    };
+  }
+
+  const budgetInr = budgetRaw ? Number(budgetRaw.replace(/[^\d]/g, "")) : null;
+
+  const opened = await openCaseRecord(actor, {
+    id: `case-${Date.now()}`,
+    name,
+    destination,
+    route: route || null,
+    intake,
+    counselor,
+    budgetInr: budgetInr && Number.isFinite(budgetInr) ? budgetInr : null,
+  });
+
+  if (!opened) return { status: "error", message: "Not permitted." };
+
+  refreshed(opened.id);
+  redirect(`/console/${opened.id}`);
+}
 
 export async function recordVisa(
   _previous: WorkflowResult,

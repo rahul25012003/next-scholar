@@ -10,6 +10,7 @@ import { record as recordAudit } from "@/domain/audit";
 import type { Actor } from "@/domain/rbac";
 import type { OnboardingProfile } from "@/domain/onboarding";
 import { supabaseAdmin, supabaseConfigured } from "@/lib/supabase";
+import { caseIdsForCounselor } from "@/data/store";
 
 /**
  * The user store.
@@ -333,13 +334,25 @@ export async function shortlistFor(userId: string): Promise<string[]> {
 /**
  * The shape the permission matrix works with.
  *
- * In the database mode a counselor's `assignedCaseIds` is computed from
- * `cases.counselor_id` rather than read off the user, which is the fix
- * described at the top of this file. In the in-memory mode it stays exactly
- * what the seed data says, matching the platform's behaviour today.
+ * A counselor's `assignedCaseIds` is computed, in both modes, rather than
+ * read off a stored list, so a case opened or reassigned mid-session shows
+ * up immediately rather than staying invisible to the counselor actually
+ * holding it. Database mode reads `cases.counselor_id` directly; in-memory
+ * mode asks `data/store.ts` the equivalent question against the same
+ * `counselor` display name field `saveCase`/`insertCase` write to.
  */
 export async function toActor(user: AuthUser): Promise<Actor> {
-  if (supabaseConfigured() && user.role === "counselor") {
+  if (user.role !== "counselor") {
+    return {
+      id: user.id,
+      name: user.name,
+      role: user.role,
+      caseId: user.caseId,
+      assignedCaseIds: user.assignedCaseIds,
+    };
+  }
+
+  if (supabaseConfigured()) {
     const { data, error } = await supabaseAdmin()!
       .from("cases")
       .select("id")
@@ -359,7 +372,7 @@ export async function toActor(user: AuthUser): Promise<Actor> {
     name: user.name,
     role: user.role,
     caseId: user.caseId,
-    assignedCaseIds: user.assignedCaseIds,
+    assignedCaseIds: caseIdsForCounselor(user.name),
   };
 }
 

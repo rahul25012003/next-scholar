@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "@phosphor-icons/react/ssr";
 import { AppShell, EmptyState, Panel } from "@/components/app/shell";
+import { OpenCaseForm } from "@/components/app/open-case-form";
 import { caseloadStats, listCases } from "@/data/store";
 import { redirect } from "next/navigation";
 import { currentActor } from "@/domain/session";
@@ -358,6 +359,10 @@ export default async function ConsolePage(props: PageProps<"/console">) {
           <p className="border-t border-line px-6 py-3 text-[0.75rem] text-muted">
             {RISK_DISCLAIMER}
           </p>
+        </Panel>
+
+        <Panel title="Open a case">
+          <OpenCaseForm />
         </Panel>
 
         <div className="grid gap-6 lg:grid-cols-2">

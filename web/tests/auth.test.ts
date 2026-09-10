@@ -11,6 +11,8 @@ import {
   SESSION_MAX_AGE_SECONDS,
 } from "@/domain/auth";
 import { authenticate, findByEmail, register, toActor } from "@/data/users";
+import { openCase } from "@/data/store";
+import { demoFounder } from "@/domain/demo-actors";
 import { proxy } from "@/proxy";
 import { NextRequest } from "next/server";
 
@@ -116,6 +118,23 @@ describe("signing in", () => {
     const actor = await toActor(user!);
     expect(actor.role).toBe("counselor");
     expect(actor.assignedCaseIds).toEqual(["case-1041", "case-1042"]);
+  });
+
+  it("shows a case opened mid-session immediately, not just the seeded caseload", async () => {
+    const user = await authenticate("rohini@example.in", "next-scholar-dev-1");
+
+    await openCase(demoFounder, {
+      id: "case-opened-mid-session",
+      name: "Test Student",
+      destination: "Ireland",
+      route: null,
+      intake: "September 2027",
+      counselor: "Rohini Bhat",
+      budgetInr: null,
+    });
+
+    const actor = await toActor(user!);
+    expect(actor.assignedCaseIds).toContain("case-opened-mid-session");
   });
 
   it("treats the address case insensitively", async () => {

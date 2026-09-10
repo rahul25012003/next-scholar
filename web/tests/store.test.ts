@@ -10,6 +10,7 @@ import {
   listConsents,
   listNotifications,
   markDocumentVerified,
+  openCase,
   signOffReport,
   syncNotifications,
   withdrawConsent,
@@ -190,6 +191,43 @@ describe("the quarterly report sign off", () => {
   it("refuses a counselor, who has no report.publish permission", async () => {
     expect(await signOffReport(demoCounselor)).toBe(false);
     expect(await currentSignOff()).toBeNull();
+  });
+});
+
+describe("opening a case is the one path that creates one, not just updates one", () => {
+  it("refuses a student, who has no case.create permission", async () => {
+    const opened = await openCase(demoStudent, {
+      id: "case-open-1",
+      name: "Test Student",
+      destination: "Ireland",
+      route: null,
+      intake: "September 2027",
+      counselor: demoCounselor.name,
+      budgetInr: null,
+    });
+
+    expect(opened).toBeNull();
+  });
+
+  it("lets a counselor open one, and it is readable straight away", async () => {
+    const opened = await openCase(demoCounselor, {
+      id: "case-open-2",
+      name: "Test Student",
+      destination: "Ireland",
+      route: null,
+      intake: "September 2027",
+      counselor: demoCounselor.name,
+      budgetInr: 1_500_000,
+    });
+
+    expect(opened?.id).toBe("case-open-2");
+    expect(opened?.stage).toBe("consultation");
+
+    const found = await getCase("case-open-2", demoFounder);
+    expect(found?.name).toBe("Test Student");
+
+    const entry = (await auditFor("case-open-2")).find((item) => item.action === "create");
+    expect(entry?.actorName).toBe(demoCounselor.name);
   });
 });
 

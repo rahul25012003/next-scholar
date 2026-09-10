@@ -14,6 +14,7 @@ export type Actor = {
 
 export type Action =
   | "case.read"
+  | "case.create"
   | "case.note.write"
   | "case.stage.write"
   | "case.reassign"
@@ -36,6 +37,7 @@ const matrix: Record<Role, Action[]> = {
   student: ["case.read", "document.upload"],
   counselor: [
     "case.read",
+    "case.create",
     "case.note.write",
     "case.stage.write",
     "document.upload",
@@ -43,6 +45,7 @@ const matrix: Record<Role, Action[]> = {
   ],
   manager: [
     "case.read",
+    "case.create",
     "case.note.write",
     "case.stage.write",
     "case.reassign",
@@ -51,6 +54,7 @@ const matrix: Record<Role, Action[]> = {
   ],
   founder: [
     "case.read",
+    "case.create",
     "case.note.write",
     "case.stage.write",
     "case.reassign",

@@ -202,6 +202,63 @@ export type StudentCase = {
   synthetic: boolean;
 };
 
+/**
+ * Opens a case. This is the one gap `saveCase` in `data/store.ts` never
+ * covered: every function that reaches a case, before this, assumed one
+ * already existed, so a real lead had no path from a completed consultation
+ * into the system at all, in either storage mode. Everything not yet known
+ * (the academic profile, documents, applications) starts empty rather than
+ * guessed, exactly like a synthetic fixture minus the fiction.
+ */
+export type NewCaseInput = {
+  id: string;
+  name: string;
+  destination: string;
+  route: string | null;
+  intake: string;
+  counselor: string;
+  budgetInr: number | null;
+};
+
+export function createCase(input: NewCaseInput, author: string, now = new Date()): StudentCase {
+  const nowIso = now.toISOString();
+  return {
+    id: input.id,
+    name: input.name,
+    destination: input.destination,
+    route: input.route,
+    intake: input.intake,
+    counselor: input.counselor,
+    budgetInr: input.budgetInr,
+    profile: {
+      degree: null,
+      percentage: null,
+      graduationYear: null,
+      languageTests: [],
+      recognition: null,
+    },
+    stage: "consultation",
+    stageUpdatedAt: nowIso,
+    docStatus: "Not started",
+    priority: "Normal",
+    summary: null,
+    summarySource: null,
+    suggestedAction: null,
+    suggestedActionSource: null,
+    lastStudentContactAt: nowIso,
+    lastCounselorReplyAt: nowIso,
+    deadlines: [],
+    tasks: [],
+    documents: [],
+    applications: [],
+    visa: { state: "not-started", note: null, decidedOn: null },
+    log: [{ ts: nowIso, text: `Case opened by ${author}.`, source: "human", author }],
+    closedAt: null,
+    needsManualReview: null,
+    synthetic: false,
+  };
+}
+
 export const stageOrder: StageKey[] = stages.map((stage) => stage.key);
 
 export function stageIndex(stage: StageKey): number {
