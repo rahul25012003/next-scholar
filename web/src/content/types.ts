@@ -75,3 +75,18 @@ export const notYetOpen = (reason: string): Measured<never> => ({
   state: "pending",
   reason,
 });
+
+/**
+ * Whether a date this site is relying on is old enough to need a fresh look.
+ * 90 days matches the ledger's own stated cadence in `content/ledger.ts`:
+ * "Every row is re-verified and republished each quarter... A stale
+ * verification date is treated as worse than no date." Generic rather than
+ * ledger-specific because that same rule applies to any dated, decision
+ * critical fact on this site, not only a commission figure.
+ */
+export const STALE_AFTER_DAYS = 90;
+
+export function isStale(dateStr: string, now = new Date(), thresholdDays = STALE_AFTER_DAYS): boolean {
+  const days = (now.getTime() - new Date(dateStr).getTime()) / 86_400_000;
+  return days > thresholdDays;
+}

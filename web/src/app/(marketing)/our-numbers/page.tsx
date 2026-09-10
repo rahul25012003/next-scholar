@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { WarningCircle } from "@phosphor-icons/react/ssr";
 import { figureCount, figureGroups } from "@/domain/figures";
+import { isStale } from "@/content/types";
 import { PageHero } from "@/components/marketing/page-hero";
 import { JumpList } from "@/components/ui/jump-list";
 
@@ -173,12 +174,16 @@ export default function OurNumbersPage() {
                                 className={
                                   figure.checkedBy
                                     ? "mt-1 block text-[0.75rem] text-verified"
-                                    : "mt-1 block text-[0.75rem] text-pending"
+                                    : isStale(figure.statedOn)
+                                      ? "mt-1 block text-[0.75rem] font-medium text-denied"
+                                      : "mt-1 block text-[0.75rem] text-pending"
                                 }
                               >
                                 {figure.checkedBy
                                   ? `Checked by ${figure.checkedBy}`
-                                  : "Not re-checked"}
+                                  : isStale(figure.statedOn)
+                                    ? "Not re-checked, and overdue for a look"
+                                    : "Not re-checked"}
                               </span>
                             </td>
                           </tr>

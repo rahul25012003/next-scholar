@@ -16,7 +16,7 @@ import { agents, GLOBAL_PROHIBITIONS } from "@/domain/agents/registry";
 import { StatusChip } from "@/components/ui/chip";
 import { ManagerActions } from "@/components/app/manager-actions";
 import { ledgerRows } from "@/content/ledger";
-import { isPublishable } from "@/content/types";
+import { isPublishable, isStale } from "@/content/types";
 import { stages } from "@/content/process";
 
 export const metadata: Metadata = { title: "Operations" };
@@ -283,6 +283,11 @@ export default async function OpsPage() {
                   <p className="figures text-[0.8125rem] text-muted">
                     {row.commissionDisplay}, reviewed {row.lastReviewDate}
                   </p>
+                  {isStale(row.lastReviewDate) && (
+                    <p className="mt-0.5 text-[0.75rem] font-medium text-denied">
+                      Overdue for re-verification. The methodology treats a stale date as worse than no date.
+                    </p>
+                  )}
                 </div>
                 <StatusChip status={row.status} />
               </li>
