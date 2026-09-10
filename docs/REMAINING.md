@@ -3,12 +3,17 @@
 A resumable handover. Every open item from `BACKLOG.md`, with what it is, why it
 is open, what unblocks it, and where in the codebase it goes.
 
-**39 open of 207.** 18 blocked on something outside this repository, 21 not
+**38 open of 207.** 18 blocked on something outside this repository, 20 not
 blocked, most of which are a decision (funding, a partnership, a legal
 policy call, a research-scope call) rather than a task. `STATUS.md` has the completed side.
 
-State at handover: `npm test` 345 passing, `npm run lint` clean, `npm run build`
-clean, `npm run smoke` clean across 71 checked URLs.
+State at handover: `npm test` 363 passing, `npm run lint` clean, `npm run build`
+clean, `npm run smoke` clean across 71 checked URLs. This count does not yet
+include the essential-implementation-plan work from the 10 September 2026
+external audit (case creation, student account linking, offer records, the
+pre-departure checklist, the funding plan, staleness enforcement) — that work
+closes real gaps but was not on `BACKLOG.md`'s original 207, so it is
+committed and tested but not yet reconciled into this count.
 
 ---
 
@@ -35,19 +40,19 @@ In this order, because each one unblocks or de-risks what follows.
    blocked on something outside this repository, and each one names exactly
    what: real students, a real counsellor's credential, a real office
    address, a signed partnership, real funding, or the same durable store as
-   item 3. Two are worth flagging by name rather than left to be found by
-   reading the tables:
-   - **S.07** (guardianship for under-18 applicants) needs an explicit
+   item 3. Two were flagged by name rather than left to be found by
+   reading the tables, and both are now resolved:
+   - **S.07** (guardianship for under-18 applicants) needed an explicit
      decision from whoever owns the business's legal exposure, not an
-     engineering judgement call. The privacy policy currently declines
-     under-18 applicants and states why; reversing that is a policy change
-     to make deliberately, not a feature to ship by default.
-   - **6.06** (a fourth destination) is engineering-reachable the day
-     someone is prepared to research it as thoroughly, and with sources as
-     checkable, as the first three. This session deliberately did not
-     attempt it rather than guess from training data the way the two
-     corrections already on record (Germany tuition, Ireland post-study)
-     happened the first time.
+     engineering judgement call. That decision has been made: keep the
+     policy as published. The privacy policy's declined-under-18 position
+     and its stated reason are correct as they stand; see B6 below.
+   - **6.06** (a fourth destination) needed someone prepared to research it
+     as thoroughly, and with sources as checkable, as the first three,
+     rather than guessed from training data the way the two corrections
+     already on record (Germany tuition, Ireland post-study) happened the
+     first time. That research is now underway; see its own entry below
+     for the destination and the state of it.
 
 ---
 
@@ -437,7 +442,6 @@ no webinar is scheduled.
 | ID | Item | Needs |
 |---|---|---|
 | F.11 | Our own scholarship or fee waiver | Real money. There is nothing to engineer here; a fee waiver with no funds behind it is a lie the moment someone tries to redeem it |
-| S.07 | Guardianship for under-18 applicants | An explicit decision from you, not an engineering judgement call. The privacy policy currently states plainly that under-18 applicants are declined, and why: the DPDP Act requires verifiable parental consent and forbids tracking or targeted advertising directed at children, and the honest position taken was that getting that wrong is worse than the lost business. Reversing it needs someone who owns that legal exposure to say so first |
 | S.08 | ISIC or student discount card | A real partnership with ISIC or an equivalent issuer. Nothing to build until one exists |
 
 ### B6. Decided, not pending
@@ -445,6 +449,7 @@ no webinar is scheduled.
 | ID | Item | Decision |
 |---|---|---|
 | E.08 | Country switcher | Not applicable at three destinations |
+| S.07 | Guardianship for under-18 applicants | Confirmed: keep the published policy. Under-18 applicants stay declined, for the reason already stated on `/privacy` — the DPDP Act requires verifiable parental consent and forbids tracking or targeted advertising directed at children, and the position taken is that getting that wrong is worse than the lost business. No code or copy change, since the policy already states this plainly rather than tentatively |
 
 ---
 

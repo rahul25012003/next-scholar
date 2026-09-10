@@ -4,15 +4,19 @@ What has been implemented against `BACKLOG.md`, what is still open, and why each
 open item is open. The backlog itself is left unedited so the two can be read
 against each other.
 
-**168 of 207 backlog items done, 39 open.** Of the 39, 18 are blocked on
-something outside this repository and 21 are not, most of which are a
+**169 of 207 backlog items done, 38 open.** Of the 38, 18 are blocked on
+something outside this repository and 20 are not, most of which are a
 decision — funding, a partnership, a legal policy call, a research-scope
-call — rather than a task. `REMAINING.md` breaks all 39 down with what
+call — rather than a task. `REMAINING.md` breaks all 38 down with what
 unblocks each and where it goes.
 
-Verified at the point of writing: `npm test` 345 passing, `npm run lint` clean,
+Verified at the point of writing: `npm test` 363 passing, `npm run lint` clean,
 `npm run build` clean, `npm run smoke` 71 routes clean against a production
-build.
+build. Separately, a 10 September 2026 external audit produced its own
+implementation plan (case creation, student account linking, offer records,
+a pre-departure checklist, a funding plan, staleness enforcement, all built
+and tested this session) — real work, not yet reconciled against
+`BACKLOG.md`'s original 207, so not folded into the count above.
 
 ---
 
@@ -197,12 +201,15 @@ anywhere in the path, so there is nothing slow to cache.
 | 5.10, 5.15, 5.16, E.06 | Events modelled with a registration count as `Measured<number>`, `state: "pending"` until a real one exists rather than a placeholder that never moves. `/events` lists upcoming and past and today, correctly, lists nothing | `src/content/events.ts`, `/events` |
 | 6.05 | Not a native app — a web app manifest instead, honestly labelled as the difference. `next/og` generates every icon from the same navy "N" mark the header already uses, so there is no separate icon asset to drift out of sync | `src/app/manifest.ts`, `icon.tsx`, `apple-icon.tsx`, `icon-192/route.tsx`, `icon-512/route.tsx` |
 
-F.11 (a funded scholarship), S.07 (accepting under-18 applicants) and S.08
-(an ISIC partnership) were not attempted: the first needs real money, the
-second is a legal-exposure policy decision for whoever owns the business to
-make rather than an engineering default, and the third needs a real signed
-partnership. None of the three has anything left to engineer until that
-outside decision is made.
+F.11 (a funded scholarship) and S.08 (an ISIC partnership) were not
+attempted: the first needs real money, the second needs a real signed
+partnership. Neither has anything left to engineer until that outside
+decision is made. S.07 (accepting under-18 applicants) was the third —
+a legal-exposure policy decision for whoever owns the business, not an
+engineering default — and has since been decided: keep the published
+policy. Under-18 applicants stay declined, for the reason already stated
+on `/privacy`. No code or copy change follows, since the policy already
+said this plainly rather than tentatively.
 
 ---
 
@@ -232,8 +239,9 @@ outside decision is made.
 | 2.08, 2.09 | Ledger write path, commission change history | Both want durable storage first |
 | 3.49 | dMAT preparation guidance | Deliberately waiting until the test's format is known rather than guessing |
 | 5.11, 5.17, 5.12, E.02 | City and office pages, student stories and ambassadors | Need a real address and named contact, and real students |
-| 6.02, 6.03, 6.04, 6.06 | Accommodation, forex, insurance, exam prep partnerships; a fourth destination | Partnerships, and a research-scope decision, rather than engineering |
-| F.11, S.07, S.08 | Our own fee waiver, under-18 guardianship, an ISIC partnership | Funding, a legal policy decision, and a partnership respectively — see Phase 10 |
+| 6.02, 6.03, 6.04 | Accommodation, forex, insurance, exam prep partnerships | Each needs a real signed partnership |
+| 6.06 | A fourth destination | Research is now underway; see `REMAINING.md` for the destination and its state |
+| F.11, S.08 | Our own fee waiver, an ISIC partnership | Funding, and a partnership, respectively |
 | D.14 | A design-token lint rule | Needs a real audit first; see Phase 8 |
 
 ---
