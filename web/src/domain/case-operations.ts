@@ -363,6 +363,38 @@ export function addTask(
   );
 }
 
+/**
+ * The five items `content/process.ts`'s own "pre-departure" stage already
+ * promises as a deliverable: "Accommodation, insurance, flights, banking and
+ * an arrival briefing." Nothing on this platform turned that promise into a
+ * real, trackable set of tasks until now. Deliberately just five ordinary
+ * follow-up tasks, added through `addTask` rather than a parallel checklist
+ * type, so completion, the follow-up queue and the audit trail are the
+ * ones that already exist.
+ */
+export const PRE_DEPARTURE_CHECKLIST = [
+  "Confirm accommodation booked and the address on file",
+  "Arrange health insurance covering the arrival date",
+  "Book flights, only once the visa is approved",
+  "Open or activate a bank account for the destination",
+  "Send the arrival city briefing for the destination",
+];
+
+/** Skips any title already on the case, so a second click adds nothing twice. */
+export function seedPreDepartureChecklist(
+  record: StudentCase,
+  dueOn: string,
+  author: string,
+  now = new Date(),
+): StudentCase {
+  const existingTitles = new Set(record.tasks.map((task) => task.title));
+  return PRE_DEPARTURE_CHECKLIST.filter((title) => !existingTitles.has(title)).reduce(
+    (current, title, index) =>
+      addTask(current, { id: `predep-${now.getTime()}-${index}`, title, dueOn }, author, now),
+    record,
+  );
+}
+
 /** Completing one. The task stays on the record, stamped. */
 export function completeTask(
   record: StudentCase,

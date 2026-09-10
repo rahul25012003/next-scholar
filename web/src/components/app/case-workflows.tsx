@@ -1,6 +1,13 @@
 "use client";
 
-import { correct, defer, reapply, recordOffer, recordVisa } from "@/app/actions/case-workflows";
+import {
+  addPreDepartureChecklist,
+  correct,
+  defer,
+  reapply,
+  recordOffer,
+  recordVisa,
+} from "@/app/actions/case-workflows";
 import { WorkflowForm, fieldClass } from "@/components/app/workflow-form";
 import { visaLabel } from "@/domain/case";
 import type { ApplicationRecord, VisaState } from "@/domain/case";
@@ -166,6 +173,21 @@ export function CaseWorkflows({
           placeholder="Days to move the dates"
           className={fieldClass}
           aria-label="Days to shift the deadlines"
+        />
+      </WorkflowForm>
+
+      <WorkflowForm
+        action={addPreDepartureChecklist}
+        caseId={caseId}
+        title="Add the pre-departure checklist"
+        description="Accommodation, insurance, flights, banking and an arrival briefing, the five items the pre-departure stage already promises. Appears in the follow up queue below, same as any other task. Safe to click twice: nothing already on the case is duplicated."
+        submitLabel="Add it"
+      >
+        <input
+          name="dueOn"
+          type="date"
+          className={fieldClass}
+          aria-label="Due by"
         />
       </WorkflowForm>
 

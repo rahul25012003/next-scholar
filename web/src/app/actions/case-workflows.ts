@@ -20,6 +20,7 @@ import {
   reassignTo,
   recordApplicationOutcome,
   recordVisaOutcome,
+  seedPreDepartureChecklist,
   startReapplication,
   withdrawApplication,
   type ClosureOutcome,
@@ -209,6 +210,37 @@ export async function defer(
   return {
     status: "done",
     message: `Deferred. Every deadline on the case moved with it, rather than being left behind to go quietly wrong.`,
+  };
+}
+
+export async function addPreDepartureChecklist(
+  _previous: WorkflowResult,
+  formData: FormData,
+): Promise<WorkflowResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
+  const caseId = String(formData.get("caseId") ?? "");
+  const dueOn = String(formData.get("dueOn") ?? "");
+
+  if (!dueOn) {
+    return { status: "error", message: "Set the date it's due by." };
+  }
+
+  const updated = await mutateCase(
+    caseId,
+    actor,
+    "case.stage.write",
+    (record) => seedPreDepartureChecklist(record, dueOn, actor.name),
+    `Pre-departure checklist added, due ${dueOn}`,
+  );
+
+  if (!updated) return { status: "error", message: "Not permitted on this case." };
+  refreshed(caseId);
+
+  return {
+    status: "done",
+    message: "Added to the follow up queue. Already-present items were left alone rather than duplicated.",
   };
 }
 

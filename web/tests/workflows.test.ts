@@ -7,6 +7,8 @@ import {
   reassignTo,
   recordApplicationOutcome,
   recordVisaOutcome,
+  seedPreDepartureChecklist,
+  PRE_DEPARTURE_CHECKLIST,
   startReapplication,
   withdrawApplication,
   addTask,
@@ -358,6 +360,35 @@ describe("follow ups are things a person chose, not things the system noticed", 
 
     expect(created.tasks).toHaveLength(plain.tasks.length + 1);
     expect(created.log.at(-1)?.text).toContain("Call the university");
+  });
+});
+
+describe("the pre-departure checklist turns a promise into tasks", () => {
+  it("adds all five items as ordinary follow up tasks", () => {
+    const seeded = seedPreDepartureChecklist(plain, "2027-09-01", author);
+
+    const added = seeded.tasks.slice(plain.tasks.length);
+    expect(added).toHaveLength(PRE_DEPARTURE_CHECKLIST.length);
+    expect(added.map((task) => task.title).sort()).toEqual([...PRE_DEPARTURE_CHECKLIST].sort());
+    expect(added.every((task) => task.dueOn === "2027-09-01")).toBe(true);
+  });
+
+  it("is a no-op the second time, by reference, matching every other guard in this file", () => {
+    const once = seedPreDepartureChecklist(plain, "2027-09-01", author);
+    const twice = seedPreDepartureChecklist(once, "2027-09-01", author);
+
+    expect(twice).toBe(once);
+  });
+
+  it("only adds what is missing when some items are already on the case", () => {
+    const partial = addTask(
+      plain,
+      { id: "existing", title: PRE_DEPARTURE_CHECKLIST[0], dueOn: "2027-08-01" },
+      author,
+    );
+    const seeded = seedPreDepartureChecklist(partial, "2027-09-01", author);
+
+    expect(seeded.tasks).toHaveLength(partial.tasks.length + PRE_DEPARTURE_CHECKLIST.length - 1);
   });
 });
 
