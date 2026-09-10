@@ -4,6 +4,7 @@ import {
   addPreDepartureChecklist,
   correct,
   defer,
+  linkStudent,
   reapply,
   recordOffer,
   recordVisa,
@@ -29,6 +30,22 @@ export function CaseWorkflows({
 }) {
   return (
     <>
+      <WorkflowForm
+        action={linkStudent}
+        caseId={caseId}
+        title="Link a student account"
+        description="Connects the student's own account to this case, so their portal has something to show. Needed whichever order this and their signup happened in: opening a case and creating an account have no way to find each other on their own."
+        submitLabel="Link it"
+      >
+        <input
+          name="email"
+          type="email"
+          placeholder="Student's account email"
+          className={`${fieldClass} sm:col-span-2`}
+          aria-label="Student's account email"
+        />
+      </WorkflowForm>
+
       <WorkflowForm
         action={recordVisa}
         caseId={caseId}

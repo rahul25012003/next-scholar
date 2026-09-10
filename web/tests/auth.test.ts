@@ -10,7 +10,7 @@ import {
   verifyPassword,
   SESSION_MAX_AGE_SECONDS,
 } from "@/domain/auth";
-import { authenticate, findByEmail, register, toActor } from "@/data/users";
+import { authenticate, findByEmail, linkCaseToStudent, register, toActor } from "@/data/users";
 import { openCase } from "@/data/store";
 import { demoFounder } from "@/domain/demo-actors";
 import { proxy } from "@/proxy";
@@ -185,6 +185,31 @@ describe("signing up", () => {
     expect(isEmail("someone@example.in")).toBe(true);
     expect(isEmail("someone@example")).toBe(false);
     expect(isEmail("not an email")).toBe(false);
+  });
+});
+
+describe("linking a case to the student's own account", () => {
+  it("refuses an email with no account yet", async () => {
+    const result = await linkCaseToStudent("nobody-yet@example.in", "case-9001");
+    expect(result.ok).toBe(false);
+  });
+
+  it("refuses a staff account", async () => {
+    const result = await linkCaseToStudent("rohini@example.in", "case-9001");
+    expect(result.ok).toBe(false);
+  });
+
+  it("links a real student account, and it carries onto the actor", async () => {
+    await register({ name: "Kavya Iyer", email: "kavya@example.in", password: "a-good-password-1" });
+
+    const result = await linkCaseToStudent("kavya@example.in", "case-9001");
+    expect(result.ok).toBe(true);
+
+    const user = await findByEmail("kavya@example.in");
+    expect(user?.caseId).toBe("case-9001");
+
+    const actor = await toActor(user!);
+    expect(actor.caseId).toBe("case-9001");
   });
 });
 

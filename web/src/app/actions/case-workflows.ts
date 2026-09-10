@@ -6,10 +6,13 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import {
   attachThreadSummary,
+  getCase,
   getCommunication,
   mutateCase,
   openCase as openCaseRecord,
 } from "@/data/store";
+import { linkCaseToStudent } from "@/data/users";
+import { can } from "@/domain/rbac";
 import {
   addTask,
   applyCorrection,
@@ -94,6 +97,38 @@ export async function openCase(
 
   refreshed(opened.id);
   redirect(`/console/${opened.id}`);
+}
+
+/**
+ * Connects a case to the student's own account, by email, so `/portal`
+ * has something to show them. `openCase` and signup have no path to meet
+ * each other on their own, whichever happens first.
+ */
+export async function linkStudent(
+  _previous: WorkflowResult,
+  formData: FormData,
+): Promise<WorkflowResult> {
+  const actor = await currentActor();
+  if (!actor) return { status: "error", message: "You are not signed in." };
+
+  const caseId = String(formData.get("caseId") ?? "");
+  const email = String(formData.get("email") ?? "").trim();
+
+  if (!email) return { status: "error", message: "Enter the student's email." };
+
+  const record = await getCase(caseId, actor);
+  if (!record || !can(actor, "case.note.write", record)) {
+    return { status: "error", message: "Not permitted on this case." };
+  }
+
+  const result = await linkCaseToStudent(email, caseId);
+  if (!result.ok) return { status: "error", message: result.reason };
+
+  refreshed(caseId);
+  return {
+    status: "done",
+    message: `Linked. ${result.userName}'s portal now shows this case.`,
+  };
 }
 
 export async function recordVisa(

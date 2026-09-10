@@ -234,6 +234,51 @@ export async function register(input: {
   return { ok: true, user };
 }
 
+export type LinkCaseResult =
+  | { ok: true; userId: string; userName: string }
+  | { ok: false; reason: string };
+
+/**
+ * Connects a student's account to a case, by email, on a counsellor's say so.
+ *
+ * The gap this closes: `register()` never sets `caseId`, and nothing else
+ * ever did either, so a case opened by `openCase()` and an account created
+ * by signup had no path to meet each other, whichever happened first. A
+ * counsellor does this deliberately, the same way a reassignment is a
+ * deliberate action rather than a guess from a matching name.
+ */
+export async function linkCaseToStudent(email: string, caseId: string): Promise<LinkCaseResult> {
+  const user = await findByEmail(email);
+  if (!user) {
+    return { ok: false, reason: "No account exists yet for that email. The student needs to sign up first." };
+  }
+  if (user.role !== "student") {
+    return { ok: false, reason: "That account is not a student account." };
+  }
+
+  if (supabaseConfigured()) {
+    const { error } = await supabaseAdmin()!
+      .from("users")
+      .update({ case_id: caseId })
+      .eq("id", user.id);
+    if (error) throw error;
+  } else {
+    users = users.map((item) => (item.id === user.id ? { ...item, caseId } : item));
+  }
+
+  await recordAudit({
+    actorId: user.id,
+    actorName: user.name,
+    actorRole: user.role,
+    action: "update",
+    subjectType: "case",
+    subjectId: caseId,
+    note: `Account linked to this case by a counsellor.`,
+  });
+
+  return { ok: true, userId: user.id, userName: user.name };
+}
+
 /**
  * Saves what a student told us about themselves before a case exists.
  *
