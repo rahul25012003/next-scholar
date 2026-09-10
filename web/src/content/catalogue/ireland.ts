@@ -652,4 +652,194 @@ export const irishUniversities: University[] = [
       "The exact QS rank: two different positions were found for two rankings editions; the band both agree inside is printed instead.",
     ],
   },
+
+  {
+    slug: "maynooth-university",
+    name: "Maynooth University",
+    destination: "ireland",
+    city: "Maynooth",
+    route: "Taught masters",
+    type: "public",
+    flagCode: "ie",
+    initials: "MU",
+    summary:
+      "A smaller campus town half an hour from Dublin by train, so rent runs below the city while a Dublin commute stays realistic. The smallest institution on this catalogue's Irish list by student numbers.",
+    commission: IE_COMMISSION,
+    highlights: {
+      established: stated(1795, "Institution's own history page, as the date of the original college; the university itself was established in 1997", RESEARCHED_ON),
+      totalStudents: stated(12263, "Reported by independent ranking aggregators this pass; the institution's own statistics page was not directly read", RESEARCHED_ON),
+      internationalStudents: stated(
+        "About 15 per cent of the student body",
+        "Reported by independent ranking aggregators this pass; the institution's own statistics page was not directly read",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown("Not published at institution level."),
+      acceptanceRate: unknown("Not published at institution level."),
+      accreditation: stated(
+        "Recognised Irish university, quality assured by Quality and Qualifications Ireland",
+        "Qualifications and Quality Ireland register",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2026,
+        rank: "771st to 780th in the world",
+        scope: "World, all subjects",
+        source: "Reported by independent ranking aggregators this pass; the institution's own rankings page was not directly read",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: unknown(
+          "This session's search results gave the general international-fee band but not a confirmed IELTS figure for this specific programme. Left unknown rather than guessed from a neighbouring institution's requirement.",
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "Full non-EU tuition, at the lower end of this catalogue's Irish range. Independent sources gave two different figures for the computing programme in the same pass, printed as a range below rather than picking one.",
+      "Reported across independent fee-comparison publications; the institution's own fee schedule PDF was found but not directly opened this pass",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: "dublin",
+    programmes: [
+      {
+        slug: "maynooth-msc-computer-science-applied",
+        universitySlug: "maynooth-university",
+        name: "MSc Computer Science (Applied)",
+        level: "masters",
+        disciplines: ["Computer Science"],
+        durationMonths: 24,
+        feePerYear: stated(
+          15000,
+          "Reported by one independent source as the year-one fee; a second independent source reported EUR 18,000 for the same programme. The lower, more commonly repeated figure is shown, and the discrepancy is not resolved this pass",
+          RESEARCHED_ON,
+        ),
+        currency: "EUR",
+        feeQualifier: FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-06-30",
+            teachingStarts: "2027-09-01",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Maynooth",
+          },
+        ],
+        entryRequirement: stated(
+          "An honours degree in computer science or a closely related quantitative subject.",
+          "Reported consistently across independent admissions publications; the institution's own programme page was not directly read this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: unknown("Not checked this pass."),
+        languageOfInstruction: "English",
+        placement: unknown("Not checked this pass."),
+        campus: "Maynooth",
+      },
+    ],
+    notChecked: [
+      "The exact year-one tuition fee: two independent sources disagreed (EUR 15,000 against EUR 18,000) and the institution's own fee schedule was not directly opened to resolve it this pass.",
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake, which decides 12 versus up to 24 months of post-study permission.",
+      "The exact IELTS component minimums for this specific programme.",
+    ],
+  },
+
+  {
+    slug: "technological-university-dublin",
+    name: "Technological University Dublin",
+    destination: "ireland",
+    city: "Dublin",
+    route: "Taught masters",
+    type: "public",
+    flagCode: "ie",
+    initials: "TUD",
+    summary:
+      "Ireland's first technological university, formed from a 2019 merger, with a practical and industry-linked style rather than the older research-university tradition of this catalogue's other Dublin entries.",
+    commission: IE_COMMISSION,
+    highlights: {
+      established: stated(2019, "Institution's own history page, as the date of the university's formation by merger", RESEARCHED_ON),
+      totalStudents: stated(28000, "Institution's own reporting, found through search", RESEARCHED_ON),
+      internationalStudents: stated(
+        "More than 3,000 students, of over 140 nationalities",
+        "Institution's own reporting, found through search",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown("Not published at institution level."),
+      acceptanceRate: unknown("Not published at institution level."),
+      accreditation: stated(
+        "Recognised Irish university, quality assured by Quality and Qualifications Ireland",
+        "Qualifications and Quality Ireland register",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2027,
+        rank: "791st to 800th in the world",
+        scope: "World, all subjects",
+        source: "Reported by independent ranking aggregators this pass; the institution's own rankings page was not directly read",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: unknown(
+          "Not confirmed for this specific programme this pass. Left unknown rather than guessed from a neighbouring institution's requirement.",
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "Full non-EU tuition, in the same broad range as this catalogue's other Dublin institutions.",
+      "Reported across independent fee-comparison publications; the institution's own fee schedule was not directly read this pass",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: "dublin",
+    programmes: [
+      {
+        slug: "tud-msc-computer-science-data-science",
+        universitySlug: "technological-university-dublin",
+        name: "MSc Computer Science (Data Science)",
+        level: "masters",
+        disciplines: ["Computer Science", "Data Science"],
+        durationMonths: 12,
+        feePerYear: stated(
+          21750,
+          "Reported by an independent fee-comparison publication as the year-one fee; the institution's own fee schedule was not directly read to confirm it this pass",
+          RESEARCHED_ON,
+        ),
+        currency: "EUR",
+        feeQualifier: FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-06-30",
+            teachingStarts: "2027-09-01",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Grangegorman, Dublin",
+          },
+        ],
+        entryRequirement: stated(
+          "An honours degree in computer science or a closely related quantitative subject.",
+          "Reported consistently across independent admissions publications; the institution's own programme page was not directly read this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: unknown("Not checked this pass."),
+        languageOfInstruction: "English",
+        placement: unknown("Not checked this pass."),
+        campus: "Grangegorman, Dublin",
+      },
+    ],
+    notChecked: [
+      "The exact year-one tuition fee, reported by one independent source only and not confirmed against the institution's own fee schedule this pass.",
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake, which decides 12 versus up to 24 months of post-study permission.",
+      "The exact IELTS requirement for this specific programme.",
+    ],
+  },
 ];

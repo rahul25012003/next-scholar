@@ -189,7 +189,7 @@ F.10 (recommended books per exam) is folded into F.09 in reduced form: an
 official resources link per test, not a named book, which would be a
 commercial claim needing a currency this session cannot verify. 4.16
 (caching of verified university data) was investigated and not built: the
-whole catalogue is twenty-four institutions in memory with no external fetch
+whole catalogue is twenty-eight institutions in memory with no external fetch
 anywhere in the path, so there is nothing slow to cache.
 
 ### Phase 10 — Reviews, counsellors and events built honestly empty; a real install manifest

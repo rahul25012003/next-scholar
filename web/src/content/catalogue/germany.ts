@@ -7,11 +7,12 @@ const RESEARCHED_ON = "2026-09-10";
 /**
  * Germany.
  *
- * Two of the six institutions below charge non-EU students tuition at a public
+ * Four of the ten institutions below charge non-EU students tuition at a public
  * university, which is the thing "study in Germany for free" gets wrong and the
- * thing our own site got wrong until this week. KIT and Stuttgart sit in
- * Baden-Wurttemberg and charge EUR 1,500 a semester. TUM introduced fees for
- * non-EU students from the 2024/25 winter semester under Bavaria's own law.
+ * thing our own site got wrong until this week. KIT, Stuttgart and Heidelberg sit
+ * in Baden-Wurttemberg and charge EUR 1,500 a semester. TUM introduced fees for
+ * non-EU students from the 2024/25 winter semester under Bavaria's own law; LMU
+ * Munich, in the same state, has not applied that law and stays genuinely free.
  *
  * Every commission figure on the public institutions is a confirmed zero. That
  * is the one figure on this platform we can publish as verified without asking
@@ -1073,6 +1074,199 @@ export const germanUniversities: University[] = [
       "Whether this specific programme is restricted (NC) and what the admission threshold actually is this cycle.",
       "The exact QS rank: reported as 80th by independent sources, printed here as a band since the institution's own page was not read directly.",
       "Cost of living: Heidelberg is not yet one of the cities modelled in the cost of living calculator, so no linked city figure is shown here.",
+    ],
+  },
+
+  {
+    slug: "free-university-of-berlin",
+    name: "Freie Universität Berlin",
+    destination: "germany",
+    city: "Berlin",
+    route: "Public universities",
+    type: "public",
+    flagCode: "de",
+    initials: "FUB",
+    summary:
+      "One of Berlin's major public universities, a genuine tuition zero since Berlin has not applied a non-EU fee. Most of its own Computer Science Master's is taught in German; the English-medium route this catalogue lists is Data Science, a small, selective programme.",
+    commission: PUBLIC_ZERO,
+    highlights: {
+      established: stated(1948, "Institution's own history page", RESEARCHED_ON),
+      totalStudents: stated(33900, "Institution's own reporting, found through search", RESEARCHED_ON),
+      internationalStudents: stated(
+        "About 4,950 international students, from around 80 countries",
+        "Institution's own reporting, found through search",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown(
+        "Not published in a form comparable with UK institutions, and constructing one from separate headcounts would be our arithmetic rather than their figure.",
+      ),
+      acceptanceRate: unknown(
+        "German universities generally do not publish acceptance rates. Admission to a restricted programme is decided on a published points or credit basis rather than a rate.",
+      ),
+      accreditation: stated(
+        "State university of Berlin, programmes accredited under the German accreditation system",
+        "Institution's own accreditation page",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2026,
+        rank: "88th in the world, improved from 97th the year before",
+        scope: "World, all subjects",
+        source: "Institution's own press release announcing the QS 2026 result",
+      },
+    ],
+    exams: [
+      {
+        exam: "CEFR (general English proficiency)",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "C1 level required for the Data Science programme specifically",
+          "Reported consistently across independent sources for this specific programme; the programme's own admissions page was not directly read this pass",
+          RESEARCHED_ON,
+          "This catalogue's other entries state an IELTS figure; this one states what this specific programme's own page actually asks for, rather than converting it into an IELTS-equivalent this session did not confirm.",
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "No tuition fee. Only the semester contribution applies, reported at roughly EUR 358 a semester for the Computer Science route; not confirmed specifically for Data Science this pass.",
+      "Reported consistently across independent sources; the institution's own fee page was not directly read this pass",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: "berlin",
+    programmes: [
+      {
+        slug: "fu-berlin-msc-data-science",
+        universitySlug: "free-university-of-berlin",
+        name: "MSc Data Science",
+        level: "masters",
+        disciplines: ["Data Science", "Computer Science"],
+        durationMonths: 24,
+        feePerYear: stated(0, "No tuition fee is charged; only the semester contribution applies", RESEARCHED_ON),
+        currency: "EUR",
+        feeQualifier:
+          "No tuition fee. The semester contribution (roughly EUR 358, reported for a related programme rather than confirmed for this one) is separate and not shown here as tuition.",
+        intakes: [
+          {
+            name: "Winter semester",
+            applicationDeadline: "2027-05-31",
+            teachingStarts: "2027-10-01",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Berlin",
+          },
+        ],
+        entryRequirement: stated(
+          "Highly selective: hundreds of applications for around 30 to 40 seats. A Bachelor's degree with substantial quantitative content is the general requirement; the specific published threshold was not read this pass.",
+          "Reported consistently across independent sources; the programme's own admissions page was not directly read this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: unknown("Not checked this pass."),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated on this programme."),
+        campus: "Berlin",
+      },
+    ],
+    notChecked: [
+      "Whether this specific programme is restricted (NC) and what the admission threshold actually is this cycle.",
+      "The exact semester contribution for this programme specifically; the figure shown is reported for a related programme.",
+      "The programme's own stated degree class or discipline requirement, beyond the general selectivity described in independent sources.",
+    ],
+  },
+
+  {
+    slug: "university-of-hamburg",
+    name: "University of Hamburg",
+    destination: "germany",
+    city: "Hamburg",
+    route: "Public universities",
+    type: "public",
+    flagCode: "de",
+    initials: "UHH",
+    summary:
+      "Hamburg's largest university, in a state that has not applied a non-EU tuition fee, so tuition stays a genuine zero here.",
+    commission: PUBLIC_ZERO,
+    highlights: {
+      established: stated(1919, "Institution's own history page", RESEARCHED_ON),
+      totalStudents: stated(43000, "Institution's own reporting, found through search", RESEARCHED_ON),
+      internationalStudents: stated(
+        "Nearly 6,000 international students, from more than 130 countries",
+        "Institution's own reporting, found through search",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown(
+        "Not published in a form comparable with UK institutions, and constructing one from separate headcounts would be our arithmetic rather than their figure.",
+      ),
+      acceptanceRate: unknown(
+        "German universities generally do not publish acceptance rates. Admission to a restricted programme is decided on a published points or credit basis rather than a rate.",
+      ),
+      accreditation: stated(
+        "State university of Hamburg, programmes accredited under the German accreditation system",
+        "Institution's own accreditation page",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2026,
+        rank: "Inside the world top 200",
+        scope: "World, all subjects",
+        source: "Reported at #193 by independent sources this pass; the institution's own rankings page was not directly read",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: unknown(
+          "This session's search results mixed Universität Hamburg with Hamburg University of Technology (TUHH), a separate institution, and could not cleanly separate the English-taught Data Science figures found. Left unknown rather than reported with the wrong institution attached.",
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "No tuition fee for a public university in Hamburg, a state that has not applied a non-EU fee. Only the semester contribution applies, in the low hundreds of euros.",
+      "Reported consistently across independent sources for Hamburg's public universities generally; the institution's own fee page was not directly read this pass",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: null,
+    programmes: [
+      {
+        slug: "hamburg-msc-data-science",
+        universitySlug: "university-of-hamburg",
+        name: "MSc Data Science",
+        level: "masters",
+        disciplines: ["Data Science", "Computer Science"],
+        durationMonths: 24,
+        feePerYear: stated(0, "No tuition fee is charged; only the semester contribution applies", RESEARCHED_ON),
+        currency: "EUR",
+        feeQualifier:
+          "No tuition fee. The semester contribution (reported in the low hundreds of euros, not confirmed to the exact figure for this programme) is separate and not shown here as tuition.",
+        intakes: [
+          {
+            name: "Winter semester",
+            applicationDeadline: "2027-05-31",
+            teachingStarts: "2027-10-01",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Hamburg",
+          },
+        ],
+        entryRequirement: unknown(
+          "This session's search results conflated Universität Hamburg with the separate Hamburg University of Technology and could not cleanly confirm this programme's own entry requirement. Left unknown rather than attributed to the wrong institution.",
+        ),
+        prerequisites: unknown("Not checked this pass, for the same reason as the entry requirement."),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated on this programme."),
+        campus: "Hamburg",
+      },
+    ],
+    notChecked: [
+      "This session's research repeatedly surfaced results for Hamburg University of Technology (TUHH), a separate institution, when searching for Universität Hamburg. Facts that could not be confidently attributed to the correct institution are marked unknown above rather than guessed. A future pass should verify this programme directly on uni-hamburg.de.",
+      "Cost of living: Hamburg is not yet one of the cities modelled in the cost of living calculator, so no linked city figure is shown here.",
+      "The exact QS rank and semester contribution figure.",
     ],
   },
 ];
