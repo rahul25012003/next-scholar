@@ -102,6 +102,15 @@ export async function recordOffer(
     return { status: "error", message: "Pick an application and an outcome." };
   }
 
+  const depositRaw = String(formData.get("depositInr") ?? "").trim();
+  const depositInr = depositRaw ? Number(depositRaw.replace(/[^\d]/g, "")) : null;
+  const depositDeadline = String(formData.get("depositDeadline") ?? "").trim() || null;
+  const scholarshipNote = String(formData.get("scholarshipNote") ?? "").trim() || null;
+  const offer =
+    outcome === "offer" && (depositInr || depositDeadline || scholarshipNote)
+      ? { depositInr: Number.isFinite(depositInr) && depositInr ? depositInr : null, depositDeadline, scholarshipNote }
+      : undefined;
+
   const updated = await mutateCase(
     caseId,
     actor,
@@ -109,7 +118,7 @@ export async function recordOffer(
     (record) =>
       outcome === "withdrawn"
         ? withdrawApplication(record, applicationId, note || "No reason given.", actor.name)
-        : recordApplicationOutcome(record, applicationId, outcome, note, actor.name),
+        : recordApplicationOutcome(record, applicationId, outcome, note, actor.name, undefined, offer),
     `Application ${applicationId} recorded as ${outcome}`,
   );
 

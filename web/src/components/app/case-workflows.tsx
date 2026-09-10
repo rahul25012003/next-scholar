@@ -82,6 +82,30 @@ export function CaseWorkflows({
               className={`${fieldClass} sm:col-span-2`}
               aria-label="Note on the outcome"
             />
+            <p className="text-[0.75rem] text-muted sm:col-span-2">
+              The three fields below are only saved when the outcome is Offer.
+            </p>
+            <input
+              name="depositInr"
+              type="text"
+              inputMode="numeric"
+              placeholder="Deposit amount, INR"
+              className={fieldClass}
+              aria-label="Deposit amount in rupees"
+            />
+            <input
+              name="depositDeadline"
+              type="date"
+              className={fieldClass}
+              aria-label="Deposit deadline"
+            />
+            <input
+              name="scholarshipNote"
+              type="text"
+              placeholder="Scholarship attached, if any"
+              className={`${fieldClass} sm:col-span-2`}
+              aria-label="Scholarship attached to the offer"
+            />
           </WorkflowForm>
 
           <WorkflowForm

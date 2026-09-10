@@ -115,6 +115,16 @@ export type ApplicationRecord = {
   outcomeNote: string | null;
   /** Set when this application replaces an earlier one, never a fresh record. */
   supersedes?: string;
+  /**
+   * Set once an offer is on record, never cleared by a later outcome change,
+   * so a declined offer's terms stay on the file they described. Compared
+   * side by side once two or more applications on a case carry one.
+   */
+  offer?: {
+    depositInr: number | null;
+    depositDeadline: string | null;
+    scholarshipNote: string | null;
+  } | null;
 };
 
 /** Tracked as its own field so the quarterly report counts, never assumes. */

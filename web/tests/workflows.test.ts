@@ -240,6 +240,44 @@ describe("reassignment and stage changes are logged with their reason", () => {
       "offer",
     );
   });
+
+  it("records offer terms without disturbing the other application", () => {
+    const offer = { depositInr: 50_000, depositDeadline: "2027-01-15", scholarshipNote: null };
+    const updated = recordApplicationOutcome(
+      withApps,
+      "app-2",
+      "offer",
+      "Conditional on final transcript.",
+      author,
+      undefined,
+      offer,
+    );
+
+    expect(updated.applications.find((item) => item.id === "app-2")?.offer).toEqual(offer);
+    expect(updated.applications.find((item) => item.id === "app-1")?.offer).toBeUndefined();
+  });
+
+  it("keeps an offer's terms on record even once the outcome moves on", () => {
+    const offer = { depositInr: 50_000, depositDeadline: "2027-01-15", scholarshipNote: null };
+    const offered = recordApplicationOutcome(
+      withApps,
+      "app-2",
+      "offer",
+      "Conditional on final transcript.",
+      author,
+      undefined,
+      offer,
+    );
+    const declined = recordApplicationOutcome(
+      offered,
+      "app-2",
+      "withdrawn",
+      "Chose the other offer.",
+      author,
+    );
+
+    expect(declined.applications.find((item) => item.id === "app-2")?.offer).toEqual(offer);
+  });
 });
 
 describe("the student sees correspondence, not internal notes", () => {

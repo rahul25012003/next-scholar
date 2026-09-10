@@ -252,6 +252,7 @@ export function recordApplicationOutcome(
   note: string,
   author: string,
   now = new Date(),
+  offer?: NonNullable<ApplicationRecord["offer"]>,
 ): StudentCase {
   const application = record.applications.find((item) => item.id === applicationId);
   if (!application) return record;
@@ -260,7 +261,9 @@ export function recordApplicationOutcome(
     {
       ...record,
       applications: record.applications.map((item) =>
-        item.id === applicationId ? { ...item, outcome, outcomeNote: note } : item,
+        item.id === applicationId
+          ? { ...item, outcome, outcomeNote: note, offer: offer ?? item.offer }
+          : item,
       ),
     },
     `${application.university}: ${outcome}. ${note}`,

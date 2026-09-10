@@ -613,11 +613,63 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                         {application.reference ?? "No reference"},{" "}
                         {application.outcome}
                       </p>
+                      {application.offer && (
+                        <p className="figures mt-1 text-[0.75rem] text-muted">
+                          {application.offer.depositInr
+                            ? `Deposit ₹${application.offer.depositInr.toLocaleString("en-IN")}`
+                            : "Deposit amount not on file"}
+                          {application.offer.depositDeadline
+                            ? ` by ${application.offer.depositDeadline}`
+                            : ""}
+                          {application.offer.scholarshipNote
+                            ? `. Scholarship: ${application.offer.scholarshipNote}`
+                            : ""}
+                        </p>
+                      )}
                     </li>
                   ))}
                 </ul>
               )}
             </Panel>
+
+            {record.applications.filter((item) => item.offer).length > 1 && (
+              <Panel
+                title="Offers, side by side"
+                description="Every offer on this case in one place, so a choice does not depend on reading back through the log."
+              >
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-[0.8125rem]">
+                    <caption className="sr-only">Offers received on this case, compared</caption>
+                    <thead>
+                      <tr className="text-muted">
+                        <th className="px-6 py-2 font-medium">University</th>
+                        <th className="px-6 py-2 font-medium">Deposit</th>
+                        <th className="px-6 py-2 font-medium">Deadline</th>
+                        <th className="px-6 py-2 font-medium">Scholarship</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-line">
+                      {record.applications
+                        .filter((item) => item.offer)
+                        .map((item) => (
+                          <tr key={item.id}>
+                            <td className="px-6 py-2 text-navy-900">{item.university}</td>
+                            <td className="figures px-6 py-2">
+                              {item.offer?.depositInr
+                                ? `₹${item.offer.depositInr.toLocaleString("en-IN")}`
+                                : "Not on file"}
+                            </td>
+                            <td className="figures px-6 py-2">
+                              {item.offer?.depositDeadline ?? "Not on file"}
+                            </td>
+                            <td className="px-6 py-2">{item.offer?.scholarshipNote ?? "None recorded"}</td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
+              </Panel>
+            )}
           </div>
         </div>
       </div>
