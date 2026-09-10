@@ -426,6 +426,13 @@ export async function markDocumentVerified(
  * Applies one of the case operations from `domain/case-operations`, checks the
  * permission first and records the result. Every workflow in section 8.10 goes
  * through this single door, so none of them can skip the audit trail.
+ *
+ * Every operation in `case-operations.ts` signals "nothing applied" by
+ * returning its input record unchanged, by reference: an application refused
+ * as a duplicate, a task already completed, a stage already at its target.
+ * That case is not a write, so it does not save or audit as one — an audit
+ * entry claiming a change that did not happen would be exactly the kind of
+ * fabrication this trail exists to catch.
  */
 export async function mutateCase(
   caseId: string,
@@ -439,6 +446,8 @@ export async function mutateCase(
   if (!can(actor, action, record)) return null;
 
   const updated = transform(record);
+  if (updated === record) return updated;
+
   await saveCase(updated);
 
   await recordAudit({

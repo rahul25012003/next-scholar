@@ -199,6 +199,12 @@ export function withdrawApplication(
 /**
  * A reapplication is linked to the application it replaces, not filed as an
  * unrelated new record, so the history reads as one story.
+ *
+ * Refuses a no-op: a second live application (pending or holding an offer)
+ * to the same university and programme is refused silently, the same way
+ * every other invalid mutation in this file is, unless it is the exact
+ * record being superseded. A resolved application (rejected, withdrawn,
+ * deferred) never blocks a fresh one at the same place.
  */
 export function startReapplication(
   record: StudentCase,
@@ -207,6 +213,15 @@ export function startReapplication(
   author: string,
   now = new Date(),
 ): StudentCase {
+  const duplicate = record.applications.some(
+    (item) =>
+      item.id !== supersedes &&
+      (item.outcome === "pending" || item.outcome === "offer") &&
+      item.university === next.university &&
+      item.programme === next.programme,
+  );
+  if (duplicate) return record;
+
   const previous = record.applications.find((item) => item.id === supersedes);
 
   const application: ApplicationRecord = {

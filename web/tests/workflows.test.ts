@@ -124,6 +124,30 @@ describe("nothing is deleted and nothing is overwritten silently", () => {
     expect(created.outcome).toBe("pending");
     expect(updated.applications).toHaveLength(withApps.applications.length + 1);
   });
+
+  it("refuses a second live application to the same university and programme", () => {
+    const updated = startReapplication(
+      withApps,
+      "app-2",
+      { id: "app-new", university: "University of Leeds", programme: "MSc Advanced Mechanical Engineering" },
+      author,
+    );
+
+    expect(updated).toBe(withApps);
+    expect(updated.applications).toHaveLength(withApps.applications.length);
+  });
+
+  it("allows a fresh application to a place an earlier one already resolved against", () => {
+    const withdrawn = withdrawApplication(withApps, "app-1", "Chose Sheffield instead.", author);
+    const updated = startReapplication(
+      withdrawn,
+      "app-2",
+      { id: "app-new", university: "University of Leeds", programme: "MSc Advanced Mechanical Engineering" },
+      author,
+    );
+
+    expect(updated.applications.find((item) => item.id === "app-new")).toBeDefined();
+  });
 });
 
 describe("a deferral moves the dates with the intake", () => {

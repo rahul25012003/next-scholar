@@ -141,6 +141,7 @@ export async function reapply(
     return { status: "error", message: "Name the earlier application, the university and the programme." };
   }
 
+  const newId = `app-${Date.now()}`;
   const updated = await mutateCase(
     caseId,
     actor,
@@ -149,13 +150,19 @@ export async function reapply(
       startReapplication(
         record,
         supersedes,
-        { id: `app-${Date.now()}`, university, programme },
+        { id: newId, university, programme },
         actor.name,
       ),
     `Reapplication opened, linked to ${supersedes}`,
   );
 
   if (!updated) return { status: "error", message: "Not permitted on this case." };
+  if (!updated.applications.some((item) => item.id === newId)) {
+    return {
+      status: "error",
+      message: "There is already a live application to that university and programme on this case.",
+    };
+  }
   refreshed(caseId);
 
   return {
