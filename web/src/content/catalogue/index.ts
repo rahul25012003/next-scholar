@@ -283,9 +283,9 @@ export const catalogueScope = {
   destinations: ["United Kingdom", "Germany", "Ireland"],
   statedOn: "2026-09-10",
   checkedBy: null as string | null,
-  note: "Thirty institutions and thirty-seven programmes, seeded by hand across the three destinations this business covers in full. It is not a complete list of universities in those countries and it does not claim to be. Institutions are added when their page has been read, not when a feed makes them available.",
+  note: "Thirty-four institutions and forty-one programmes, seeded by hand across the three destinations this business covers in full. It is not a complete list of universities in those countries and it does not claim to be. Institutions are added when their page has been read, not when a feed makes them available.",
   omissions: [
-    "No institution appears here because it pays us. Nine of the thirty pay us nothing at all, and they are on the list for the same reason as the rest.",
+    "No institution appears here because it pays us. Eleven of the thirty-four pay us nothing at all, and they are on the list for the same reason as the rest.",
     "No ranking on this catalogue is ours. Every one names the body that published it and the year.",
     "No admission chance, match score or fit percentage appears anywhere, because we would have to invent it.",
   ],

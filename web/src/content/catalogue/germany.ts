@@ -7,7 +7,7 @@ const RESEARCHED_ON = "2026-09-10";
 /**
  * Germany.
  *
- * Four of the ten institutions below charge non-EU students tuition at a public
+ * Four of the twelve institutions below charge non-EU students tuition at a public
  * university, which is the thing "study in Germany for free" gets wrong and the
  * thing our own site got wrong until this week. KIT, Stuttgart and Heidelberg sit
  * in Baden-Wurttemberg and charge EUR 1,500 a semester. TUM introduced fees for
@@ -1267,6 +1267,214 @@ export const germanUniversities: University[] = [
       "This session's research repeatedly surfaced results for Hamburg University of Technology (TUHH), a separate institution, when searching for Universität Hamburg. Facts that could not be confidently attributed to the correct institution are marked unknown above rather than guessed. A future pass should verify this programme directly on uni-hamburg.de.",
       "Cost of living: Hamburg is not yet one of the cities modelled in the cost of living calculator, so no linked city figure is shown here.",
       "The exact QS rank and semester contribution figure.",
+    ],
+  },
+
+  {
+    slug: "tu-dresden",
+    name: "Technische Universitat Dresden",
+    destination: "germany",
+    city: "Dresden",
+    route: "Public universities",
+    type: "public",
+    flagCode: "de",
+    initials: "TUD",
+    summary:
+      "A Saxon technical university with a strong engineering research base, in a state that has not applied a non-EU tuition fee, so tuition stays a genuine zero here.",
+    commission: PUBLIC_ZERO,
+    highlights: {
+      established: stated(1828, "Institution's own history page", RESEARCHED_ON),
+      totalStudents: unknown(
+        "Independent sources disagreed within this session's search results, reporting figures between about 20,600 and 36,000; the institution's own statistics page was not directly read to resolve which is current.",
+      ),
+      internationalStudents: stated(
+        "Reported at about 15 per cent of the student body by one independent source this pass",
+        "Independent source (THE World University Rankings data); the institution's own statistics page was not directly read",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown(
+        "Not published in a form comparable with the other institutions on this catalogue, so printing it next to them would invite a comparison the figures do not support.",
+      ),
+      acceptanceRate: unknown(
+        "German universities generally do not publish acceptance rates. This programme uses an aptitude assessment rather than a simple points threshold.",
+      ),
+      accreditation: stated(
+        "State university of Saxony, programmes accredited under the German accreditation system",
+        "Institution's own accreditation page",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings by Subject",
+        year: 2026,
+        rank: "94th in the world for Engineering and Technology",
+        scope: "Subject: Engineering and Technology",
+        source: "Institution's own news page, fetched directly this pass",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "7.0 overall with no component below 7.0 (C1 CEFR level)",
+          "Institution's own admission page for this specific programme, fetched directly this pass",
+          RESEARCHED_ON,
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "No tuition fee for a public university in Saxony, a state that has not applied a non-EU fee. Only the semester contribution applies, stated by the institution at EUR 361 for winter 2026/27.",
+      "Reported consistently across independent sources for Saxony's public universities generally; the institution's own fee page was not directly read this pass",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: null,
+    programmes: [
+      {
+        slug: "tud-msc-computer-science",
+        universitySlug: "tu-dresden",
+        name: "MSc Computer Science",
+        level: "masters",
+        disciplines: ["Computer Science"],
+        durationMonths: 24,
+        feePerYear: stated(0, "No tuition fee is charged; only the semester contribution applies", RESEARCHED_ON),
+        currency: "EUR",
+        feeQualifier:
+          "No tuition fee. The semester contribution, stated by the institution at EUR 361 for winter 2026/27, is separate and not shown here as tuition.",
+        intakes: [
+          {
+            name: "Winter semester",
+            applicationDeadline: "2027-05-31",
+            teachingStarts: "2027-10-01",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Dresden",
+          },
+        ],
+        entryRequirement: stated(
+          "A first professionally qualifying university degree in Computer Science, with at least 90 ECTS credits distributed across systems and architecture (35+), mathematics and theoretical computer science (35+), and programming fundamentals (20+).",
+          "Institution's own admission page for this specific programme, fetched directly this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: stated(
+          ["Systems and architecture", "Mathematics and theoretical computer science", "Programming fundamentals"],
+          "Institution's own admission page for this specific programme, fetched directly this pass",
+          RESEARCHED_ON,
+        ),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated on this programme."),
+        campus: "Dresden",
+      },
+    ],
+    notChecked: [
+      "The institution runs an aptitude assessment before enrolment, separate from the general application window; the exact procedure and its own timeline were not read this pass.",
+      "Total student count: independent sources disagreed by a wide margin and the institution's own statistics page was not directly read to resolve it this pass.",
+      "Cost of living: Dresden is not yet one of the cities modelled in the cost of living calculator, so no linked city figure is shown here.",
+    ],
+  },
+
+  {
+    slug: "university-of-bonn",
+    name: "University of Bonn",
+    destination: "germany",
+    city: "Bonn",
+    route: "Public universities",
+    type: "public",
+    flagCode: "de",
+    initials: "BONN",
+    summary:
+      "A former West German capital with a strong research profile in mathematics and the sciences, in a state that has not applied a non-EU tuition fee, so tuition stays a genuine zero here.",
+    commission: PUBLIC_ZERO,
+    highlights: {
+      established: stated(1818, "Institution's own history page", RESEARCHED_ON),
+      totalStudents: unknown(
+        "Reported by one independent source at about 24,500 this pass; the institution's own statistics page was not directly read to confirm it.",
+      ),
+      internationalStudents: stated(
+        "Reported at about 16 per cent of the student body by one independent source this pass",
+        "Independent source (THE World University Rankings data); the institution's own statistics page was not directly read",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown(
+        "Not published in a form comparable with the other institutions on this catalogue, so printing it next to them would invite a comparison the figures do not support.",
+      ),
+      acceptanceRate: unknown(
+        "German universities generally do not publish acceptance rates. Admission to a restricted programme is decided on a published points or credit basis rather than a rate.",
+      ),
+      accreditation: stated(
+        "State university of North Rhine-Westphalia, programmes accredited under the German accreditation system",
+        "Institution's own accreditation page",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2026,
+        rank: "209th in the world, 84th in Europe, 10th in Germany",
+        scope: "World, all subjects",
+        source: "Institution's own rankings page, fetched directly this pass",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "7.0 overall (C1 CEFR level), valid until the start of the upcoming semester",
+          "Institution's own admission page for this specific programme, fetched directly this pass",
+          RESEARCHED_ON,
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "No tuition fee for a public university in North Rhine-Westphalia, a state that has not applied a non-EU fee. Only the semester contribution applies, reported at roughly EUR 345 to 350 by independent sources; not confirmed on the institution's own page this pass.",
+      "Reported consistently across independent sources; the institution's own fee page was not directly read this pass",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: null,
+    programmes: [
+      {
+        slug: "bonn-msc-computer-science",
+        universitySlug: "university-of-bonn",
+        name: "MSc Computer Science",
+        level: "masters",
+        disciplines: ["Computer Science"],
+        durationMonths: 24,
+        feePerYear: stated(0, "No tuition fee is charged; only the semester contribution applies", RESEARCHED_ON),
+        currency: "EUR",
+        feeQualifier:
+          "No tuition fee. The semester contribution, reported at roughly EUR 345 to 350 by independent sources and not confirmed on the institution's own page this pass, is separate and not shown here as tuition.",
+        intakes: [
+          {
+            name: "Winter semester",
+            applicationDeadline: "2027-05-31",
+            teachingStarts: "2027-10-01",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Bonn",
+          },
+        ],
+        entryRequirement: stated(
+          "A Bachelor's degree in computer science or a related field, with at least 18 ECTS in mathematics, 14 ECTS in algorithm and complexity theory, and 18 ECTS in programming, software technology and information systems, plus a scientific thesis worth at least 12 ECTS.",
+          "Institution's own admission page for this specific programme, fetched directly this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: stated(
+          ["Mathematics", "Algorithm and complexity theory", "Programming and software technology"],
+          "Institution's own admission page for this specific programme, fetched directly this pass",
+          RESEARCHED_ON,
+        ),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated on this programme."),
+        campus: "Bonn",
+      },
+    ],
+    notChecked: [
+      "The exact application deadline for this applicant category: the institution's own page directs applicants to a separate deadlines page that was not read this pass.",
+      "Total student count and the exact semester contribution: reported by independent sources only, not confirmed on the institution's own page this pass.",
+      "Cost of living: Bonn is not yet one of the cities modelled in the cost of living calculator, so no linked city figure is shown here.",
     ],
   },
 ];
