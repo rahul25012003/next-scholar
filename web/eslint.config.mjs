@@ -28,6 +28,18 @@ const eslintConfig = defineConfig([
           message:
             "Arbitrary radius or shadow. Use rounded-input, rounded-card, rounded-panel, rounded-full, rounded-xs, shadow-card or shadow-lift. A deliberate one-off shape gets an eslint-disable-next-line with a `token-exempt:` reason.",
         },
+        {
+          selector:
+            "Literal[value=/\\b(bg|text|ring|border|from|via|to|fill|stroke|decoration|outline|shadow|divide|accent|caret|placeholder)-\\[#/]",
+          message:
+            "Arbitrary colour. Add it to @theme in globals.css and use the token, so the palette stays one list rather than a set of hex values spread across components. A deliberate one-off gets an eslint-disable-next-line with a `token-exempt:` reason.",
+        },
+        {
+          selector:
+            "TemplateElement[value.raw=/\\b(bg|text|ring|border|from|via|to|fill|stroke|decoration|outline|shadow|divide|accent|caret|placeholder)-\\[#/]",
+          message:
+            "Arbitrary colour. Add it to @theme in globals.css and use the token, so the palette stays one list rather than a set of hex values spread across components. A deliberate one-off gets an eslint-disable-next-line with a `token-exempt:` reason.",
+        },
       ],
     },
   },

@@ -20,10 +20,10 @@ import { heroPortraitImage, photos } from "@/content/photos";
  */
 export function Hero() {
   return (
-    <section className="bg-[#f4f7ff] pb-6 pt-6 md:pb-10">
+    <section className="bg-hero-band pb-6 pt-6 md:pb-10">
       <div className="shell">
         {/* eslint-disable-next-line no-restricted-syntax -- token-exempt: hero panel radius (28px, 36px at lg), larger than any token and matched by the portrait card below */}
-        <div className="relative overflow-hidden rounded-[1.75rem] bg-[#e8effe] px-7 pb-0 pt-12 md:px-12 md:pt-16 lg:rounded-[2.25rem]">
+        <div className="relative overflow-hidden rounded-[1.75rem] bg-hero-panel px-7 pb-0 pt-12 md:px-12 md:pt-16 lg:rounded-[2.25rem]">
           <div className="grid items-end gap-10 lg:grid-cols-[1.18fr_0.82fr] lg:gap-10">
             <div className="pb-12 md:pb-16">
               <h1 className="font-display text-[2.25rem] font-extrabold leading-[1.1] tracking-[-0.03em] text-navy-900 sm:text-[2.5rem] lg:text-[2.7rem] xl:text-[3rem]">
@@ -78,7 +78,7 @@ const quickLinks = [
  */
 export function HeroQuickLinks() {
   return (
-    <div className="bg-[#f4f7ff] pb-8">
+    <div className="bg-hero-band pb-8">
       <div className="shell">
         <ul className="flex flex-wrap gap-2.5">
           {quickLinks.map((link) => (
@@ -146,7 +146,7 @@ function TrustRow() {
           .map((destination) => (
             <span
               key={destination.slug}
-              className="grid h-9 w-9 place-items-center overflow-hidden rounded-full bg-white ring-2 ring-[#e8effe]"
+              className="grid h-9 w-9 place-items-center overflow-hidden rounded-full bg-white ring-2 ring-hero-panel"
             >
               <Image
                 src={`https://flagcdn.com/w80/${destination.flagCode}.png`}
@@ -179,7 +179,7 @@ function HeroPortrait() {
       <span
         aria-hidden
         // eslint-disable-next-line no-restricted-syntax -- token-exempt: the notch's inner curve, a shape no radius token expresses
-        className="absolute -left-px -top-px z-10 hidden h-[4.5rem] w-[4.5rem] rounded-br-[2rem] bg-[#e8effe] sm:block"
+        className="absolute -left-px -top-px z-10 hidden h-[4.5rem] w-[4.5rem] rounded-br-[2rem] bg-hero-panel sm:block"
       />
       {/* eslint-disable-next-line no-restricted-syntax -- token-exempt: three corners match the hero panel's 28px, the fourth is the notch */}
       <div className="relative overflow-hidden rounded-t-[1.75rem] rounded-bl-[1.75rem] bg-[linear-gradient(160deg,#2e6bf0_0%,#1553d6_55%,#0e2a5e_100%)]">

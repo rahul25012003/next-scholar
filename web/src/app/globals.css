@@ -25,6 +25,12 @@
   --color-paper: #ffffff;
   --color-surface: #f6f8fc; /* [VERIFY] alternating section ground */
   --color-surface-2: #eef2f9;
+  /* The hero's own tinted pair: the band behind it, and the panel on top of
+     that band. Named rather than mapped onto blue-50 or surface-2, which are
+     each a shade off — forcing them onto a near neighbour would change the
+     one composition on the site a visitor sees first. */
+  --color-hero-band: #f4f7ff;
+  --color-hero-panel: #e8effe;
   --color-line: #e7ebf3; /* [VERIFY] card border, divider */
   --color-line-strong: #d3dae8;
 
