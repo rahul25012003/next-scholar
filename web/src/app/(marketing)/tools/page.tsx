@@ -36,7 +36,7 @@ const tools = [
     icon: CurrencyCircleDollar,
     title: "Cost of living calculator",
     lede: "A year in Munich, Berlin, London, Dublin or five other cities, broken into line items you can edit.",
-    detail: "Every range attributed to the body that publishes it, with the rupee figure labelled indicative.",
+    detail: "Add your own tuition and funds figures to see the first year whole, gap or surplus included.",
     tone: "bg-pastel-mint",
   },
   {

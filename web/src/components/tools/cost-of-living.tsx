@@ -79,6 +79,13 @@ export function CostOfLivingCalculator({
     setExcluded(city.lines.filter((line) => line.optional).map((line) => line.id));
   };
 
+  const livingInr = Math.round(monthly * 12 * rate.inrPerUnit);
+  const [tuitionInr, setTuitionInr] = useState(0);
+  const [fundsInr, setFundsInr] = useState(0);
+  const firstYearInr = livingInr + tuitionInr;
+  const gapInr = Math.max(0, firstYearInr - fundsInr);
+  const surplusInr = Math.max(0, fundsInr - firstYearInr);
+
   return (
     <div className="rounded-panel border border-line bg-paper">
       <div className="border-b border-line p-6 md:p-7">
@@ -272,6 +279,78 @@ export function CostOfLivingCalculator({
             </tr>
           </tfoot>
         </table>
+      </div>
+
+      <div className="border-t border-line p-6 md:p-7">
+        <h3 className="text-[0.9375rem] font-semibold text-navy-900">
+          Add tuition and funds to see the first year whole
+        </h3>
+        <p className="mt-1 text-[0.8125rem] leading-relaxed text-muted">
+          Living cost carries over from above. Tuition is your own figure, not ours: it
+          depends on the exact programme, which is a separate, sourced number on the
+          university and course pages, not something this tool can look up for you.
+        </p>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <label className="block">
+            <span className="text-[0.8125rem] font-medium text-navy-900">
+              Annual tuition, in rupees
+            </span>
+            <span className="mt-1.5 flex items-center gap-1.5">
+              <span aria-hidden className="text-[0.9375rem] text-muted">
+                ₹
+              </span>
+              <input
+                type="number"
+                min={0}
+                step={1000}
+                inputMode="numeric"
+                value={tuitionInr || ""}
+                onChange={(event) => setTuitionInr(Math.max(0, Number(event.target.value) || 0))}
+                placeholder="From the course page"
+                className="figures w-full rounded-input border border-line-strong px-2.5 py-1.5 text-[0.9375rem] text-navy-900"
+              />
+            </span>
+          </label>
+          <label className="block">
+            <span className="text-[0.8125rem] font-medium text-navy-900">
+              Funds you can show, in rupees
+            </span>
+            <span className="mt-1.5 flex items-center gap-1.5">
+              <span aria-hidden className="text-[0.9375rem] text-muted">
+                ₹
+              </span>
+              <input
+                type="number"
+                min={0}
+                step={1000}
+                inputMode="numeric"
+                value={fundsInr || ""}
+                onChange={(event) => setFundsInr(Math.max(0, Number(event.target.value) || 0))}
+                placeholder="Savings, loan sanction, sponsor"
+                className="figures w-full rounded-input border border-line-strong px-2.5 py-1.5 text-[0.9375rem] text-navy-900"
+              />
+            </span>
+          </label>
+        </div>
+        <p className="figures mt-4 text-[0.9375rem] text-navy-900">
+          First year, living plus tuition: <span className="font-bold">₹{firstYearInr.toLocaleString("en-IN")}</span>
+          {" "}(₹{livingInr.toLocaleString("en-IN")} living + ₹{tuitionInr.toLocaleString("en-IN")} tuition).
+        </p>
+        {fundsInr > 0 && (
+          <p className={cn("figures mt-1.5 text-[0.9375rem] font-medium", gapInr > 0 ? "text-denied" : "text-verified")}>
+            {gapInr > 0
+              ? `Shortfall of ₹${gapInr.toLocaleString("en-IN")} against the funds shown so far.`
+              : `Covered, with ₹${surplusInr.toLocaleString("en-IN")} to spare against this estimate.`}
+          </p>
+        )}
+        <p className="mt-2 text-[0.8125rem] text-muted">
+          This is not the visa authority&rsquo;s blocked-account or funds requirement, which is a
+          separate, stricter figure on the destination guide. Scholarships for{" "}
+          <a href={`/scholarships?destination=${guide.slug}`} className="text-blue-600 underline">
+            {guide.country}
+          </a>{" "}
+          are not included here either.
+        </p>
       </div>
 
       <div className="flex flex-col gap-4 border-t border-line p-6 md:flex-row md:items-start md:justify-between md:p-7">
