@@ -4,6 +4,16 @@ const ON = "2026-09-03";
 /** When the entries below Stuttgart, added later, were actually looked up. */
 const RESEARCHED_ON = "2026-09-10";
 
+
+/**
+ * A founding year and a legal accreditation status are both matters of public
+ * record that the institution publishes itself, but this pass did not open
+ * those pages: the fetches went to fee, programme and admission pages. Saying
+ * so keeps these fields honestly distinguishable from the ones on the same
+ * profile that were read at source.
+ */
+const ON_RECORD =
+  "Institution's own published record, not re-read at source this pass";
 /**
  * Germany.
  *
@@ -890,7 +900,7 @@ export const germanUniversities: University[] = [
       "Bavaria's other major public university, and unlike its Munich neighbour TUM, LMU has not applied Bavaria's non-EU tuition law: tuition stays a genuine zero here, only the small semester contribution applies.",
     commission: PUBLIC_ZERO,
     highlights: {
-      established: stated(1472, "Institution's own history page", RESEARCHED_ON),
+      established: stated(1472, ON_RECORD, RESEARCHED_ON),
       totalStudents: stated(52658, "Institution's own reporting for the 2025/26 winter semester, found through search", RESEARCHED_ON),
       internationalStudents: stated(
         "Around 11,700 students, about 22 per cent of the student body",
@@ -905,7 +915,7 @@ export const germanUniversities: University[] = [
       ),
       accreditation: stated(
         "State university of the Free State of Bavaria, programmes accredited under the German accreditation system",
-        "Institution's own accreditation page",
+        ON_RECORD,
         RESEARCHED_ON,
       ),
     },
@@ -988,7 +998,7 @@ export const germanUniversities: University[] = [
       "Germany's oldest university, and a Baden-Wurttemberg institution: the state's own EUR 1,500 a semester non-EU tuition fee applies here, the same as KIT and Stuttgart in this catalogue.",
     commission: PUBLIC_ZERO,
     highlights: {
-      established: stated(1386, "Institution's own history page", RESEARCHED_ON),
+      established: stated(1386, ON_RECORD, RESEARCHED_ON),
       totalStudents: stated(30000, "Institution's own reporting, found through search", RESEARCHED_ON),
       internationalStudents: stated(
         "Around 6,600 students, from more than 130 countries",
@@ -1003,7 +1013,7 @@ export const germanUniversities: University[] = [
       ),
       accreditation: stated(
         "State university of Baden-Wurttemberg, programmes accredited under the German accreditation system",
-        "Institution's own accreditation page",
+        ON_RECORD,
         RESEARCHED_ON,
       ),
     },
@@ -1090,7 +1100,7 @@ export const germanUniversities: University[] = [
       "One of Berlin's major public universities, a genuine tuition zero since Berlin has not applied a non-EU fee. Most of its own Computer Science Master's is taught in German; the English-medium route this catalogue lists is Data Science, a small, selective programme.",
     commission: PUBLIC_ZERO,
     highlights: {
-      established: stated(1948, "Institution's own history page", RESEARCHED_ON),
+      established: stated(1948, ON_RECORD, RESEARCHED_ON),
       totalStudents: stated(33900, "Institution's own reporting, found through search", RESEARCHED_ON),
       internationalStudents: stated(
         "About 4,950 international students, from around 80 countries",
@@ -1105,7 +1115,7 @@ export const germanUniversities: University[] = [
       ),
       accreditation: stated(
         "State university of Berlin, programmes accredited under the German accreditation system",
-        "Institution's own accreditation page",
+        ON_RECORD,
         RESEARCHED_ON,
       ),
     },
@@ -1189,7 +1199,7 @@ export const germanUniversities: University[] = [
       "Hamburg's largest university, in a state that has not applied a non-EU tuition fee, so tuition stays a genuine zero here.",
     commission: PUBLIC_ZERO,
     highlights: {
-      established: stated(1919, "Institution's own history page", RESEARCHED_ON),
+      established: stated(1919, ON_RECORD, RESEARCHED_ON),
       totalStudents: stated(43000, "Institution's own reporting, found through search", RESEARCHED_ON),
       internationalStudents: stated(
         "Nearly 6,000 international students, from more than 130 countries",
@@ -1204,7 +1214,7 @@ export const germanUniversities: University[] = [
       ),
       accreditation: stated(
         "State university of Hamburg, programmes accredited under the German accreditation system",
-        "Institution's own accreditation page",
+        ON_RECORD,
         RESEARCHED_ON,
       ),
     },
@@ -1283,7 +1293,7 @@ export const germanUniversities: University[] = [
       "A Saxon technical university with a strong engineering research base, in a state that has not applied a non-EU tuition fee, so tuition stays a genuine zero here.",
     commission: PUBLIC_ZERO,
     highlights: {
-      established: stated(1828, "Institution's own history page", RESEARCHED_ON),
+      established: stated(1828, ON_RECORD, RESEARCHED_ON),
       totalStudents: unknown(
         "Independent sources disagreed within this session's search results, reporting figures between about 20,600 and 36,000; the institution's own statistics page was not directly read to resolve which is current.",
       ),
@@ -1300,7 +1310,7 @@ export const germanUniversities: University[] = [
       ),
       accreditation: stated(
         "State university of Saxony, programmes accredited under the German accreditation system",
-        "Institution's own accreditation page",
+        ON_RECORD,
         RESEARCHED_ON,
       ),
     },
@@ -1387,7 +1397,7 @@ export const germanUniversities: University[] = [
       "A former West German capital with a strong research profile in mathematics and the sciences, in a state that has not applied a non-EU tuition fee, so tuition stays a genuine zero here.",
     commission: PUBLIC_ZERO,
     highlights: {
-      established: stated(1818, "Institution's own history page", RESEARCHED_ON),
+      established: stated(1818, ON_RECORD, RESEARCHED_ON),
       totalStudents: unknown(
         "Reported by one independent source at about 24,500 this pass; the institution's own statistics page was not directly read to confirm it.",
       ),
@@ -1404,7 +1414,7 @@ export const germanUniversities: University[] = [
       ),
       accreditation: stated(
         "State university of North Rhine-Westphalia, programmes accredited under the German accreditation system",
-        "Institution's own accreditation page",
+        ON_RECORD,
         RESEARCHED_ON,
       ),
     },
@@ -1491,7 +1501,7 @@ export const germanUniversities: University[] = [
       "A technical university half an hour from Frankfurt, in Hesse, a state that has not applied a non-EU tuition fee, so tuition stays a genuine zero here. Its AI and machine learning masters can be completed entirely in English by course choice.",
     commission: PUBLIC_ZERO,
     highlights: {
-      established: stated(1877, "Institution's own history page", RESEARCHED_ON),
+      established: stated(1877, ON_RECORD, RESEARCHED_ON),
       totalStudents: unknown(
         "Reported by one independent source at over 25,000 this pass; the institution's own page read this pass did not state its own headcount, so the figure is not confirmed.",
       ),
@@ -1508,7 +1518,7 @@ export const germanUniversities: University[] = [
       ),
       accreditation: stated(
         "State university of Hesse, programmes accredited under the German accreditation system",
-        "Institution's own accreditation page",
+        ON_RECORD,
         RESEARCHED_ON,
       ),
     },
@@ -1597,7 +1607,7 @@ export const germanUniversities: University[] = [
       "One of Germany's oldest universities, in the Black Forest corner of Baden-Wurttemberg, which means the same EUR 1,500 a semester non-EU fee that KIT, Stuttgart and Heidelberg charge, and that most of Germany does not.",
     commission: PUBLIC_ZERO,
     highlights: {
-      established: stated(1457, "Institution's own history page", RESEARCHED_ON),
+      established: stated(1457, ON_RECORD, RESEARCHED_ON),
       totalStudents: stated(24391, "Reported by an independent source this pass; the institution's own statistics page was not directly read", RESEARCHED_ON),
       internationalStudents: stated(
         "About 18 per cent of the student body, from over 120 countries",
@@ -1612,7 +1622,7 @@ export const germanUniversities: University[] = [
       ),
       accreditation: stated(
         "State university of Baden-Wurttemberg, programmes accredited under the German accreditation system",
-        "Institution's own accreditation page",
+        ON_RECORD,
         RESEARCHED_ON,
       ),
     },
@@ -1700,7 +1710,7 @@ export const germanUniversities: University[] = [
       "A small university town in Lower Saxony with a long scientific reputation and rents below the big cities, in a state that has not applied a non-EU tuition fee, so tuition stays a genuine zero here.",
     commission: PUBLIC_ZERO,
     highlights: {
-      established: stated(1737, "Institution's own history page", RESEARCHED_ON),
+      established: stated(1737, ON_RECORD, RESEARCHED_ON),
       totalStudents: unknown(
         "Independent sources disagreed within this session's search results, reporting figures between about 19,800 and 26,000; the institution's own statistics page was not directly read to resolve which is current.",
       ),
@@ -1717,7 +1727,7 @@ export const germanUniversities: University[] = [
       ),
       accreditation: stated(
         "State university of Lower Saxony, programmes accredited under the German accreditation system",
-        "Institution's own accreditation page",
+        ON_RECORD,
         RESEARCHED_ON,
       ),
     },
@@ -1805,7 +1815,7 @@ export const germanUniversities: University[] = [
       "One of Germany's largest universities, in North Rhine-Westphalia, a state that has not applied a non-EU tuition fee, so tuition stays a genuine zero here. The programme below sits in the business faculty, not the computer science one.",
     commission: PUBLIC_ZERO,
     highlights: {
-      established: stated(1388, "Institution's own history page, as the original founding; the modern university was re-established in 1919", RESEARCHED_ON),
+      established: stated(1388, `${ON_RECORD}, as the original founding; the modern university was re-established in 1919`, RESEARCHED_ON),
       totalStudents: stated(45000, "Institution's own reporting, found through search; the institution's own statistics page was not directly read", RESEARCHED_ON),
       internationalStudents: stated(
         "About 10,000 international students",
@@ -1820,7 +1830,7 @@ export const germanUniversities: University[] = [
       ),
       accreditation: stated(
         "State university of North Rhine-Westphalia, programmes accredited under the German accreditation system",
-        "Institution's own accreditation page",
+        ON_RECORD,
         RESEARCHED_ON,
       ),
     },

@@ -4,6 +4,16 @@ const ON = "2026-09-03";
 /** When the entries below Limerick, added later, were actually looked up. */
 const RESEARCHED_ON = "2026-09-10";
 
+
+/**
+ * A founding year and a legal accreditation status are both matters of public
+ * record that the institution publishes itself, but this pass did not open
+ * those pages: the fetches went to fee, programme and admission pages. Saying
+ * so keeps these fields honestly distinguishable from the ones on the same
+ * profile that were read at source.
+ */
+const ON_RECORD =
+  "Institution's own published record, not re-read at source this pass";
 const FEE_QUALIFIER =
   "Indicative annual tuition for a non-EU student, rounded to the nearest thousand from the institution's published fee schedule. The programme's own fee page governs, and at least EUR 6,000 of it is paid before the visa application rather than after.";
 
@@ -472,7 +482,7 @@ export const irishUniversities: University[] = [
       "A newer, technology-focused Dublin university with strong industry links, and a January intake this catalogue's other Dublin institutions do not offer.",
     commission: IE_COMMISSION,
     highlights: {
-      established: stated(1980, "Institution's own history page", RESEARCHED_ON),
+      established: stated(1980, ON_RECORD, RESEARCHED_ON),
       totalStudents: stated(20377, "Institution's own reporting, found through search", RESEARCHED_ON),
       internationalStudents: stated(
         "Over 3,800 students, from more than 90 countries, about 13 per cent of the student body",
@@ -569,7 +579,7 @@ export const irishUniversities: University[] = [
       "Ireland's second city, outside Dublin, which this catalogue's Galway and Limerick entries already show tends to mean lower rent for the same taught masters route.",
     commission: IE_COMMISSION,
     highlights: {
-      established: stated(1845, "Institution's own history page", RESEARCHED_ON),
+      established: stated(1845, ON_RECORD, RESEARCHED_ON),
       totalStudents: stated(19075, "Institution's own reporting, found through search", RESEARCHED_ON),
       internationalStudents: stated(
         "About 23 per cent of the student body",
@@ -666,7 +676,7 @@ export const irishUniversities: University[] = [
       "A smaller campus town half an hour from Dublin by train, so rent runs below the city while a Dublin commute stays realistic. The smallest institution on this catalogue's Irish list by student numbers.",
     commission: IE_COMMISSION,
     highlights: {
-      established: stated(1795, "Institution's own history page, as the date of the original college; the university itself was established in 1997", RESEARCHED_ON),
+      established: stated(1795, `${ON_RECORD}, as the date of the original college; the university itself was established in 1997`, RESEARCHED_ON),
       totalStudents: stated(12263, "Reported by independent ranking aggregators this pass; the institution's own statistics page was not directly read", RESEARCHED_ON),
       internationalStudents: stated(
         "About 15 per cent of the student body",
@@ -761,7 +771,7 @@ export const irishUniversities: University[] = [
       "Ireland's first technological university, formed from a 2019 merger, with a practical and industry-linked style rather than the older research-university tradition of this catalogue's other Dublin entries.",
     commission: IE_COMMISSION,
     highlights: {
-      established: stated(2019, "Institution's own history page, as the date of the university's formation by merger", RESEARCHED_ON),
+      established: stated(2019, `${ON_RECORD}, as the date of the university's formation by merger`, RESEARCHED_ON),
       totalStudents: stated(28000, "Institution's own reporting, found through search", RESEARCHED_ON),
       internationalStudents: stated(
         "More than 3,000 students, of over 140 nationalities",
@@ -942,7 +952,7 @@ export const irishUniversities: University[] = [
       "Formed by a 2021 merger of Cork and Tralee's institutes of technology, and this catalogue's second Cork institution alongside UCC, with a scholarship that brings its own fee below UCC's for the same subject area.",
     commission: IE_COMMISSION,
     highlights: {
-      established: stated(2021, "Institution's own history, as the date of the university's formation by merger", RESEARCHED_ON),
+      established: stated(2021, `${ON_RECORD}, as the date of the university's formation by merger`, RESEARCHED_ON),
       totalStudents: stated(18000, "Reported by an independent source this pass; the institution's own statistics page was not directly read", RESEARCHED_ON),
       internationalStudents: stated(
         "More than 1,000 students, from over 125 countries",
@@ -1227,7 +1237,7 @@ export const irishUniversities: University[] = [
       "A multi-campus technological university across Ireland's west and north-west, formed by a 2022 merger of the Galway-Mayo, Sligo and Letterkenny institutes of technology, with rents well below Dublin on every campus.",
     commission: IE_COMMISSION,
     highlights: {
-      established: stated(2022, "Institution's own history, as the date of the university's formation by merger", RESEARCHED_ON),
+      established: stated(2022, `${ON_RECORD}, as the date of the university's formation by merger`, RESEARCHED_ON),
       totalStudents: unknown(
         "Independent sources disagreed within this session's search results, reporting figures between about 20,000 and 30,000; the institution's own statistics page was not directly read to resolve which is current.",
       ),
@@ -1327,7 +1337,7 @@ export const irishUniversities: University[] = [
       "A technological university across Ireland's south-east, formed by a 2022 merger of the Waterford and Carlow institutes of technology, on campuses where rent runs well below Dublin.",
     commission: IE_COMMISSION,
     highlights: {
-      established: stated(2022, "Institution's own history, as the date of the university's formation by merger", RESEARCHED_ON),
+      established: stated(2022, `${ON_RECORD}, as the date of the university's formation by merger`, RESEARCHED_ON),
       totalStudents: unknown(
         "Independent sources disagreed within this session's search results, reporting figures between about 18,500 and 21,000 for different years; the institution's own statistics page was not directly read to resolve which is current.",
       ),

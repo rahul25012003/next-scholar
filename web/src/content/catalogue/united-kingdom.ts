@@ -4,6 +4,16 @@ const ON = "2026-09-03";
 /** When Edinburgh, below, was actually looked up — a real later date, not backdated to match the rest of the file. */
 const RESEARCHED_ON = "2026-09-10";
 
+
+/**
+ * A founding year and a legal accreditation status are both matters of public
+ * record that the institution publishes itself, but this pass did not open
+ * those pages: the fetches went to fee, programme and admission pages. Saying
+ * so keeps these fields honestly distinguishable from the ones on the same
+ * profile that were read at source.
+ */
+const ON_RECORD =
+  "Institution's own published record, not re-read at source this pass";
 const FEE_QUALIFIER =
   "Indicative annual tuition for an international student, rounded to the nearest thousand from the institution's published fee schedule. The programme's own fee page governs, and fees are set per intake.";
 
@@ -680,7 +690,7 @@ export const ukUniversities: University[] = [
       "A leading research university with one of the UK's largest computing and AI schools, in a city whose maintenance requirement and rent both sit below London's.",
     commission: UK_COMMISSION,
     highlights: {
-      established: stated(1583, "Institution's own history page", RESEARCHED_ON),
+      established: stated(1583, ON_RECORD, RESEARCHED_ON),
       totalStudents: stated(
         49640,
         "The university's published Student Factsheet 2024/25 (governance-strategic-planning.ed.ac.uk), found through search; the PDF itself could not be rendered in this environment to confirm the figure visually, so treat this one figure as reported rather than independently read",
@@ -793,7 +803,7 @@ export const ukUniversities: University[] = [
       "A science, engineering, medicine and business specialist with no humanities faculty, consistently placed among the top handful of universities in the world. London tuition and the London maintenance requirement both apply, and both run above the rest of this catalogue.",
     commission: UK_COMMISSION,
     highlights: {
-      established: stated(1907, "Institution's own history page", RESEARCHED_ON),
+      established: stated(1907, ON_RECORD, RESEARCHED_ON),
       totalStudents: stated(
         23248,
         "Institution's own reporting for 2024-25, found through search rather than a page this session opened directly",
@@ -894,7 +904,7 @@ export const ukUniversities: University[] = [
       "A large, broad research university in central London, consistently placed in the global top ten. London tuition and the London maintenance requirement both apply.",
     commission: UK_COMMISSION,
     highlights: {
-      established: stated(1826, "Institution's own history page", RESEARCHED_ON),
+      established: stated(1826, ON_RECORD, RESEARCHED_ON),
       totalStudents: stated(48000, "Institution's own reporting, found through search", RESEARCHED_ON),
       internationalStudents: stated(
         "More than a third of the student body, from around 150 countries",
@@ -996,7 +1006,7 @@ export const ukUniversities: University[] = [
       "A central London research university with a large international student base, particularly strong in health, law and the social sciences alongside a growing data science offering.",
     commission: UK_COMMISSION,
     highlights: {
-      established: stated(1829, "Institution's own history page", RESEARCHED_ON),
+      established: stated(1829, ON_RECORD, RESEARCHED_ON),
       totalStudents: unknown(
         "This pass found international enrolment (23,000+) but not a total headcount figure from the institution itself.",
       ),
@@ -1095,7 +1105,7 @@ export const ukUniversities: University[] = [
       "A large Russell Group university in England's second city, outside London, so the lower non-London maintenance figure and rent both apply.",
     commission: UK_COMMISSION,
     highlights: {
-      established: stated(1900, "Institution's own history page", RESEARCHED_ON),
+      established: stated(1900, ON_RECORD, RESEARCHED_ON),
       totalStudents: stated(40000, "Institution's own reporting, found through search", RESEARCHED_ON),
       internationalStudents: stated(
         "Students from over 150 countries; no institution-stated percentage found this pass",
@@ -1193,7 +1203,7 @@ export const ukUniversities: University[] = [
       "A campus outside Coventry with one of the strongest research reputations on this catalogue, and a fee that reflects it: this is the most expensive institution on the UK list.",
     commission: UK_COMMISSION,
     highlights: {
-      established: stated(1965, "Institution's own history page", RESEARCHED_ON),
+      established: stated(1965, ON_RECORD, RESEARCHED_ON),
       totalStudents: stated(26515, "Institution's own press release announcing its QS 2027 result", RESEARCHED_ON),
       internationalStudents: stated(
         "About 44 per cent of the student body",
@@ -1291,7 +1301,7 @@ export const ukUniversities: University[] = [
       "A south-coast port city, cheaper to live in than London and reachable from it by train, built around a strong engineering and electronics research base.",
     commission: UK_COMMISSION,
     highlights: {
-      established: stated(1862, "Institution's own history page, as the date of the original Hartley Institution", RESEARCHED_ON),
+      established: stated(1862, `${ON_RECORD}, as the date of the original Hartley Institution`, RESEARCHED_ON),
       totalStudents: unknown(
         "Independent sources disagreed within this session's search results, reporting figures between about 22,000 and 26,500 for different years; the institution's own statistics page was not directly read to resolve which is current.",
       ),
@@ -1392,7 +1402,7 @@ export const ukUniversities: University[] = [
       "A Russell Group university in a city that is expensive by regional standards but still well below London, with one of the highest published fees on this catalogue's UK list.",
     commission: UK_COMMISSION,
     highlights: {
-      established: stated(1909, "Institution's own history page", RESEARCHED_ON),
+      established: stated(1909, ON_RECORD, RESEARCHED_ON),
       totalStudents: stated(29680, "Reported by an independent ranking aggregator this pass; the institution's own statistics page was not directly read", RESEARCHED_ON),
       internationalStudents: stated(
         "Over 28 per cent of the student body, from more than 150 countries",
@@ -1491,7 +1501,7 @@ export const ukUniversities: University[] = [
       "A Russell Group university in the East Midlands, with rents well below the south of England and a fee towards the lower end of this catalogue's Russell Group entries.",
     commission: UK_COMMISSION,
     highlights: {
-      established: stated(1881, "Institution's own history page, as the date of the original University College", RESEARCHED_ON),
+      established: stated(1881, `${ON_RECORD}, as the date of the original University College`, RESEARCHED_ON),
       totalStudents: stated(36491, "Institution's own 2024/25 student population data, found through search", RESEARCHED_ON),
       internationalStudents: stated(
         "About 24 per cent of the student body, 8,725 students in 2024/25",
@@ -1590,7 +1600,7 @@ export const ukUniversities: University[] = [
       "A Russell Group university in South Yorkshire with one of the lowest published Russell Group fees on this catalogue, in a city that is among the cheapest large UK cities to rent in.",
     commission: UK_COMMISSION,
     highlights: {
-      established: stated(1905, "Institution's own history page", RESEARCHED_ON),
+      established: stated(1905, ON_RECORD, RESEARCHED_ON),
       totalStudents: stated(30000, "Institution's own international pages, found through search, stated as a round figure", RESEARCHED_ON),
       internationalStudents: stated(
         "Over 9,000 students, from around 140 countries",
