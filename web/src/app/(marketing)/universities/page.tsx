@@ -19,7 +19,7 @@ import { PageHero } from "@/components/marketing/page-hero";
 export const metadata: Metadata = {
   title: "Courses and universities",
   description:
-    "Twenty-three courses across sixteen universities in the UK, Germany and Ireland. Every row shows what we earn if you enrol there, including the six institutions that pay us nothing.",
+    "Thirty-one courses across twenty-four universities in the UK, Germany and Ireland. Every row shows what we earn if you enrol there, including the seven institutions that pay us nothing.",
   alternates: { canonical: "/universities" },
 };
 
@@ -100,7 +100,7 @@ export default async function UniversitiesPage(props: PageProps<"/universities">
                 </h3>
                 <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-body">
                   That is a fact about this catalogue rather than about the world. We cover
-                  sixteen institutions across three destinations, seeded by hand, so an empty
+                  twenty-four institutions across three destinations, seeded by hand, so an empty
                   result usually means the combination is outside what we have curated, not
                   that no such course exists.
                 </p>

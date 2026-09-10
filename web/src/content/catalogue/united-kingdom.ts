@@ -23,7 +23,7 @@ const UK_COMMISSION = {
 /**
  * The United Kingdom.
  *
- * Six institutions across the range an Indian applicant actually shortlists,
+ * Ten institutions across the range an Indian applicant actually shortlists,
  * from a Russell Group university with a high fee to a post-92 with a
  * substantially lower one and a placement year. Every one of them pays agents,
  * and every one of them carries the same unverified band, because no university
@@ -777,6 +777,406 @@ export const ukUniversities: University[] = [
       "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
       "Language tests beyond IELTS (TOEFL, GRE, GMAT) were not checked this pass and are left off the exams list rather than guessed.",
       "Edinburgh has no city of its own in the cost of living calculator yet, so it is linked to the Manchester band, the same large-city-outside-London proxy Glasgow's entry already uses. Edinburgh rents typically run above that band, not within it, which the calculator page does not yet say.",
+    ],
+  },
+
+  {
+    slug: "imperial-college-london",
+    name: "Imperial College London",
+    destination: "united-kingdom",
+    city: "London",
+    route: "Taught masters",
+    type: "public",
+    flagCode: "gb",
+    initials: "ICL",
+    summary:
+      "A science, engineering, medicine and business specialist with no humanities faculty, consistently placed among the top handful of universities in the world. London tuition and the London maintenance requirement both apply, and both run above the rest of this catalogue.",
+    commission: UK_COMMISSION,
+    highlights: {
+      established: stated(1907, "Institution's own history page", RESEARCHED_ON),
+      totalStudents: stated(
+        23248,
+        "Institution's own reporting for 2024-25, found through search rather than a page this session opened directly",
+        RESEARCHED_ON,
+      ),
+      internationalStudents: unknown(
+        "Two figures for the international share turned up in this pass, 61 per cent and 52.9 per cent, from different counting methods (all non-UK domicile versus HESA's own definition) and this session could not adjudicate between them, so neither is stated as if it were the only one.",
+      ),
+      staffRatio: unknown("Not published at institution level."),
+      acceptanceRate: unknown("Not published at institution level."),
+      accreditation: stated(
+        "Recognised UK degree-awarding body, regulated by the Office for Students",
+        "Office for Students register",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2027,
+        rank: "2nd in the world, 1st in the UK and Europe",
+        scope: "World, all subjects",
+        source: "Institution's own league tables page, itself citing the QS table directly",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "7.0 overall with no component below 6.5 on most Computing postgraduate programmes",
+          "Reported consistently across independent fee-and-requirements publications; the institution's own department page was not directly read this pass",
+          RESEARCHED_ON,
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "Full international tuition, London weighted, among the highest in this catalogue. Published per department and per programme rather than one university-wide figure.",
+      "Institution's own postgraduate fees page confirms fees are set per department and per session, but this session's fetch of it could not reach the actual MSc Computing figure; the figure below is convergent-secondary, flagged the same way",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: "london",
+    programmes: [
+      {
+        slug: "imperial-msc-computing",
+        universitySlug: "imperial-college-london",
+        name: "MSc Computing (Specialism: Artificial Intelligence)",
+        level: "masters",
+        disciplines: ["Computer Science", "Artificial Intelligence"],
+        durationMonths: 12,
+        feePerYear: stated(
+          46000,
+          "Reported consistently across independent fee-comparison publications for the Department of Computing; this session's fetch of the institution's own fee tables could not reach the department-level figure, so treat this as convergent-secondary rather than independently confirmed",
+          RESEARCHED_ON,
+        ),
+        currency: "GBP",
+        feeQualifier: EDINBURGH_FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "October",
+            applicationDeadline: "2027-06-30",
+            teachingStarts: "2027-10-04",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "South Kensington, London",
+          },
+        ],
+        entryRequirement: stated(
+          "A first class honours degree, or strong upper second, in computer science or a closely related discipline with significant technical content.",
+          "Reported consistently across independent admissions publications; the department's own admissions page was not directly read this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: unknown(
+          "The specific prerequisite modules were not checked this pass; the general requirement is a technical degree with strong mathematics.",
+        ),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated on this one year taught programme."),
+        campus: "South Kensington, London",
+      },
+    ],
+    notChecked: [
+      "The exact tuition figure and the exact entry requirement wording: this session's fetch of the institution's own pages could not reach the department-level detail, so both are convergent-secondary, stated as such rather than presented as primary-confirmed.",
+      "Which of the two international-student percentages found this pass is the one the institution would stand behind; left unknown rather than picking one.",
+      "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
+    ],
+  },
+
+  {
+    slug: "university-college-london",
+    name: "University College London",
+    destination: "united-kingdom",
+    city: "London",
+    route: "Taught masters",
+    type: "public",
+    flagCode: "gb",
+    initials: "UCL",
+    summary:
+      "A large, broad research university in central London, consistently placed in the global top ten. London tuition and the London maintenance requirement both apply.",
+    commission: UK_COMMISSION,
+    highlights: {
+      established: stated(1826, "Institution's own history page", RESEARCHED_ON),
+      totalStudents: stated(48000, "Institution's own reporting, found through search", RESEARCHED_ON),
+      internationalStudents: stated(
+        "More than a third of the student body, from around 150 countries",
+        "Institution's own reporting, found through search",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown("Not published at institution level."),
+      acceptanceRate: unknown("Not published at institution level."),
+      accreditation: stated(
+        "Recognised UK degree-awarding body, regulated by the Office for Students",
+        "Office for Students register",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2027,
+        rank: "Joint 8th in the world",
+        scope: "World, all subjects",
+        source: "Institution's own news page announcing the QS 2027 result",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "7.0 overall is the commonly stated figure; one independent source reported 6.5 for this specific programme, and this session could not resolve the discrepancy against the department's own page",
+          "Reported across independent admissions publications, with the discrepancy stated rather than resolved by picking one",
+          RESEARCHED_ON,
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "Full international tuition, London weighted. A deposit of 10 per cent of the first year fee is charged for an overseas offer holder.",
+      "Reported consistently across independent fee-comparison publications; the institution's own department fee page was not directly read this pass",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: "london",
+    programmes: [
+      {
+        slug: "ucl-msc-computer-science",
+        universitySlug: "university-college-london",
+        name: "MSc Computer Science",
+        level: "masters",
+        disciplines: ["Computer Science"],
+        durationMonths: 12,
+        feePerYear: stated(
+          42700,
+          "Reported consistently across independent fee-comparison publications; the institution's own department fee page was not directly read this pass, so treat as convergent-secondary rather than independently confirmed",
+          RESEARCHED_ON,
+        ),
+        currency: "GBP",
+        feeQualifier: EDINBURGH_FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-06-30",
+            teachingStarts: "2027-09-20",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Bloomsbury, London",
+          },
+        ],
+        entryRequirement: stated(
+          "This is a conversion programme, built for a degree in a subject other than computer science or information technology: an upper second class honours degree or overseas equivalent, with evidenced mathematical skills to at least A-level standard.",
+          "Institution's own programme page, fetched this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: stated(
+          ["Mathematics to A-level standard", "Analytical and quantitative reasoning, evidenced in the application rather than by a named course"],
+          "Institution's own programme page",
+          RESEARCHED_ON,
+        ),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated on this one year taught programme."),
+        campus: "Bloomsbury, London",
+      },
+    ],
+    notChecked: [
+      "The exact tuition figure: convergent-secondary, not read directly off the department's own fee page this pass.",
+      "The IELTS discrepancy (7.0 vs 6.5) between independent sources, stated rather than resolved.",
+      "This specific MSc is a conversion programme for non-CS graduates. UCL also runs a standard MSc Computer Science route for CS graduates, which this pass did not research separately; do not assume the entry requirement above applies to that other route.",
+      "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
+    ],
+  },
+
+  {
+    slug: "kings-college-london",
+    name: "King's College London",
+    destination: "united-kingdom",
+    city: "London",
+    route: "Taught masters",
+    type: "public",
+    flagCode: "gb",
+    initials: "KCL",
+    summary:
+      "A central London research university with a large international student base, particularly strong in health, law and the social sciences alongside a growing data science offering.",
+    commission: UK_COMMISSION,
+    highlights: {
+      established: stated(1829, "Institution's own history page", RESEARCHED_ON),
+      totalStudents: unknown(
+        "This pass found international enrolment (23,000+) but not a total headcount figure from the institution itself.",
+      ),
+      internationalStudents: stated(
+        "More than 23,000 international students, from 185 countries",
+        "Institution's own reporting, found through search",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown("Not published at institution level."),
+      acceptanceRate: unknown("Not published at institution level."),
+      accreditation: stated(
+        "Recognised UK degree-awarding body, regulated by the Office for Students",
+        "Office for Students register",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2026,
+        rank: "31st in the world, 5th in the UK",
+        scope: "World, all subjects",
+        source: "Institution's own news page announcing the QS 2026 result",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "7.0 overall with no component below 6.5 is the commonly stated figure for this programme",
+          "Reported across independent admissions publications; this session's direct fetch of the programme's own page did not surface a specific score",
+          RESEARCHED_ON,
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "Full international tuition, published per programme rather than one university-wide figure, and stated to rise in later years of a multi-year programme.",
+      "Institution's own fees page, fetched directly this pass",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: "london",
+    programmes: [
+      {
+        slug: "kcl-msc-data-science",
+        universitySlug: "kings-college-london",
+        name: "MSc Data Science",
+        level: "masters",
+        disciplines: ["Data Science", "Computer Science"],
+        durationMonths: 12,
+        feePerYear: stated(
+          40450,
+          "Institution's own fees page: \"Full time tuition fees international: £40,450 per year (2026/27)\", fetched directly this pass",
+          RESEARCHED_ON,
+        ),
+        currency: "GBP",
+        feeQualifier: FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-02-01",
+            teachingStarts: "2027-09-01",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Strand, London",
+          },
+        ],
+        entryRequirement: stated(
+          "Designed for graduates and professionals with a background in a quantitative subject. The exact degree class was not stated on the page this session read; independent sources report roughly a first class or high upper second, 70 per cent or GPA 3.0 or higher.",
+          "Institution's own programme page, fetched this pass, supplemented by independent sources for the specific class where the primary page did not state one",
+          RESEARCHED_ON,
+        ),
+        prerequisites: stated(["A quantitative background"], "Institution's own programme page", RESEARCHED_ON),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated on this one year taught programme."),
+        campus: "Strand, London",
+      },
+    ],
+    notChecked: [
+      "The exact degree classification required: the institution's own page this session read described the audience rather than stating a class; independent sources fill the gap and are cited as such.",
+      "Total student headcount for the institution as a whole.",
+      "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
+    ],
+  },
+
+  {
+    slug: "university-of-birmingham",
+    name: "University of Birmingham",
+    destination: "united-kingdom",
+    city: "Birmingham",
+    route: "Taught masters",
+    type: "public",
+    flagCode: "gb",
+    initials: "UoB",
+    summary:
+      "A large Russell Group university in England's second city, outside London, so the lower non-London maintenance figure and rent both apply.",
+    commission: UK_COMMISSION,
+    highlights: {
+      established: stated(1900, "Institution's own history page", RESEARCHED_ON),
+      totalStudents: stated(40000, "Institution's own reporting, found through search", RESEARCHED_ON),
+      internationalStudents: stated(
+        "Students from over 150 countries; no institution-stated percentage found this pass",
+        "Institution's own reporting, found through search",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown("Not published at institution level."),
+      acceptanceRate: unknown("Not published at institution level."),
+      accreditation: stated(
+        "Recognised UK degree-awarding body, regulated by the Office for Students",
+        "Office for Students register",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2026,
+        rank: "Inside the world top 80",
+        scope: "World, all subjects",
+        source:
+          "The institution's own news reports named two different positions (68th and 76th) in what this session found, likely from different rankings cycles or subject weightings; the band both agree inside is printed rather than picking one",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "6.5 overall with 6.0 in each component",
+          "Reported consistently across independent admissions publications; the institution's own programme page was not directly read this pass",
+          RESEARCHED_ON,
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "Full international tuition, set per programme. Independent sources disagreed on the Computer Science figure this pass (£34,740 against £27,540, possibly two different programme variants); the higher figure is printed and the discrepancy is stated rather than hidden.",
+      "Independent fee-comparison publications; the institution's own fee page was not directly read this pass",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: "manchester",
+    programmes: [
+      {
+        slug: "birmingham-msc-computer-science",
+        universitySlug: "university-of-birmingham",
+        name: "MSc Computer Science",
+        level: "masters",
+        disciplines: ["Computer Science"],
+        durationMonths: 12,
+        feePerYear: stated(
+          34740,
+          "Independent fee-comparison publications, one of two figures found this pass; the institution's own fee page was not directly read to resolve which applies to which programme variant",
+          RESEARCHED_ON,
+        ),
+        currency: "GBP",
+        feeQualifier: EDINBURGH_FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-06-30",
+            teachingStarts: "2027-09-20",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Edgbaston, Birmingham",
+          },
+        ],
+        entryRequirement: stated(
+          "A 2:1 honours degree or overseas equivalent, commonly stated as 60 per cent for Indian applicants depending on the institution's own recognition list.",
+          "Reported consistently across independent admissions publications; the institution's own programme page was not directly read this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: unknown("Not checked this pass."),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated on this one year taught programme."),
+        campus: "Edgbaston, Birmingham",
+      },
+    ],
+    notChecked: [
+      "The exact tuition fee: two different figures were found and neither was confirmed against the institution's own page this pass.",
+      "The exact QS rank: two different positions were found; the band both agree inside is printed instead.",
+      "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
     ],
   },
 ];

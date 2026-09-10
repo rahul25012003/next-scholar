@@ -1,6 +1,8 @@
 import { stated, unknown, type University } from "./types";
 
 const ON = "2026-09-03";
+/** When the entries below Limerick, added later, were actually looked up. */
+const RESEARCHED_ON = "2026-09-10";
 
 const FEE_QUALIFIER =
   "Indicative annual tuition for a non-EU student, rounded to the nearest thousand from the institution's published fee schedule. The programme's own fee page governs, and at least EUR 6,000 of it is paid before the visa application rather than after.";
@@ -454,6 +456,200 @@ export const irishUniversities: University[] = [
     ],
     notChecked: [
       "Whether the cooperative placement is available to non-EU students, and under which immigration permission.",
+    ],
+  },
+
+  {
+    slug: "dublin-city-university",
+    name: "Dublin City University",
+    destination: "ireland",
+    city: "Dublin",
+    route: "Taught masters",
+    type: "public",
+    flagCode: "ie",
+    initials: "DCU",
+    summary:
+      "A newer, technology-focused Dublin university with strong industry links, and a January intake this catalogue's other Dublin institutions do not offer.",
+    commission: IE_COMMISSION,
+    highlights: {
+      established: stated(1980, "Institution's own history page", RESEARCHED_ON),
+      totalStudents: stated(20377, "Institution's own reporting, found through search", RESEARCHED_ON),
+      internationalStudents: stated(
+        "Over 3,800 students, from more than 90 countries, about 13 per cent of the student body",
+        "Institution's own reporting, found through search",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown("Not published at institution level."),
+      acceptanceRate: unknown("Not published at institution level."),
+      accreditation: stated(
+        "Recognised Irish university, quality assured by Quality and Qualifications Ireland",
+        "Qualifications and Quality Ireland register",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2026,
+        rank: "410th in the world",
+        scope: "World, all subjects",
+        source: "Institution's own news page announcing the QS 2026 result",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "6.5 overall with no component below 6.0",
+          "Reported consistently across independent admissions publications; the institution's own programme page was not directly read this pass",
+          RESEARCHED_ON,
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "Full international tuition, payable in two instalments. At least EUR 6,000 of it has to be shown as paid before the visa application, the same rule the rest of this Irish catalogue states.",
+      "Reported consistently across independent fee-comparison publications; the institution's own fee page was not directly read this pass",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: "dublin",
+    programmes: [
+      {
+        slug: "dcu-msc-computing",
+        universitySlug: "dublin-city-university",
+        name: "MSc in Computing",
+        level: "masters",
+        disciplines: ["Computer Science"],
+        durationMonths: 12,
+        feePerYear: stated(
+          25000,
+          "Reported consistently across independent fee-comparison publications; the institution's own fee page was not directly read this pass",
+          RESEARCHED_ON,
+        ),
+        currency: "EUR",
+        feeQualifier: FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "January",
+            applicationDeadline: "2026-12-04",
+            teachingStarts: "2027-01-01",
+            status: "closing-soon",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Glasnevin, Dublin",
+          },
+        ],
+        entryRequirement: stated(
+          "An honours degree equivalent to at least a Second Class Honours, Lower Division (2:2); some programme options ask for Upper Division (2:1).",
+          "Reported consistently across independent admissions publications; the institution's own programme page was not directly read this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: unknown("Not checked this pass."),
+        languageOfInstruction: "English",
+        placement: unknown("Not checked this pass."),
+        campus: "Glasnevin, Dublin",
+      },
+    ],
+    notChecked: [
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. It almost certainly is, and it decides whether post-study permission is 12 months or up to 24, so it is confirmed rather than assumed.",
+      "The exact tuition figure and entry requirement wording: convergent-secondary this pass, not read directly off the institution's own pages.",
+      "This January intake date is close; a September intake may also exist for this programme and was not checked this pass.",
+    ],
+  },
+
+  {
+    slug: "university-college-cork",
+    name: "University College Cork",
+    destination: "ireland",
+    city: "Cork",
+    route: "Taught masters",
+    type: "public",
+    flagCode: "ie",
+    initials: "UCC",
+    summary:
+      "Ireland's second city, outside Dublin, which this catalogue's Galway and Limerick entries already show tends to mean lower rent for the same taught masters route.",
+    commission: IE_COMMISSION,
+    highlights: {
+      established: stated(1845, "Institution's own history page", RESEARCHED_ON),
+      totalStudents: stated(19075, "Institution's own reporting, found through search", RESEARCHED_ON),
+      internationalStudents: stated(
+        "About 23 per cent of the student body",
+        "Institution's own reporting, found through search",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown("Not published at institution level."),
+      acceptanceRate: unknown("Not published at institution level."),
+      accreditation: stated(
+        "Recognised Irish university, quality assured by Quality and Qualifications Ireland",
+        "Qualifications and Quality Ireland register",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2026,
+        rank: "Inside the world top 250",
+        scope: "World, all subjects",
+        source: "The institution's own news page cited two different positions for two rankings editions found in the same pass (246th and 220th); the band both agree inside is printed rather than picking one",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "6.5 overall is the commonly stated general figure; this session did not confirm the exact per-component minimum for this specific programme",
+          "Reported across independent admissions publications; the institution's own programme page was not directly read for the exact score this pass",
+          RESEARCHED_ON,
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "Full international tuition, excluding the separate mandatory capitation fee (EUR 210). At least EUR 6,000 of the tuition has to be shown as paid before the visa application, the same rule the rest of this Irish catalogue states.",
+      "Institution's own postgraduate fee schedule, fetched directly this pass",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: "cork",
+    programmes: [
+      {
+        slug: "ucc-msc-data-science-and-analytics",
+        universitySlug: "university-college-cork",
+        name: "MSc Data Science and Analytics",
+        level: "masters",
+        disciplines: ["Data Science", "Computer Science"],
+        durationMonths: 12,
+        feePerYear: stated(
+          28000,
+          "Institution's own postgraduate fee schedule, fetched directly this pass: \"Data Science and Analytics - MSc (Non-EU Applications only): EUR 28,000\", excluding the separate EUR 210 capitation fee",
+          RESEARCHED_ON,
+        ),
+        currency: "EUR",
+        feeQualifier: FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-06-30",
+            teachingStarts: "2027-09-01",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Cork",
+          },
+        ],
+        entryRequirement: stated(
+          "A Bachelor's degree or its equivalent to an Irish honours degree, in a discipline with quantitative content.",
+          "Reported consistently across independent admissions publications; the institution's own programme page was not directly read for the exact class this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: unknown("Not checked this pass."),
+        languageOfInstruction: "English",
+        placement: unknown("Not checked this pass."),
+        campus: "Cork",
+      },
+    ],
+    notChecked: [
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. It almost certainly is, and it decides whether post-study permission is 12 months or up to 24, so it is confirmed rather than assumed.",
+      "The exact degree class and IELTS component minimums: general figures reported here, not read off the programme's own admissions page this pass.",
+      "The exact QS rank: two different positions were found for two rankings editions; the band both agree inside is printed instead.",
     ],
   },
 ];

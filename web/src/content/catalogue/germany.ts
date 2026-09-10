@@ -1,6 +1,8 @@
 import { stated, unknown, type University } from "./types";
 
 const ON = "2026-09-03";
+/** When the entries below Stuttgart, added later, were actually looked up. */
+const RESEARCHED_ON = "2026-09-10";
 
 /**
  * Germany.
@@ -871,6 +873,206 @@ export const germanUniversities: University[] = [
     notChecked: [
       "The total tuition across the degree for the coming intake, which is the only figure worth comparing.",
       "Whether the commission band above holds for this institution specifically. It is a category estimate and it has not been confirmed with anyone.",
+    ],
+  },
+
+  {
+    slug: "lmu-munich",
+    name: "Ludwig Maximilian University of Munich",
+    destination: "germany",
+    city: "Munich",
+    route: "Public universities",
+    type: "public",
+    flagCode: "de",
+    initials: "LMU",
+    summary:
+      "Bavaria's other major public university, and unlike its Munich neighbour TUM, LMU has not applied Bavaria's non-EU tuition law: tuition stays a genuine zero here, only the small semester contribution applies.",
+    commission: PUBLIC_ZERO,
+    highlights: {
+      established: stated(1472, "Institution's own history page", RESEARCHED_ON),
+      totalStudents: stated(52658, "Institution's own reporting for the 2025/26 winter semester, found through search", RESEARCHED_ON),
+      internationalStudents: stated(
+        "Around 11,700 students, about 22 per cent of the student body",
+        "Institution's own reporting, found through search",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown(
+        "Not published in a form comparable with UK institutions, and constructing one from separate headcounts would be our arithmetic rather than their figure.",
+      ),
+      acceptanceRate: unknown(
+        "German universities generally do not publish acceptance rates. Admission to a restricted programme is decided on a published points or credit basis rather than a rate.",
+      ),
+      accreditation: stated(
+        "State university of the Free State of Bavaria, programmes accredited under the German accreditation system",
+        "Institution's own accreditation page",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2026,
+        rank: "Inside the world top 60",
+        scope: "World, all subjects",
+        source: "Reported at #58 by independent sources this pass; the institution's own rankings page was not directly read, so a band rather than the exact digit",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "6.5 overall, or TOEFL iBT 88, for the English-taught Master's programmes",
+          "Reported consistently across independent sources for LMU's English-medium Master's route; the specific programme's own page was not directly read this pass",
+          RESEARCHED_ON,
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "No tuition fee. Only the semester contribution applies, roughly EUR 150 to 200 a semester, covering administration and a public transport pass.",
+      "Reported consistently across independent sources; the institution's own fee page was not directly read this pass",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: "munich",
+    programmes: [
+      {
+        slug: "lmu-msc-data-science",
+        universitySlug: "lmu-munich",
+        name: "MSc Data Science",
+        level: "masters",
+        disciplines: ["Data Science", "Computer Science"],
+        durationMonths: 24,
+        feePerYear: stated(0, "No tuition fee is charged; only the semester contribution applies", RESEARCHED_ON),
+        currency: "EUR",
+        feeQualifier:
+          "No tuition fee. The semester contribution (roughly EUR 150 to 200) is separate and not shown here as tuition.",
+        intakes: [
+          {
+            name: "Winter semester",
+            applicationDeadline: "2027-05-31",
+            teachingStarts: "2027-10-01",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Munich",
+          },
+        ],
+        entryRequirement: stated(
+          "A Bachelor's degree with substantial quantitative content, commonly stated as a strong upper second or first class equivalent for competitive English-medium programmes.",
+          "Reported consistently across independent sources; the programme's own admission page was not directly read this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: unknown("Not checked this pass."),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated on this programme."),
+        campus: "Munich",
+      },
+    ],
+    notChecked: [
+      "Whether this specific programme is restricted (NC) and what the admission threshold actually is this cycle.",
+      "The exact QS rank: reported as 58th by independent sources, printed here as a band since the institution's own page was not read directly.",
+      "Subject-specific admission criteria beyond the general degree class.",
+    ],
+  },
+
+  {
+    slug: "heidelberg-university",
+    name: "Heidelberg University",
+    destination: "germany",
+    city: "Heidelberg",
+    route: "Public universities",
+    type: "public",
+    flagCode: "de",
+    initials: "UHD",
+    summary:
+      "Germany's oldest university, and a Baden-Wurttemberg institution: the state's own EUR 1,500 a semester non-EU tuition fee applies here, the same as KIT and Stuttgart in this catalogue.",
+    commission: PUBLIC_ZERO,
+    highlights: {
+      established: stated(1386, "Institution's own history page", RESEARCHED_ON),
+      totalStudents: stated(30000, "Institution's own reporting, found through search", RESEARCHED_ON),
+      internationalStudents: stated(
+        "Around 6,600 students, from more than 130 countries",
+        "Institution's own reporting, found through search",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown(
+        "Not published in a form comparable with UK institutions, and constructing one from separate headcounts would be our arithmetic rather than their figure.",
+      ),
+      acceptanceRate: unknown(
+        "German universities generally do not publish acceptance rates. Admission to a restricted programme is decided on a published points or credit basis rather than a rate.",
+      ),
+      accreditation: stated(
+        "State university of Baden-Wurttemberg, programmes accredited under the German accreditation system",
+        "Institution's own accreditation page",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2026,
+        rank: "Inside the world top 85",
+        scope: "World, all subjects",
+        source: "Reported at #80 by independent sources this pass; the institution's own rankings page was not directly read, so a band rather than the exact digit",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "6.5 overall is the commonly stated figure for the English-taught Master's route",
+          "Reported consistently across independent sources; the specific programme's own page was not directly read this pass",
+          RESEARCHED_ON,
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "EUR 1,500 per semester (about EUR 3,000 a year) for a non-EU or non-EEA student, under Baden-Wurttemberg's own law, a state-wide policy rather than a Heidelberg-specific one. Confirmed directly on the institution's own tuition fee page this pass.",
+      "Institution's own tuition fee page, fetched directly this pass",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: null,
+    programmes: [
+      {
+        slug: "heidelberg-msc-data-and-computer-science",
+        universitySlug: "heidelberg-university",
+        name: "MSc Data and Computer Science",
+        level: "masters",
+        disciplines: ["Computer Science", "Data Science"],
+        durationMonths: 24,
+        feePerYear: stated(
+          3000,
+          "Institution's own tuition fee page, fetched directly this pass: EUR 1,500 per semester for a non-EU student, doubled for the year",
+          RESEARCHED_ON,
+        ),
+        currency: "EUR",
+        feeQualifier:
+          "EUR 1,500 a semester under Baden-Wurttemberg's non-EU tuition law, confirmed on the institution's own page. The separate semester contribution (roughly EUR 150 to 200) is not included in this figure.",
+        intakes: [
+          {
+            name: "Winter semester",
+            applicationDeadline: "2027-05-31",
+            teachingStarts: "2027-10-01",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Heidelberg",
+          },
+        ],
+        entryRequirement: stated(
+          "A Bachelor's degree in computer science or a closely related discipline with substantial quantitative content.",
+          "Reported consistently across independent sources; the programme's own admission page was not directly read this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: unknown("Not checked this pass."),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated on this programme."),
+        campus: "Heidelberg",
+      },
+    ],
+    notChecked: [
+      "Whether this specific programme is restricted (NC) and what the admission threshold actually is this cycle.",
+      "The exact QS rank: reported as 80th by independent sources, printed here as a band since the institution's own page was not read directly.",
+      "Cost of living: Heidelberg is not yet one of the cities modelled in the cost of living calculator, so no linked city figure is shown here.",
     ],
   },
 ];
