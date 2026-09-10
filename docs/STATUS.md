@@ -189,7 +189,7 @@ F.10 (recommended books per exam) is folded into F.09 in reduced form: an
 official resources link per test, not a named book, which would be a
 commercial claim needing a currency this session cannot verify. 4.16
 (caching of verified university data) was investigated and not built: the
-whole catalogue is fifteen institutions in memory with no external fetch
+whole catalogue is sixteen institutions in memory with no external fetch
 anywhere in the path, so there is nothing slow to cache.
 
 ### Phase 10 — Reviews, counsellors and events built honestly empty; a real install manifest
@@ -240,7 +240,7 @@ said this plainly rather than tentatively.
 | 3.49 | dMAT preparation guidance | Deliberately waiting until the test's format is known rather than guessing |
 | 5.11, 5.17, 5.12, E.02 | City and office pages, student stories and ambassadors | Need a real address and named contact, and real students |
 | 6.02, 6.03, 6.04 | Accommodation, forex, insurance, exam prep partnerships | Each needs a real signed partnership |
-| 6.06 | A fourth destination | Research is now underway; see `REMAINING.md` for the destination and its state |
+| 6.06 | A fourth destination | Decided: not yet. Launch on the current three first, revisit once the business has grown into a fourth. Effort went instead into deepening the existing three |
 | F.11, S.08 | Our own fee waiver, an ISIC partnership | Funding, and a partnership, respectively |
 | D.14 | A design-token lint rule | Needs a real audit first; see Phase 8 |
 

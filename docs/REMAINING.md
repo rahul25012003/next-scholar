@@ -51,8 +51,10 @@ In this order, because each one unblocks or de-risks what follows.
      as thoroughly, and with sources as checkable, as the first three,
      rather than guessed from training data the way the two corrections
      already on record (Germany tuition, Ireland post-study) happened the
-     first time. That research is now underway; see its own entry below
-     for the destination and the state of it.
+     first time. The decision made: not yet. Launch on the current three
+     first; revisit a fourth destination once the business has grown into
+     it. Effort went instead into deepening the existing three, the
+     "University/course data model" line in Part B below.
 
 ---
 
@@ -402,8 +404,8 @@ not prune the audit trail for the deleted case, which `content/legal.ts` and
   needing a currency this session cannot verify.
 
 **Investigated, not done.** 4.16 (caching of verified university data): there
-is nothing to cache. The whole catalogue is fifteen institutions and thirty
-programmes held in memory, with no external fetch anywhere in the path, and
+is nothing to cache. The whole catalogue is sixteen institutions and
+twenty-three programmes held in memory, with no external fetch anywhere in the path, and
 every read is a plain synchronous loop over that array. Wrapping it in a
 cache would add a layer with nothing slow underneath it.
 

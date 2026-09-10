@@ -1,9 +1,15 @@
 import { stated, unknown, type University } from "./types";
 
 const ON = "2026-09-03";
+/** When Edinburgh, below, was actually looked up — a real later date, not backdated to match the rest of the file. */
+const RESEARCHED_ON = "2026-09-10";
 
 const FEE_QUALIFIER =
   "Indicative annual tuition for an international student, rounded to the nearest thousand from the institution's published fee schedule. The programme's own fee page governs, and fees are set per intake.";
+
+/** Edinburgh's own fee tool would not render for this session's fetch; see the field's own source note. */
+const EDINBURGH_FEE_QUALIFIER =
+  "Indicative annual tuition for an international student, reported consistently across independent fee-comparison sources rather than read directly off the institution's own fee tool. The programme's own fee page governs, and fees are set per intake.";
 
 const UK_COMMISSION = {
   display: "₹1.5L to ₹2.5L",
@@ -17,7 +23,7 @@ const UK_COMMISSION = {
 /**
  * The United Kingdom.
  *
- * Five institutions across the range an Indian applicant actually shortlists,
+ * Six institutions across the range an Indian applicant actually shortlists,
  * from a Russell Group university with a high fee to a post-92 with a
  * substantially lower one and a placement year. Every one of them pays agents,
  * and every one of them carries the same unverified band, because no university
@@ -658,6 +664,119 @@ export const ukUniversities: University[] = [
     ],
     notChecked: [
       "Whether the finance programme asks for GMAT or GRE in the coming cycle. Finance programmes change this more often than others.",
+    ],
+  },
+
+  {
+    slug: "university-of-edinburgh",
+    name: "The University of Edinburgh",
+    destination: "united-kingdom",
+    city: "Edinburgh",
+    route: "Taught masters",
+    type: "public",
+    flagCode: "gb",
+    initials: "UoE",
+    summary:
+      "A leading research university with one of the UK's largest computing and AI schools, in a city whose maintenance requirement and rent both sit below London's.",
+    commission: UK_COMMISSION,
+    highlights: {
+      established: stated(1583, "Institution's own history page", RESEARCHED_ON),
+      totalStudents: stated(
+        49640,
+        "The university's published Student Factsheet 2024/25 (governance-strategic-planning.ed.ac.uk), found through search; the PDF itself could not be rendered in this environment to confirm the figure visually, so treat this one figure as reported rather than independently read",
+        RESEARCHED_ON,
+      ),
+      internationalStudents: stated(
+        "Over 44 per cent of the student body, from more than 160 countries",
+        "Same factsheet as above, same caveat on how it was checked",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown(
+        "Published per school rather than institution-wide, and averaging the schools would be our arithmetic rather than their figure.",
+      ),
+      acceptanceRate: unknown("Not published at institution level."),
+      accreditation: stated(
+        "Recognised UK degree-awarding body, regulated by the Office for Students",
+        "Office for Students register",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2026,
+        rank: "Inside the world top 35",
+        scope: "World, all subjects",
+        source:
+          "Secondary reports of the QS 2026 table converged in a 24th-to-34th range rather than one number; this site would not print a single figure it could not pin down, so it prints the band every source agreed inside",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "7.0 overall with at least 6.5 in each component. IELTS One Skill Retake is not accepted, and IELTS General Training does not count",
+          "Programme page, School of Informatics",
+          RESEARCHED_ON,
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "Full international tuition, fixed for the length of the programme once you start rather than rising each year. A deposit is normally required to secure the offer.",
+      "Reported consistently across several independent fee-comparison publications (Yocket, Collegedunia, Shiksha, GyanDhan); the institution's own fee page renders its figures through a tool this session's fetch could not execute, so this figure is convergent-secondary, not independently read off the primary page, and is flagged that way rather than presented as verified",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: "manchester",
+    programmes: [
+      {
+        slug: "edinburgh-msc-artificial-intelligence",
+        universitySlug: "university-of-edinburgh",
+        name: "MSc Artificial Intelligence",
+        level: "masters",
+        disciplines: ["Computer Science", "Artificial Intelligence"],
+        durationMonths: 12,
+        feePerYear: stated(
+          45410,
+          "Reported consistently across several independent fee-comparison publications for 2026-27 entry; the institution's own fee tool could not be executed by this session's fetch, so treat this as convergent-secondary rather than independently confirmed",
+          RESEARCHED_ON,
+        ),
+        currency: "GBP",
+        feeQualifier: EDINBURGH_FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-03-31",
+            teachingStarts: "2027-09-14",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Edinburgh",
+          },
+        ],
+        entryRequirement: stated(
+          "A UK 2:1 honours degree or its international equivalent in informatics, artificial intelligence, cognitive science, computer science, electrical engineering, mathematics, physics, psychology or a closely related discipline. Typical offers made are for first class honours.",
+          "Programme page, School of Informatics",
+          RESEARCHED_ON,
+        ),
+        prerequisites: stated(
+          [
+            "Programming competence (C/C++, Java, Python, R, Matlab or Haskell)",
+            "Mathematics to 60 SCQF credits / 30 ECTS: calculus, linear algebra, discrete mathematics, probability",
+          ],
+          "Programme page, School of Informatics",
+          RESEARCHED_ON,
+        ),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated on this one year taught programme."),
+        campus: "Edinburgh",
+      },
+    ],
+    notChecked: [
+      "The exact tuition figure, since the institution's own fee page renders through a tool this session could not execute; corroborated across independent sources but not read directly off the primary page.",
+      "The 2027 intake deadline is this year's confirmed date (31 March 2026) projected forward by one cycle, marked not-yet-open rather than confirmed, the same convention the rest of this catalogue uses for a cycle the institution has not opened yet.",
+      "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
+      "Language tests beyond IELTS (TOEFL, GRE, GMAT) were not checked this pass and are left off the exams list rather than guessed.",
+      "Edinburgh has no city of its own in the cost of living calculator yet, so it is linked to the Manchester band, the same large-city-outside-London proxy Glasgow's entry already uses. Edinburgh rents typically run above that band, not within it, which the calculator page does not yet say.",
     ],
   },
 ];
