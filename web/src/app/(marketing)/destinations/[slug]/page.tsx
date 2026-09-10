@@ -110,7 +110,7 @@ export default async function DestinationGuidePage(
               alt=""
               width={40}
               height={30}
-              className="h-6 w-auto rounded-[3px] ring-1 ring-white/40"
+              className="h-6 w-auto rounded-xs ring-1 ring-white/40"
             />
             <p className="text-[0.875rem] font-medium text-white/75">{guide.country}</p>
           </div>

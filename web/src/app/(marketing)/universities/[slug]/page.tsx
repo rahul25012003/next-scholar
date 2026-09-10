@@ -84,7 +84,7 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                   alt=""
                   width={20}
                   height={15}
-                  className="h-3.5 w-auto rounded-[2px] ring-1 ring-line"
+                  className="h-3.5 w-auto rounded-xs ring-1 ring-line"
                 />
                 <span aria-hidden className="text-line-strong">
                   ·

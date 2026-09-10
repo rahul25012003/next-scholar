@@ -23,7 +23,7 @@ const UK_COMMISSION = {
 /**
  * The United Kingdom.
  *
- * Twelve institutions across the range an Indian applicant actually shortlists,
+ * Fifteen institutions across the range an Indian applicant actually shortlists,
  * from a Russell Group university with a high fee to a post-92 with a
  * substantially lower one and a placement year. Every one of them pays agents,
  * and every one of them carries the same unverified band, because no university
@@ -1375,6 +1375,303 @@ export const ukUniversities: University[] = [
     notChecked: [
       "Total and international student counts: independent sources disagreed and the institution's own statistics page was not directly read to resolve it this pass.",
       "The institution's own stated QS World University Ranking (all subjects) position; only its Europe-scoped ranking was confirmed directly this pass.",
+      "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
+    ],
+  },
+
+  {
+    slug: "university-of-bristol",
+    name: "University of Bristol",
+    destination: "united-kingdom",
+    city: "Bristol",
+    route: "Taught masters",
+    type: "public",
+    flagCode: "gb",
+    initials: "BRIS",
+    summary:
+      "A Russell Group university in a city that is expensive by regional standards but still well below London, with one of the highest published fees on this catalogue's UK list.",
+    commission: UK_COMMISSION,
+    highlights: {
+      established: stated(1909, "Institution's own history page", RESEARCHED_ON),
+      totalStudents: stated(29680, "Reported by an independent ranking aggregator this pass; the institution's own statistics page was not directly read", RESEARCHED_ON),
+      internationalStudents: stated(
+        "Over 28 per cent of the student body, from more than 150 countries",
+        "Institution's own international pages, found through search; the exact percentage was reported between 28 and 35 per cent by different sources",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown("Not published in a form comparable with the other institutions on this catalogue."),
+      acceptanceRate: unknown(
+        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+      ),
+      accreditation: stated(
+        "UK degree-awarding body, recognised by the Office for Students",
+        "UK Office for Students register",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2027,
+        rank: "57th in the world, 8th in the UK",
+        scope: "World, all subjects",
+        source: "Institution's own news page announcing the result, fetched directly this pass",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "6.5 overall with 6.5 in every component",
+          "Institution's own English language requirements page (Profile C, which the programme page names), fetched directly this pass",
+          RESEARCHED_ON,
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "Full international tuition, confirmed on the institution's own programme page. The institution states fees are reviewed annually and may rise by up to 8 per cent a year on multi-year programmes.",
+      "Institution's own programme page, fetched directly this pass",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: "manchester",
+    programmes: [
+      {
+        slug: "bristol-msc-data-science",
+        universitySlug: "university-of-bristol",
+        name: "MSc Data Science",
+        level: "masters",
+        disciplines: ["Data Science", "Computer Science"],
+        durationMonths: 12,
+        feePerYear: stated(
+          36500,
+          "Institution's own programme page, fetched directly this pass: GBP 36,500 per year for 2026/27 entry",
+          RESEARCHED_ON,
+        ),
+        currency: "GBP",
+        feeQualifier: FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-08-13",
+            teachingStarts: "2027-09-20",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Clifton, Bristol",
+          },
+        ],
+        entryRequirement: stated(
+          "A strong upper second class (2:1) honours degree, 65 per cent or higher, or an international equivalent, in a numerate science, computer science or engineering discipline; the institution lists economics, finance, physics and psychology among accepted backgrounds.",
+          "Institution's own programme page, fetched directly this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: unknown("Not itemised on the programme page beyond the numerate-discipline requirement."),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated on this one year taught programme."),
+        campus: "Clifton, Bristol",
+      },
+    ],
+    notChecked: [
+      "The exact international student percentage: independent sources disagreed (28 to 35 per cent) and the institution's own statistics page was not directly read to resolve it.",
+      "The 2027/28 fee: the figure shown is the institution's published 2026/27 rate, and it states fees are reviewed annually.",
+      "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
+    ],
+  },
+
+  {
+    slug: "university-of-nottingham",
+    name: "University of Nottingham",
+    destination: "united-kingdom",
+    city: "Nottingham",
+    route: "Taught masters",
+    type: "public",
+    flagCode: "gb",
+    initials: "NOTT",
+    summary:
+      "A Russell Group university in the East Midlands, with rents well below the south of England and a fee towards the lower end of this catalogue's Russell Group entries.",
+    commission: UK_COMMISSION,
+    highlights: {
+      established: stated(1881, "Institution's own history page, as the date of the original University College", RESEARCHED_ON),
+      totalStudents: stated(36491, "Institution's own 2024/25 student population data, found through search", RESEARCHED_ON),
+      internationalStudents: stated(
+        "About 24 per cent of the student body, 8,725 students in 2024/25",
+        "Institution's own 2024/25 student population data, found through search",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown("Not published in a form comparable with the other institutions on this catalogue."),
+      acceptanceRate: unknown(
+        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+      ),
+      accreditation: stated(
+        "UK degree-awarding body, recognised by the Office for Students",
+        "UK Office for Students register",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2026,
+        rank: "97th in the world, 17th in the UK",
+        scope: "World, all subjects",
+        source: "Institution's own news page announcing the result, fetched directly this pass",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "6.5 overall with no component below 6.0",
+          "Reported consistently across independent admissions publications; the institution's own programme page was not directly read this pass",
+          RESEARCHED_ON,
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "Full international tuition, confirmed on the institution's own 2026/27 fee schedule. The institution also requires a GBP 4,500 CAS deposit from international postgraduate taught applicants before the visa process.",
+      "Institution's own 2026/27 postgraduate taught fee schedule, fetched directly this pass; the CAS deposit figure is reported by independent sources",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: "manchester",
+    programmes: [
+      {
+        slug: "nottingham-msc-computer-science",
+        universitySlug: "university-of-nottingham",
+        name: "MSc Computer Science",
+        level: "masters",
+        disciplines: ["Computer Science"],
+        durationMonths: 12,
+        feePerYear: stated(
+          33800,
+          "Institution's own 2026/27 postgraduate taught fee schedule, fetched directly this pass: \"G405 | MSc | Computer Science | GBP 33,800\" international rate",
+          RESEARCHED_ON,
+        ),
+        currency: "GBP",
+        feeQualifier: FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-06-30",
+            teachingStarts: "2027-09-20",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Jubilee Campus, Nottingham",
+          },
+        ],
+        entryRequirement: stated(
+          "A 2:1 honours degree or international equivalent; this conversion-style programme is aimed at graduates from outside computer science.",
+          "Reported consistently across independent admissions publications; the institution's own programme page was not directly read this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: unknown("Not checked this pass."),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated on this one year taught programme."),
+        campus: "Jubilee Campus, Nottingham",
+      },
+    ],
+    notChecked: [
+      "The IELTS component minimums and the degree requirement wording: read from independent sources, not the institution's own programme page, this pass.",
+      "Whether the sibling MSc Computer Science (Artificial Intelligence) pathway carries the same fee; only the plain Computer Science line was read off the fee schedule.",
+      "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
+    ],
+  },
+
+  {
+    slug: "university-of-sheffield",
+    name: "University of Sheffield",
+    destination: "united-kingdom",
+    city: "Sheffield",
+    route: "Taught masters",
+    type: "public",
+    flagCode: "gb",
+    initials: "SHEF",
+    summary:
+      "A Russell Group university in South Yorkshire with one of the lowest published Russell Group fees on this catalogue, in a city that is among the cheapest large UK cities to rent in.",
+    commission: UK_COMMISSION,
+    highlights: {
+      established: stated(1905, "Institution's own history page", RESEARCHED_ON),
+      totalStudents: stated(30000, "Institution's own international pages, found through search, stated as a round figure", RESEARCHED_ON),
+      internationalStudents: stated(
+        "Over 9,000 students, from around 140 countries",
+        "Institution's own international pages, found through search",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown("Not published in a form comparable with the other institutions on this catalogue."),
+      acceptanceRate: unknown(
+        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+      ),
+      accreditation: stated(
+        "UK degree-awarding body, recognised by the Office for Students",
+        "UK Office for Students register",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2027,
+        rank: "82nd in the world, 14th in the UK",
+        scope: "World, all subjects",
+        source: "Institution's own rankings page, fetched directly this pass",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "6.5 overall with no component below 6.0",
+          "Institution's own programme page, fetched directly this pass",
+          RESEARCHED_ON,
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "Full international tuition. The institution's own programme page routes fees to a lookup tool that this session's fetch could not render, so the figure is reported from independent sources.",
+      "Reported consistently across independent fee-comparison publications for 2026/27 entry; the institution's own fee lookup tool was not directly read this pass",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: "manchester",
+    programmes: [
+      {
+        slug: "sheffield-msc-advanced-computer-science",
+        universitySlug: "university-of-sheffield",
+        name: "MSc Advanced Computer Science",
+        level: "masters",
+        disciplines: ["Computer Science"],
+        durationMonths: 12,
+        feePerYear: stated(
+          31190,
+          "Reported consistently across independent fee-comparison publications for 2026/27 entry; the institution's own fee lookup tool was not directly read this pass",
+          RESEARCHED_ON,
+        ),
+        currency: "GBP",
+        feeQualifier: EDINBURGH_FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-09-03",
+            teachingStarts: "2027-09-20",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Sheffield",
+          },
+        ],
+        entryRequirement: stated(
+          "A 2:1 honours degree in computer science, software engineering, data science, information technology or a closely related subject.",
+          "Institution's own programme page, fetched directly this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: unknown("Not itemised on the programme page beyond the related-subject requirement."),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated on this one year taught programme."),
+        campus: "Sheffield",
+      },
+    ],
+    notChecked: [
+      "The exact tuition fee: the institution's own fee lookup tool did not render for this session's fetch, so the figure is convergent-secondary rather than read off the institution's own page.",
+      "The application deadline shown is projected from the institution's stated 2026 entry closing date; the 2027 date was not published at the time of this pass.",
       "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
     ],
   },

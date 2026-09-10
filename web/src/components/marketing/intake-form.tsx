@@ -195,7 +195,7 @@ export function IntakeForm() {
                       alt=""
                       width={40}
                       height={30}
-                      className="h-5 w-auto shrink-0 rounded-[3px] ring-1 ring-line"
+                      className="h-5 w-auto shrink-0 rounded-xs ring-1 ring-line"
                     />
                     <span className="min-w-0">
                       <span className="block text-[0.9375rem] font-semibold text-navy-900">

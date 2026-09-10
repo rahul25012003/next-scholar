@@ -77,7 +77,7 @@ export function CourseCard({
                 alt=""
                 width={20}
                 height={15}
-                className="h-3 w-auto rounded-[2px] ring-1 ring-line"
+                className="h-3 w-auto rounded-xs ring-1 ring-line"
               />
             </p>
           </div>

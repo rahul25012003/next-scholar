@@ -1017,4 +1017,400 @@ export const irishUniversities: University[] = [
       "The exact eligibility criteria for the EUR 3,000 scholarship named on the institution's own fee page.",
     ],
   },
+
+  {
+    slug: "dublin-business-school",
+    name: "Dublin Business School",
+    destination: "ireland",
+    city: "Dublin",
+    route: "Taught masters",
+    type: "private",
+    flagCode: "ie",
+    initials: "DBS",
+    summary:
+      "Ireland's largest private college, in the city centre, with a fee band that sits between this catalogue's Dublin universities and its other private entries.",
+    commission: IE_COMMISSION,
+    highlights: {
+      established: stated(
+        1975,
+        "Reported consistently across independent sources as the founding of the original Accountancy and Business College; the institution's own history page was not directly read this pass",
+        RESEARCHED_ON,
+      ),
+      totalStudents: stated(
+        9000,
+        "Reported by independent sources this pass; the institution's own statistics page was not directly read",
+        RESEARCHED_ON,
+      ),
+      internationalStudents: stated(
+        "More than 2,700 students, from over 70 countries",
+        "Reported by independent sources this pass; the institution's own statistics page was not directly read",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown("Not published at institution level."),
+      acceptanceRate: unknown("Not published at institution level."),
+      accreditation: stated(
+        "Independent, QQI-accredited Irish higher education institution, programmes on the National Framework of Qualifications",
+        "Qualifications and Quality Ireland register",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "6.5 overall with no band below 6.0",
+          "Reported consistently across independent admissions publications; the institution's own programme page returned an access error to this session's fetch",
+          RESEARCHED_ON,
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "Full international tuition, with the same pre-visa payment requirement as the rest of this Irish catalogue.",
+      "Reported across independent fee-comparison publications for 2026/27 entry; the institution's own fee sheet and programme page both returned an access error to this session's fetch",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: "dublin",
+    programmes: [
+      {
+        slug: "dbs-msc-data-analytics",
+        universitySlug: "dublin-business-school",
+        name: "MSc Data Analytics",
+        level: "masters",
+        disciplines: ["Data Science"],
+        durationMonths: 12,
+        feePerYear: stated(
+          15575,
+          "Reported consistently across independent fee-comparison publications for 2026/27 entry; the institution's own fee sheet returned an access error to this session's fetch",
+          RESEARCHED_ON,
+        ),
+        currency: "EUR",
+        feeQualifier: FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-06-30",
+            teachingStarts: "2027-09-01",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Dublin city centre",
+          },
+        ],
+        entryRequirement: stated(
+          "A Level 8 honours degree with at least a Second Class Honours, Grade 2 (2:2), in a cognate area.",
+          "Reported consistently across independent admissions publications; the institution's own programme page returned an access error to this session's fetch",
+          RESEARCHED_ON,
+        ),
+        prerequisites: unknown("Not checked this pass."),
+        languageOfInstruction: "English",
+        placement: unknown("Not checked this pass."),
+        campus: "Dublin city centre",
+      },
+    ],
+    notChecked: [
+      "This institution has no independently published international ranking that this session found; the field is left empty rather than filled with an unrelated one.",
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake, which decides 12 versus up to 24 months of post-study permission.",
+      "Every figure above is convergent-secondary: the institution's own fee sheet and programme page both refused this session's fetch, so nothing here was read directly off dbs.ie.",
+    ],
+  },
+
+  {
+    slug: "griffith-college-dublin",
+    name: "Griffith College Dublin",
+    destination: "ireland",
+    city: "Dublin",
+    route: "Taught masters",
+    type: "private",
+    flagCode: "ie",
+    initials: "GCD",
+    summary:
+      "A private Dublin college on a single south-city campus, with the lowest headline fee on this catalogue's Irish list, and a set of separate administrative charges on top of it that the headline does not show.",
+    commission: IE_COMMISSION,
+    highlights: {
+      established: stated(
+        1974,
+        "Reported consistently across independent sources; the institution's own history page was not directly read this pass",
+        RESEARCHED_ON,
+      ),
+      totalStudents: stated(
+        8000,
+        "Reported by independent sources as just under 8,000 this pass; the institution's own statistics page was not directly read",
+        RESEARCHED_ON,
+      ),
+      internationalStudents: stated(
+        "About 1,400 students, from over 77 countries",
+        "Reported by independent sources this pass; the institution's own statistics page was not directly read",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown("Not published at institution level."),
+      acceptanceRate: unknown("Not published at institution level."),
+      accreditation: stated(
+        "Independent, QQI-accredited Irish higher education institution, programmes on the National Framework of Qualifications",
+        "Qualifications and Quality Ireland register",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "6.5 overall with no band below 6.0",
+          "Reported by independent admissions publications; the institution's own programme page, fetched directly this pass, names the Duolingo test as accepted but does not print an IELTS figure",
+          RESEARCHED_ON,
+          "One independent source reported 6.0 overall instead; the higher, more commonly repeated figure is shown and the discrepancy is not resolved this pass.",
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "Full international tuition, plus separate charges the headline fee does not include: a EUR 200 student services fee each year, a EUR 250 academic administration fee each September, and a 2 per cent learner protection charge. The same pre-visa payment requirement applies as across this Irish catalogue.",
+      "Reported across independent fee-comparison publications; the institution's own programme page, fetched directly this pass, defers to a separate non-EU fees section that was not read",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: "dublin",
+    programmes: [
+      {
+        slug: "griffith-msc-big-data-management-and-analytics",
+        universitySlug: "griffith-college-dublin",
+        name: "MSc in Big Data Management and Analytics",
+        level: "masters",
+        disciplines: ["Data Science", "Computer Science"],
+        durationMonths: 12,
+        feePerYear: stated(
+          14000,
+          "Reported by one independent source as the year-one fee; a second independent source reported EUR 13,000 for the same programme. The more recent figure is shown, and the discrepancy is not resolved this pass; the institution's own programme page defers to a fees section that was not read",
+          RESEARCHED_ON,
+        ),
+        currency: "EUR",
+        feeQualifier: FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-06-30",
+            teachingStarts: "2027-09-01",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Dublin",
+          },
+        ],
+        entryRequirement: stated(
+          "A 2:2 Level 8 honours degree in Computing Science, or a 2:2 Higher Diploma in Computing or a related discipline, or the international equivalent.",
+          "Institution's own programme page, fetched directly this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: unknown("Not checked this pass."),
+        languageOfInstruction: "English",
+        placement: unknown("Not checked this pass."),
+        campus: "Dublin",
+      },
+    ],
+    notChecked: [
+      "This institution has no independently published international ranking that this session found; the field is left empty rather than filled with an unrelated one.",
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake, which decides 12 versus up to 24 months of post-study permission.",
+      "The exact tuition fee: two independent sources disagreed (EUR 13,000 against EUR 14,000) and the institution's own non-EU fees section was not read to resolve it this pass.",
+      "The exact IELTS figure: the institution's own programme page does not print one, and independent sources disagreed between 6.0 and 6.5.",
+    ],
+  },
+
+  {
+    slug: "atlantic-technological-university",
+    name: "Atlantic Technological University",
+    destination: "ireland",
+    city: "Letterkenny",
+    route: "Taught masters",
+    type: "public",
+    flagCode: "ie",
+    initials: "ATU",
+    summary:
+      "A multi-campus technological university across Ireland's west and north-west, formed by a 2022 merger of the Galway-Mayo, Sligo and Letterkenny institutes of technology, with rents well below Dublin on every campus.",
+    commission: IE_COMMISSION,
+    highlights: {
+      established: stated(2022, "Institution's own history, as the date of the university's formation by merger", RESEARCHED_ON),
+      totalStudents: unknown(
+        "Independent sources disagreed within this session's search results, reporting figures between about 20,000 and 30,000; the institution's own statistics page was not directly read to resolve which is current.",
+      ),
+      internationalStudents: stated(
+        "More than 3,000 students, from over 115 countries",
+        "Reported by independent sources this pass; the institution's own statistics page was not directly read",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown("Not published at institution level."),
+      acceptanceRate: unknown("Not published at institution level."),
+      accreditation: stated(
+        "Recognised Irish technological university, quality assured by Quality and Qualifications Ireland",
+        "Qualifications and Quality Ireland register",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2024,
+        rank: "851st to 900th in the world",
+        scope: "World, all subjects",
+        source: "Reported by independent ranking aggregators this pass; the 2024 edition is the most recent in which this session found the institution placed, and its own rankings page was not directly read",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "6.0 overall",
+          "Institution's own programme page, fetched directly this pass",
+          RESEARCHED_ON,
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "Full international tuition, confirmed on the institution's own fee page as the standard non-EU full-time postgraduate rate for 2026/27, with the same pre-visa payment requirement as the rest of this Irish catalogue.",
+      "Institution's own postgraduate fee page, fetched directly this pass",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: "cork",
+    programmes: [
+      {
+        slug: "atu-msc-data-science",
+        universitySlug: "atlantic-technological-university",
+        name: "MSc Data Science",
+        level: "masters",
+        disciplines: ["Data Science", "Computer Science"],
+        durationMonths: 12,
+        feePerYear: stated(
+          14000,
+          "Institution's own programme page and postgraduate fee page, both fetched directly this pass: \"The current full-time Postgraduate Course fee for Non-EU Students (2026/2027) is EUR 14,000\"",
+          RESEARCHED_ON,
+        ),
+        currency: "EUR",
+        feeQualifier: FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-06-30",
+            teachingStarts: "2027-09-01",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Letterkenny, Donegal",
+          },
+        ],
+        entryRequirement: stated(
+          "An honours degree with first or second class honours, or an equivalent qualification; relevant experience may be considered through Recognition of Prior Learning.",
+          "Institution's own programme page, fetched directly this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: unknown("Not checked this pass."),
+        languageOfInstruction: "English",
+        placement: unknown("Not checked this pass."),
+        campus: "Letterkenny, Donegal",
+      },
+    ],
+    notChecked: [
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake, which decides 12 versus up to 24 months of post-study permission.",
+      "Total student count: independent sources disagreed by a wide margin and the institution's own statistics page was not directly read to resolve it this pass.",
+      "The QS position shown is from the 2024 edition; no placing in a more recent edition was found this pass.",
+      "Cost of living: Letterkenny is not one of the cities modelled in the cost of living calculator; the Cork figure is linked as the nearest outside-Dublin proxy, and Letterkenny rents run below it.",
+    ],
+  },
+
+  {
+    slug: "south-east-technological-university",
+    name: "South East Technological University",
+    destination: "ireland",
+    city: "Carlow",
+    route: "Taught masters",
+    type: "public",
+    flagCode: "ie",
+    initials: "SETU",
+    summary:
+      "A technological university across Ireland's south-east, formed by a 2022 merger of the Waterford and Carlow institutes of technology, on campuses where rent runs well below Dublin.",
+    commission: IE_COMMISSION,
+    highlights: {
+      established: stated(2022, "Institution's own history, as the date of the university's formation by merger", RESEARCHED_ON),
+      totalStudents: unknown(
+        "Independent sources disagreed within this session's search results, reporting figures between about 18,500 and 21,000 for different years; the institution's own statistics page was not directly read to resolve which is current.",
+      ),
+      internationalStudents: stated(
+        "Reported as more than 560 students, from over 120 countries",
+        "Reported by one independent source this pass; the institution's own statistics page was not directly read",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown("Not published at institution level."),
+      acceptanceRate: unknown("Not published at institution level."),
+      accreditation: stated(
+        "Recognised Irish technological university, quality assured by Quality and Qualifications Ireland",
+        "Qualifications and Quality Ireland register",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings: Europe",
+        year: 2026,
+        rank: "651st to 700th in Europe",
+        scope: "Europe",
+        source: "Reported by independent ranking aggregators this pass; no placing in the world (all subjects) table was found, and the institution's own rankings page was not directly read",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "6.0 overall",
+          "Reported consistently across independent admissions publications; the institution's own programme page returned an access error to this session's fetch",
+          RESEARCHED_ON,
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "Full international tuition, with the same pre-visa payment requirement as the rest of this Irish catalogue.",
+      "Reported consistently across independent fee-comparison publications; the institution's own programme page returned an access error to this session's fetch",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: "cork",
+    programmes: [
+      {
+        slug: "setu-msc-data-science",
+        universitySlug: "south-east-technological-university",
+        name: "MSc in Data Science",
+        level: "masters",
+        disciplines: ["Data Science", "Computer Science"],
+        durationMonths: 12,
+        feePerYear: stated(
+          15000,
+          "Reported consistently across independent fee-comparison publications; the institution's own programme page returned an access error to this session's fetch",
+          RESEARCHED_ON,
+        ),
+        currency: "EUR",
+        feeQualifier: FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-06-01",
+            teachingStarts: "2027-09-10",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Carlow",
+          },
+        ],
+        entryRequirement: stated(
+          "A Level 8 honours degree with at least a Second Class Honours, Grade 2 (2:2), in computer science, mathematical sciences, or a degree with strong numerate content such as engineering, finance, physics, biosciences or economics.",
+          "Reported consistently across independent admissions publications; the institution's own programme page returned an access error to this session's fetch",
+          RESEARCHED_ON,
+        ),
+        prerequisites: unknown("Not checked this pass."),
+        languageOfInstruction: "English",
+        placement: unknown("Not checked this pass."),
+        campus: "Carlow",
+      },
+    ],
+    notChecked: [
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake, which decides 12 versus up to 24 months of post-study permission.",
+      "Every figure above is convergent-secondary: the institution's own programme page refused this session's fetch, so nothing here was read directly off setu.ie.",
+      "The application deadline: one independent source gave 1 June for non-EU applicants and another gave late August; the earlier date is shown so nobody plans around the later one.",
+      "Cost of living: Carlow is not one of the cities modelled in the cost of living calculator; the Cork figure is linked as the nearest outside-Dublin proxy, and Carlow rents run below it.",
+    ],
+  },
 ];

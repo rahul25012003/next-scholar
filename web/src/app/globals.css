@@ -94,6 +94,16 @@
     overflow-wrap: break-word;
   }
 
+  /* An absolutely-positioned descendant is only clipped by an overflow ancestor
+     that is also its containing block. Every wide table on this site sits in a
+     static `overflow-x-auto` wrapper and carries `sr-only` labels, which are
+     absolute: they escaped the wrapper, kept their static position out at the
+     table's full width, and pushed the whole document sideways at 390px. Found
+     by walking the routes on a phone-width viewport, not by reading the CSS. */
+  .overflow-x-auto {
+    position: relative;
+  }
+
   h1,
   h2,
   h3,
@@ -125,6 +135,7 @@
   :focus-visible {
     outline: 2px solid var(--color-blue-600);
     outline-offset: 2px;
+    /* token-exempt: focus ring only; no 4px radius token, and it must not follow the element's own shape */
     border-radius: 4px;
   }
 }

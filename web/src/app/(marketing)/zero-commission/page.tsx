@@ -38,7 +38,7 @@ export default function ZeroCommissionPage() {
                       alt=""
                       width={40}
                       height={30}
-                      className="h-6 w-auto rounded-[3px] ring-1 ring-line"
+                      className="h-6 w-auto rounded-xs ring-1 ring-line"
                     />
                     <h2 className="font-display text-[1.125rem] font-bold text-navy-900">
                       {entry.destination}

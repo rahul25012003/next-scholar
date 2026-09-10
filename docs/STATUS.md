@@ -4,15 +4,22 @@ What has been implemented against `BACKLOG.md`, what is still open, and why each
 open item is open. The backlog itself is left unedited so the two can be read
 against each other.
 
-**169 of 207 backlog items done, 38 open.** Of the 38, 18 are blocked on
-something outside this repository and 20 are not, most of which are a
+**172 of 207 backlog items done, 35 open.** Of the 35, 18 are blocked on
+something outside this repository and 17 are not, most of which are a
 decision — funding, a partnership, a legal policy call, a research-scope
-call — rather than a task. `REMAINING.md` breaks all 38 down with what
+call — rather than a task. `REMAINING.md` breaks all 35 down with what
 unblocks each and where it goes.
+
+Newly closed: **1.11** and **D.01**, every public route walked at a real 390px
+viewport rather than checked structurally, which found two shared layout bugs
+and fixed both at their one common cause; and **D.14**, the radius and shadow
+token inventory followed by the lint rule that was waiting on it. Every P0 that
+needed nothing but a device is now done.
 
 Verified at the point of writing: `npm test` 363 passing, `npm run lint` clean,
 `npm run build` clean, `npm run smoke` 71 routes clean against a production
-build. Separately, a 10 September 2026 external audit produced its own
+build, and 50 routes measured at 390px with zero horizontal scroll. Separately,
+a 10 September 2026 external audit produced its own
 implementation plan (case creation, student account linking, offer records,
 a pre-departure checklist, a funding plan, staleness enforcement, all built
 and tested this session) — real work, not yet reconciled against
@@ -184,12 +191,14 @@ a real design-token audit first.
 | D.16 | Header condenses height and logo size past an 8px scroll threshold | `src/components/site/header.tsx` |
 | D.17 | Found the real cause of a scroll-to-top failure: Lenis owns scroll position once mounted, so Next's native scroll reset on navigation moved the browser's offset but not Lenis's virtualised one. Fixed with `usePathname` plus `useLenis().scrollTo(0, { immediate: true })` | `src/components/ui/smooth-scroll.tsx` |
 | F.09 | English test comparison: IELTS, TOEFL iBT, PTE Academic, Duolingo, on scale, format, validity and historical UK SELT status, with an official link per test. No cross-test score conversion, and GRE/GMAT/SAT excluded as genuinely out of scope for a UK/Germany/Ireland Master's audience | `/tools/english-tests` |
+| 1.11, D.01 | Fifty routes walked at a real 390px viewport against a production build, not checked structurally. Found two shared bugs and fixed each at its one common cause: `sr-only` labels are absolute and so escaped their *static* `overflow-x-auto` table wrappers, keeping their position out at the table's full width and pushing nine routes sideways by up to 119px; and the button primitive's `whitespace-nowrap` plus fixed height sent a long label past the edge on three more. All fifty now measure zero horizontal scroll | `src/app/globals.css`, `src/components/ui/button.tsx`, `src/components/marketing/revenue-chart.tsx` |
+| D.14 | The design-token audit the rule was waiting on, then the rule. 18 arbitrary radius/shadow values inventoried: 13 were drift and became tokens, five are deliberate and carry a `token-exempt` disable with the reason | `eslint.config.mjs`, `src/components/marketing/hero.tsx`, and nine other surfaces |
 
 F.10 (recommended books per exam) is folded into F.09 in reduced form: an
 official resources link per test, not a named book, which would be a
 commercial claim needing a currency this session cannot verify. 4.16
 (caching of verified university data) was investigated and not built: the
-whole catalogue is thirty-four institutions in memory with no external fetch
+whole catalogue is forty-five institutions in memory with no external fetch
 anywhere in the path, so there is nothing slow to cache.
 
 ### Phase 10 — Reviews, counsellors and events built honestly empty; a real install manifest
@@ -235,14 +244,12 @@ said this plainly rather than tentatively.
 
 | ID | Item | Note |
 |---|---|---|
-| 1.11, D.01 | Mobile verification of every route | The structural checks pass in CI and every wide table scrolls in its own container. Nobody has looked at these routes on a phone, and that is not the same thing. The in-session Chrome browser tool has not been connected in any of the last three sessions |
 | 2.08, 2.09 | Ledger write path, commission change history | Both want durable storage first |
 | 3.49 | dMAT preparation guidance | Deliberately waiting until the test's format is known rather than guessing |
 | 5.11, 5.17, 5.12, E.02 | City and office pages, student stories and ambassadors | Need a real address and named contact, and real students |
 | 6.02, 6.03, 6.04 | Accommodation, forex, insurance, exam prep partnerships | Each needs a real signed partnership |
 | 6.06 | A fourth destination | Decided: not yet. Launch on the current three first, revisit once the business has grown into a fourth. Effort went instead into deepening the existing three |
 | F.11, S.08 | Our own fee waiver, an ISIC partnership | Funding, and a partnership, respectively |
-| D.14 | A design-token lint rule | Needs a real audit first; see Phase 8 |
 
 ---
 

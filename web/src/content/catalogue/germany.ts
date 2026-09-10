@@ -7,10 +7,10 @@ const RESEARCHED_ON = "2026-09-10";
 /**
  * Germany.
  *
- * Four of the twelve institutions below charge non-EU students tuition at a public
+ * Five of the sixteen institutions below charge non-EU students tuition at a public
  * university, which is the thing "study in Germany for free" gets wrong and the
- * thing our own site got wrong until this week. KIT, Stuttgart and Heidelberg sit
- * in Baden-Wurttemberg and charge EUR 1,500 a semester. TUM introduced fees for
+ * thing our own site got wrong until this week. KIT, Stuttgart, Heidelberg and Freiburg
+ * sit in Baden-Wurttemberg and charge EUR 1,500 a semester. TUM introduced fees for
  * non-EU students from the 2024/25 winter semester under Bavaria's own law; LMU
  * Munich, in the same state, has not applied that law and stays genuinely free.
  *
@@ -1475,6 +1475,423 @@ export const germanUniversities: University[] = [
       "The exact application deadline for this applicant category: the institution's own page directs applicants to a separate deadlines page that was not read this pass.",
       "Total student count and the exact semester contribution: reported by independent sources only, not confirmed on the institution's own page this pass.",
       "Cost of living: Bonn is not yet one of the cities modelled in the cost of living calculator, so no linked city figure is shown here.",
+    ],
+  },
+
+  {
+    slug: "tu-darmstadt",
+    name: "Technische Universitat Darmstadt",
+    destination: "germany",
+    city: "Darmstadt",
+    route: "Public universities",
+    type: "public",
+    flagCode: "de",
+    initials: "TUDA",
+    summary:
+      "A technical university half an hour from Frankfurt, in Hesse, a state that has not applied a non-EU tuition fee, so tuition stays a genuine zero here. Its AI and machine learning masters can be completed entirely in English by course choice.",
+    commission: PUBLIC_ZERO,
+    highlights: {
+      established: stated(1877, "Institution's own history page", RESEARCHED_ON),
+      totalStudents: unknown(
+        "Reported by one independent source at over 25,000 this pass; the institution's own page read this pass did not state its own headcount, so the figure is not confirmed.",
+      ),
+      internationalStudents: stated(
+        "Reported at about 19 per cent of the student body; the institution's own page states only that its international share ranks in the top five among German universities",
+        "Percentage from an independent source this pass; the top-five claim from the institution's own study page, fetched directly this pass",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown(
+        "Not published in a form comparable with the other institutions on this catalogue, so printing it next to them would invite a comparison the figures do not support.",
+      ),
+      acceptanceRate: unknown(
+        "German universities generally do not publish acceptance rates. Admission to this programme is decided on a published credit basis against a reference bachelor's degree rather than a rate.",
+      ),
+      accreditation: stated(
+        "State university of Hesse, programmes accredited under the German accreditation system",
+        "Institution's own accreditation page",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2026,
+        rank: "Inside the world top 260",
+        scope: "World, all subjects",
+        source: "Reported at 253rd by independent sources this pass; the institution's own rankings page was not directly read",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "7.0 overall (C1 CEFR level)",
+          "The C1 level is stated on the institution's own programme page, fetched directly this pass; the IELTS 7.0 equivalence is reported consistently across independent sources and was not read off the institution's own page",
+          RESEARCHED_ON,
+          "The institution's own page states the requirement as CEFR C1; the IELTS figure printed here is the equivalence independent sources report for it.",
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "No tuition fee for a public university in Hesse, a state that has not applied a non-EU fee. Only the semester contribution applies, reported at roughly EUR 300 to 400 by independent sources.",
+      "Reported consistently across independent sources; the institution's own fee page was not directly read this pass",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: null,
+    programmes: [
+      {
+        slug: "tuda-msc-artificial-intelligence-and-machine-learning",
+        universitySlug: "tu-darmstadt",
+        name: "MSc Artificial Intelligence and Machine Learning",
+        level: "masters",
+        disciplines: ["Computer Science", "Data Science"],
+        durationMonths: 24,
+        feePerYear: stated(0, "No tuition fee is charged; only the semester contribution applies", RESEARCHED_ON),
+        currency: "EUR",
+        feeQualifier:
+          "No tuition fee. The semester contribution, reported at roughly EUR 300 to 400 by independent sources and not confirmed on the institution's own page this pass, is separate and not shown here as tuition.",
+        intakes: [
+          {
+            name: "Winter semester",
+            applicationDeadline: "2027-07-15",
+            teachingStarts: "2027-10-01",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Darmstadt",
+          },
+        ],
+        entryRequirement: stated(
+          "A Bachelor's degree equivalent to TU Darmstadt's own BSc Informatik, with at least 60 ECTS credits in core computer science not significantly different from that reference programme.",
+          "Institution's own programme page, fetched directly this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: stated(
+          ["Core computer science (60 ECTS against the reference bachelor's)"],
+          "Institution's own programme page, fetched directly this pass",
+          RESEARCHED_ON,
+        ),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated on this programme."),
+        campus: "Darmstadt",
+      },
+    ],
+    notChecked: [
+      "Both English and German-taught modules exist on this programme; the institution's own page states it can be completed entirely in English by choosing only English-taught modules, and this session did not check whether every specialisation allows that.",
+      "The winter-semester application window (1 June to 15 July) is reported by independent sources; the institution's own page references deadlines without listing the dates.",
+      "Total student count and the exact QS rank: reported by independent sources only, not confirmed on the institution's own page this pass.",
+      "Cost of living: Darmstadt is not yet one of the cities modelled in the cost of living calculator, so no linked city figure is shown here.",
+    ],
+  },
+
+  {
+    slug: "university-of-freiburg",
+    name: "University of Freiburg",
+    destination: "germany",
+    city: "Freiburg",
+    route: "Public universities",
+    type: "public",
+    flagCode: "de",
+    initials: "ALU",
+    summary:
+      "One of Germany's oldest universities, in the Black Forest corner of Baden-Wurttemberg, which means the same EUR 1,500 a semester non-EU fee that KIT, Stuttgart and Heidelberg charge, and that most of Germany does not.",
+    commission: PUBLIC_ZERO,
+    highlights: {
+      established: stated(1457, "Institution's own history page", RESEARCHED_ON),
+      totalStudents: stated(24391, "Reported by an independent source this pass; the institution's own statistics page was not directly read", RESEARCHED_ON),
+      internationalStudents: stated(
+        "About 18 per cent of the student body, from over 120 countries",
+        "Reported by independent sources this pass; the institution's own statistics page was not directly read",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown(
+        "Not published in a form comparable with the other institutions on this catalogue, so printing it next to them would invite a comparison the figures do not support.",
+      ),
+      acceptanceRate: unknown(
+        "German universities generally do not publish acceptance rates. Admission to a restricted programme is decided on a published points or credit basis rather than a rate.",
+      ),
+      accreditation: stated(
+        "State university of Baden-Wurttemberg, programmes accredited under the German accreditation system",
+        "Institution's own accreditation page",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2026,
+        rank: "201st in the world, inside the national top ten",
+        scope: "World, all subjects",
+        source: "Institution's own press release announcing the result, found through search; the page returned an error to this session's direct fetch",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "7.0 overall",
+          "Reported consistently across independent admissions publications; the institution's own programme page was not directly read this pass",
+          RESEARCHED_ON,
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "EUR 1,500 a semester for a non-EU student on a consecutive master's, under Baden-Wurttemberg's State Higher Education Fees Act, on top of the semester contribution. That is EUR 3,000 a year and EUR 6,000 across the four semesters.",
+      "Reported consistently across independent sources, quoting the institution's own fee page; that page returned an error to this session's direct fetch",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: null,
+    programmes: [
+      {
+        slug: "freiburg-msc-computer-science",
+        universitySlug: "university-of-freiburg",
+        name: "MSc Computer Science",
+        level: "masters",
+        disciplines: ["Computer Science"],
+        durationMonths: 24,
+        feePerYear: stated(
+          3000,
+          "EUR 1,500 a semester under Baden-Wurttemberg's non-EU fee law, reported consistently across independent sources; the institution's own fee page returned an error to this session's fetch",
+          RESEARCHED_ON,
+        ),
+        currency: "EUR",
+        feeQualifier:
+          "Baden-Wurttemberg's non-EU tuition fee of EUR 1,500 a semester, shown as EUR 3,000 a year. The semester contribution is separate and not included.",
+        intakes: [
+          {
+            name: "Winter semester",
+            applicationDeadline: "2027-05-31",
+            teachingStarts: "2027-10-13",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Freiburg",
+          },
+        ],
+        entryRequirement: stated(
+          "A Bachelor's degree in computer science or a closely related subject.",
+          "Reported consistently across independent admissions publications; the institution's own programme page was not directly read this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: unknown("Not checked this pass."),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated on this programme."),
+        campus: "Freiburg",
+      },
+    ],
+    notChecked: [
+      "The institution's own fee and programme pages both returned errors to this session's fetch; every figure above is convergent-secondary and should be read off uni-freiburg.de on a future pass.",
+      "One independent source reports a GRE requirement for this programme; it is unusual for a German public university and was not confirmed, so it is neither printed nor ruled out.",
+      "The exact semester contribution and the Artificial Intelligence specialisation's own admission criteria.",
+      "Cost of living: Freiburg is not yet one of the cities modelled in the cost of living calculator, so no linked city figure is shown here.",
+    ],
+  },
+
+  {
+    slug: "university-of-gottingen",
+    name: "University of Gottingen",
+    destination: "germany",
+    city: "Gottingen",
+    route: "Public universities",
+    type: "public",
+    flagCode: "de",
+    initials: "UGOE",
+    summary:
+      "A small university town in Lower Saxony with a long scientific reputation and rents below the big cities, in a state that has not applied a non-EU tuition fee, so tuition stays a genuine zero here.",
+    commission: PUBLIC_ZERO,
+    highlights: {
+      established: stated(1737, "Institution's own history page", RESEARCHED_ON),
+      totalStudents: unknown(
+        "Independent sources disagreed within this session's search results, reporting figures between about 19,800 and 26,000; the institution's own statistics page was not directly read to resolve which is current.",
+      ),
+      internationalStudents: stated(
+        "Reported between about 11 and 14 per cent of the student body by different independent sources this pass",
+        "Independent sources disagreed within this session's search results; the institution's own statistics page was not directly read to resolve it",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown(
+        "Not published in a form comparable with the other institutions on this catalogue, so printing it next to them would invite a comparison the figures do not support.",
+      ),
+      acceptanceRate: unknown(
+        "German universities generally do not publish acceptance rates. Admission to a restricted programme is decided on a published points or credit basis rather than a rate.",
+      ),
+      accreditation: stated(
+        "State university of Lower Saxony, programmes accredited under the German accreditation system",
+        "Institution's own accreditation page",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2026,
+        rank: "Inside the world top 250",
+        scope: "World, all subjects",
+        source: "Reported at 243rd by independent sources this pass; the institution's own rankings page was not directly read",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "6.5 overall (C1 CEFR level)",
+          "The C1 level is stated on the institution's own programme page, fetched directly this pass; the IELTS 6.5 figure is from the programme's DAAD listing, not read off the institution's own page",
+          RESEARCHED_ON,
+          "The institution's own page also accepts CEFR B2 English paired with German at DSH level 2, a route not relevant to most applicants from India.",
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "No tuition fee for a public university in Lower Saxony, a state that has not applied a non-EU fee. Only the semester contribution applies, reported at roughly EUR 460 a semester including a regional transport ticket.",
+      "No fee is stated on the programme's DAAD listing and independent sources agree; the institution's own fee page was not directly read this pass",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: null,
+    programmes: [
+      {
+        slug: "gottingen-msc-applied-data-science",
+        universitySlug: "university-of-gottingen",
+        name: "MSc Applied Data Science",
+        level: "masters",
+        disciplines: ["Data Science", "Computer Science"],
+        durationMonths: 24,
+        feePerYear: stated(0, "No tuition fee is charged; only the semester contribution applies", RESEARCHED_ON),
+        currency: "EUR",
+        feeQualifier:
+          "No tuition fee. The semester contribution, reported at roughly EUR 460 by independent sources and not confirmed on the institution's own page this pass, is separate and not shown here as tuition.",
+        intakes: [
+          {
+            name: "Winter semester",
+            applicationDeadline: "2027-05-01",
+            teachingStarts: "2027-10-01",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Gottingen",
+          },
+        ],
+        entryRequirement: stated(
+          "A Bachelor's degree of at least 180 ECTS, with at least 60 ECTS in data science, computer science, statistics, mathematics or a related field; up to 15 of those credits may be completed after admission.",
+          "Institution's own programme page, fetched directly this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: stated(
+          ["Data science, computer science, statistics or mathematics (60 ECTS)"],
+          "Institution's own programme page, fetched directly this pass",
+          RESEARCHED_ON,
+        ),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated on this programme."),
+        campus: "Gottingen",
+      },
+    ],
+    notChecked: [
+      "The institution's own page describes the programme as taught mainly in English, with some electives in German; which electives was not checked this pass.",
+      "Total student count and the exact QS rank: independent sources disagreed on the first and the institution's own pages were not read for either.",
+      "Cost of living: Gottingen is not yet one of the cities modelled in the cost of living calculator, so no linked city figure is shown here.",
+    ],
+  },
+
+  {
+    slug: "university-of-cologne",
+    name: "University of Cologne",
+    destination: "germany",
+    city: "Cologne",
+    route: "Public universities",
+    type: "public",
+    flagCode: "de",
+    initials: "UOC",
+    summary:
+      "One of Germany's largest universities, in North Rhine-Westphalia, a state that has not applied a non-EU tuition fee, so tuition stays a genuine zero here. The programme below sits in the business faculty, not the computer science one.",
+    commission: PUBLIC_ZERO,
+    highlights: {
+      established: stated(1388, "Institution's own history page, as the original founding; the modern university was re-established in 1919", RESEARCHED_ON),
+      totalStudents: stated(45000, "Institution's own reporting, found through search; the institution's own statistics page was not directly read", RESEARCHED_ON),
+      internationalStudents: stated(
+        "About 10,000 international students",
+        "Institution's own reporting, found through search; the institution's own statistics page was not directly read",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown(
+        "Not published in a form comparable with the other institutions on this catalogue, so printing it next to them would invite a comparison the figures do not support.",
+      ),
+      acceptanceRate: unknown(
+        "German universities generally do not publish acceptance rates. Admission to a restricted programme is decided on a published points or credit basis rather than a rate.",
+      ),
+      accreditation: stated(
+        "State university of North Rhine-Westphalia, programmes accredited under the German accreditation system",
+        "Institution's own accreditation page",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2026,
+        rank: "272nd in the world, 17th in Germany",
+        scope: "World, all subjects",
+        source: "Institution's own rankings page, fetched directly this pass",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "5.5 overall (B2 CEFR level)",
+          "The programme's DAAD listing, not read off the institution's own page this pass",
+          RESEARCHED_ON,
+          "Lower than most of this catalogue because the programme requires only B2; a student at this level should expect the coursework to be harder than the entry bar suggests.",
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "No tuition fee for a public university in North Rhine-Westphalia, a state that has not applied a non-EU fee. Only the semester contribution applies, reported at roughly EUR 305 to 320 a semester including a regional transport ticket.",
+      "Reported consistently across independent sources; the institution's own fee page was not directly read this pass",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: null,
+    programmes: [
+      {
+        slug: "cologne-msc-information-systems",
+        universitySlug: "university-of-cologne",
+        name: "MSc Information Systems",
+        level: "masters",
+        disciplines: ["Computer Science", "Business"],
+        durationMonths: 24,
+        feePerYear: stated(0, "No tuition fee is charged; only the semester contribution applies", RESEARCHED_ON),
+        currency: "EUR",
+        feeQualifier:
+          "No tuition fee. The semester contribution, reported at roughly EUR 305 to 320 by independent sources and not confirmed on the institution's own page this pass, is separate and not shown here as tuition.",
+        intakes: [
+          {
+            name: "Winter semester",
+            applicationDeadline: "2027-06-15",
+            teachingStarts: "2027-10-01",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Cologne",
+          },
+        ],
+        entryRequirement: stated(
+          "A Bachelor's degree with at least 20 ECTS in information systems, 30 ECTS in business administration or economics, and 30 ECTS in statistics, mathematics or informatics.",
+          "The programme's DAAD listing, not read off the institution's own page this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: stated(
+          ["Information systems (20 ECTS)", "Business administration or economics (30 ECTS)", "Statistics, mathematics or informatics (30 ECTS)"],
+          "The programme's DAAD listing, not read off the institution's own page this pass",
+          RESEARCHED_ON,
+        ),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated on this programme."),
+        campus: "Cologne",
+      },
+    ],
+    notChecked: [
+      "The programme's DAAD listing states that most, not all, courses are offered in English, with German also used; whether the degree can be completed entirely in English was not confirmed on the institution's own page this pass.",
+      "Every programme-level figure above comes from the DAAD listing rather than the institution's own programme page; the winter application window (15 April to 15 June) in particular should be read off uni-koeln.de before relying on it.",
+      "Cost of living: Cologne is not yet one of the cities modelled in the cost of living calculator, so no linked city figure is shown here.",
     ],
   },
 ];

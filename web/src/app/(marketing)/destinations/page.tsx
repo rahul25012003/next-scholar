@@ -83,7 +83,7 @@ export default function DestinationsIndexPage() {
                         alt=""
                         width={40}
                         height={30}
-                        className="h-5 w-auto rounded-[3px] ring-1 ring-white/40"
+                        className="h-5 w-auto rounded-xs ring-1 ring-white/40"
                       />
                     </div>
                   </div>

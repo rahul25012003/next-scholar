@@ -22,6 +22,7 @@ export function Hero() {
   return (
     <section className="bg-[#f4f7ff] pb-6 pt-6 md:pb-10">
       <div className="shell">
+        {/* eslint-disable-next-line no-restricted-syntax -- token-exempt: hero panel radius (28px, 36px at lg), larger than any token and matched by the portrait card below */}
         <div className="relative overflow-hidden rounded-[1.75rem] bg-[#e8effe] px-7 pb-0 pt-12 md:px-12 md:pt-16 lg:rounded-[2.25rem]">
           <div className="grid items-end gap-10 lg:grid-cols-[1.18fr_0.82fr] lg:gap-10">
             <div className="pb-12 md:pb-16">
@@ -102,7 +103,8 @@ export function HeroQuickLinks() {
  */
 function DestinationPicker() {
   return (
-    <div className="mt-8 max-w-[30rem] rounded-[0.875rem] bg-blue-600 p-1.5 shadow-[0_10px_30px_-12px_rgb(21_83_214/0.55)]">
+    // eslint-disable-next-line no-restricted-syntax -- token-exempt: glow tinted to its own blue fill; card/lift shadows are navy-tinted for paper surfaces
+    <div className="mt-8 max-w-[30rem] rounded-card bg-blue-600 p-1.5 shadow-[0_10px_30px_-12px_rgb(21_83_214/0.55)]">
       <div className="flex flex-wrap items-center gap-1.5">
         <p className="flex-1 px-3.5 py-2 text-[0.9375rem] text-white/85">
           See what we earn in
@@ -113,7 +115,7 @@ function DestinationPicker() {
             <Link
               key={destination.slug}
               href="/open-ledger"
-              className="rounded-[0.625rem] bg-white/12 px-3 py-2 text-[0.875rem] font-medium text-white transition-colors hover:bg-white/22"
+              className="rounded-input bg-white/12 px-3 py-2 text-[0.875rem] font-medium text-white transition-colors hover:bg-white/22"
             >
               {destination.country}
             </Link>
@@ -121,7 +123,7 @@ function DestinationPicker() {
         <Link
           href="/open-ledger"
           aria-label="Open the full ledger"
-          className="grid h-10 w-11 place-items-center rounded-[0.625rem] bg-white text-blue-600 transition-colors hover:bg-blue-50"
+          className="grid h-10 w-11 place-items-center rounded-input bg-white text-blue-600 transition-colors hover:bg-blue-50"
         >
           <MagnifyingGlass size={17} weight="bold" aria-hidden />
         </Link>
@@ -176,8 +178,10 @@ function HeroPortrait() {
       {/* The notch, cut out of the top left corner the way the reference does. */}
       <span
         aria-hidden
+        // eslint-disable-next-line no-restricted-syntax -- token-exempt: the notch's inner curve, a shape no radius token expresses
         className="absolute -left-px -top-px z-10 hidden h-[4.5rem] w-[4.5rem] rounded-br-[2rem] bg-[#e8effe] sm:block"
       />
+      {/* eslint-disable-next-line no-restricted-syntax -- token-exempt: three corners match the hero panel's 28px, the fourth is the notch */}
       <div className="relative overflow-hidden rounded-t-[1.75rem] rounded-bl-[1.75rem] bg-[linear-gradient(160deg,#2e6bf0_0%,#1553d6_55%,#0e2a5e_100%)]">
         {/* unoptimized: this is the LCP element, the source file is already a
             64KB crop at display size, and Next's resize proxy adds a real

@@ -19,7 +19,7 @@ import { PageHero } from "@/components/marketing/page-hero";
 export const metadata: Metadata = {
   title: "Courses and universities",
   description:
-    "Forty-one courses across thirty-four universities in the UK, Germany and Ireland. Every row shows what we earn if you enrol there, including the eleven institutions that pay us nothing.",
+    "Fifty-two courses across forty-five universities in the UK, Germany and Ireland. Every row shows what we earn if you enrol there, including the fifteen institutions that pay us nothing.",
   alternates: { canonical: "/universities" },
 };
 
@@ -44,7 +44,7 @@ export default async function UniversitiesPage(props: PageProps<"/universities">
     <>
       <PageHero
         title="Every course here shows what we earn on it"
-        lede="Thirty-four universities, forty-one courses, three destinations. The number neither of the two largest platforms in this market prints anywhere is on every row of this list, next to the fee, because they are the same kind of fact and you are entitled to both."
+        lede="Forty-five universities, fifty-two courses, three destinations. The number neither of the two largest platforms in this market prints anywhere is on every row of this list, next to the fee, because they are the same kind of fact and you are entitled to both."
         aside={
           <div className="rounded-panel border border-line bg-paper p-6 shadow-card">
             <p className="text-[0.8125rem] font-semibold text-navy-900">
@@ -100,7 +100,7 @@ export default async function UniversitiesPage(props: PageProps<"/universities">
                 </h3>
                 <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-body">
                   That is a fact about this catalogue rather than about the world. We cover
-                  thirty-four institutions across three destinations, seeded by hand, so an empty
+                  forty-five institutions across three destinations, seeded by hand, so an empty
                   result usually means the combination is outside what we have curated, not
                   that no such course exists.
                 </p>

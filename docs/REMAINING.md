@@ -3,9 +3,15 @@
 A resumable handover. Every open item from `BACKLOG.md`, with what it is, why it
 is open, what unblocks it, and where in the codebase it goes.
 
-**38 open of 207.** 18 blocked on something outside this repository, 20 not
+**35 open of 207.** 18 blocked on something outside this repository, 17 not
 blocked, most of which are a decision (funding, a partnership, a legal
 policy call, a research-scope call) rather than a task. `STATUS.md` has the completed side.
+
+Closed since the last handover: **1.11** and **D.01** (every route walked at a
+real 390px viewport, two shared layout bugs found and fixed at their one common
+cause) and **D.14** (the design-token inventory, then the lint rule it was
+waiting on). Every P0 that needed nothing but a device is now done; what is left
+at P0 needs a Supabase project or an API key.
 
 State at handover: `npm test` 363 passing, `npm run lint` clean, `npm run build`
 clean, `npm run smoke` clean across 71 checked URLs. This count does not yet
@@ -21,26 +27,20 @@ committed and tested but not yet reconciled into this count.
 
 In this order, because each one unblocks or de-risks what follows.
 
-1. **Look at the site on a phone** (1.11, D.01, both P0). The only P0 left that
-   needs nothing but a device. Structural checks pass in CI and every wide table
-   scrolls inside its own container, but nobody has actually seen a route at
-   390px. Half a day, and it will find things. (The Chrome browser tool needed
-   to do this from inside a session has not been connected in any of the last
-   three sessions — connect it, or use a real phone.)
-2. **Set `ANTHROPIC_API_KEY` and run the six agents once** (2.04, 2.05, P0).
+1. **Set `ANTHROPIC_API_KEY` and run the six agents once** (2.04, 2.05, P0).
    This is the largest untested surface in the codebase: no model call has ever
    executed, and the prohibition guards are proven only against mocked strings.
    Until this happens, six features are theoretical.
-3. **Create the Supabase project** (1.07–1.09, P0). The code side is done and
+2. **Create the Supabase project** (1.07–1.09, P0). The code side is done and
    tested (see A1 below); this is now purely two environment variables away.
    Everything in Phase 2 that is not the API key waits behind it, plus 2.08,
    2.09 and 2.12 — and full durability for 2.10, whose deletion logic is
    already built and running against the in-memory store (see B3 below).
-4. Everything left in the P1 through P4 lists (B2 through B5 below) is now
+3. Everything left in the P1 through P4 lists (B2 through B5 below) is now
    blocked on something outside this repository, and each one names exactly
    what: real students, a real counsellor's credential, a real office
    address, a signed partnership, real funding, or the same durable store as
-   item 3. Two were flagged by name rather than left to be found by
+   item 2. Two were flagged by name rather than left to be found by
    reading the tables, and both are now resolved:
    - **S.07** (guardianship for under-18 applicants) needed an explicit
      decision from whoever owns the business's legal exposure, not an
@@ -200,24 +200,44 @@ rather than a feature:
 
 Fifty-seven items. Ordered by priority, then by what they touch.
 
-### B1. P0 — 2 items, and they are the same item twice
+### B1. P0 — done
 
 | ID | Item |
 |---|---|
 | 1.11 | Verify and fix every route at phone width |
 | D.01 | Mobile verification of all routes |
 
-**Status.** A structural audit was done and what it found was fixed: every wide
-table sits inside an `overflow-x-auto` container, every grid child holding a
-scroller carries `min-w-0`, a global `overflow-wrap: break-word` stops a long
-token widening the page, and `npm run smoke` asserts no inline pixel width over
-100px on any route. None of that is the same as having looked.
+**Done, and it found two real bugs the structural audit could not.** Fifty
+routes were loaded at a genuine 390px viewport and measured for horizontal
+scroll. `resize_window` still does not shrink this machine's viewport (the tool
+bug named in three previous sessions), so the routes were rendered in 390px
+iframes against a production build instead — a real layout at a real width,
+which is the thing that had never been done.
 
-**What to do.** Open all 20 public routes at 390px and walk them. The ones most
-likely to break, in order: the university profile tab strip (`overflow-x-auto`
-on a sticky bar), the shortlist comparison table (sticky first column), the
-console caseload filter form (six controls in a `flex-wrap`), the cost of living
-calculator's editable table, and the `TalkToUs` panel at the bottom right.
+Two causes, both fixed at the one place every caller shares rather than per
+page:
+
+1. **`.overflow-x-auto { position: relative }`** in `globals.css`. An
+   absolutely-positioned descendant is only clipped by an overflow ancestor
+   that is also its containing block. Every wide table sits in a *static*
+   `overflow-x-auto` wrapper and carries `sr-only` labels, which are absolute:
+   they escaped the wrapper, kept their static position out at the table's full
+   608–704px width, and pushed the document sideways by up to 119px on nine
+   routes. The wrapper scrolled correctly the whole time, which is exactly why
+   reading the CSS never found this.
+2. **The button primitive wrapped instead of overflowing.** `whitespace-nowrap`
+   plus a fixed `h-11` sent any long label past the right edge; "Check your own
+   eligibility for United Kingdom" widened the three `jobs` pages by 13px.
+   Heights are now minimums and the label wraps and centres, so a one-line
+   button is pixel-identical and a long one grows a second line.
+
+Also fixed on the way: the homepage revenue chart's `sr-only` data table was
+994px wide, because a `<table>` cannot shrink below its content and `sr-only`
+was on the table itself. The wrapper now takes the clipping.
+
+**Result:** all fifty routes measured at `scrollWidth == clientWidth`, zero
+horizontal scroll, verified against `npm run build && npm start`, with
+`npm run smoke` clean across 71 URLs in the same state.
 
 ### B2. P1 — 1 item
 
@@ -361,8 +381,22 @@ not prune the audit trail for the deleted case, which `content/legal.ts` and
 |---|---|---|
 | 3.49 | dMAT preparation guidance | The requirement is now published across four surfaces. Preparation guidance is the follow-up, and it should wait until the test's format is actually known rather than guessed |
 | 2.09 | Commission change history | Required by the source guide schema. Needs storage |
-| D.14 | Enforce radius and shadow tokens as new surfaces are built | Tried and deliberately not shipped this session: a blanket lint rule bans exactly the kind of bespoke arbitrary value the hero card's cut-corner shape legitimately needs, and the codebase has no existing inventory of which arbitrary values are drift versus which are intentional. Needs a real design-token audit before a rule can tell the two apart, not a rule first |
 | 6.02 | Accommodation partners with disclosed referral terms | `/services` already carries the disclosure shape and states that nobody pays us today. Adding a partner means filling in `remuneration: { kind: "referral", weEarn }` and the page renders the warning treatment automatically |
+
+**D.14 — done, inventory first, then the rule.** The previous session declined
+to ship a blanket lint rule without knowing which arbitrary values were drift
+and which were deliberate. That inventory was done: 18 arbitrary radius and
+shadow values, of which 13 were drift and are now tokens (seven flag images
+carried `rounded-[2px]` and `rounded-[3px]` for the same 2px corner, now
+`rounded-xs`; the hero picker's `rounded-[0.625rem]` was `rounded-input`
+exactly). Five are real and stay, each carrying
+`eslint-disable-next-line no-restricted-syntax -- token-exempt: <why>`: the
+hero panel's 28/36px radius and its cut-corner notch and portrait, the picker's
+blue-tinted glow, and the primary button's 1px contact shadow. The rule is
+`no-restricted-syntax` in `eslint.config.mjs` matching `rounded-*-[` and
+`shadow-[` across `Literal` and `TemplateElement`, so it catches values inside
+`cn()` calls and not just JSX attributes; it was verified to fire on a probe
+before the probe was deleted.
 
 ### B4. P3 — 6 of 20 done this session
 
@@ -404,8 +438,8 @@ not prune the audit trail for the deleted case, which `content/legal.ts` and
   needing a currency this session cannot verify.
 
 **Investigated, not done.** 4.16 (caching of verified university data): there
-is nothing to cache. The whole catalogue is thirty-four institutions and
-forty-one programmes held in memory, with no external fetch anywhere in the path, and
+is nothing to cache. The whole catalogue is forty-five institutions and
+fifty-two programmes held in memory, with no external fetch anywhere in the path, and
 every read is a plain synchronous loop over that array. Wrapping it in a
 cache would add a layer with nothing slow underneath it.
 

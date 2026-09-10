@@ -58,7 +58,7 @@ export function RevenueChart() {
             <span className="flex items-center gap-2 text-[0.875rem] text-ink-soft">
               <span
                 aria-hidden
-                className="h-3 w-3 rounded-[2px]"
+                className="h-3 w-3 rounded-xs"
                 style={{ backgroundColor: "#1553d6" }}
               />
               What you pay us
@@ -66,7 +66,7 @@ export function RevenueChart() {
             <span className="flex items-center gap-2 text-[0.875rem] text-ink-soft">
               <span
                 aria-hidden
-                className="h-3 w-3 rounded-[2px]"
+                className="h-3 w-3 rounded-xs"
                 style={{ backgroundColor: "#b45309" }}
               />
               What the university pays us
@@ -74,7 +74,7 @@ export function RevenueChart() {
             <span className="flex items-center gap-2 text-[0.875rem] text-muted">
               <span
                 aria-hidden
-                className="h-3 w-3 rounded-[2px] border"
+                className="h-3 w-3 rounded-xs border"
                 style={{
                   borderColor: "#b45309",
                   backgroundImage:
@@ -211,7 +211,9 @@ export function RevenueChart() {
             status, are listed in the Open Ledger.
           </figcaption>
 
-          <table className="sr-only">
+          {/* A table cannot shrink below its content width, so sr-only on the table itself left it 994px wide and scrolling the page sideways on a phone; the wrapper takes the clipping instead. */}
+          <div className="sr-only">
+          <table>
             <caption>Fee and commission per route, in rupees</caption>
             <thead>
               <tr>
@@ -239,6 +241,7 @@ export function RevenueChart() {
               ))}
             </tbody>
           </table>
+          </div>
         </figure>
       </div>
     </section>
