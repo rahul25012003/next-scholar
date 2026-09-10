@@ -8,7 +8,7 @@ import { cn } from "@/lib/cn";
 export const metadata: Metadata = {
   title: "Rankings",
   description:
-    "Every ranking published for the twenty-eight institutions in our catalogue, each naming its own body and year. Sorted alphabetically, never by rank, because comparing a rank from one body against a rank from another would be inventing a number nobody published.",
+    "Every ranking published for the thirty institutions in our catalogue, each naming its own body and year. Sorted alphabetically, never by rank, because comparing a rank from one body against a rank from another would be inventing a number nobody published.",
   alternates: { canonical: "/universities/rankings" },
 };
 
@@ -173,7 +173,7 @@ export default async function RankingsPage(props: PageProps<"/universities/ranki
           </div>
 
           <p className="mt-6 max-w-2xl text-[0.875rem] leading-relaxed text-muted">
-            Twenty-eight institutions, seeded by hand. See{" "}
+            Thirty institutions, seeded by hand. See{" "}
             <Link href="/universities" className="font-medium text-blue-600 hover:text-blue-500">
               the full catalogue
             </Link>{" "}

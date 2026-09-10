@@ -404,8 +404,8 @@ not prune the audit trail for the deleted case, which `content/legal.ts` and
   needing a currency this session cannot verify.
 
 **Investigated, not done.** 4.16 (caching of verified university data): there
-is nothing to cache. The whole catalogue is twenty-eight institutions and
-thirty-five programmes held in memory, with no external fetch anywhere in the path, and
+is nothing to cache. The whole catalogue is thirty institutions and
+thirty-seven programmes held in memory, with no external fetch anywhere in the path, and
 every read is a plain synchronous loop over that array. Wrapping it in a
 cache would add a layer with nothing slow underneath it.
 

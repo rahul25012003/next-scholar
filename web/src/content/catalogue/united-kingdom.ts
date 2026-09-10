@@ -23,7 +23,7 @@ const UK_COMMISSION = {
 /**
  * The United Kingdom.
  *
- * Ten institutions across the range an Indian applicant actually shortlists,
+ * Twelve institutions across the range an Indian applicant actually shortlists,
  * from a Russell Group university with a high fee to a post-92 with a
  * substantially lower one and a placement year. Every one of them pays agents,
  * and every one of them carries the same unverified band, because no university
@@ -1176,6 +1176,205 @@ export const ukUniversities: University[] = [
     notChecked: [
       "The exact tuition fee: two different figures were found and neither was confirmed against the institution's own page this pass.",
       "The exact QS rank: two different positions were found; the band both agree inside is printed instead.",
+      "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
+    ],
+  },
+
+  {
+    slug: "university-of-warwick",
+    name: "University of Warwick",
+    destination: "united-kingdom",
+    city: "Coventry",
+    route: "Taught masters",
+    type: "public",
+    flagCode: "gb",
+    initials: "WAR",
+    summary:
+      "A campus outside Coventry with one of the strongest research reputations on this catalogue, and a fee that reflects it: this is the most expensive institution on the UK list.",
+    commission: UK_COMMISSION,
+    highlights: {
+      established: stated(1965, "Institution's own history page", RESEARCHED_ON),
+      totalStudents: stated(26515, "Institution's own press release announcing its QS 2027 result", RESEARCHED_ON),
+      internationalStudents: stated(
+        "About 44 per cent of the student body",
+        "Reported by independent ranking aggregators this pass; the institution's own statistics page was not directly read",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown("Not published in a form comparable with the other institutions on this catalogue."),
+      acceptanceRate: unknown(
+        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+      ),
+      accreditation: stated(
+        "UK degree-awarding body, recognised by the Office for Students",
+        "UK Office for Students register",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings",
+        year: 2027,
+        rank: "68th in the world, 10th in the UK",
+        scope: "World, all subjects",
+        source: "Institution's own press release announcing the result, fetched directly this pass",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "6.5 overall with no component below 6.0",
+          "Reported consistently across independent admissions publications; the institution's own programme page was not directly read this pass",
+          RESEARCHED_ON,
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "Full international tuition, at the higher of the institution's two fee bands, which applies to laboratory-based and most quantitative postgraduate courses including this one.",
+      "Reported consistently across independent fee-comparison publications for the 2026/27 entry year; the institution's own fee page was not directly read this pass",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: "smaller",
+    programmes: [
+      {
+        slug: "warwick-msc-data-analytics",
+        universitySlug: "university-of-warwick",
+        name: "MSc Data Analytics",
+        level: "masters",
+        disciplines: ["Data Science", "Computer Science"],
+        durationMonths: 12,
+        feePerYear: stated(
+          37460,
+          "Reported consistently across independent fee-comparison publications for 2026/27 entry; the institution's own fee page was not directly read to confirm it this pass",
+          RESEARCHED_ON,
+        ),
+        currency: "GBP",
+        feeQualifier: EDINBURGH_FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-08-02",
+            teachingStarts: "2027-09-28",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Coventry",
+          },
+        ],
+        entryRequirement: stated(
+          "A 2:1 honours degree or overseas equivalent in a quantitative subject; a 2:2 with relevant professional experience may also be considered.",
+          "Reported consistently across independent admissions publications; the institution's own programme page was not directly read this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: unknown("Not checked this pass."),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated on this one year taught programme."),
+        campus: "Coventry",
+      },
+    ],
+    notChecked: [
+      "The exact tuition fee, confirmed only against independent sources this pass; a similarly named but separate programme, MSc Economics and Data Science, carries a different IELTS requirement and was not checked.",
+      "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
+    ],
+  },
+
+  {
+    slug: "university-of-southampton",
+    name: "University of Southampton",
+    destination: "united-kingdom",
+    city: "Southampton",
+    route: "Taught masters",
+    type: "public",
+    flagCode: "gb",
+    initials: "SOTON",
+    summary:
+      "A south-coast port city, cheaper to live in than London and reachable from it by train, built around a strong engineering and electronics research base.",
+    commission: UK_COMMISSION,
+    highlights: {
+      established: stated(1862, "Institution's own history page, as the date of the original Hartley Institution", RESEARCHED_ON),
+      totalStudents: unknown(
+        "Independent sources disagreed within this session's search results, reporting figures between about 22,000 and 26,500 for different years; the institution's own statistics page was not directly read to resolve which is current.",
+      ),
+      internationalStudents: stated(
+        "More than 10,000 students from over 130 countries; independent sources disagreed on the proportion, reporting figures between about a third and 45 per cent of the student body",
+        "Independent sources disagreed within this session's search results; the institution's own statistics page was not directly read to resolve it",
+        RESEARCHED_ON,
+      ),
+      staffRatio: unknown("Not published in a form comparable with the other institutions on this catalogue."),
+      acceptanceRate: unknown(
+        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+      ),
+      accreditation: stated(
+        "UK degree-awarding body, recognised by the Office for Students",
+        "UK Office for Students register",
+        RESEARCHED_ON,
+      ),
+    },
+    rankings: [
+      {
+        body: "QS World University Rankings: Europe",
+        year: 2026,
+        rank: "33rd in Europe, 17th in the UK",
+        scope: "Europe",
+        source: "Institution's own news page, fetched directly this pass; the institution's own page did not separately state its QS World Ranking (all subjects) position, reported elsewhere as 87th",
+      },
+    ],
+    exams: [
+      {
+        exam: "IELTS Academic",
+        undergraduate: unknown("Checked for the postgraduate route only this pass."),
+        postgraduate: stated(
+          "6.5 overall with no component below 6.0",
+          "Institution's own programme page, fetched directly this pass",
+          RESEARCHED_ON,
+        ),
+      },
+    ],
+    tuitionNote: stated(
+      "Full international tuition, confirmed on the institution's own page for this specific programme.",
+      "Institution's own programme page, fetched directly this pass",
+      RESEARCHED_ON,
+    ),
+    costOfLivingCity: "smaller",
+    programmes: [
+      {
+        slug: "southampton-msc-artificial-intelligence",
+        universitySlug: "university-of-southampton",
+        name: "MSc Artificial Intelligence",
+        level: "masters",
+        disciplines: ["Computer Science", "Data Science"],
+        durationMonths: 12,
+        feePerYear: stated(
+          36800,
+          "Institution's own programme page, fetched directly this pass: a year's tuition stated as GBP 36,800",
+          RESEARCHED_ON,
+        ),
+        currency: "GBP",
+        feeQualifier: FEE_QUALIFIER,
+        intakes: [
+          {
+            name: "September",
+            applicationDeadline: "2027-06-30",
+            teachingStarts: "2027-09-01",
+            status: "not-yet-open",
+            statusAsOf: RESEARCHED_ON,
+            campus: "Highfield, Southampton",
+          },
+        ],
+        entryRequirement: stated(
+          "An upper second class (2:1) honours degree, 65 per cent or above, in computer science, software engineering, artificial intelligence or a closely related subject, with linear algebra, advanced programming and AI or machine learning coursework named as prerequisites.",
+          "Institution's own programme page, fetched directly this pass",
+          RESEARCHED_ON,
+        ),
+        prerequisites: stated(["Linear algebra", "Advanced programming (C, C++ or Java)", "AI or machine learning coursework"], "Institution's own programme page, fetched directly this pass", RESEARCHED_ON),
+        languageOfInstruction: "English",
+        placement: unknown("No placement term is stated on this one year taught programme."),
+        campus: "Highfield, Southampton",
+      },
+    ],
+    notChecked: [
+      "Total and international student counts: independent sources disagreed and the institution's own statistics page was not directly read to resolve it this pass.",
+      "The institution's own stated QS World University Ranking (all subjects) position; only its Europe-scoped ranking was confirmed directly this pass.",
       "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
     ],
   },
