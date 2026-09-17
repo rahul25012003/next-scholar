@@ -17,13 +17,13 @@ const shape = (delay: number, opacity = 1, drift = -14): CSSProperties =>
 const stroke = (delay: number): CSSProperties =>
   ({ "--shape-delay": `${delay}s` }) as CSSProperties;
 
-export function BackgroundShapes() {
+export function BackgroundShapes({ still = false }: { still?: boolean }) {
   return (
     <svg
       role="presentation"
       aria-hidden
       focusable="false"
-      className="anim-header anim-header--main"
+      className={`anim-header anim-header--main${still ? " anim-header--still" : ""}`}
       preserveAspectRatio="xMidYMid slice"
       viewBox="0 -40 1440 900"
     >

@@ -289,7 +289,7 @@ export const germany: DestinationGuide = {
     {
       title: "dMAT exemptions, including the transitional one",
       body:
-        "You do not sit the dMAT if you already hold a Master's degree, if you are applying to a subject outside the listed groups, if your Bachelor's is from outside India, or if you are applying for a Bachelor's rather than a Master's. There is also a transitional exemption: anyone who registered with or submitted documents to APS India before 29 June 2026 is outside the requirement. If your timeline is close to that date, it is worth knowing which side of it you are on before you plan around it.",
+        "You do not sit the dMAT if you already hold a Master's degree, if you are applying to a subject outside the listed groups, if your Bachelor's is from outside India, or if you are applying for a Bachelor's rather than a Master's. There is also a transitional exemption: anyone who registered with or submitted documents to APS India before 29 June 2026 is outside the requirement. That date has passed, so the exemption now only covers someone who had already registered or submitted documents by then; check the date on your own APS record before you plan around it.",
       source: "APS India",
       appliesTo: "Applicants who would otherwise be in scope",
     },
@@ -672,7 +672,7 @@ export const germany: DestinationGuide = {
     },
     {
       q: "Does the dMAT apply to me?",
-      a: "If you hold an Indian Bachelor's degree, are applying for a Master's in Engineering, Commerce, Business, Finance or Economics, and your intake is summer semester 2027 or later, then yes, unless an exemption applies. Registering with APS India before 29 June 2026 is one of those exemptions.",
+      a: "If you hold an Indian Bachelor's degree, are applying for a Master's in Engineering, Commerce, Business, Finance or Economics, and your intake is summer semester 2027 or later, then yes, unless an exemption applies. Having registered with APS India before 29 June 2026 is one of those exemptions.",
     },
     {
       q: "Will my three year Bachelor's be accepted?",

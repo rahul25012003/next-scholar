@@ -715,7 +715,7 @@ export const irishUniversities: University[] = [
       },
     ],
     tuitionNote: stated(
-      "Full non-EU tuition, at the lower end of this catalogue's Irish range. Independent sources gave two different figures for the computing programme in the same pass, printed as a range below rather than picking one.",
+      "Full non-EU tuition, reported by independent sources at EUR 15,000 or EUR 18,000 for the computing programme. The two did not agree and the institution's own fee schedule was not opened to settle it, so no single fee is printed below.",
       "Reported across independent fee-comparison publications; the institution's own fee schedule PDF was found but not directly opened this pass",
       RESEARCHED_ON,
     ),
@@ -728,10 +728,8 @@ export const irishUniversities: University[] = [
         level: "masters",
         disciplines: ["Computer Science"],
         durationMonths: 24,
-        feePerYear: stated(
-          15000,
-          "Reported by one independent source as the year-one fee; a second independent source reported EUR 18,000 for the same programme. The lower, more commonly repeated figure is shown, and the discrepancy is not resolved this pass",
-          RESEARCHED_ON,
+        feePerYear: unknown(
+          "Two independent sources disagreed on the year-one fee for this programme, EUR 15,000 against EUR 18,000, and the institution's own fee schedule was not opened to settle it. Printing either number as the fee would be choosing one of two reports, so no figure is shown until the institution's own schedule confirms it.",
         ),
         currency: "EUR",
         feeQualifier: FEE_QUALIFIER,
@@ -1180,7 +1178,7 @@ export const irishUniversities: University[] = [
       },
     ],
     tuitionNote: stated(
-      "Full international tuition, plus separate charges the headline fee does not include: a EUR 200 student services fee each year, a EUR 250 academic administration fee each September, and a 2 per cent learner protection charge. The same pre-visa payment requirement applies as across this Irish catalogue.",
+      "Full international tuition, reported by independent sources at EUR 13,000 or EUR 14,000, plus separate charges neither figure includes: a EUR 200 student services fee each year, a EUR 250 academic administration fee each September, and a 2 per cent learner protection charge. The same pre-visa payment requirement applies as across this Irish catalogue.",
       "Reported across independent fee-comparison publications; the institution's own programme page, fetched directly this pass, defers to a separate non-EU fees section that was not read",
       RESEARCHED_ON,
     ),
@@ -1193,10 +1191,8 @@ export const irishUniversities: University[] = [
         level: "masters",
         disciplines: ["Data Science", "Computer Science"],
         durationMonths: 12,
-        feePerYear: stated(
-          14000,
-          "Reported by one independent source as the year-one fee; a second independent source reported EUR 13,000 for the same programme. The more recent figure is shown, and the discrepancy is not resolved this pass; the institution's own programme page defers to a fees section that was not read",
-          RESEARCHED_ON,
+        feePerYear: unknown(
+          "Two independent sources disagreed on the year-one fee for this programme, EUR 13,000 against EUR 14,000, and the institution's own non-EU fees section was not read to settle it. Printing either number as the fee would be choosing one of two reports, so no figure is shown until the institution's own schedule confirms it.",
         ),
         currency: "EUR",
         feeQualifier: FEE_QUALIFIER,

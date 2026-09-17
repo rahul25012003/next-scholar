@@ -42,8 +42,8 @@ nav breakpoint 1300px rather than 1200px, because this nav carries nine items
 instead of seven; pill choice groups use `.button--selected` beside
 `.button--light`; body font DM Sans, since Apercu is commercial and absent.
 Two previously done items did not survive it: D.16 and the D.14 exemptions,
-both noted in their rows below. `reference/design-reference.png` is no longer
-the source of any token.
+both noted in their rows below. D.16 has since been restored on 2026-09-17.
+`reference/design-reference.png` is no longer the source of any token.
 
 ---
 
@@ -209,7 +209,7 @@ done in Phase 9 below.
 | 3.42 | "Read the case again" button, running the Case Summary agent on demand instead of only on the next note | `src/app/actions/case.ts` (`resummarise`), `src/components/app/case-controls.tsx` |
 | 4.30 | Related-search blocks built from queries the catalogue can actually answer: destination views, zero commission, rankings, scholarships, top disciplines | `src/components/catalogue/related-searches.tsx` |
 | 4.31 | Rankings gained text search and destination/body filters, all as GET parameters | `/universities/rankings` |
-| D.16 | Header condenses height and logo size past an 8px scroll threshold. **Undone by the 2026-09-13 design port:** the ported header has no scroll listener. Open again; see `REMAINING.md` B4 | `src/components/site/header.tsx` |
+| D.16 | Header stays on screen and condenses past an 8px scroll threshold. Undone by the 2026-09-13 design port, which made the header scroll away; restored 2026-09-17 against the ported `.Header` classes. At rest it is the reference's transparent header, unchanged; condensed it is 4.5rem on the ground colour, the height the university tab strip sticks under | `src/components/site/header.tsx`, `.Header--sticky` in `globals.css` |
 | D.17 | Found the real cause of a scroll-to-top failure: Lenis owns scroll position once mounted, so Next's native scroll reset on navigation moved the browser's offset but not Lenis's virtualised one. Fixed with `usePathname` plus `useLenis().scrollTo(0, { immediate: true })` | `src/components/ui/smooth-scroll.tsx` |
 | F.09 | English test comparison: IELTS, TOEFL iBT, PTE Academic, Duolingo, on scale, format, validity and historical UK SELT status, with an official link per test. No cross-test score conversion, and GRE/GMAT/SAT excluded as genuinely out of scope for a UK/Germany/Ireland Master's audience | `/tools/english-tests` |
 | 1.11, D.01 | Fifty routes walked at a real 390px viewport against a production build, not checked structurally. Found two shared bugs and fixed each at its one common cause: `sr-only` labels are absolute and so escaped their *static* `overflow-x-auto` table wrappers, keeping their position out at the table's full width and pushing nine routes sideways by up to 119px; and the button primitive's `whitespace-nowrap` plus fixed height sent a long label past the edge on three more. All fifty now measure zero horizontal scroll | `src/app/globals.css`, `src/components/ui/button.tsx`, `src/components/marketing/revenue-chart.tsx` |

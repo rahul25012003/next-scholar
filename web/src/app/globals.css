@@ -677,6 +677,14 @@
     animation: stroke-in 2s var(--ease-smooth) 0.4s forwards;
   }
 
+  /* Staff sit on the console and operations pages for hours. There the shapes
+     play their entrance and settle, instead of repainting the whole field on
+     an infinite drift that costs CPU and battery for no information. */
+  .anim-header--still .shape {
+    animation: shape-in 0.9s var(--ease-bounce) both;
+    animation-delay: var(--shape-delay, 0s);
+  }
+
   .Header {
     position: relative;
     z-index: 20;
@@ -786,6 +794,42 @@
     .Header__mobile-nav-modal {
       display: none;
     }
+  }
+
+  /* D.16. The site header stays on screen and condenses once the page moves.
+     At rest it is the reference's transparent header, unchanged. Condensed,
+     it is exactly 4.5rem tall, which is where the university tab strip
+     (top-18) sticks, and it takes the ground colour so the white panels
+     scrolling under it cannot swallow the white nav. */
+  .Header--sticky {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    transition:
+      background-color 200ms var(--ease-smooth),
+      box-shadow 200ms var(--ease-smooth);
+  }
+
+  .Header--sticky .Header__container {
+    transition: padding 200ms var(--ease-smooth);
+  }
+
+  .Header--condensed {
+    background-color: var(--color-blue-dark);
+    box-shadow: 0 1px 0 color-mix(in srgb, var(--color-white) 15%, transparent);
+  }
+
+  .Header--condensed .Header__container {
+    height: 4.5rem;
+    padding-top: 0;
+    padding-bottom: 0;
+    align-items: center;
+  }
+
+  .Header--condensed .Header__logo-mark {
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.9rem;
   }
 
   .modal-open .Header {

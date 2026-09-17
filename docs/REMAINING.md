@@ -16,10 +16,10 @@ at P0 needs a Supabase project or an API key.
 Since then, on 2026-09-13, the whole frontend was ported to the UX Fest
 reference design (commit `4710e4c`, recorded in `STATUS.md`). Content, domain
 and data were untouched; two done items were not. **D.16** (the header
-condensing on scroll) no longer exists in the ported `header.tsx`, and the five
-`token-exempt` values from **D.14** were replaced by the reference's own class
-system, so the lint rule now has nothing to exempt. Both are noted in place
-below rather than re-opened silently.
+condensing on scroll) was dropped by the port and restored on 2026-09-17, and
+the five `token-exempt` values from **D.14** were replaced by the reference's
+own class system, so the lint rule now has nothing to exempt. Both are noted in
+place below rather than re-opened silently.
 
 State at handover: `npm test` 363 passing, `npm run lint` clean, `npm run build`
 clean, `npm run smoke` clean across 71 checked URLs. This count does not yet
@@ -429,9 +429,14 @@ or hex values and zero exemptions.
 - **D.16** — The header now reads scroll position and condenses its height
   (h-18 to h-14) and logo size past an 8px threshold, with a CSS transition
   the global reduced-motion rule already collapses. **Undone by the design
-  port of 2026-09-13:** the ported `header.tsx` carries no scroll listener and
-  no condensed state. It is a P3 in `BACKLOG.md`; re-do it against the new
-  `.Header` classes or record a decision not to.
+  port of 2026-09-13, restored on 2026-09-17.** The port had not only dropped
+  the scroll listener but made the header scroll away, which left the
+  university tab strip sticking 72px down the viewport with page content
+  showing above it, and the side rails pinned under a header that was gone.
+  The restored header is sticky, the reference's transparent header at rest,
+  and 4.5rem on the ground colour once condensed, which is exactly where the
+  tab strip's `top-18` sits. The console, ops and portal keep their own static
+  header; D.16 was the public one.
 - **D.17** — Found the actual cause: Lenis (the smooth-scroll library
   wrapping the whole app) owns scroll position once mounted, so the browser's
   native scroll-to-top-on-navigation never visibly did anything — the native

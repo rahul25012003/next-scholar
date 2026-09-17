@@ -23,7 +23,7 @@ export function AppShell({
 }) {
   return (
     <div className="flex min-h-screen flex-col">
-      <BackgroundShapes />
+      <BackgroundShapes still />
       <header className="Header">
         <div className="Header__container constrain">
           <Link href="/" className="Header__logo" title="Home">

@@ -11,19 +11,31 @@ import { cn } from "@/lib/cn";
 /**
  * The reference header: transparent over the blue ground, a white wordmark,
  * white nav links with an underline that scales in, and the primary action
- * as the pink pill. Below 1200px the nav collapses to the hamburger, whose
+ * as the pink pill. Below 1300px the nav collapses to the hamburger, whose
  * three lines morph into a cross, and opens the full-screen blue dialog with
  * its links fading up one after another.
  *
  * The reference nav is seven flat links. This one has five groups and their
  * children, so each group opens a white menu in the same idiom, and the
  * dialog lists every child under its group.
+ *
+ * Unlike the reference, the header stays on screen and condenses once the
+ * page moves (D.16). The sticky side rails and the university tab strip were
+ * built to sit under it, so a header that scrolled away left them floating.
  */
 export function SiteHeader() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [condensed, setCondensed] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const onScroll = () => setCondensed(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -124,7 +136,7 @@ export function SiteHeader() {
 
       <BackgroundShapes />
 
-      <header className="Header">
+      <header className={cn("Header Header--sticky", condensed && "Header--condensed")}>
         <div className="Header__container constrain">
           <Link href="/" className="Header__logo" title="Home" onClick={close}>
             <span className="Header__logo-mark" aria-hidden>
