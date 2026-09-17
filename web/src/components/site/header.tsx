@@ -120,10 +120,11 @@ export function SiteHeader() {
                   {secondaryCta.label}
                 </Link>
               </li>
-              <li className="Nav__listItem">
+              <li className="Nav__listItem anim-explode-container">
                 <Link className="Nav__link Nav__link--cta" href={primaryCta.href} onClick={close}>
                   {primaryCta.label}
                 </Link>
+                <ExplodeBurst />
               </li>
             </ul>
           </nav>

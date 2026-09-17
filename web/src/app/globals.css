@@ -639,6 +639,21 @@
     }
   }
 
+  /* The burst is absolutely positioned decoration, so it must never take a
+     margin. Spacing rules like the mobile menu's `.Nav__list * + *` give the
+     next sibling margin-top: 1rem, which pushed the burst 16px below its
+     button. svg.anim-explode outranks those rules on specificity. */
+  .anim-explode-container svg.anim-explode {
+    margin: 0;
+  }
+
+  /* A phone has no hover, so without this the burst would never play on a
+     pink button there. It fires on the press instead. */
+  .anim-explode-container:active .anim-explode circle,
+  .anim-explode-container:active .anim-explode path {
+    animation: explode 0.9s var(--ease-smooth) both;
+  }
+
   /* ----------------------------------------------------------------------
      Header
      ------------------------------------------------------------------- */

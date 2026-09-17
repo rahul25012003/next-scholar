@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ChatCircleDots, WhatsappLogo, X } from "@phosphor-icons/react";
 import { channels } from "@/content/site";
+import { ExplodeBurst } from "@/components/ui/explode-burst";
 
 /**
  * The persistent contact control.
@@ -137,16 +138,19 @@ export function TalkToUs() {
             </motion.div>
           )}
 
-          <button
-            ref={toggleRef}
-            type="button"
-            onClick={() => setOpen((value) => !value)}
-            aria-expanded={open}
-            className="button button--pink inline-flex items-center gap-2"
-          >
-            <ChatCircleDots size={20} weight="fill" aria-hidden />
-            Talk to a counsellor
-          </button>
+          <div className="anim-explode-container">
+            <button
+              ref={toggleRef}
+              type="button"
+              onClick={() => setOpen((value) => !value)}
+              aria-expanded={open}
+              className="button button--pink inline-flex items-center gap-2"
+            >
+              <ChatCircleDots size={20} weight="fill" aria-hidden />
+              Talk to a counsellor
+            </button>
+            <ExplodeBurst />
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
