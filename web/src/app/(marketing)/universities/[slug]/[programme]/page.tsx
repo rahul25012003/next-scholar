@@ -63,10 +63,10 @@ export default async function ProgrammePage(
 
   return (
     <>
-      <section className="border-b border-line bg-surface">
-        <div className="shell py-10 md:py-14">
-          <nav aria-label="Breadcrumb" className="text-[0.875rem] text-muted">
-            <Link href="/universities" className="font-medium text-blue-600 hover:text-blue-500">
+      <section className="band">
+        <div className="shell">
+          <nav aria-label="Breadcrumb" className="text-[0.875rem] text-grey">
+            <Link href="/universities" className="font-medium text-pink hover:text-blue">
               All courses
             </Link>
             <span aria-hidden className="mx-2">
@@ -74,16 +74,16 @@ export default async function ProgrammePage(
             </span>
             <Link
               href={`/universities/${row.university.slug}`}
-              className="font-medium text-blue-600 hover:text-blue-500"
+              className="font-medium text-pink hover:text-blue"
             >
               {row.university.name}
             </Link>
           </nav>
 
-          <h1 className="mt-4 max-w-3xl font-display text-[1.875rem] font-extrabold leading-tight tracking-[-0.03em] text-navy-900 md:text-[2.5rem]">
+          <h1 className="mt-4 max-w-3xl text-blue-dark">
             {row.name}
           </h1>
-          <p className="mt-3 text-[1rem] text-body">
+          <p className="mt-3 text-grey">
             {row.university.name}, {row.campus}. {row.durationMonths} months, taught in{" "}
             {row.languageOfInstruction}.
           </p>
@@ -99,25 +99,25 @@ export default async function ProgrammePage(
         </div>
       </section>
 
-      <section className="bg-paper py-10 md:py-14">
+      <section className="band">
         <div className="shell grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
           <div className="min-w-0 space-y-9">
             <div>
-              <h2 className="font-display text-[1.375rem] font-bold text-navy-900">
+              <h2 className="text-blue-dark">
                 Tuition
               </h2>
-              <div className="mt-4 rounded-panel border border-line bg-paper p-6">
-                <p className="figures text-[2rem] font-bold leading-none text-navy-900">
+              <div className="mt-4 rounded-panel border border-line bg-white p-6">
+                <p className="figures text-[2rem] font-bold leading-none text-blue-dark">
                   {row.feePerYear.state === "stated"
                     ? formatFee(row.feePerYear.value, row.currency)
                     : "Not published here"}
                   {row.feePerYear.state === "stated" && (
-                    <span className="ml-2 font-sans text-[0.875rem] font-normal text-muted">
+                    <span className="ml-2 font-sans text-[0.875rem] font-normal text-grey">
                       per year
                     </span>
                   )}
                 </p>
-                <p className="mt-3 text-[0.9375rem] leading-relaxed text-body">
+                <p className="mt-3 text-[0.9375rem] leading-relaxed text-grey">
                   {row.feeQualifier}
                 </p>
                 <div className="mt-4 border-t border-line pt-4">
@@ -127,35 +127,35 @@ export default async function ProgrammePage(
             </div>
 
             <div>
-              <h2 className="font-display text-[1.375rem] font-bold text-navy-900">
+              <h2 className="text-blue-dark">
                 Intakes
               </h2>
-              <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-body">
+              <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
                 Deadlines as dates. Where a status is stated, the date it was established is
                 stated with it, because an intake marked open six months ago is not evidence
                 that it is open now.
               </p>
-              <div className="mt-4 overflow-x-auto rounded-panel border border-line bg-paper">
+              <div className="mt-4 overflow-x-auto rounded-panel border border-line bg-white">
                 <table className="w-full min-w-[38rem] border-collapse text-left">
                   <caption className="sr-only">
                     Intakes for {row.name}, with application deadlines, start dates, campus
                     and status.
                   </caption>
                   <thead>
-                    <tr className="border-b border-line bg-surface">
-                      <th scope="col" className="px-5 py-3 text-[0.75rem] font-semibold text-navy-900">
+                    <tr className="border-b border-line bg-light">
+                      <th scope="col" className="px-5 py-3 text-[0.75rem] font-semibold text-blue-dark">
                         Intake
                       </th>
-                      <th scope="col" className="px-5 py-3 text-[0.75rem] font-semibold text-navy-900">
+                      <th scope="col" className="px-5 py-3 text-[0.75rem] font-semibold text-blue-dark">
                         Apply by
                       </th>
-                      <th scope="col" className="px-5 py-3 text-[0.75rem] font-semibold text-navy-900">
+                      <th scope="col" className="px-5 py-3 text-[0.75rem] font-semibold text-blue-dark">
                         Teaching starts
                       </th>
-                      <th scope="col" className="px-5 py-3 text-[0.75rem] font-semibold text-navy-900">
+                      <th scope="col" className="px-5 py-3 text-[0.75rem] font-semibold text-blue-dark">
                         Campus
                       </th>
-                      <th scope="col" className="px-5 py-3 text-[0.75rem] font-semibold text-navy-900">
+                      <th scope="col" className="px-5 py-3 text-[0.75rem] font-semibold text-blue-dark">
                         Status
                       </th>
                     </tr>
@@ -163,16 +163,16 @@ export default async function ProgrammePage(
                   <tbody className="divide-y divide-line">
                     {row.intakes.map((intake) => (
                       <tr key={intake.name}>
-                        <th scope="row" className="px-5 py-4 text-[0.875rem] font-semibold text-navy-900">
+                        <th scope="row" className="px-5 py-4 text-[0.875rem] font-semibold text-blue-dark">
                           {intake.name}
                         </th>
-                        <td className="figures px-5 py-4 text-[0.875rem] text-body">
+                        <td className="figures px-5 py-4 text-[0.875rem] text-grey">
                           {intake.applicationDeadline}
                         </td>
-                        <td className="figures px-5 py-4 text-[0.875rem] text-body">
+                        <td className="figures px-5 py-4 text-[0.875rem] text-grey">
                           {intake.teachingStarts}
                         </td>
-                        <td className="px-5 py-4 text-[0.875rem] text-body">
+                        <td className="px-5 py-4 text-[0.875rem] text-grey">
                           {intake.campus ?? row.campus}
                         </td>
                         <td className="px-5 py-4">
@@ -184,7 +184,7 @@ export default async function ProgrammePage(
                           >
                             {intakeLabel[intake.status]}
                           </span>
-                          <span className="figures mt-1 block text-[0.6875rem] text-muted">
+                          <span className="figures mt-1 block text-[0.6875rem] text-grey">
                             as of {intake.statusAsOf}
                           </span>
                         </td>
@@ -196,20 +196,20 @@ export default async function ProgrammePage(
             </div>
 
             <div>
-              <h2 className="font-display text-[1.375rem] font-bold text-navy-900">
+              <h2 className="text-blue-dark">
                 Entry requirements
               </h2>
               <div className="mt-4 space-y-4">
-                <div className="rounded-panel border border-line bg-paper p-6">
-                  <h3 className="text-[0.8125rem] font-semibold uppercase tracking-wide text-muted">
+                <div className="rounded-panel border border-line bg-white p-6">
+                  <h3 className="eyebrow text-grey">
                     The degree
                   </h3>
                   <div className="mt-2">
                     <FieldValue field={row.entryRequirement} />
                   </div>
                 </div>
-                <div className="rounded-panel border border-line bg-paper p-6">
-                  <h3 className="text-[0.8125rem] font-semibold uppercase tracking-wide text-muted">
+                <div className="rounded-panel border border-line bg-white p-6">
+                  <h3 className="eyebrow text-grey">
                     Subject prerequisites
                   </h3>
                   <div className="mt-2">
@@ -220,7 +220,7 @@ export default async function ProgrammePage(
                           {value.map((item) => (
                             <span
                               key={item}
-                              className="rounded-input bg-surface px-2.5 py-1 text-[0.8125rem] text-navy-900"
+                              className="rounded-input bg-light px-2.5 py-1 text-[0.8125rem] text-blue-dark"
                             >
                               {item}
                             </span>
@@ -230,14 +230,14 @@ export default async function ProgrammePage(
                     />
                   </div>
                   {row.university.destination === "germany" && (
-                    <p className="mt-4 border-t border-line pt-4 text-[0.875rem] leading-relaxed text-body">
+                    <p className="mt-4 border-t border-line pt-4 text-[0.875rem] leading-relaxed text-grey">
                       On the German route these are not advisory. Admission is decided
                       largely on credit counts in exactly these areas, and a programme that
                       asks for 30 ECTS in mathematics and finds 18 rejects on that whatever
                       the overall grade was.{" "}
                       <Link
                         href="/tools/ects-check"
-                        className="font-medium text-blue-600 hover:text-blue-500"
+                        className="font-medium text-pink hover:text-blue"
                       >
                         Check your credits against them
                       </Link>
@@ -245,8 +245,8 @@ export default async function ProgrammePage(
                     </p>
                   )}
                 </div>
-                <div className="rounded-panel border border-line bg-paper p-6">
-                  <h3 className="text-[0.8125rem] font-semibold uppercase tracking-wide text-muted">
+                <div className="rounded-panel border border-line bg-white p-6">
+                  <h3 className="eyebrow text-grey">
                     Placement or internship
                   </h3>
                   <div className="mt-2">
@@ -257,7 +257,7 @@ export default async function ProgrammePage(
             </div>
 
             <div>
-              <h2 className="font-display text-[1.375rem] font-bold text-navy-900">
+              <h2 className="text-blue-dark">
                 Subjects
               </h2>
               <ul className="mt-3 flex flex-wrap gap-2">
@@ -265,7 +265,7 @@ export default async function ProgrammePage(
                   <li key={discipline}>
                     <Link
                       href={`/universities?discipline=${encodeURIComponent(discipline)}`}
-                      className="inline-block rounded-full border border-line-strong px-3.5 py-1.5 text-[0.875rem] text-navy-900 transition-colors hover:border-blue-600 hover:text-blue-600"
+                      className="button button--light"
                     >
                       {discipline}
                     </Link>
@@ -276,8 +276,8 @@ export default async function ProgrammePage(
           </div>
 
           <aside className="grid gap-5 lg:sticky lg:top-24">
-            <div className="rounded-panel border border-line bg-paper p-6">
-              <h2 className="font-display text-[1rem] font-bold text-navy-900">
+            <div className="rounded-panel border border-line bg-white p-6">
+              <h2 className="text-blue-dark h--6">
                 What we earn if you enrol here
               </h2>
               <div className="mt-3">
@@ -288,22 +288,22 @@ export default async function ProgrammePage(
               </div>
               <Link
                 href="/open-ledger"
-                className="mt-4 inline-block text-[0.875rem] font-medium text-blue-600 hover:text-blue-500"
+                className="mt-4 inline-block text-[0.875rem] font-medium text-pink hover:text-blue"
               >
                 How the figure is verified
               </Link>
             </div>
 
             {guide && (
-              <div className="rounded-panel border border-line bg-surface p-6">
-                <h2 className="font-display text-[1rem] font-bold text-navy-900">
+              <div className="rounded-panel border border-line bg-light p-6">
+                <h2 className="text-blue-dark h--6">
                   The rest of the {guide.country} route
                 </h2>
                 <ul className="mt-3 space-y-2.5 text-[0.875rem]">
                   <li>
                     <Link
                       href={`/destinations/${guide.slug}#funds`}
-                      className="text-blue-600 hover:text-blue-500"
+                      className="text-pink hover:text-blue"
                     >
                       What the visa authority wants to see
                     </Link>
@@ -311,7 +311,7 @@ export default async function ProgrammePage(
                   <li>
                     <Link
                       href={`/destinations/${guide.slug}#visa`}
-                      className="text-blue-600 hover:text-blue-500"
+                      className="text-pink hover:text-blue"
                     >
                       Visa steps, in order
                     </Link>
@@ -319,7 +319,7 @@ export default async function ProgrammePage(
                   <li>
                     <Link
                       href={`/tools/cost-of-living?destination=${guide.slug}`}
-                      className="text-blue-600 hover:text-blue-500"
+                      className="text-pink hover:text-blue"
                     >
                       Cost of living in {row.university.city}
                     </Link>
@@ -327,7 +327,7 @@ export default async function ProgrammePage(
                   <li>
                     <Link
                       href={`/tools/requirements-check?destination=${guide.slug}`}
-                      className="text-blue-600 hover:text-blue-500"
+                      className="text-pink hover:text-blue"
                     >
                       Where you stand, requirement by requirement
                     </Link>
@@ -336,17 +336,17 @@ export default async function ProgrammePage(
               </div>
             )}
 
-            <div className="rounded-panel border border-line bg-surface p-6">
-              <h2 className="font-display text-[1rem] font-bold text-navy-900">
+            <div className="rounded-panel border border-line bg-light p-6">
+              <h2 className="text-blue-dark h--6">
                 Comparing this with others
               </h2>
-              <p className="mt-2 text-[0.875rem] leading-relaxed text-body">
+              <p className="mt-2 text-[0.875rem] leading-relaxed text-grey">
                 Save it and put it side by side with anything else on the catalogue, fee
                 against fee and commission against commission.
               </p>
               <Link
                 href="/shortlist"
-                className="group mt-3 inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-blue-600 hover:text-blue-500"
+                className="group mt-3 inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue"
               >
                 Your shortlist
                 <ArrowRight

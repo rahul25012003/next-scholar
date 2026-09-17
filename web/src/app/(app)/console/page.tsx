@@ -113,30 +113,30 @@ export default async function ConsolePage(props: PageProps<"/console">) {
         <div className="grid gap-6 lg:grid-cols-3">
           <Panel title="Your caseload">
             <div className="px-6 py-5">
-              <p className="figures text-[1.75rem] font-semibold text-navy-900">
+              <p className="figures text-[1.75rem] font-semibold text-blue-dark">
                 {mine.length}
               </p>
-              <p className="mt-1 text-[0.8125rem] text-muted">
+              <p className="mt-1 text-[0.8125rem] text-grey">
                 Team average {teamAverage}. Reassignment is a manager action.
               </p>
             </div>
           </Panel>
           <Panel title="Waiting on you">
             <div className="px-6 py-5">
-              <p className="figures text-[1.75rem] font-semibold text-navy-900">
+              <p className="figures text-[1.75rem] font-semibold text-blue-dark">
                 {followUps.length}
               </p>
-              <p className="mt-1 text-[0.8125rem] text-muted">
+              <p className="mt-1 text-[0.8125rem] text-grey">
                 Raised from stored dates and timestamps, never from a guess.
               </p>
             </div>
           </Panel>
           <Panel title="Escalated">
             <div className="px-6 py-5">
-              <p className="figures text-[1.75rem] font-semibold text-navy-900">
+              <p className="figures text-[1.75rem] font-semibold text-blue-dark">
                 {escalations.length}
               </p>
-              <p className="mt-1 text-[0.8125rem] text-muted">
+              <p className="mt-1 text-[0.8125rem] text-grey">
                 A manager decides the response. Nothing resolves itself.
               </p>
             </div>
@@ -149,20 +149,20 @@ export default async function ConsolePage(props: PageProps<"/console">) {
           action={
             <form method="get" action="/console" className="flex flex-wrap items-end gap-2">
               <label className="block">
-                <span className="block text-[0.6875rem] text-muted">Search</span>
+                <span className="block text-[0.6875rem] text-grey">Search</span>
                 <input
                   name="q"
                   defaultValue={query}
                   placeholder="Name, route or intake"
-                  className="mt-1 w-44 rounded-input border border-line-strong px-2.5 py-1.5 text-[0.8125rem] text-navy-900"
+                  className="mt-1 w-44 rounded-card border border-line-strong px-2.5 py-1.5 text-[0.8125rem] text-blue-dark"
                 />
               </label>
               <label className="block">
-                <span className="block text-[0.6875rem] text-muted">Stage</span>
+                <span className="block text-[0.6875rem] text-grey">Stage</span>
                 <select
                   name="stage"
                   defaultValue={stageFilter}
-                  className="mt-1 rounded-input border border-line-strong bg-paper px-2.5 py-1.5 text-[0.8125rem] text-navy-900"
+                  className="mt-1 rounded-card border border-line-strong bg-white px-2.5 py-1.5 text-[0.8125rem] text-blue-dark"
                 >
                   <option value="">Any</option>
                   {stages.map((stage) => (
@@ -173,11 +173,11 @@ export default async function ConsolePage(props: PageProps<"/console">) {
                 </select>
               </label>
               <label className="block">
-                <span className="block text-[0.6875rem] text-muted">Priority</span>
+                <span className="block text-[0.6875rem] text-grey">Priority</span>
                 <select
                   name="priority"
                   defaultValue={priorityFilter}
-                  className="mt-1 rounded-input border border-line-strong bg-paper px-2.5 py-1.5 text-[0.8125rem] text-navy-900"
+                  className="mt-1 rounded-card border border-line-strong bg-white px-2.5 py-1.5 text-[0.8125rem] text-blue-dark"
                 >
                   <option value="">Any</option>
                   {["Urgent", "High", "Normal"].map((value) => (
@@ -188,11 +188,11 @@ export default async function ConsolePage(props: PageProps<"/console">) {
                 </select>
               </label>
               <label className="block">
-                <span className="block text-[0.6875rem] text-muted">Service level</span>
+                <span className="block text-[0.6875rem] text-grey">Service level</span>
                 <select
                   name="sla"
                   defaultValue={slaFilter}
-                  className="mt-1 rounded-input border border-line-strong bg-paper px-2.5 py-1.5 text-[0.8125rem] text-navy-900"
+                  className="mt-1 rounded-card border border-line-strong bg-white px-2.5 py-1.5 text-[0.8125rem] text-blue-dark"
                 >
                   <option value="">Any</option>
                   {(["breached", "due", "within", "not-applicable"] as SlaState[]).map(
@@ -205,11 +205,11 @@ export default async function ConsolePage(props: PageProps<"/console">) {
                 </select>
               </label>
               <label className="block">
-                <span className="block text-[0.6875rem] text-muted">Order by</span>
+                <span className="block text-[0.6875rem] text-grey">Order by</span>
                 <select
                   name="sort"
                   defaultValue={sort}
-                  className="mt-1 rounded-input border border-line-strong bg-paper px-2.5 py-1.5 text-[0.8125rem] text-navy-900"
+                  className="mt-1 rounded-card border border-line-strong bg-white px-2.5 py-1.5 text-[0.8125rem] text-blue-dark"
                 >
                   {sorts.map((option) => (
                     <option key={option.key} value={option.key}>
@@ -220,14 +220,14 @@ export default async function ConsolePage(props: PageProps<"/console">) {
               </label>
               <button
                 type="submit"
-                className="rounded-full bg-blue-600 px-4 py-2 text-[0.8125rem] font-medium text-white transition-colors hover:bg-blue-500"
+                className="button"
               >
                 Apply
               </button>
               {filtered && (
                 <Link
                   href="/console"
-                  className="px-1 py-2 text-[0.8125rem] font-medium text-muted hover:text-blue-600"
+                  className="px-1 py-2 text-[0.8125rem] font-medium text-grey hover:text-pink"
                 >
                   Clear
                 </Link>
@@ -263,7 +263,7 @@ export default async function ConsolePage(props: PageProps<"/console">) {
                         <th
                           key={heading}
                           scope="col"
-                          className="px-6 py-3 text-[0.75rem] font-semibold text-muted"
+                          className="px-6 py-3 text-[0.75rem] font-semibold text-grey"
                         >
                           {heading}
                         </th>
@@ -275,7 +275,7 @@ export default async function ConsolePage(props: PageProps<"/console">) {
                   {rows.map(({ record, events, risk, stuckFor, sla }) => (
                     <tr key={record.id} className="border-b border-line last:border-b-0">
                       <td className="px-6 py-4">
-                        <p className="text-[0.9375rem] font-medium text-navy-900">
+                        <p className="text-[0.9375rem] font-medium text-blue-dark">
                           {record.name}
                         </p>
                         <span
@@ -284,30 +284,30 @@ export default async function ConsolePage(props: PageProps<"/console">) {
                           {record.priority}
                         </span>
                         {record.needsManualReview && (
-                          <span className="mt-1 ml-1.5 inline-block rounded-input bg-pending-bg px-2 py-0.5 text-[0.6875rem] font-medium text-pending">
+                          <span className="mt-1 ml-1.5 inline-block rounded-card bg-pending-bg px-2 py-0.5 text-[0.6875rem] font-medium text-pending">
                             Needs a person
                           </span>
                         )}
                       </td>
-                      <td className="px-6 py-4 text-[0.875rem] text-body">
+                      <td className="px-6 py-4 text-[0.875rem] text-grey">
                         {record.destination}
                         {record.route ? `, ${record.route}` : ""}
-                        <span className="mt-0.5 block text-[0.8125rem] text-muted">
+                        <span className="mt-0.5 block text-[0.8125rem] text-grey">
                           {record.intake}
                         </span>
                         {!record.route && (
-                          <span className="mt-1 inline-block rounded-input bg-pending-bg px-2 py-0.5 text-[0.6875rem] font-medium text-pending">
+                          <span className="mt-1 inline-block rounded-card bg-pending-bg px-2 py-0.5 text-[0.6875rem] font-medium text-pending">
                             No route set
                           </span>
                         )}
                       </td>
-                      <td className="px-6 py-4 text-[0.875rem] capitalize text-body">
+                      <td className="px-6 py-4 text-[0.875rem] capitalize text-grey">
                         {record.stage.replace("-", " ")}
-                        <span className="figures mt-0.5 block text-[0.8125rem] text-muted">
+                        <span className="figures mt-0.5 block text-[0.8125rem] text-grey">
                           {stuckFor} days here
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-[0.875rem] text-body">
+                      <td className="px-6 py-4 text-[0.875rem] text-grey">
                         {record.docStatus}
                       </td>
                       <td className="px-6 py-4">
@@ -325,7 +325,7 @@ export default async function ConsolePage(props: PageProps<"/console">) {
                           {slaLabel[sla]}
                         </span>
                       </td>
-                      <td className="figures px-6 py-4 text-[0.875rem] text-navy-900">
+                      <td className="figures px-6 py-4 text-[0.875rem] text-blue-dark">
                         {events.length}
                       </td>
                       <td className="px-6 py-4">
@@ -344,7 +344,7 @@ export default async function ConsolePage(props: PageProps<"/console">) {
                       <td className="px-6 py-4 text-right">
                         <Link
                           href={`/console/${record.id}`}
-                          className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-blue-600 hover:text-blue-500"
+                          className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue"
                         >
                           Open
                           <ArrowRight size={14} weight="bold" aria-hidden />
@@ -356,7 +356,7 @@ export default async function ConsolePage(props: PageProps<"/console">) {
               </table>
             </div>
           )}
-          <p className="border-t border-line px-6 py-3 text-[0.75rem] text-muted">
+          <p className="border-t border-line px-6 py-3 text-[0.75rem] text-grey">
             {RISK_DISCLAIMER}
           </p>
         </Panel>
@@ -380,7 +380,7 @@ export default async function ConsolePage(props: PageProps<"/console">) {
                 {followUps.map((event) => (
                   <li key={event.key} className="px-6 py-4">
                     <div className="flex items-start justify-between gap-4">
-                      <p className="text-[0.9375rem] font-medium text-navy-900">
+                      <p className="text-[0.9375rem] font-medium text-blue-dark">
                         {event.title}
                       </p>
                       <span
@@ -389,10 +389,10 @@ export default async function ConsolePage(props: PageProps<"/console">) {
                         {event.priority}
                       </span>
                     </div>
-                    <p className="mt-1 text-[0.875rem] leading-relaxed text-body">
+                    <p className="mt-1 text-[0.875rem] leading-relaxed text-grey">
                       {event.detail}
                     </p>
-                    <p className="mt-1.5 text-[0.75rem] text-muted">
+                    <p className="mt-1.5 text-[0.75rem] text-grey">
                       Read from: {event.basis}
                     </p>
                   </li>
@@ -414,10 +414,10 @@ export default async function ConsolePage(props: PageProps<"/console">) {
               <ul className="divide-y divide-line">
                 {escalations.map((event) => (
                   <li key={event.key} className="px-6 py-4">
-                    <p className="text-[0.9375rem] font-medium text-navy-900">
+                    <p className="text-[0.9375rem] font-medium text-blue-dark">
                       {event.title}
                     </p>
-                    <p className="mt-1 text-[0.875rem] leading-relaxed text-body">
+                    <p className="mt-1 text-[0.875rem] leading-relaxed text-grey">
                       {event.detail}
                     </p>
                   </li>

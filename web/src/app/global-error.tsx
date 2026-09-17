@@ -23,10 +23,10 @@ export default function GlobalError({
           minHeight: "100vh",
           display: "grid",
           placeItems: "center",
-          backgroundColor: "#f6f8fc",
-          color: "#5b6472",
-          fontFamily: "ui-sans-serif, system-ui, sans-serif",
-          lineHeight: 1.65,
+          backgroundColor: "#205bad",
+          color: "#f0f0f0",
+          fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+          lineHeight: 1.5,
           padding: "2rem 1.25rem",
         }}
       >
@@ -36,10 +36,10 @@ export default function GlobalError({
             style={{
               margin: 0,
               fontSize: "0.8125rem",
-              fontWeight: 600,
+              fontWeight: 700,
               letterSpacing: "0.04em",
               textTransform: "uppercase",
-              color: "#b42318",
+              color: "#c7dbf4",
             }}
           >
             Application error
@@ -47,15 +47,15 @@ export default function GlobalError({
           <h1
             style={{
               margin: "0.75rem 0 0",
-              fontSize: "1.875rem",
-              lineHeight: 1.15,
-              letterSpacing: "-0.03em",
-              color: "#0e2a5e",
+              fontSize: "2.2rem",
+              lineHeight: 1.2,
+              fontWeight: 900,
+              color: "#ffffff",
             }}
           >
             The site failed to load
           </h1>
-          <p style={{ margin: "1.25rem 0 0", fontSize: "1.0625rem" }}>
+          <p style={{ margin: "1.25rem 0 0", fontSize: "1.125rem" }}>
             This is a failure in the application itself rather than in the page you asked
             for. Nothing you were reading was stored on your behalf, and no action you took
             on a public page was lost, because public pages do not store anything.
@@ -66,13 +66,12 @@ export default function GlobalError({
                 margin: "1.5rem 0 0",
                 padding: "1rem 1.25rem",
                 background: "#ffffff",
-                border: "1px solid #e7ebf3",
-                borderRadius: "1rem",
+                color: "#484848",
                 fontSize: "0.9375rem",
               }}
             >
-              <strong style={{ color: "#0e2a5e" }}>Reference:</strong>{" "}
-              <span style={{ fontFamily: "ui-monospace, monospace" }}>{error.digest}</span>
+              <strong style={{ color: "#205bad" }}>Reference:</strong>{" "}
+              <span style={{ fontVariantNumeric: "tabular-nums" }}>{error.digest}</span>
             </p>
           )}
           <div style={{ marginTop: "2rem", display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
@@ -81,12 +80,12 @@ export default function GlobalError({
               style={{
                 appearance: "none",
                 border: "none",
-                borderRadius: "999px",
-                background: "#1553d6",
+                borderRadius: "99px",
+                background: "#de2870",
                 color: "#ffffff",
-                padding: "0.8rem 1.75rem",
-                fontSize: "1rem",
-                fontWeight: 500,
+                padding: "0.5rem 2.5rem",
+                fontSize: "1.125rem",
+                fontWeight: 700,
                 cursor: "pointer",
               }}
             >
@@ -96,13 +95,12 @@ export default function GlobalError({
             <a
               href="/"
               style={{
-                borderRadius: "999px",
-                border: "1px solid #d3dae8",
-                background: "#ffffff",
-                color: "#0e2a5e",
-                padding: "0.8rem 1.75rem",
-                fontSize: "1rem",
-                fontWeight: 500,
+                borderRadius: "99px",
+                background: "#4899df",
+                color: "#ffffff",
+                padding: "0.5rem 2.5rem",
+                fontSize: "1.125rem",
+                fontWeight: 700,
                 textDecoration: "none",
               }}
             >

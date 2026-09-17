@@ -1,5 +1,8 @@
 import { Check, Minus } from "@phosphor-icons/react/ssr";
 import { Reveal } from "@/components/ui/reveal";
+import { ImageSwipe } from "@/components/marketing/image-swipe";
+import { heroPortraitImage, photos, photoUrl } from "@/content/photos";
+import { site } from "@/content/site";
 
 const usual = [
   "The commission is real, and it is never disclosed to you.",
@@ -15,43 +18,38 @@ const ours = [
   "Every row is re-verified and republished quarterly, with the date attached.",
 ];
 
+/**
+ * The reference's intro panel: a heading across the top, the copy in the
+ * left half, and the photo collage hanging off the bottom right corner. The
+ * two comparison lists sit under the copy in the same half.
+ */
 export function TheProblem() {
-  return (
-    <section className="band bg-surface">
-      <div className="shell">
-        <Reveal>
-          <div className="max-w-3xl">
-            <h2 className="font-display text-3xl font-bold text-navy-900 md:text-[2.5rem]">
-              Why the shortlist you were given looked like that
-            </h2>
-            <p className="mt-5 text-[1.0625rem] leading-relaxed text-body">
-              Most consultancies are paid by the universities they place you at,
-              commonly ten to twenty percent of your first year tuition. None of
-              that is illegal. It just means the universities that pay nothing
-              stop appearing on shortlists, and you never find out which ones
-              they were.
-            </p>
-          </div>
-        </Reveal>
+  const landmark = photos.destinations["united-kingdom"];
 
-        <div className="mt-12 grid gap-5 lg:grid-cols-2">
+  return (
+    <section className="Intro constrain anim-home--intro">
+      <div className="Intro__inner pad-before-lg pad-x-lg bg-white flow">
+        <h2 className="Intro__heading h h--3 text-blue-dark">
+          Why the shortlist you were given looked like that
+        </h2>
+
+        <div className="Intro__copy flow">
+          <p>
+            Most consultancies are paid by the universities they place you at,
+            commonly ten to twenty percent of your first year tuition. None of
+            that is illegal. It just means the universities that pay nothing
+            stop appearing on shortlists, and you never find out which ones
+            they were.
+          </p>
+
           <Reveal>
-            <div className="h-full rounded-panel border border-line bg-paper/60 p-7">
-              <h3 className="font-display text-[1.125rem] font-bold text-ink-soft">
-                The usual arrangement
-              </h3>
-              <ul className="mt-5 space-y-4">
+            <div className="flow bg-light p-7">
+              <h3 className="h h--5 text-grey">The usual arrangement</h3>
+              <ul role="list" className="flow">
                 {usual.map((line) => (
                   <li key={line} className="flex gap-3">
-                    <Minus
-                      size={18}
-                      weight="bold"
-                      className="mt-0.5 shrink-0 text-muted"
-                      aria-hidden
-                    />
-                    <span className="text-[0.9375rem] leading-relaxed text-body">
-                      {line}
-                    </span>
+                    <Minus size={18} weight="bold" className="mt-1 shrink-0 text-grey" aria-hidden />
+                    <span>{line}</span>
                   </li>
                 ))}
               </ul>
@@ -59,28 +57,25 @@ export function TheProblem() {
           </Reveal>
 
           <Reveal delay={0.08}>
-            <div className="h-full rounded-panel border border-blue-600/20 bg-paper p-7 shadow-card">
-              <h3 className="font-display text-[1.125rem] font-bold text-navy-900">
-                What we do instead
-              </h3>
-              <ul className="mt-5 space-y-4">
+            <div className="flow border-2 border-blue-light p-7">
+              <h3 className="h h--5 text-blue-dark">What we do instead</h3>
+              <ul role="list" className="flow">
                 {ours.map((line) => (
                   <li key={line} className="flex gap-3">
-                    <Check
-                      size={18}
-                      weight="bold"
-                      className="mt-0.5 shrink-0 text-blue-600"
-                      aria-hidden
-                    />
-                    <span className="text-[0.9375rem] leading-relaxed text-ink-soft">
-                      {line}
-                    </span>
+                    <Check size={18} weight="bold" className="mt-1 shrink-0 text-teal" aria-hidden />
+                    <span>{line}</span>
                   </li>
                 ))}
               </ul>
             </div>
           </Reveal>
         </div>
+
+        <ImageSwipe
+          top={{ src: heroPortraitImage.src, alt: photos.heroPortrait.alt }}
+          bottom={{ src: photoUrl(landmark, 600, 600), alt: landmark.alt }}
+          ring={site.pitch}
+        />
       </div>
     </section>
   );

@@ -49,15 +49,15 @@ export default function OpenLedgerPage() {
         lede="Every commission Next Scholar earns, per university relationship, with the evidence behind it and the date it was last confirmed. Including the relationships that pay us nothing."
         aside={
           <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-panel border border-line bg-line">
-            <div className="bg-paper p-5">
-              <dt className="text-[0.8125rem] text-muted">Rows published</dt>
-              <dd className="figures mt-1.5 text-2xl font-semibold text-navy-900">
+            <div className="bg-white p-5">
+              <dt className="text-[0.8125rem] text-grey">Rows published</dt>
+              <dd className="figures mt-1.5 text-2xl font-semibold text-blue-dark">
                 {ledgerRows.length}
               </dd>
             </div>
-            <div className="bg-paper p-5">
-              <dt className="text-[0.8125rem] text-muted">Verified so far</dt>
-              <dd className="figures mt-1.5 text-2xl font-semibold text-navy-900">
+            <div className="bg-white p-5">
+              <dt className="text-[0.8125rem] text-grey">Verified so far</dt>
+              <dd className="figures mt-1.5 text-2xl font-semibold text-blue-dark">
                 {verifiedCount}
               </dd>
             </div>
@@ -65,7 +65,7 @@ export default function OpenLedgerPage() {
         }
       />
 
-      <section className="band bg-paper">
+      <section className="band">
         <div className="shell">
           <Reveal>
             <div className="rounded-panel border border-pending/25 bg-pending-bg/50 p-7 md:p-9">
@@ -77,10 +77,10 @@ export default function OpenLedgerPage() {
                   aria-hidden
                 />
                 <div>
-                  <h2 className="font-display text-[1.25rem] font-bold text-navy-900">
+                  <h2 className="text-blue-dark h--5">
                     Read this before the table
                   </h2>
-                  <p className="mt-3 max-w-3xl text-[0.9375rem] leading-relaxed text-ink-soft">
+                  <p className="mt-3 max-w-3xl text-[0.9375rem] leading-relaxed text-grey">
                     {ledgerMethodology.blocker}
                   </p>
                 </div>
@@ -108,7 +108,7 @@ export default function OpenLedgerPage() {
                     <th
                       key={heading}
                       scope="col"
-                      className="pb-3 pr-6 text-[0.8125rem] font-semibold text-muted last:pr-0"
+                      className="pb-3 pr-6 text-[0.8125rem] font-semibold text-grey last:pr-0"
                     >
                       {heading}
                     </th>
@@ -119,10 +119,10 @@ export default function OpenLedgerPage() {
                 {ledgerRows.map((row) => (
                   <tr key={row.id} className="border-b border-line align-top">
                     <td className="py-5 pr-6">
-                      <p className="text-[0.9375rem] font-medium text-navy-900">
+                      <p className="text-[0.9375rem] font-medium text-blue-dark">
                         {row.relationship}
                       </p>
-                      <p className="mt-0.5 text-[0.8125rem] text-muted">
+                      <p className="mt-0.5 text-[0.8125rem] text-grey">
                         {row.destination}
                       </p>
                       {row.aboveAverage && (
@@ -132,19 +132,19 @@ export default function OpenLedgerPage() {
                         </span>
                       )}
                     </td>
-                    <td className="py-5 pr-6 text-[0.875rem] text-body">
+                    <td className="py-5 pr-6 text-[0.875rem] text-grey">
                       {row.contractType}
                     </td>
-                    <td className="figures py-5 pr-6 text-[0.9375rem] font-semibold text-navy-900">
+                    <td className="figures py-5 pr-6 text-[0.9375rem] font-semibold text-blue-dark">
                       {row.commissionDisplay}
                     </td>
-                    <td className="figures py-5 pr-6 text-[0.875rem] text-body">
+                    <td className="figures py-5 pr-6 text-[0.875rem] text-grey">
                       {row.clientFee}
                     </td>
-                    <td className="py-5 pr-6 text-[0.875rem] text-body">
+                    <td className="py-5 pr-6 text-[0.875rem] text-grey">
                       {SOURCE_LABEL[row.source]}
                       {row.evidence && (
-                        <span className="mt-1 block text-[0.8125rem] text-muted">
+                        <span className="mt-1 block text-[0.8125rem] text-grey">
                           {row.evidence}
                         </span>
                       )}
@@ -152,17 +152,17 @@ export default function OpenLedgerPage() {
                     <td className="py-5 pr-6 text-[0.875rem]">
                       {row.verificationDate ? (
                         <>
-                          <span className="figures text-body">
+                          <span className="figures text-grey">
                             {row.verificationDate}
                           </span>
-                          <span className="mt-0.5 block text-[0.8125rem] text-muted">
+                          <span className="mt-0.5 block text-[0.8125rem] text-grey">
                             by {row.verifiedBy}
                           </span>
                         </>
                       ) : (
-                        <span className="text-muted">Not yet</span>
+                        <span className="text-grey">Not yet</span>
                       )}
-                      <span className="mt-1 block text-[0.75rem] text-muted">
+                      <span className="mt-1 block text-[0.75rem] text-grey">
                         Reviewed <span className="figures">{row.lastReviewDate}</span>
                       </span>
                     </td>
@@ -181,12 +181,12 @@ export default function OpenLedgerPage() {
               .map((row) => (
                 <div
                   key={row.id}
-                  className="rounded-card border border-line bg-surface p-5"
+                  className="rounded-card border border-line bg-light p-5"
                 >
-                  <p className="text-[0.875rem] font-medium text-navy-900">
+                  <p className="text-[0.875rem] font-medium text-blue-dark">
                     {row.relationship}
                   </p>
-                  <p className="mt-1.5 text-[0.875rem] leading-relaxed text-body">
+                  <p className="mt-1.5 text-[0.875rem] leading-relaxed text-grey">
                     {row.note}
                   </p>
                 </div>
@@ -195,13 +195,13 @@ export default function OpenLedgerPage() {
         </div>
       </section>
 
-      <section className="band bg-surface">
+      <section className="band">
         <div className="shell grid gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
-            <h2 className="font-display text-[1.75rem] font-bold text-navy-900">
+            <h2 className="text-blue-dark">
               How a figure gets on this page
             </h2>
-            <p className="mt-4 text-[0.9375rem] leading-relaxed text-body">
+            <p className="mt-4 text-[0.9375rem] leading-relaxed text-grey">
               Nothing skips straight to published. A row moves through these
               states, and only two of them permit an exact number.
             </p>
@@ -211,7 +211,7 @@ export default function OpenLedgerPage() {
                   <dt>
                     <StatusChip status={status} />
                   </dt>
-                  <dd className="mt-2 text-[0.9375rem] leading-relaxed text-body">
+                  <dd className="mt-2 text-[0.9375rem] leading-relaxed text-grey">
                     {statusExplainer[status]}
                   </dd>
                 </div>
@@ -220,10 +220,10 @@ export default function OpenLedgerPage() {
           </div>
 
           <div>
-            <h2 className="font-display text-[1.75rem] font-bold text-navy-900">
+            <h2 className="text-blue-dark">
               What you see when a university says no
             </h2>
-            <p className="mt-4 text-[0.9375rem] leading-relaxed text-body">
+            <p className="mt-4 text-[0.9375rem] leading-relaxed text-grey">
               Most partner agreements restrict disclosure by default. That
               changes what we can print. It does not change whether the
               relationship is disclosed at all.
@@ -231,10 +231,10 @@ export default function OpenLedgerPage() {
             <dl className="mt-8 divide-y divide-line border-t border-line">
               {disclosureFallbacks.map((entry) => (
                 <div key={entry.response} className="py-5">
-                  <dt className="text-[0.9375rem] font-semibold text-navy-900">
+                  <dt className="text-[0.9375rem] font-semibold text-blue-dark">
                     {entry.response}
                   </dt>
-                  <dd className="mt-1.5 text-[0.9375rem] leading-relaxed text-body">
+                  <dd className="mt-1.5 text-[0.9375rem] leading-relaxed text-grey">
                     {entry.shown}
                   </dd>
                 </div>
@@ -244,29 +244,29 @@ export default function OpenLedgerPage() {
         </div>
       </section>
 
-      <section className="band bg-paper">
+      <section className="band">
         <div className="shell">
           <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16">
             <div>
-              <h2 className="font-display text-[1.75rem] font-bold text-navy-900">
+              <h2 className="text-blue-dark">
                 The flagging rule
               </h2>
-              <p className="mt-4 text-[0.9375rem] leading-relaxed text-body">
+              <p className="mt-4 text-[0.9375rem] leading-relaxed text-grey">
                 {ledgerMethodology.flaggingRule}
               </p>
-              <h2 className="mt-10 font-display text-[1.75rem] font-bold text-navy-900">
+              <h2 className="mt-10 text-blue-dark">
                 Update cadence
               </h2>
-              <p className="mt-4 text-[0.9375rem] leading-relaxed text-body">
+              <p className="mt-4 text-[0.9375rem] leading-relaxed text-grey">
                 {ledgerMethodology.cadence}
               </p>
             </div>
 
-            <div className="rounded-panel border border-line bg-surface p-7">
-              <h2 className="font-display text-[1.125rem] font-bold text-navy-900">
+            <div className="rounded-panel border border-line bg-light p-7">
+              <h2 className="text-blue-dark h--5">
                 What is recorded for every row
               </h2>
-              <p className="mt-3 text-[0.875rem] leading-relaxed text-body">
+              <p className="mt-3 text-[0.875rem] leading-relaxed text-grey">
                 Nine fields per university relationship, held in the operations
                 console and projected onto this page.
               </p>
@@ -274,7 +274,7 @@ export default function OpenLedgerPage() {
                 {ledgerMethodology.schemaFields.map((field) => (
                   <li
                     key={field}
-                    className="rounded-input bg-paper px-3.5 py-2.5 text-[0.875rem] text-ink-soft"
+                    className="rounded-card bg-white px-3.5 py-2.5 text-[0.875rem] text-grey"
                   >
                     {field}
                   </li>

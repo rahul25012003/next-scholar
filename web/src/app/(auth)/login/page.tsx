@@ -11,10 +11,10 @@ export default async function LoginPage() {
 
   return (
     <>
-      <h1 className="font-display text-[1.875rem] font-bold text-navy-900">
+      <h1 className="text-blue-dark">
         Sign in
       </h1>
-      <p className="mt-2 text-[0.9375rem] leading-relaxed text-body">
+      <p className="mt-2 text-[0.9375rem] leading-relaxed text-grey">
         Students, counselors and operations all sign in here. Where you land
         depends on your role.
       </p>
@@ -24,19 +24,19 @@ export default async function LoginPage() {
       </div>
 
       {showHint && (
-        <div className="mt-10 rounded-card border border-line bg-surface p-5">
-          <p className="text-[0.8125rem] font-medium text-navy-900">
+        <div className="mt-10 rounded-card border border-line bg-light p-5">
+          <p className="text-[0.8125rem] font-medium text-blue-dark">
             Development accounts
           </p>
-          <p className="mt-1 text-[0.8125rem] leading-relaxed text-muted">
+          <p className="mt-1 text-[0.8125rem] leading-relaxed text-grey">
             Shown only outside production. The password is whatever
             SEED_ACCOUNT_PASSWORD is set to, and defaults to
             <span className="figures"> next-scholar-dev-1</span>.
           </p>
           <ul className="mt-3 space-y-1">
             {accounts.map((account) => (
-              <li key={account.email} className="figures text-[0.75rem] text-body">
-                {account.email} <span className="text-muted">({account.role})</span>
+              <li key={account.email} className="figures text-[0.75rem] text-grey">
+                {account.email} <span className="text-grey">({account.role})</span>
               </li>
             ))}
           </ul>

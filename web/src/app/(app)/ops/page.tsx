@@ -90,10 +90,10 @@ export default async function OpsPage() {
           ].map((tile) => (
             <Panel key={tile.label} title={tile.label}>
               <div className="px-6 py-5">
-                <p className="figures text-[1.75rem] font-semibold text-navy-900">
+                <p className="figures text-[1.75rem] font-semibold text-blue-dark">
                   {tile.value}
                 </p>
-                <p className="mt-1 text-[0.8125rem] text-muted">{tile.note}</p>
+                <p className="mt-1 text-[0.8125rem] text-grey">{tile.note}</p>
               </div>
             </Panel>
           ))}
@@ -110,10 +110,10 @@ export default async function OpsPage() {
                 className="flex flex-wrap items-start justify-between gap-4 px-6 py-4"
               >
                 <div className="max-w-2xl">
-                  <p className="text-[0.9375rem] font-medium text-navy-900">
+                  <p className="text-[0.9375rem] font-medium text-blue-dark">
                     {item.requirement}
                   </p>
-                  <p className="mt-1 text-[0.875rem] leading-relaxed text-body">
+                  <p className="mt-1 text-[0.875rem] leading-relaxed text-grey">
                     {item.detail}
                   </p>
                 </div>
@@ -145,19 +145,19 @@ export default async function OpsPage() {
           ) : (
             <div className="grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-4">
               {perStage.map(({ stage, cases }) => (
-                <div key={stage.key} className="bg-paper px-5 py-4">
-                  <p className="text-[0.8125rem] text-muted">{stage.name}</p>
+                <div key={stage.key} className="bg-white px-5 py-4">
+                  <p className="text-[0.8125rem] text-grey">{stage.name}</p>
                   <p
                     className={
                       cases.length > 0
-                        ? "figures mt-1 text-[1.25rem] font-semibold text-navy-900"
+                        ? "figures mt-1 text-[1.25rem] font-semibold text-blue-dark"
                         : "figures mt-1 text-[1.25rem] font-semibold text-line-strong"
                     }
                   >
                     {cases.length}
                   </p>
                   {cases.length > 0 && (
-                    <p className="mt-1 text-[0.75rem] leading-snug text-muted">
+                    <p className="mt-1 text-[0.75rem] leading-snug text-grey">
                       {cases.map((record) => record.name.split(" ")[0]).join(", ")}
                     </p>
                   )}
@@ -181,8 +181,8 @@ export default async function OpsPage() {
                     key={counselor}
                     className="flex items-baseline justify-between gap-6 px-6 py-4"
                   >
-                    <span className="text-[0.9375rem] text-navy-900">{counselor}</span>
-                    <span className="figures text-[0.9375rem] font-semibold text-navy-900">
+                    <span className="text-[0.9375rem] text-blue-dark">{counselor}</span>
+                    <span className="figures text-[0.9375rem] font-semibold text-blue-dark">
                       {count}
                     </span>
                   </li>
@@ -208,12 +208,12 @@ export default async function OpsPage() {
                     className="flex items-baseline justify-between gap-6 px-6 py-4"
                   >
                     <div>
-                      <p className="text-[0.9375rem] text-navy-900">{record.name}</p>
-                      <p className="text-[0.8125rem] capitalize text-muted">
+                      <p className="text-[0.9375rem] text-blue-dark">{record.name}</p>
+                      <p className="text-[0.8125rem] capitalize text-grey">
                         {record.stage.replace("-", " ")}, {record.counselor}
                       </p>
                     </div>
-                    <span className="figures shrink-0 text-[0.875rem] text-navy-900">
+                    <span className="figures shrink-0 text-[0.875rem] text-blue-dark">
                       {days} days
                     </span>
                   </li>
@@ -240,12 +240,12 @@ export default async function OpsPage() {
                   className="flex flex-wrap items-baseline justify-between gap-4 px-6 py-4"
                 >
                   <div>
-                    <p className="text-[0.9375rem] text-navy-900">{deadline.label}</p>
-                    <p className="text-[0.8125rem] text-muted">
+                    <p className="text-[0.9375rem] text-blue-dark">{deadline.label}</p>
+                    <p className="text-[0.8125rem] text-grey">
                       {record.name}, {record.destination}
                     </p>
                   </div>
-                  <p className="figures text-[0.875rem] text-navy-900">
+                  <p className="figures text-[0.875rem] text-blue-dark">
                     {deadline.date}, {days} {days === 1 ? "day" : "days"}
                   </p>
                 </li>
@@ -264,11 +264,11 @@ export default async function OpsPage() {
               { label: "Unverified market estimates", value: unverified },
               { label: "Disclosure declined", value: denied },
             ].map((tile) => (
-              <div key={tile.label} className="bg-paper px-6 py-5">
-                <p className="figures text-[1.5rem] font-semibold text-navy-900">
+              <div key={tile.label} className="bg-white px-6 py-5">
+                <p className="figures text-[1.5rem] font-semibold text-blue-dark">
                   {tile.value}
                 </p>
-                <p className="mt-1 text-[0.8125rem] text-muted">{tile.label}</p>
+                <p className="mt-1 text-[0.8125rem] text-grey">{tile.label}</p>
               </div>
             ))}
           </div>
@@ -279,8 +279,8 @@ export default async function OpsPage() {
                 className="flex flex-wrap items-center justify-between gap-4 px-6 py-4"
               >
                 <div>
-                  <p className="text-[0.9375rem] text-navy-900">{row.relationship}</p>
-                  <p className="figures text-[0.8125rem] text-muted">
+                  <p className="text-[0.9375rem] text-blue-dark">{row.relationship}</p>
+                  <p className="figures text-[0.8125rem] text-grey">
                     {row.commissionDisplay}, reviewed {row.lastReviewDate}
                   </p>
                   {isStale(row.lastReviewDate) && (
@@ -293,7 +293,7 @@ export default async function OpsPage() {
               </li>
             ))}
           </ul>
-          <p className="border-t border-line px-6 py-3 text-[0.75rem] leading-relaxed text-muted">
+          <p className="border-t border-line px-6 py-3 text-[0.75rem] leading-relaxed text-grey">
             No agent has a capability that reaches this table. Neither does any
             screen: the ledger is published content today, and moving a row to
             verified is an edit to the repository under review, not a button.
@@ -308,18 +308,18 @@ export default async function OpsPage() {
         >
           <div className="grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-3">
             {report.categories.map((category) => (
-              <div key={category.key} className="bg-paper px-6 py-5">
-                <p className="figures text-[1.5rem] font-semibold text-navy-900">
+              <div key={category.key} className="bg-white px-6 py-5">
+                <p className="figures text-[1.5rem] font-semibold text-blue-dark">
                   {category.count}
                 </p>
-                <p className="mt-1 text-[0.875rem] font-medium text-navy-900">
+                <p className="mt-1 text-[0.875rem] font-medium text-blue-dark">
                   {category.label}
                 </p>
-                <p className="mt-1 text-[0.75rem] leading-relaxed text-muted">
+                <p className="mt-1 text-[0.75rem] leading-relaxed text-grey">
                   {category.note}
                 </p>
                 {category.from.length > 0 && (
-                  <p className="figures mt-1.5 text-[0.6875rem] leading-relaxed text-muted">
+                  <p className="figures mt-1.5 text-[0.6875rem] leading-relaxed text-grey">
                     From: {category.from.join(", ")}
                   </p>
                 )}
@@ -327,7 +327,7 @@ export default async function OpsPage() {
             ))}
           </div>
           <div className="border-t border-line px-6 py-4">
-            <p className="text-[0.875rem] leading-relaxed text-body">
+            <p className="text-[0.875rem] leading-relaxed text-grey">
               {report.excludedFromRates} Currently{" "}
               <span className="figures">{report.inProgress}</span> in progress.
             </p>
@@ -336,7 +336,7 @@ export default async function OpsPage() {
                 {report.blockedReason}
               </p>
             )}
-            <p className="mt-2 text-[0.8125rem] leading-relaxed text-muted">
+            <p className="mt-2 text-[0.8125rem] leading-relaxed text-grey">
               {report.signedOffBy
                 ? `Signed off by ${report.signedOffBy} on ${report.signedOffAt}.`
                 : "Not signed off. Every figure above carries the record ids it was computed from, so a disputed number can be traced back rather than defended from memory."}
@@ -357,7 +357,7 @@ export default async function OpsPage() {
                       <th
                         key={heading}
                         scope="col"
-                        className="px-6 py-3 text-[0.75rem] font-semibold text-muted"
+                        className="px-6 py-3 text-[0.75rem] font-semibold text-grey"
                       >
                         {heading}
                       </th>
@@ -369,45 +369,45 @@ export default async function OpsPage() {
                 {agents.map((agent) => (
                   <tr key={agent.id} className="border-b border-line align-top last:border-b-0">
                     <td className="px-6 py-4">
-                      <p className="text-[0.9375rem] font-medium text-navy-900">
+                      <p className="text-[0.9375rem] font-medium text-blue-dark">
                         {agent.name}
                       </p>
-                      <p className="mt-1 max-w-xs text-[0.8125rem] leading-relaxed text-muted">
+                      <p className="mt-1 max-w-xs text-[0.8125rem] leading-relaxed text-grey">
                         {agent.purpose}
                       </p>
                     </td>
                     <td className="px-6 py-4">
                       {agent.writes.length === 0 ? (
-                        <span className="text-[0.75rem] text-muted">
+                        <span className="text-[0.75rem] text-grey">
                           Nothing. Rules only.
                         </span>
                       ) : (
                         <ul className="space-y-1">
                           {agent.writes.map((field) => (
-                            <li key={field} className="figures text-[0.75rem] text-body">
+                            <li key={field} className="figures text-[0.75rem] text-grey">
                               {field}
                             </li>
                           ))}
                         </ul>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-[0.8125rem] leading-relaxed text-body">
+                    <td className="px-6 py-4 text-[0.8125rem] leading-relaxed text-grey">
                       {agent.destination}
                     </td>
-                    <td className="px-6 py-4 text-[0.8125rem] leading-relaxed text-body">
+                    <td className="px-6 py-4 text-[0.8125rem] leading-relaxed text-grey">
                       {agent.requiresHumanReview ? "Required. " : "Not gated. "}
                       {agent.humanReview}
                     </td>
                     <td className="px-6 py-4">
                       <ul className="space-y-1">
                         {agent.prohibitions.map((rule) => (
-                          <li key={rule} className="text-[0.8125rem] leading-relaxed text-body">
+                          <li key={rule} className="text-[0.8125rem] leading-relaxed text-grey">
                             {rule}
                           </li>
                         ))}
                       </ul>
                     </td>
-                    <td className="px-6 py-4 text-[0.8125rem] text-body">
+                    <td className="px-6 py-4 text-[0.8125rem] text-grey">
                       {agent.usesModel ? availability.model : "Rules only, no model"}
                     </td>
                   </tr>
@@ -416,12 +416,12 @@ export default async function OpsPage() {
             </table>
           </div>
           <div className="border-t border-line px-6 py-5">
-            <p className="text-[0.875rem] font-medium text-navy-900">
+            <p className="text-[0.875rem] font-medium text-blue-dark">
               Applies to every agent above, without exception
             </p>
             <ul className="mt-3 grid gap-2 md:grid-cols-2">
               {GLOBAL_PROHIBITIONS.map((rule) => (
-                <li key={rule} className="text-[0.875rem] leading-relaxed text-body">
+                <li key={rule} className="text-[0.875rem] leading-relaxed text-grey">
                   {rule}
                 </li>
               ))}
@@ -435,7 +435,7 @@ export default async function OpsPage() {
             description="Caseload size only. A manager makes the call, and the override is logged like any other write."
           >
             <div className="px-6 py-5">
-              <p className="text-[0.9375rem] text-navy-900">
+              <p className="text-[0.9375rem] text-blue-dark">
                 {assignment.suggested
                   ? `Next case suggested for ${assignment.suggested}`
                   : "Nothing to suggest yet"}
@@ -446,14 +446,14 @@ export default async function OpsPage() {
                     key={load.counselor}
                     className="flex items-baseline justify-between gap-6"
                   >
-                    <span className="text-[0.875rem] text-body">{load.counselor}</span>
-                    <span className="figures text-[0.875rem] text-navy-900">
+                    <span className="text-[0.875rem] text-grey">{load.counselor}</span>
+                    <span className="figures text-[0.875rem] text-blue-dark">
                       {load.cases}
                     </span>
                   </li>
                 ))}
               </ul>
-              <p className="mt-4 text-[0.75rem] leading-relaxed text-muted">
+              <p className="mt-4 text-[0.75rem] leading-relaxed text-grey">
                 {assignment.note}
               </p>
             </div>
@@ -471,8 +471,8 @@ export default async function OpsPage() {
                     key={record.id}
                     className="flex items-baseline justify-between gap-6 px-6 py-3.5"
                   >
-                    <span className="text-[0.875rem] text-navy-900">{record.name}</span>
-                    <span className="text-[0.8125rem] text-muted">
+                    <span className="text-[0.875rem] text-blue-dark">{record.name}</span>
+                    <span className="text-[0.8125rem] text-grey">
                       {retention.state === "open"
                         ? "Case open"
                         : retention.state === "retained"
@@ -500,10 +500,10 @@ export default async function OpsPage() {
               {escalated.map((record) => (
                 <div key={record.id}>
                   <div className="px-6 pt-5">
-                    <p className="text-[0.9375rem] font-medium text-navy-900">
+                    <p className="text-[0.9375rem] font-medium text-blue-dark">
                       {record.name}
                     </p>
-                    <p className="text-[0.8125rem] capitalize text-muted">
+                    <p className="text-[0.8125rem] capitalize text-grey">
                       {record.stage.replace("-", " ")}, held by {record.counselor}
                     </p>
                   </div>
@@ -522,16 +522,16 @@ export default async function OpsPage() {
             {audit.map((entry) => (
               <li key={entry.id} className="flex flex-wrap items-baseline justify-between gap-4 px-6 py-3">
                 <div>
-                  <p className="text-[0.875rem] text-navy-900">
-                    {entry.actorName} <span className="text-muted">({entry.actorRole})</span>{" "}
+                  <p className="text-[0.875rem] text-blue-dark">
+                    {entry.actorName} <span className="text-grey">({entry.actorRole})</span>{" "}
                     {entry.action} {entry.subjectType} {entry.subjectId}
                     {entry.field ? `, field ${entry.field}` : ""}
                   </p>
                   {entry.note && (
-                    <p className="mt-0.5 text-[0.75rem] text-muted">{entry.note}</p>
+                    <p className="mt-0.5 text-[0.75rem] text-grey">{entry.note}</p>
                   )}
                 </div>
-                <span className="figures shrink-0 text-[0.75rem] text-muted">
+                <span className="figures shrink-0 text-[0.75rem] text-grey">
                   {entry.ts.slice(11, 19)}
                 </span>
               </li>
@@ -550,10 +550,10 @@ export default async function OpsPage() {
                 className="flex flex-wrap items-center justify-between gap-4 px-6 py-4"
               >
                 <div>
-                  <p className="text-[0.9375rem] capitalize text-navy-900">
+                  <p className="text-[0.9375rem] capitalize text-blue-dark">
                     {provider.channel.replace("_", " ")}
                   </p>
-                  <p className="mt-0.5 text-[0.8125rem] text-muted">
+                  <p className="mt-0.5 text-[0.8125rem] text-grey">
                     {provider.requirement}
                   </p>
                 </div>

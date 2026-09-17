@@ -27,16 +27,16 @@ export default async function ScholarshipsPage(props: PageProps<"/scholarships">
         lede="A short, hand-picked list of national or cross-institutional schemes, not a scrape of every university's marketing page. Every one names its funder, states its coverage, and is dated."
       />
 
-      <section className="band bg-paper">
+      <section className="band">
         <div className="shell">
           <div className="flex flex-wrap gap-2.5">
             <Link
               href="/scholarships"
               className={cn(
-                "rounded-full border px-4 py-2 text-[0.875rem] font-medium transition-colors",
+                "button",
                 destination === ""
-                  ? "border-blue-600 bg-blue-600 text-white"
-                  : "border-line-strong bg-paper text-navy-900 hover:border-blue-600 hover:text-blue-600",
+                  ? "button--selected"
+                  : "button--light",
               )}
             >
               All destinations
@@ -46,10 +46,10 @@ export default async function ScholarshipsPage(props: PageProps<"/scholarships">
                 key={guide.slug}
                 href={`/scholarships?destination=${guide.slug}`}
                 className={cn(
-                  "rounded-full border px-4 py-2 text-[0.875rem] font-medium transition-colors",
+                  "button",
                   destination === guide.slug
-                    ? "border-blue-600 bg-blue-600 text-white"
-                    : "border-line-strong bg-paper text-navy-900 hover:border-blue-600 hover:text-blue-600",
+                    ? "button--selected"
+                    : "button--light",
                 )}
               >
                 {guide.country}
@@ -57,13 +57,13 @@ export default async function ScholarshipsPage(props: PageProps<"/scholarships">
             ))}
           </div>
 
-          <p className="mt-6 max-w-2xl text-[0.9375rem] leading-relaxed text-body">
+          <p className="mt-6 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
             {scholarshipScope.note}
           </p>
 
           {rows.length === 0 ? (
-            <div className="mt-8 rounded-panel border border-dashed border-line-strong bg-surface p-8">
-              <p className="text-[0.9375rem] leading-relaxed text-body">
+            <div className="mt-8 rounded-panel border border-dashed border-line-strong bg-light p-8">
+              <p className="text-[0.9375rem] leading-relaxed text-grey">
                 Nothing on this short list matches that filter yet. That is a gap in what we
                 have curated, not a claim that no scholarship exists.
               </p>
@@ -75,38 +75,38 @@ export default async function ScholarshipsPage(props: PageProps<"/scholarships">
                 return (
                   <li
                     key={scholarship.slug}
-                    className="flex flex-col rounded-panel border border-line bg-paper p-6"
+                    className="flex flex-col rounded-panel border border-line bg-white p-6"
                   >
                     <div className="flex flex-wrap items-start justify-between gap-3">
-                      <h2 className="font-display text-[1.0625rem] font-bold text-navy-900">
+                      <h2 className="text-blue-dark h--6">
                         {scholarship.name}
                       </h2>
                       {guide ? (
                         <Link
                           href={`/destinations/${guide.slug}`}
-                          className="shrink-0 rounded-input bg-surface px-2.5 py-1 text-[0.75rem] font-medium text-navy-900 hover:bg-line"
+                          className="shrink-0 rounded-input bg-light px-2.5 py-1 text-[0.75rem] font-medium text-blue-dark hover:bg-line"
                         >
                           {guide.country}
                         </Link>
                       ) : (
-                        <span className="shrink-0 rounded-input bg-surface px-2.5 py-1 text-[0.75rem] font-medium text-navy-900">
+                        <span className="shrink-0 rounded-input bg-light px-2.5 py-1 text-[0.75rem] font-medium text-blue-dark">
                           {scholarship.destination}
                         </span>
                       )}
                     </div>
-                    <p className="mt-1 text-[0.8125rem] text-muted">{scholarship.funder}</p>
-                    <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-body">
+                    <p className="mt-1 text-[0.8125rem] text-grey">{scholarship.funder}</p>
+                    <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-grey">
                       {scholarship.coverage.state === "stated"
                         ? scholarship.coverage.value
                         : `Not stated here. ${scholarship.coverage.reason}`}
                     </p>
-                    <p className="mt-3 text-[0.875rem] leading-relaxed text-muted">
-                      <span className="font-medium text-navy-900">Deadline: </span>
+                    <p className="mt-3 text-[0.875rem] leading-relaxed text-grey">
+                      <span className="font-medium text-blue-dark">Deadline: </span>
                       {scholarship.deadline.state === "stated"
                         ? scholarship.deadline.value
                         : `Not stated here. ${scholarship.deadline.reason}`}
                     </p>
-                    <p className="mt-2 text-[0.875rem] leading-relaxed text-body">
+                    <p className="mt-2 text-[0.875rem] leading-relaxed text-grey">
                       {scholarship.eligibility}
                     </p>
                     <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-3">
@@ -114,12 +114,12 @@ export default async function ScholarshipsPage(props: PageProps<"/scholarships">
                         href={scholarship.link}
                         target="_blank"
                         rel="noreferrer noopener"
-                        className="inline-flex items-center gap-1 text-[0.875rem] font-medium text-blue-600 hover:text-blue-500"
+                        className="inline-flex items-center gap-1 text-[0.875rem] font-medium text-pink hover:text-blue"
                       >
                         {scholarship.funder}&rsquo;s own page
                         <ArrowUpRight size={13} weight="bold" aria-hidden />
                       </a>
-                      <span className="text-[0.75rem] text-muted">
+                      <span className="text-[0.75rem] text-grey">
                         Written down <span className="figures">{scholarship.statedOn}</span>
                       </span>
                     </div>
@@ -129,7 +129,7 @@ export default async function ScholarshipsPage(props: PageProps<"/scholarships">
             </ul>
           )}
 
-          <p className="mt-8 rounded-card border border-line bg-surface px-5 py-4 text-[0.8125rem] leading-relaxed text-muted">
+          <p className="mt-8 rounded-card border border-line bg-light px-5 py-4 text-[0.8125rem] leading-relaxed text-grey">
             No admission chance, match score or fit percentage appears here, and none of
             these funders pay us anything for the listing. Read each scholarship&rsquo;s own
             page before you apply: deadlines and amounts are set by the funder and change

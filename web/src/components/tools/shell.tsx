@@ -22,31 +22,26 @@ export function ToolPage({
 }) {
   return (
     <>
-      <section className="border-b border-line bg-surface">
-        <div className="shell py-10 md:py-14">
-          <Link
-            href="/tools"
-            className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-blue-600 hover:text-blue-500"
-          >
+      <section className="Hero-sub band pad-before">
+        <div className="shell flow">
+          <Link href="/tools" className="inline-flex items-center gap-1.5 font-bold text-pink">
             <ArrowLeft size={14} weight="bold" aria-hidden />
             All tools
           </Link>
-          <h1 className="mt-4 max-w-3xl font-display text-[2rem] font-extrabold leading-[1.1] tracking-[-0.03em] text-navy-900 md:text-[2.75rem]">
-            {title}
-          </h1>
-          <p className="mt-5 max-w-2xl text-[1.0625rem] leading-relaxed text-body">{lede}</p>
-          <p className="mt-5 inline-flex rounded-input bg-verified-bg px-3 py-1.5 text-[0.8125rem] font-medium text-verified">
+          <h1 className="h h--3 max-w-3xl text-blue-dark">{title}</h1>
+          <p className="intro max-w-2xl">{lede}</p>
+          <p className="small inline-flex bg-light px-3 py-1.5 font-bold text-teal">
             No signup. No email. The result is never held back.
           </p>
         </div>
       </section>
 
-      <section className="bg-paper py-10 md:py-14">
+      <section className="band">
         <div className="shell">{children}</div>
       </section>
 
       {foot && (
-        <section className="border-t border-line bg-surface py-10 md:py-14">
+        <section className="band">
           <div className="shell">{foot}</div>
         </section>
       )}

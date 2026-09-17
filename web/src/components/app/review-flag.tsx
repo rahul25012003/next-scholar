@@ -24,7 +24,7 @@ export function ReviewFlag({
 
   if (state.status === "cleared") {
     return (
-      <p className="px-6 py-5 text-[0.875rem] leading-relaxed text-ink-soft" role="status">
+      <p className="px-6 py-5 text-[0.875rem] leading-relaxed text-grey" role="status">
         {state.message}
       </p>
     );
@@ -35,16 +35,16 @@ export function ReviewFlag({
       <div className="flex items-start gap-3">
         <WarningCircle size={20} weight="fill" className="mt-0.5 shrink-0 text-pending" aria-hidden />
         <div>
-          <p className="text-[0.9375rem] font-medium text-navy-900">
+          <p className="text-[0.9375rem] font-medium text-blue-dark">
             A note on this case was never classified
           </p>
-          <p className="mt-1.5 text-[0.875rem] leading-relaxed text-body">
+          <p className="mt-1.5 text-[0.875rem] leading-relaxed text-grey">
             {flag.reason}
           </p>
-          <p className="mt-2 rounded-card bg-surface p-3 text-[0.875rem] leading-relaxed text-ink-soft">
+          <p className="mt-2 rounded-card bg-light p-3 text-[0.875rem] leading-relaxed text-grey">
             {flag.note}
           </p>
-          <p className="figures mt-2 text-[0.75rem] text-muted">{flag.at.slice(0, 16).replace("T", " ")}</p>
+          <p className="figures mt-2 text-[0.75rem] text-grey">{flag.at.slice(0, 16).replace("T", " ")}</p>
 
           <form action={formAction} className="mt-3">
             <input type="hidden" name="caseId" value={caseId} />

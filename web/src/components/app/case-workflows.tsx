@@ -106,7 +106,7 @@ export function CaseWorkflows({
               className={`${fieldClass} sm:col-span-2`}
               aria-label="Note on the outcome"
             />
-            <p className="text-[0.75rem] text-muted sm:col-span-2">
+            <p className="text-[0.75rem] text-grey sm:col-span-2">
               The three fields below are only saved when the outcome is Offer.
             </p>
             <input

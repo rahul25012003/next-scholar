@@ -71,7 +71,7 @@ export function NewAccountState({
             done={false}
           />
         </div>
-        <p className="border-t border-line px-6 py-4 text-[0.8125rem] leading-relaxed text-muted">
+        <p className="border-t border-line px-6 py-4 text-[0.8125rem] leading-relaxed text-grey">
           {progress.answered} of {progress.total} questions answered. An unanswered question
           produces a &ldquo;cannot tell&rdquo; row rather than a guess, so a half-finished
           profile is still worth having.
@@ -121,12 +121,12 @@ export function NewAccountState({
                         className={cn("mt-0.5 shrink-0", meta.text)}
                       />
                       <div className="min-w-0">
-                        <p className="text-[0.9375rem] font-medium text-navy-900">{row.title}</p>
-                        <p className="mt-1 text-[0.875rem] leading-relaxed text-body">
+                        <p className="text-[0.9375rem] font-medium text-blue-dark">{row.title}</p>
+                        <p className="mt-1 text-[0.875rem] leading-relaxed text-grey">
                           {row.reason}
                         </p>
                         {row.action && (
-                          <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-muted">
+                          <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-grey">
                             {row.action}
                           </p>
                         )}
@@ -136,11 +136,11 @@ export function NewAccountState({
                 })}
               </ul>
 
-              <p className="border-t border-line px-6 py-4 text-[0.8125rem] leading-relaxed text-muted">
+              <p className="border-t border-line px-6 py-4 text-[0.8125rem] leading-relaxed text-grey">
                 The same checklist runs without an account at{" "}
                 <Link
                   href={`/tools/requirements-check?destination=${guide.slug}`}
-                  className="font-medium text-blue-600 hover:text-blue-500"
+                  className="font-medium text-pink hover:text-blue"
                 >
                   /tools/requirements-check
                 </Link>
@@ -161,19 +161,19 @@ export function NewAccountState({
                   <div className="flex gap-3.5">
                     <span
                       aria-hidden
-                      className="figures mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-blue-100 text-[0.75rem] font-semibold text-navy-900"
+                      className="figures mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-blue-light text-[0.75rem] font-semibold text-blue-dark"
                     >
                       {index + 1}
                     </span>
                     <div className="min-w-0">
-                      <p className="text-[0.9375rem] font-medium text-navy-900">{step.title}</p>
-                      <p className="mt-1 text-[0.875rem] leading-relaxed text-body">
+                      <p className="text-[0.9375rem] font-medium text-blue-dark">{step.title}</p>
+                      <p className="mt-1 text-[0.875rem] leading-relaxed text-grey">
                         {step.body}
                       </p>
                       {step.href && (
                         <Link
                           href={step.href}
-                          className="group mt-2 inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-blue-600 hover:text-blue-500"
+                          className="group mt-2 inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue"
                         >
                           {step.hrefLabel}
                           <ArrowRight
@@ -202,7 +202,7 @@ export function NewAccountState({
                 "It does not put you in a queue. A case is opened after a consultation, by a person.",
                 "It does not send your details to a university, a lender or anyone else. Nothing leaves this account without a consent you gave for a named recipient.",
               ].map((line) => (
-                <li key={line} className="px-6 py-3.5 text-[0.875rem] leading-relaxed text-body">
+                <li key={line} className="px-6 py-3.5 text-[0.875rem] leading-relaxed text-grey">
                   {line}
                 </li>
               ))}
@@ -231,13 +231,13 @@ function Step({
         aria-hidden
         className={cn(
           "figures grid h-8 w-8 place-items-center rounded-full text-[0.8125rem] font-semibold",
-          done ? "bg-verified-bg text-verified" : "bg-blue-100 text-navy-900",
+          done ? "bg-verified-bg text-verified" : "bg-blue-light text-blue-dark",
         )}
       >
         {done ? <CheckCircle size={17} weight="fill" /> : n}
       </span>
-      <p className="mt-3 text-[0.9375rem] font-semibold text-navy-900">{title}</p>
-      <p className="mt-1.5 text-[0.875rem] leading-relaxed text-body">{body}</p>
+      <p className="mt-3 text-[0.9375rem] font-semibold text-blue-dark">{title}</p>
+      <p className="mt-1.5 text-[0.875rem] leading-relaxed text-grey">{body}</p>
     </div>
   );
 }

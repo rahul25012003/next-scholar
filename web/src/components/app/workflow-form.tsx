@@ -37,8 +37,8 @@ export function WorkflowForm({
   return (
     <form action={formAction} className="border-t border-line px-6 py-5 first:border-t-0">
       <input type="hidden" name="caseId" value={caseId} />
-      <h3 className="text-[0.9375rem] font-medium text-navy-900">{title}</h3>
-      <p className="mt-1 text-[0.8125rem] leading-relaxed text-muted">{description}</p>
+      <h3 className="text-blue-dark h--6">{title}</h3>
+      <p className="mt-1 text-[0.8125rem] leading-relaxed text-grey">{description}</p>
 
       <div className="mt-3 grid gap-2.5 sm:grid-cols-2">{children}</div>
 
@@ -50,7 +50,7 @@ export function WorkflowForm({
         <p
           className={
             state.status === "done"
-              ? "mt-3 text-[0.875rem] leading-relaxed text-ink-soft"
+              ? "mt-3 text-[0.875rem] leading-relaxed text-grey"
               : "mt-3 text-[0.875rem] leading-relaxed text-denied"
           }
           role="status"
@@ -63,4 +63,4 @@ export function WorkflowForm({
 }
 
 export const fieldClass =
-  "w-full rounded-input border border-line-strong bg-paper px-3.5 py-2.5 text-[0.9375rem] text-navy-900 placeholder:text-muted/70 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/25";
+  "w-full rounded-input border border-line-strong bg-white px-3.5 py-2.5 text-[0.9375rem] text-blue-dark placeholder:text-grey/70 focus:border-pink focus:outline-none focus:ring-2 focus:ring-pink/25";

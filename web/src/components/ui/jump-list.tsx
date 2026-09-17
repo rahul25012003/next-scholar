@@ -45,7 +45,7 @@ export function JumpList({
 
   return (
     <nav className={className} aria-label={label}>
-      <p className="text-[0.75rem] font-semibold uppercase tracking-wide text-muted">
+      <p className="eyebrow text-grey">
         {label}
       </p>
       <ul className="mt-3 space-y-0.5 border-l border-line">
@@ -57,8 +57,8 @@ export function JumpList({
               className={cn(
                 "-ml-px block border-l-2 py-1.5 pl-3.5 text-[0.875rem] leading-snug transition-colors",
                 active === item.id
-                  ? "border-blue-600 font-medium text-blue-600"
-                  : "border-transparent text-body hover:border-line-strong hover:text-navy-900",
+                  ? "border-blue-dark font-medium text-pink"
+                  : "border-transparent text-grey hover:border-line-strong hover:text-blue-dark",
               )}
             >
               {item.title}

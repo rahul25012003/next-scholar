@@ -22,7 +22,7 @@ export function FieldValue<T>({
 }) {
   if (field.state === "unknown") {
     return (
-      <span className={cn("text-[0.875rem] leading-relaxed text-muted", className)}>
+      <span className={cn("text-[0.875rem] leading-relaxed text-grey", className)}>
         Not stated here. {field.reason}
       </span>
     );
@@ -30,15 +30,15 @@ export function FieldValue<T>({
 
   return (
     <span className={className}>
-      <span className="text-[0.9375rem] text-navy-900">
+      <span className="text-[0.9375rem] text-blue-dark">
         {render ? render(field.value) : String(field.value)}
       </span>
       {field.qualifier && (
-        <span className="mt-1 block text-[0.8125rem] leading-relaxed text-muted">
+        <span className="mt-1 block text-[0.8125rem] leading-relaxed text-grey">
           {field.qualifier}
         </span>
       )}
-      <span className="mt-1 block text-[0.75rem] text-muted">
+      <span className="mt-1 block text-[0.75rem] text-grey">
         {field.source}, written down {field.statedOn}
       </span>
     </span>
@@ -57,7 +57,7 @@ export function FieldRow<T>({
 }) {
   return (
     <div className="grid gap-1.5 py-4 sm:grid-cols-[12rem_minmax(0,1fr)] sm:gap-6">
-      <dt className="text-[0.875rem] font-medium text-navy-900">{label}</dt>
+      <dt className="text-[0.875rem] font-medium text-blue-dark">{label}</dt>
       <dd>
         <FieldValue field={field} render={render} />
       </dd>
@@ -112,8 +112,8 @@ export function CommissionBadge({
 /** The paragraph under the badge, where there is room for it. */
 export function CommissionNote({ university }: { university: University }) {
   return (
-    <p className="flex gap-2.5 rounded-card bg-surface px-4 py-3.5 text-[0.8125rem] leading-relaxed text-body">
-      <Info size={15} weight="fill" aria-hidden className="mt-0.5 shrink-0 text-blue-600" />
+    <p className="flex gap-2.5 rounded-card bg-light px-4 py-3.5 text-[0.8125rem] leading-relaxed text-grey">
+      <Info size={15} weight="fill" aria-hidden className="mt-0.5 shrink-0 text-pink" />
       <span>{university.commission.note}</span>
     </p>
   );

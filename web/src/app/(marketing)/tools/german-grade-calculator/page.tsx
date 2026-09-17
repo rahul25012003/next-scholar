@@ -17,23 +17,23 @@ export default function GermanGradePage() {
       lede="The Modified Bavarian Formula is what uni-assist and most German universities start from. It is arithmetic rather than judgement, which is exactly why we can publish it and show you every step of it on your own numbers."
       foot={
         <div className="max-w-3xl">
-          <h2 className="font-display text-[1.375rem] font-bold text-navy-900">
+          <h2 className="text-blue-dark">
             Why we show the working
           </h2>
-          <p className="mt-3 text-[0.9375rem] leading-relaxed text-body">
+          <p className="mt-3 text-[0.9375rem] leading-relaxed text-grey">
             Because a converted grade decides which programmes are worth an application fee,
             and a number you cannot check is a number you have to trust. The formula, your
             own figures substituted into it, and each intermediate step are all on the page,
             so you can verify the result by hand or hand it to someone else to verify.
           </p>
-          <p className="mt-4 text-[0.9375rem] leading-relaxed text-body">
+          <p className="mt-4 text-[0.9375rem] leading-relaxed text-grey">
             What the calculator cannot do is decide the result. The university&rsquo;s
             admissions office or uni-assist performs the official conversion and some of them
             use a different method. Nor is a grade the gate that most often stops an Indian
             applicant to Germany: that is{" "}
             <Link
               href="/destinations/germany#academic"
-              className="font-medium text-blue-600 hover:text-blue-500"
+              className="font-medium text-pink hover:text-blue"
             >
               anabin recognition and subject credits
             </Link>

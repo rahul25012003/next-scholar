@@ -29,17 +29,17 @@ export function FilterRail({
     <form
       method="get"
       action="/universities"
-      className="rounded-panel border border-line bg-paper"
+      className="rounded-panel border border-line bg-white"
       aria-label="Filter courses"
     >
       <div className="flex items-center justify-between gap-4 border-b border-line px-5 py-4">
-        <h2 className="flex items-center gap-2 font-display text-[0.9375rem] font-bold text-navy-900">
+        <h2 className="flex items-center gap-2 text-blue-dark h--6">
           <FunnelSimple size={16} weight="bold" aria-hidden />
           Filters
         </h2>
         <Link
           href="/universities"
-          className="inline-flex items-center gap-1.5 text-[0.8125rem] font-medium text-muted transition-colors hover:text-blue-600"
+          className="inline-flex items-center gap-1.5 text-[0.8125rem] font-medium text-grey transition-colors hover:text-pink"
         >
           <ArrowCounterClockwise size={13} weight="bold" aria-hidden />
           Reset
@@ -50,7 +50,7 @@ export function FilterRail({
         <div>
           <label
             htmlFor="q"
-            className="block text-[0.8125rem] font-semibold text-navy-900"
+            className="block text-[0.8125rem] font-semibold text-blue-dark"
           >
             Search
           </label>
@@ -59,12 +59,12 @@ export function FilterRail({
             name="q"
             defaultValue={filters.query}
             placeholder="Course, university or city"
-            className="mt-2 w-full rounded-input border border-line-strong bg-paper px-3 py-2 text-[0.875rem] text-navy-900 placeholder:text-muted"
+            className="mt-2 w-full rounded-input border border-line-strong bg-white px-3 py-2 text-[0.875rem] text-blue-dark placeholder:text-grey"
           />
         </div>
 
         <fieldset>
-          <legend className="text-[0.8125rem] font-semibold text-navy-900">Destination</legend>
+          <legend className="text-[0.8125rem] font-semibold text-blue-dark">Destination</legend>
           <div className="mt-2.5 space-y-2">
             {guides.map((guide) => (
               <Check
@@ -79,7 +79,7 @@ export function FilterRail({
         </fieldset>
 
         <fieldset>
-          <legend className="text-[0.8125rem] font-semibold text-navy-900">Level</legend>
+          <legend className="text-[0.8125rem] font-semibold text-blue-dark">Level</legend>
           <div className="mt-2.5 space-y-2">
             <Check
               name="level"
@@ -97,7 +97,7 @@ export function FilterRail({
         </fieldset>
 
         <fieldset>
-          <legend className="text-[0.8125rem] font-semibold text-navy-900">
+          <legend className="text-[0.8125rem] font-semibold text-blue-dark">
             Subject
           </legend>
           <div className="mt-2.5 space-y-2">
@@ -115,16 +115,16 @@ export function FilterRail({
         </fieldset>
 
         <fieldset>
-          <legend className="text-[0.8125rem] font-semibold text-navy-900">
+          <legend className="text-[0.8125rem] font-semibold text-blue-dark">
             Maximum annual tuition
           </legend>
-          <p className="mt-1 text-[0.75rem] leading-snug text-muted">
+          <p className="mt-1 text-[0.75rem] leading-snug text-grey">
             Set per currency, because £30,000 and €30,000 are different numbers and
             converting them here would hide that.
           </p>
           <div className="mt-2.5 grid grid-cols-2 gap-2">
             <label className="block">
-              <span className="block text-[0.75rem] text-muted">UK, £</span>
+              <span className="block text-[0.75rem] text-grey">UK, £</span>
               <input
                 type="number"
                 name="maxGbp"
@@ -132,11 +132,11 @@ export function FilterRail({
                 step={1000}
                 defaultValue={filters.maxFeeGbp ?? ""}
                 placeholder="30000"
-                className="figures mt-1 w-full rounded-input border border-line-strong px-2.5 py-1.5 text-[0.875rem] text-navy-900"
+                className="figures mt-1 w-full rounded-card border border-line-strong px-2.5 py-1.5 text-[0.875rem] text-blue-dark"
               />
             </label>
             <label className="block">
-              <span className="block text-[0.75rem] text-muted">EU, €</span>
+              <span className="block text-[0.75rem] text-grey">EU, €</span>
               <input
                 type="number"
                 name="maxEur"
@@ -144,17 +144,17 @@ export function FilterRail({
                 step={1000}
                 defaultValue={filters.maxFeeEur ?? ""}
                 placeholder="25000"
-                className="figures mt-1 w-full rounded-input border border-line-strong px-2.5 py-1.5 text-[0.875rem] text-navy-900"
+                className="figures mt-1 w-full rounded-card border border-line-strong px-2.5 py-1.5 text-[0.875rem] text-blue-dark"
               />
             </label>
           </div>
         </fieldset>
 
         <fieldset>
-          <legend className="text-[0.8125rem] font-semibold text-navy-900">
+          <legend className="text-[0.8125rem] font-semibold text-blue-dark">
             What we earn
           </legend>
-          <p className="mt-1 text-[0.75rem] leading-snug text-muted">
+          <p className="mt-1 text-[0.75rem] leading-snug text-grey">
             Neither benchmark offers this filter, because neither publishes the figure it
             would filter on.
           </p>
@@ -175,7 +175,7 @@ export function FilterRail({
         </fieldset>
 
         <fieldset>
-          <legend className="text-[0.8125rem] font-semibold text-navy-900">
+          <legend className="text-[0.8125rem] font-semibold text-blue-dark">
             Completeness
           </legend>
           <div className="mt-2.5 space-y-2">
@@ -189,14 +189,14 @@ export function FilterRail({
         </fieldset>
 
         <div>
-          <label htmlFor="sort" className="block text-[0.8125rem] font-semibold text-navy-900">
+          <label htmlFor="sort" className="block text-[0.8125rem] font-semibold text-blue-dark">
             Order by
           </label>
           <select
             id="sort"
             name="sort"
             defaultValue={sort}
-            className="mt-2 w-full rounded-input border border-line-strong bg-paper px-3 py-2 text-[0.875rem] text-navy-900"
+            className="mt-2 w-full rounded-input border border-line-strong bg-white px-3 py-2 text-[0.875rem] text-blue-dark"
           >
             {sortOptions.map((option) => (
               <option key={option.key} value={option.key}>
@@ -204,7 +204,7 @@ export function FilterRail({
               </option>
             ))}
           </select>
-          <p className="mt-2 text-[0.75rem] leading-snug text-muted">
+          <p className="mt-2 text-[0.75rem] leading-snug text-grey">
             {sortOptions.find((option) => option.key === sort)?.note}
           </p>
         </div>
@@ -213,11 +213,11 @@ export function FilterRail({
       <div className="border-t border-line px-5 py-4">
         <button
           type="submit"
-          className="w-full rounded-full bg-blue-600 px-5 py-2.5 text-[0.9375rem] font-medium text-white transition-colors hover:bg-blue-500"
+          className="w-full button"
         >
           Apply filters
         </button>
-        <p className="mt-2.5 text-center text-[0.75rem] text-muted">
+        <p className="mt-2.5 text-center text-[0.75rem] text-grey">
           Showing {resultCount} course{resultCount === 1 ? "" : "s"} on the current filters.
         </p>
       </div>
@@ -245,10 +245,10 @@ function Check({
         name={name}
         value={value}
         defaultChecked={checked}
-        className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--color-blue-600)]"
+        className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--color-blue-dark)]"
       />
-      <span className="flex-1 text-[0.875rem] leading-snug text-body">{label}</span>
-      {note && <span className="figures text-[0.75rem] text-muted">{note}</span>}
+      <span className="flex-1 text-[0.875rem] leading-snug text-grey">{label}</span>
+      {note && <span className="figures text-[0.75rem] text-grey">{note}</span>}
     </label>
   );
 }

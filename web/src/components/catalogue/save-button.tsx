@@ -39,18 +39,18 @@ export function SaveToShortlist({
 
   if (state.status === "signed-out") {
     return (
-      <p className={cn("text-[0.8125rem] leading-relaxed text-body", className)}>
+      <p className={cn("text-[0.8125rem] leading-relaxed text-grey", className)}>
         A shortlist needs an account.{" "}
         <Link
           href={`/login?next=${encodeURIComponent(returnTo)}`}
-          className="font-medium text-blue-600 hover:text-blue-500"
+          className="font-medium text-pink hover:text-blue"
         >
           Sign in
         </Link>{" "}
         or{" "}
         <Link
           href={`/signup?next=${encodeURIComponent(returnTo)}`}
-          className="font-medium text-blue-600 hover:text-blue-500"
+          className="font-medium text-pink hover:text-blue"
         >
           create one
         </Link>
@@ -69,8 +69,8 @@ export function SaveToShortlist({
         className={cn(
           "inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-[0.8125rem] font-medium transition-colors disabled:opacity-60",
           isSaved
-            ? "border-blue-600 bg-blue-50 text-blue-600"
-            : "border-line-strong bg-paper text-navy-900 hover:border-blue-600 hover:text-blue-600",
+            ? "border-blue-dark bg-light text-pink"
+            : "border-line-strong bg-white text-blue-dark hover:border-pink hover:text-pink",
         )}
       >
         {isSaved ? (

@@ -30,11 +30,11 @@ export default function DestinationsIndexPage() {
         title="Three destinations, each answered in full"
         lede="A country goes on this list when its whole guide can be filled in: every fee, every threshold, every deadline as a date, and what we earn on each route within it. That is why there are three and not eleven, and why adding a fourth is a piece of work rather than a menu item."
         aside={
-          <div className="rounded-panel border border-line bg-paper p-6 shadow-card">
-            <p className="text-[0.8125rem] font-semibold text-navy-900">
+          <div className="rounded-panel border border-line bg-white p-6">
+            <p className="text-[0.8125rem] font-semibold text-blue-dark">
               What each guide contains
             </p>
-            <ul className="mt-3 space-y-1.5 text-[0.875rem] leading-relaxed text-body">
+            <ul className="mt-3 space-y-1.5 text-[0.875rem] leading-relaxed text-grey">
               <li>Sixteen sections, the same sixteen for every country</li>
               <li>Every figure with its official source named</li>
               <li>Deadlines as dates, never as month names</li>
@@ -45,7 +45,7 @@ export default function DestinationsIndexPage() {
         }
       />
 
-      <section className="band bg-paper">
+      <section className="band">
         <div className="shell grid gap-6 lg:grid-cols-3">
           {guides.map((guide, index) => {
             const photo = photos.destinations[guidePhoto[guide.slug]];
@@ -59,7 +59,7 @@ export default function DestinationsIndexPage() {
               <Reveal key={guide.slug} delay={staggerDelay(index, 0.06)}>
                 <Link
                   href={`/destinations/${guide.slug}`}
-                  className="card-lift group flex h-full flex-col overflow-hidden rounded-panel border border-line bg-paper shadow-card"
+                  className=" group flex h-full flex-col overflow-hidden rounded-panel border border-line bg-white"
                 >
                   <div className="relative h-40 overflow-hidden">
                     <Image
@@ -72,10 +72,10 @@ export default function DestinationsIndexPage() {
                     />
                     <span
                       aria-hidden
-                      className="absolute inset-0 bg-[linear-gradient(180deg,rgba(14,42,94,0.10)_0%,rgba(14,42,94,0.82)_100%)]"
+                      className="absolute inset-0 bg-[linear-gradient(180deg,rgba(32,91,173,0.10)_0%,rgba(32,91,173,0.82)_100%)]"
                     />
                     <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5">
-                      <h2 className="font-display text-[1.25rem] font-bold text-white">
+                      <h2 className="text-white h--5">
                         {guide.country}
                       </h2>
                       <Image
@@ -91,26 +91,26 @@ export default function DestinationsIndexPage() {
                   <div className="flex flex-1 flex-col p-6">
                     <dl className="divide-y divide-line">
                       <div className="flex items-baseline justify-between gap-4 pb-3">
-                        <dt className="text-[0.875rem] text-body">Tuition</dt>
-                        <dd className="figures text-right text-[0.875rem] font-semibold text-navy-900">
+                        <dt className="text-[0.875rem] text-grey">Tuition</dt>
+                        <dd className="figures text-right text-[0.875rem] font-semibold text-blue-dark">
                           {tuition.value}
                         </dd>
                       </div>
                       <div className="flex items-baseline justify-between gap-4 py-3">
-                        <dt className="text-[0.875rem] text-body">Funds to show</dt>
-                        <dd className="figures text-right text-[0.875rem] font-semibold text-navy-900">
+                        <dt className="text-[0.875rem] text-grey">Funds to show</dt>
+                        <dd className="figures text-right text-[0.875rem] font-semibold text-blue-dark">
                           {funds.value}
                         </dd>
                       </div>
                       <div className="flex items-start justify-between gap-4 pt-3">
-                        <dt className="text-[0.875rem] text-body">We earn</dt>
+                        <dt className="text-[0.875rem] text-grey">We earn</dt>
                         <dd className="flex flex-col items-end gap-1.5">
                           {rows.map((row) => (
                             <span key={row.slug} className="flex flex-col items-end gap-1">
-                              <span className="figures text-[0.875rem] font-semibold text-navy-900">
+                              <span className="figures text-[0.875rem] font-semibold text-blue-dark">
                                 {row.commission.display}
                                 {row.route && (
-                                  <span className="ml-1.5 font-sans text-[0.75rem] font-normal text-muted">
+                                  <span className="ml-1.5 font-sans text-[0.75rem] font-normal text-grey">
                                     {row.route === "Public universities" ? "public" : "private"}
                                   </span>
                                 )}
@@ -122,11 +122,11 @@ export default function DestinationsIndexPage() {
                       </div>
                     </dl>
 
-                    <p className="mt-5 flex-1 text-[0.875rem] leading-relaxed text-muted">
+                    <p className="mt-5 flex-1 text-[0.875rem] leading-relaxed text-grey">
                       {guide.pitfalls[0].title}.
                     </p>
 
-                    <span className="mt-5 inline-flex items-center gap-2 text-[0.9375rem] font-medium text-blue-600">
+                    <span className="mt-5 inline-flex items-center gap-2 text-[0.9375rem] font-medium text-pink">
                       Read the full guide
                       <ArrowRight
                         size={15}
@@ -143,11 +143,11 @@ export default function DestinationsIndexPage() {
         </div>
 
         <div className="shell mt-12">
-          <div className="rounded-panel border border-line bg-surface p-7 md:p-9">
-            <h2 className="font-display text-[1.375rem] font-bold text-navy-900">
+          <div className="rounded-panel border border-line bg-light p-7 md:p-9">
+            <h2 className="text-blue-dark">
               Why not more countries
             </h2>
-            <p className="mt-3 max-w-3xl text-[0.9375rem] leading-relaxed text-body">
+            <p className="mt-3 max-w-3xl text-[0.9375rem] leading-relaxed text-grey">
               Because a fourth country would be a list of plausible sentences. Every
               destination here has sixteen filled sections, a named source on each figure,
               and a stated verification state, and producing that takes weeks per country.

@@ -36,7 +36,7 @@ const statusTone: Record<DocStatus, string> = {
   Verified: "text-verified",
   "In review": "text-pending",
   "Issue found": "text-denied",
-  "Not started": "text-muted",
+  "Not started": "text-grey",
 };
 
 const statusIcon: Record<DocStatus, typeof CheckCircle> = {
@@ -99,7 +99,7 @@ export default async function PortalPage() {
                       key={stage.key}
                       className={
                         active
-                          ? "flex items-center gap-2 rounded-input bg-blue-50 px-3 py-2"
+                          ? "flex items-center gap-2 rounded-input bg-light px-3 py-2"
                           : "flex items-center gap-2 rounded-input px-3 py-2"
                       }
                     >
@@ -109,17 +109,17 @@ export default async function PortalPage() {
                         <Circle
                           size={16}
                           weight={active ? "fill" : "regular"}
-                          className={active ? "shrink-0 text-blue-600" : "shrink-0 text-line-strong"}
+                          className={active ? "shrink-0 text-pink" : "shrink-0 text-line-strong"}
                           aria-hidden
                         />
                       )}
                       <span
                         className={
                           active
-                            ? "text-[0.875rem] font-medium text-navy-900"
+                            ? "text-[0.875rem] font-medium text-blue-dark"
                             : done
-                              ? "text-[0.875rem] text-body"
-                              : "text-[0.875rem] text-muted"
+                              ? "text-[0.875rem] text-grey"
+                              : "text-[0.875rem] text-grey"
                         }
                       >
                         {stage.name}
@@ -129,11 +129,11 @@ export default async function PortalPage() {
                 })}
               </ol>
 
-              <div className="mt-6 rounded-card border border-line bg-surface p-5">
-                <p className="text-[0.8125rem] font-medium text-muted">
+              <div className="mt-6 rounded-card border border-line bg-light p-5">
+                <p className="text-[0.8125rem] font-medium text-grey">
                   What we owe you at this stage
                 </p>
-                <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-ink-soft">
+                <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-grey">
                   {currentStage.deliverable}
                 </p>
               </div>
@@ -161,15 +161,15 @@ export default async function PortalPage() {
                           ? "mt-0.5 shrink-0 text-denied"
                           : event.priority === "High"
                             ? "mt-0.5 shrink-0 text-pending"
-                            : "mt-0.5 shrink-0 text-blue-600"
+                            : "mt-0.5 shrink-0 text-pink"
                       }
                       aria-hidden
                     />
                     <div>
-                      <p className="text-[0.9375rem] font-medium text-navy-900">
+                      <p className="text-[0.9375rem] font-medium text-blue-dark">
                         {event.title}
                       </p>
-                      <p className="mt-1 text-[0.875rem] leading-relaxed text-body">
+                      <p className="mt-1 text-[0.875rem] leading-relaxed text-grey">
                         {event.detail}
                       </p>
                     </div>
@@ -205,10 +205,10 @@ export default async function PortalPage() {
                           aria-hidden
                         />
                         <div>
-                          <p className="text-[0.9375rem] font-medium text-navy-900">
+                          <p className="text-[0.9375rem] font-medium text-blue-dark">
                             {document.name}
                           </p>
-                          <p className="mt-0.5 text-[0.8125rem] text-muted">
+                          <p className="mt-0.5 text-[0.8125rem] text-grey">
                             Version {document.version}
                             {document.verifiedBy
                               ? `, verified by ${document.verifiedBy}`
@@ -226,7 +226,7 @@ export default async function PortalPage() {
                           {document.status}
                         </p>
                         {document.expiresOn && (
-                          <p className="figures mt-0.5 text-[0.75rem] text-muted">
+                          <p className="figures mt-0.5 text-[0.75rem] text-grey">
                             Expires {document.expiresOn}
                           </p>
                         )}
@@ -268,10 +268,10 @@ export default async function PortalPage() {
                   const days = daysUntil(deadline.date);
                   return (
                     <li key={deadline.label} className="px-6 py-4">
-                      <p className="text-[0.9375rem] font-medium text-navy-900">
+                      <p className="text-[0.9375rem] font-medium text-blue-dark">
                         {deadline.label}
                       </p>
-                      <p className="figures mt-1 text-[0.8125rem] text-muted">
+                      <p className="figures mt-1 text-[0.8125rem] text-grey">
                         {deadline.date}, {days} {days === 1 ? "day" : "days"} away
                       </p>
                     </li>
@@ -286,15 +286,15 @@ export default async function PortalPage() {
             description="Recorded by a person when it happens. Nothing here is predicted."
           >
             <div className="px-6 py-5">
-              <p className="text-[0.9375rem] font-medium text-navy-900">
+              <p className="text-[0.9375rem] font-medium text-blue-dark">
                 {visaLabel[record.visa.state]}
               </p>
-              <p className="mt-1.5 text-[0.875rem] leading-relaxed text-body">
+              <p className="mt-1.5 text-[0.875rem] leading-relaxed text-grey">
                 {record.visa.note ??
                   "The visa file is built after an offer is accepted and the funding is in place."}
               </p>
               {record.visa.decidedOn && (
-                <p className="figures mt-1.5 text-[0.75rem] text-muted">
+                <p className="figures mt-1.5 text-[0.75rem] text-grey">
                   Decided {record.visa.decidedOn}
                 </p>
               )}
@@ -303,10 +303,10 @@ export default async function PortalPage() {
 
           <Panel title="Your counselor">
             <div className="px-6 py-5">
-              <p className="text-[0.9375rem] font-medium text-navy-900">
+              <p className="text-[0.9375rem] font-medium text-blue-dark">
                 {record.counselor}
               </p>
-              <p className="mt-1 text-[0.8125rem] leading-relaxed text-muted">
+              <p className="mt-1 text-[0.8125rem] leading-relaxed text-grey">
                 Messages sent through the portal reach them directly. A published
                 phone line and email arrive with the registered entity.
               </p>
@@ -328,10 +328,10 @@ export default async function PortalPage() {
                   .filter((item) => item.channel === "in_app")
                   .map((item) => (
                     <li key={item.id} className="px-6 py-4">
-                      <p className="text-[0.875rem] leading-relaxed text-ink-soft">
+                      <p className="text-[0.875rem] leading-relaxed text-grey">
                         {item.body}
                       </p>
-                      <p className="figures mt-1.5 text-[0.75rem] text-muted">
+                      <p className="figures mt-1.5 text-[0.75rem] text-grey">
                         {item.createdAt.slice(0, 10)}, {item.priority.toLowerCase()} priority
                       </p>
                     </li>
@@ -375,15 +375,15 @@ export default async function PortalPage() {
                 {threads.map((thread) => (
                   <li key={thread.id} className="px-6 py-4">
                     <div className="flex flex-wrap items-baseline justify-between gap-3">
-                      <p className="text-[0.8125rem] font-medium text-navy-900">
+                      <p className="text-[0.8125rem] font-medium text-blue-dark">
                         {channelLabel[thread.channel]}
                         {thread.direction === "inbound" ? ", from you" : ", from us"}
                       </p>
-                      <p className="figures text-[0.75rem] text-muted">
+                      <p className="figures text-[0.75rem] text-grey">
                         {thread.occurredAt.slice(0, 10)}
                       </p>
                     </div>
-                    <p className="mt-1.5 text-[0.875rem] leading-relaxed text-ink-soft">
+                    <p className="mt-1.5 text-[0.875rem] leading-relaxed text-grey">
                       {thread.raw}
                     </p>
                   </li>
@@ -399,10 +399,10 @@ export default async function PortalPage() {
             <ol className="divide-y divide-line">
               {[...record.log].reverse().map((entry) => (
                 <li key={entry.ts + entry.text} className="px-6 py-4">
-                  <p className="text-[0.875rem] leading-relaxed text-ink-soft">
+                  <p className="text-[0.875rem] leading-relaxed text-grey">
                     {entry.text}
                   </p>
-                  <p className="figures mt-1.5 text-[0.75rem] text-muted">
+                  <p className="figures mt-1.5 text-[0.75rem] text-grey">
                     {entry.ts.slice(0, 10)}, {entry.author}
                     {entry.source === "ai" ? ", machine written" : ""}
                   </p>
@@ -435,10 +435,10 @@ function Offers({ record }: { record: StudentCase }) {
             <li key={application.id} className="px-6 py-5">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
-                  <p className="text-[0.9375rem] font-medium text-navy-900">
+                  <p className="text-[0.9375rem] font-medium text-blue-dark">
                     {application.university}
                   </p>
-                  <p className="mt-0.5 text-[0.875rem] text-body">
+                  <p className="mt-0.5 text-[0.875rem] text-grey">
                     {application.programme}
                   </p>
                 </div>
@@ -457,21 +457,21 @@ function Offers({ record }: { record: StudentCase }) {
 
               <dl className="mt-4 grid gap-x-8 gap-y-2 sm:grid-cols-2">
                 <div className="flex items-baseline gap-3">
-                  <dt className="text-[0.8125rem] text-muted">Reference</dt>
-                  <dd className="figures text-[0.8125rem] text-navy-900">
+                  <dt className="text-[0.8125rem] text-grey">Reference</dt>
+                  <dd className="figures text-[0.8125rem] text-blue-dark">
                     {application.reference ?? "Not issued"}
                   </dd>
                 </div>
                 <div className="flex items-baseline gap-3">
-                  <dt className="text-[0.8125rem] text-muted">Submitted</dt>
-                  <dd className="figures text-[0.8125rem] text-navy-900">
+                  <dt className="text-[0.8125rem] text-grey">Submitted</dt>
+                  <dd className="figures text-[0.8125rem] text-blue-dark">
                     {application.submittedOn ?? "Not yet"}
                   </dd>
                 </div>
               </dl>
 
               {application.outcomeNote && (
-                <p className="mt-3 text-[0.875rem] leading-relaxed text-body">
+                <p className="mt-3 text-[0.875rem] leading-relaxed text-grey">
                   {application.outcomeNote}
                 </p>
               )}
@@ -481,7 +481,7 @@ function Offers({ record }: { record: StudentCase }) {
                   href={application.portalUrl}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="mt-3 inline-flex items-center gap-1.5 text-[0.8125rem] font-medium text-blue-600 hover:text-blue-500"
+                  className="mt-3 inline-flex items-center gap-1.5 text-[0.8125rem] font-medium text-pink hover:text-blue"
                 >
                   <ArrowSquareOut size={14} weight="bold" aria-hidden />
                   {application.portalUrl}

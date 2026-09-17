@@ -43,28 +43,28 @@ export function CourseCard({
   const rest = row.intakes.slice(1);
 
   return (
-    <article className="card-lift rounded-panel border border-line bg-paper p-6">
+    <article className=" rounded-panel border border-line bg-white p-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="flex min-w-0 items-start gap-3.5">
           <span
             aria-hidden
-            className="figures grid h-11 w-11 shrink-0 place-items-center rounded-input bg-blue-100 text-[0.75rem] font-bold text-navy-900"
+            className="figures grid h-11 w-11 shrink-0 place-items-center rounded-input bg-blue-light text-[0.75rem] font-bold text-blue-dark"
           >
             {row.university.initials}
           </span>
           <div className="min-w-0">
-            <h3 className="font-display text-[1.0625rem] font-bold leading-snug text-navy-900">
+            <h3 className="text-blue-dark h--6">
               <Link
                 href={`/universities/${row.university.slug}/${row.slug}`}
-                className="hover:text-blue-600"
+                className="hover:text-pink"
               >
                 {row.name}
               </Link>
             </h3>
-            <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.875rem] text-body">
+            <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.875rem] text-grey">
               <Link
                 href={`/universities/${row.university.slug}`}
-                className="font-medium hover:text-blue-600"
+                className="font-medium hover:text-pink"
               >
                 {row.university.name}
               </Link>
@@ -92,32 +92,32 @@ export function CourseCard({
 
       <dl className="mt-5 grid gap-4 border-t border-line pt-4 sm:grid-cols-3">
         <div>
-          <dt className="text-[0.75rem] text-muted">Tuition, per year</dt>
-          <dd className="figures mt-0.5 text-[1.0625rem] font-semibold text-navy-900">
+          <dt className="text-[0.75rem] text-grey">Tuition, per year</dt>
+          <dd className="figures mt-0.5 font-semibold text-blue-dark">
             {row.feePerYear.state === "stated"
               ? formatFee(row.feePerYear.value, row.currency)
               : "Not published here"}
           </dd>
-          <dd className="mt-1 text-[0.75rem] leading-snug text-muted">
+          <dd className="mt-1 text-[0.75rem] leading-snug text-grey">
             {row.feePerYear.state === "stated"
               ? "Indicative. The programme's fee page governs."
               : row.feePerYear.reason}
           </dd>
         </div>
         <div>
-          <dt className="text-[0.75rem] text-muted">Duration</dt>
-          <dd className="figures mt-0.5 flex items-center gap-1.5 text-[1.0625rem] font-semibold text-navy-900">
-            <Clock size={15} weight="bold" aria-hidden className="text-muted" />
+          <dt className="text-[0.75rem] text-grey">Duration</dt>
+          <dd className="figures mt-0.5 flex items-center gap-1.5 font-semibold text-blue-dark">
+            <Clock size={15} weight="bold" aria-hidden className="text-grey" />
             {row.durationMonths} months
           </dd>
-          <dd className="mt-1 text-[0.75rem] leading-snug text-muted">
+          <dd className="mt-1 text-[0.75rem] leading-snug text-grey">
             {row.languageOfInstruction}
           </dd>
         </div>
         <div>
-          <dt className="text-[0.75rem] text-muted">Next deadline</dt>
-          <dd className="figures mt-0.5 flex items-center gap-1.5 text-[1.0625rem] font-semibold text-navy-900">
-            <CalendarBlank size={15} weight="bold" aria-hidden className="text-muted" />
+          <dt className="text-[0.75rem] text-grey">Next deadline</dt>
+          <dd className="figures mt-0.5 flex items-center gap-1.5 font-semibold text-blue-dark">
+            <CalendarBlank size={15} weight="bold" aria-hidden className="text-grey" />
             {upcoming ?? "None ahead"}
           </dd>
           {first && (
@@ -137,13 +137,13 @@ export function CourseCard({
 
       {rest.length > 0 && (
         <details className="mt-3">
-          <summary className="cursor-pointer text-[0.8125rem] font-medium text-blue-600">
+          <summary className="cursor-pointer text-[0.8125rem] font-medium text-pink">
             {rest.length} further intake{rest.length === 1 ? "" : "s"}
           </summary>
           <ul className="mt-2 space-y-1.5">
             {rest.map((intake) => (
-              <li key={intake.name} className="text-[0.8125rem] text-body">
-                <span className="font-medium text-navy-900">{intake.name}</span>: apply by{" "}
+              <li key={intake.name} className="text-[0.8125rem] text-grey">
+                <span className="font-medium text-blue-dark">{intake.name}</span>: apply by{" "}
                 <span className="figures">{intake.applicationDeadline}</span>, teaching starts{" "}
                 <span className="figures">{intake.teachingStarts}</span>
                 {intake.campus ? `, ${intake.campus}` : ""}
@@ -157,7 +157,7 @@ export function CourseCard({
         <CommissionBadge university={row.university} />
         <Link
           href={`/universities/${row.university.slug}/${row.slug}`}
-          className="group inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-blue-600 hover:text-blue-500"
+          className="group inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue"
         >
           Course detail
           <ArrowRight

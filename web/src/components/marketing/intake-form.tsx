@@ -19,9 +19,9 @@ import { cn } from "@/lib/cn";
 const DRAFT_KEY = "next-scholar.intake-draft";
 
 const fieldBase =
-  "w-full rounded-input border bg-paper px-3.5 py-2.5 text-[0.9375rem] text-navy-900 " +
-  "placeholder:text-muted/70 transition-colors focus:border-blue-600 focus:outline-none " +
-  "focus:ring-2 focus:ring-blue-600/25";
+  "w-full rounded-input border bg-white px-3.5 py-2.5 text-[0.9375rem] text-blue-dark " +
+  "placeholder:text-grey/70 transition-colors focus:border-pink focus:outline-none " +
+  "focus:ring-2 focus:ring-pink/25";
 
 /** The answers live in this browser and nowhere else, so a reload keeps them. */
 function subscribeToStorage(onChange: () => void) {
@@ -130,12 +130,12 @@ export function IntakeForm() {
               className={cn(
                 "figures grid h-6 w-6 place-items-center rounded-full text-[0.75rem] font-semibold",
                 index === step
-                  ? "bg-blue-600 text-white"
+                  ? "bg-blue-dark text-white"
                   : stepsWithErrors.has(index)
                     ? "bg-denied-bg text-denied"
                     : index < step
                       ? "bg-verified-bg text-verified"
-                      : "bg-surface-2 text-muted",
+                      : "bg-light text-grey",
               )}
             >
               {index + 1}
@@ -146,7 +146,7 @@ export function IntakeForm() {
               aria-current={index === step ? "step" : undefined}
               className={cn(
                 "text-[0.9375rem] font-medium transition-colors",
-                index === step ? "text-navy-900" : "text-muted hover:text-navy-900",
+                index === step ? "text-blue-dark" : "text-grey hover:text-blue-dark",
               )}
             >
               {item.title}
@@ -158,7 +158,7 @@ export function IntakeForm() {
         ))}
       </ol>
 
-      <p className="-mt-2 text-[0.875rem] leading-relaxed text-body">
+      <p className="-mt-2 text-[0.875rem] leading-relaxed text-grey">
         {intakeSteps[step].blurb}
       </p>
 
@@ -167,10 +167,10 @@ export function IntakeForm() {
         <legend className="sr-only">Where you are considering</legend>
 
         <div>
-          <span className="text-[0.9375rem] font-medium text-navy-900">
+          <span className="text-[0.9375rem] font-medium text-blue-dark">
             Which of these are you considering?
           </span>
-          <p className="mt-1 text-[0.8125rem] leading-relaxed text-body">
+          <p className="mt-1 text-[0.8125rem] leading-relaxed text-grey">
             Pick as many as apply, or none. Every one of them has a full guide on this site
             with the fees, the funding thresholds and what we earn on it, and you are welcome
             to read those instead of filling this in.
@@ -186,7 +186,7 @@ export function IntakeForm() {
                   aria-pressed={active}
                   className={cn(
                     "group relative overflow-hidden rounded-card border-2 text-left transition-colors",
-                    active ? "border-blue-600" : "border-line hover:border-line-strong",
+                    active ? "border-blue-dark" : "border-line hover:border-line-strong",
                   )}
                 >
                   <span className="flex items-center gap-3 p-4">
@@ -198,10 +198,10 @@ export function IntakeForm() {
                       className="h-5 w-auto shrink-0 rounded-xs ring-1 ring-line"
                     />
                     <span className="min-w-0">
-                      <span className="block text-[0.9375rem] font-semibold text-navy-900">
+                      <span className="block text-[0.9375rem] font-semibold text-blue-dark">
                         {guide.country}
                       </span>
-                      <span className="mt-0.5 block text-[0.75rem] leading-snug text-muted">
+                      <span className="mt-0.5 block text-[0.75rem] leading-snug text-grey">
                         {guide.routes.length > 1
                           ? `${guide.routes.length} routes`
                           : guide.routes[0].name}
@@ -212,7 +212,7 @@ export function IntakeForm() {
                         size={18}
                         weight="fill"
                         aria-hidden
-                        className="ml-auto shrink-0 text-blue-600"
+                        className="ml-auto shrink-0 text-pink"
                       />
                     )}
                   </span>
@@ -294,20 +294,20 @@ export function IntakeForm() {
       )}
 
       {state.status === "not-live" && (
-        <div className="rounded-panel border border-line bg-surface p-6" role="status">
+        <div className="rounded-panel border border-line bg-light p-6" role="status">
           <div className="flex items-start gap-3">
-            <Info size={20} weight="fill" className="mt-0.5 shrink-0 text-blue-600" aria-hidden />
+            <Info size={20} weight="fill" className="mt-0.5 shrink-0 text-pink" aria-hidden />
             <div>
-              <h3 className="font-display text-[1.0625rem] font-bold text-navy-900">
+              <h3 className="text-blue-dark h--6">
                 Your answers are complete. Nothing was sent.
               </h3>
-              <p className="mt-2 text-[0.9375rem] leading-relaxed text-body">{state.message}</p>
-              <p className="mt-4 text-[0.875rem] font-medium text-navy-900">
+              <p className="mt-2 text-[0.9375rem] leading-relaxed text-grey">{state.message}</p>
+              <p className="mt-4 text-[0.875rem] font-medium text-blue-dark">
                 Still to connect before this form can take a booking
               </p>
               <ul className="mt-2 space-y-1.5">
                 {state.missing.map((item) => (
-                  <li key={item} className="text-[0.875rem] leading-relaxed text-body">
+                  <li key={item} className="text-[0.875rem] leading-relaxed text-grey">
                     {item}
                   </li>
                 ))}
@@ -339,11 +339,11 @@ function Question({
 
   return (
     <div className="grid gap-2">
-      <label htmlFor={question.id} className="text-[0.9375rem] font-medium text-navy-900">
+      <label htmlFor={question.id} className="text-[0.9375rem] font-medium text-blue-dark">
         {question.label}
       </label>
       {question.help && (
-        <p id={`${question.id}-help`} className="text-[0.8125rem] leading-relaxed text-body">
+        <p id={`${question.id}-help`} className="text-[0.8125rem] leading-relaxed text-grey">
           {question.help}
         </p>
       )}

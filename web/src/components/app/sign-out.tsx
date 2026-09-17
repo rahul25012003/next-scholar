@@ -8,7 +8,7 @@ export function SignOutButton() {
     <form action={signOut}>
       <button
         type="submit"
-        className="flex items-center gap-1.5 text-[0.8125rem] font-medium text-muted transition-colors hover:text-navy-900"
+        className="small flex items-center gap-1.5 font-bold text-white transition-colors hover:text-pink"
       >
         <SignOutIcon size={14} weight="bold" aria-hidden />
         Sign out

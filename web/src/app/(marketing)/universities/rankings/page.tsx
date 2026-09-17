@@ -47,7 +47,7 @@ export default async function RankingsPage(props: PageProps<"/universities/ranki
         lede="Alphabetical by institution, not by rank. A QS band and a Times Higher band are not the same scale, and averaging or reordering by them would be a number we invented rather than one anybody published."
       />
 
-      <section className="band bg-paper">
+      <section className="band">
         <div className="shell">
           <form method="get" action="/universities/rankings" className="grid gap-4">
             {destination && <input type="hidden" name="destination" value={destination} />}
@@ -58,11 +58,11 @@ export default async function RankingsPage(props: PageProps<"/universities/ranki
               defaultValue={typeof params.q === "string" ? params.q : ""}
               placeholder="Search by institution or city"
               aria-label="Search by institution or city"
-              className="w-full max-w-md rounded-input border border-line-strong bg-paper px-3.5 py-2.5 text-[0.9375rem] text-navy-900 placeholder:text-muted"
+              className="w-full max-w-md rounded-card border border-line-strong bg-white px-3.5 py-2.5 text-[0.9375rem] text-blue-dark placeholder:text-grey"
             />
 
             <div className="flex flex-wrap items-center gap-2.5">
-              <span className="text-[0.8125rem] font-medium text-muted">Destination</span>
+              <span className="text-[0.8125rem] font-medium text-grey">Destination</span>
               <FilterPill href="/universities/rankings" active={!destination} label="All" q={query} body={body} />
               {guides.map((guide) => (
                 <FilterPill
@@ -79,7 +79,7 @@ export default async function RankingsPage(props: PageProps<"/universities/ranki
             </div>
 
             <div className="flex flex-wrap items-center gap-2.5">
-              <span className="text-[0.8125rem] font-medium text-muted">Ranking body</span>
+              <span className="text-[0.8125rem] font-medium text-grey">Ranking body</span>
               <FilterPill href="/universities/rankings" active={!body} label="All" q={query} destination={destination} />
               {rankingBodies.map((item) => (
                 <FilterPill
@@ -98,14 +98,14 @@ export default async function RankingsPage(props: PageProps<"/universities/ranki
             <div>
               <button
                 type="submit"
-                className="rounded-full bg-blue-600 px-5 py-2.5 text-[0.875rem] font-medium text-white transition-colors hover:bg-blue-500"
+                className="button"
               >
                 Search
               </button>
             </div>
           </form>
 
-          <p className="mt-6 text-[0.8125rem] text-muted">
+          <p className="mt-6 text-[0.8125rem] text-grey">
             {rows.length} of {universities.length} institutions match.
           </p>
 
@@ -116,11 +116,11 @@ export default async function RankingsPage(props: PageProps<"/universities/ranki
                 controls above
               </caption>
               <thead>
-                <tr className="border-b border-line bg-surface">
-                  <th scope="col" className="px-5 py-3.5 text-[0.8125rem] font-semibold text-navy-900">
+                <tr className="border-b border-line bg-light">
+                  <th scope="col" className="px-5 py-3.5 text-[0.8125rem] font-semibold text-blue-dark">
                     Institution
                   </th>
-                  <th scope="col" className="px-5 py-3.5 text-[0.8125rem] font-semibold text-navy-900">
+                  <th scope="col" className="px-5 py-3.5 text-[0.8125rem] font-semibold text-blue-dark">
                     Published rankings
                   </th>
                 </tr>
@@ -131,17 +131,17 @@ export default async function RankingsPage(props: PageProps<"/universities/ranki
                     <td className="px-5 py-4 align-top">
                       <Link
                         href={`/universities/${university.slug}`}
-                        className="font-medium text-navy-900 hover:text-blue-600"
+                        className="font-medium text-blue-dark hover:text-pink"
                       >
                         {university.name}
                       </Link>
-                      <p className="mt-0.5 text-[0.8125rem] text-muted">
+                      <p className="mt-0.5 text-[0.8125rem] text-grey">
                         {university.city}, {countryName[university.destination] ?? university.destination}
                       </p>
                     </td>
                     <td className="px-5 py-4 align-top">
                       {university.rankings.length === 0 ? (
-                        <span className="text-[0.875rem] text-muted">
+                        <span className="text-[0.875rem] text-grey">
                           Nothing published that we have checked yet.
                         </span>
                       ) : (
@@ -149,9 +149,9 @@ export default async function RankingsPage(props: PageProps<"/universities/ranki
                           {university.rankings.map((ranking) => (
                             <li
                               key={`${ranking.body}-${ranking.year}-${ranking.scope}`}
-                              className="text-[0.875rem] leading-relaxed text-body"
+                              className="text-[0.875rem] leading-relaxed text-grey"
                             >
-                              <span className="font-medium text-navy-900">{ranking.rank}</span>{" "}
+                              <span className="font-medium text-blue-dark">{ranking.rank}</span>{" "}
                               in {ranking.scope}, {ranking.body}{" "}
                               <span className="figures">{ranking.year}</span>
                             </li>
@@ -163,7 +163,7 @@ export default async function RankingsPage(props: PageProps<"/universities/ranki
                 ))}
                 {rows.length === 0 && (
                   <tr>
-                    <td colSpan={2} className="px-5 py-8 text-center text-[0.9375rem] text-body">
+                    <td colSpan={2} className="px-5 py-8 text-center text-[0.9375rem] text-grey">
                       Nothing matches those filters in this catalogue.
                     </td>
                   </tr>
@@ -172,9 +172,9 @@ export default async function RankingsPage(props: PageProps<"/universities/ranki
             </table>
           </div>
 
-          <p className="mt-6 max-w-2xl text-[0.875rem] leading-relaxed text-muted">
+          <p className="mt-6 max-w-2xl text-[0.875rem] leading-relaxed text-grey">
             Forty-five institutions, seeded by hand. See{" "}
-            <Link href="/universities" className="font-medium text-blue-600 hover:text-blue-500">
+            <Link href="/universities" className="font-medium text-pink hover:text-blue">
               the full catalogue
             </Link>{" "}
             for fees, commission and courses.
@@ -218,10 +218,10 @@ function FilterPill({
     <Link
       href={url}
       className={cn(
-        "rounded-full border px-3.5 py-1.5 text-[0.8125rem] font-medium transition-colors",
+        "button",
         active
-          ? "border-blue-600 bg-blue-600 text-white"
-          : "border-line-strong bg-paper text-navy-900 hover:border-blue-600 hover:text-blue-600",
+          ? "button--selected"
+          : "button--light",
       )}
     >
       {label}

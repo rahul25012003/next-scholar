@@ -16,10 +16,10 @@ export default function IeltsBandPage() {
       lede="Four sections, equal weighting, rounded to the nearest half band with quarters rounding up. The part most calculators leave out is the per-section minimum on your offer, which is where a good overall band still fails a language condition."
       foot={
         <div className="max-w-3xl">
-          <h2 className="font-display text-[1.375rem] font-bold text-navy-900">
+          <h2 className="text-blue-dark">
             This calculates a band. It does not predict one.
           </h2>
-          <p className="mt-3 text-[0.9375rem] leading-relaxed text-body">
+          <p className="mt-3 text-[0.9375rem] leading-relaxed text-grey">
             If you have not sat the test, there is no honest number to give you. Nothing on
             this site estimates a score you have not achieved, in the same way that nothing
             on this site estimates a probability of admission. Both would be invented, and an

@@ -13,22 +13,22 @@ import { cn } from "@/lib/cn";
 const icons = [GlobeHemisphereWest, ListChecks, HandCoins, Clock, Receipt];
 
 const toneStyles: Record<string, string> = {
-  blue: "bg-pastel-blue text-blue-600",
-  mint: "bg-pastel-mint text-verified",
-  peach: "bg-pastel-peach text-pending",
-  rose: "bg-pastel-rose text-denied",
-  lilac: "bg-pastel-lilac text-navy-700",
+  blue: "bg-blue-light text-pink",
+  mint: "bg-blue-light text-verified",
+  peach: "bg-blue-light text-pending",
+  rose: "bg-blue-light text-denied",
+  lilac: "bg-blue-light text-blue-tint",
 };
 
 export function DayOneFigures() {
   return (
-    <section className="band bg-paper">
+    <section className="band">
       <div className="shell">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-display text-3xl font-bold text-navy-900 md:text-[2.5rem]">
+          <h2 className="text-blue-dark">
             The only numbers we can stand behind
           </h2>
-          <p className="mt-4 text-[1.0625rem] leading-relaxed text-body">
+          <p className="mt-4 leading-relaxed text-grey">
             No client has been taken on yet, so nothing here is a placement
             statistic. When there are placements, they appear in the quarterly
             report, refusals included.
@@ -49,13 +49,13 @@ export function DayOneFigures() {
                   >
                     <Icon size={24} weight="duotone" aria-hidden />
                   </span>
-                  <p className="figures mt-5 text-[1.875rem] font-semibold leading-none text-navy-900">
+                  <p className="figures mt-5 text-[1.875rem] font-semibold leading-none text-blue-dark">
                     {figure.value}
                   </p>
-                  <p className="mt-2.5 text-[0.9375rem] font-medium leading-snug text-navy-900">
+                  <p className="mt-2.5 text-[0.9375rem] font-medium leading-snug text-blue-dark">
                     {figure.label}
                   </p>
-                  <p className="mx-auto mt-2 max-w-[15rem] text-[0.8125rem] leading-relaxed text-muted">
+                  <p className="mx-auto mt-2 max-w-[15rem] text-[0.8125rem] leading-relaxed text-grey">
                     {figure.detail}
                   </p>
                 </div>

@@ -38,54 +38,51 @@ export function ErrorState({
   }, [error, scope]);
 
   return (
-    <main className="flex min-h-[70vh] items-center bg-surface">
-      <div className="shell max-w-2xl py-20">
-        <span
-          aria-hidden
-          className="grid h-12 w-12 place-items-center rounded-input bg-denied-bg text-denied"
-        >
-          <WarningCircle size={24} weight="fill" />
-        </span>
-        <h1 className="mt-6 font-display text-[2rem] font-extrabold leading-tight tracking-[-0.03em] text-navy-900">
-          Something on this page failed
-        </h1>
-        <p className="mt-5 text-[1.0625rem] leading-relaxed text-body">
-          {scope === "app"
-            ? "The page did not finish loading. If you had just submitted something, we cannot tell you from here whether it was saved, so check the case record before repeating the action rather than sending it twice."
-            : "The page did not finish loading. Nothing you were reading was lost, because nothing on the public site is stored on your behalf."}
-        </p>
-
-        {error.digest && (
-          <div className="mt-7 rounded-card border border-line bg-paper p-5">
-            <p className="text-[0.8125rem] font-semibold text-navy-900">Reference for this error</p>
-            <p className="figures mt-1.5 text-[0.9375rem] text-body">{error.digest}</p>
-            <p className="mt-2 text-[0.8125rem] leading-relaxed text-muted">
-              Quote this if you tell us about it. It is the only thing that links what you saw
-              to what our logs recorded.
-            </p>
-          </div>
-        )}
-
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Button size="lg" onClick={() => retry()}>
-            <ArrowClockwise size={16} weight="bold" aria-hidden />
-            Try this page again
-          </Button>
-          <ButtonLink href={scope === "app" ? "/portal" : "/"} variant="outline" size="lg">
-            {scope === "app" ? "Back to your portal" : "Back to the start"}
-          </ButtonLink>
-        </div>
-
-        <p className="mt-10 text-[0.875rem] leading-relaxed text-muted">
-          If it keeps happening,{" "}
-          <Link
-            href="/book-consultation"
-            className="font-medium text-blue-600 hover:text-blue-500"
+    <main className="flex min-h-[70vh] items-center pad-around-lg">
+      <div className="band w-full">
+        <div className="shell flow max-w-2xl">
+          <span
+            aria-hidden
+            className="grid h-12 w-12 place-items-center rounded-full bg-denied-bg text-denied"
           >
-            tell us
-          </Link>{" "}
-          and include the reference above. A repeated failure is a bug, not your browser.
-        </p>
+            <WarningCircle size={24} weight="fill" />
+          </span>
+          <h1 className="h h--3 text-blue-dark">Something on this page failed</h1>
+          <p>
+            {scope === "app"
+              ? "The page did not finish loading. If you had just submitted something, we cannot tell you from here whether it was saved, so check the case record before repeating the action rather than sending it twice."
+              : "The page did not finish loading. Nothing you were reading was lost, because nothing on the public site is stored on your behalf."}
+          </p>
+
+          {error.digest && (
+            <div className="flow bg-light p-5" style={{ ["--flow" as string]: "0.4rem" }}>
+              <p className="small font-bold text-blue-dark">Reference for this error</p>
+              <p className="figures">{error.digest}</p>
+              <p className="small">
+                Quote this if you tell us about it. It is the only thing that links what you saw
+                to what our logs recorded.
+              </p>
+            </div>
+          )}
+
+          <div className="flex flex-wrap gap-3 pt-2">
+            <Button size="lg" onClick={() => retry()}>
+              <ArrowClockwise size={16} weight="bold" aria-hidden />
+              Try this page again
+            </Button>
+            <ButtonLink href={scope === "app" ? "/portal" : "/"} variant="outline" size="lg">
+              {scope === "app" ? "Back to your portal" : "Back to the start"}
+            </ButtonLink>
+          </div>
+
+          <p className="small pt-4">
+            If it keeps happening,{" "}
+            <Link href="/book-consultation" className="font-bold text-pink">
+              tell us
+            </Link>{" "}
+            and include the reference above. A repeated failure is a bug, not your browser.
+          </p>
+        </div>
       </div>
     </main>
   );

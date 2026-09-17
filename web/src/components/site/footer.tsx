@@ -54,43 +54,72 @@ const legalLinks = [
   { label: "Non affiliation", href: "/non-affiliation" },
 ];
 
+/**
+ * The reference footer: charcoal, light type, the logo and its paragraphs in
+ * a wide left column, the link lists in a narrow right one.
+ */
 export function SiteFooter() {
   return (
-    <footer className="mt-auto bg-navy-900 text-white/70">
-      <div className="shell py-16 md:py-20">
-        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
-          <div className="max-w-sm">
-            <div className="flex items-center gap-2.5">
-              <span
-                className="grid h-9 w-9 place-items-center rounded-input bg-white/10 font-display text-[1.05rem] font-bold text-white"
-                aria-hidden
-              >
-                N
-              </span>
-              <span className="font-display text-[1.0625rem] font-bold tracking-tight text-white">
-                Next<span className="text-blue-100">Scholar</span>
-              </span>
-            </div>
-            <p className="mt-5 text-[0.9375rem] leading-relaxed text-white/70">
-              {site.pitch}
-            </p>
-            <p className="mt-3 text-[0.875rem] leading-relaxed text-white/55">
-              {site.base}. {site.serves}.
-            </p>
+    <footer className="Footer pad-around-lg mt-auto">
+      <div className="Footer__container constrain">
+        <div className="Footer__intro flow">
+          <Link className="Footer__logo" href="/">
+            <span className="Header__logo-mark" aria-hidden>
+              N
+            </span>
+            <span>
+              <span aria-hidden>Next Scholar</span>
+              <span className="sr-only">{site.name}</span>
+              <span className="underline" aria-hidden />
+            </span>
+          </Link>
+
+          <p>{site.pitch}</p>
+          <p>
+            {site.base}. {site.serves}.
+          </p>
+
+          <div className="flow">
+            <h2 className="h--6">Registration details</h2>
+            <p className="small">{legalIdentity.note}</p>
+            <dl className="small flow" style={{ ["--flow" as string]: "0.4rem" }}>
+              {legalIdentity.fields.map((field) => (
+                <div key={field.label} className="flex items-baseline gap-3">
+                  <dt className="w-40 shrink-0">{field.label}</dt>
+                  <dd className="figures">Not yet issued</dd>
+                </div>
+              ))}
+            </dl>
           </div>
 
+          <div className="flow">
+            <h2 className="h--6">What we never promise</h2>
+            <ul role="list" className="small flow" style={{ ["--flow" as string]: "0.6rem" }}>
+              {permanentDisclaimers.map((line) => (
+                <li key={line}>{line}</li>
+              ))}
+            </ul>
+            <p className="small">{contact.note}</p>
+          </div>
+
+          <p className="small">
+            {site.name}. Page content last reviewed{" "}
+            <span className="figures">{lastReviewed}</span>.
+          </p>
+          <p className="small">
+            Every figure on this site names its source and says whether a person has
+            re-checked it. None of them has been re-checked this quarter.
+          </p>
+        </div>
+
+        <div>
           {columns.map((column) => (
-            <nav key={column.heading} aria-label={column.heading}>
-              <h2 className="font-display text-[0.9375rem] font-semibold text-white">
-                {column.heading}
-              </h2>
-              <ul className="mt-4 space-y-2.5">
+            <nav key={column.heading} className="Footer__nav" aria-label={column.heading}>
+              <h2 className="Footer__nav-heading">{column.heading}</h2>
+              <ul role="list" className="flow">
                 {column.links.map((link) => (
                   <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="text-[0.9375rem] text-white/70 transition-colors hover:text-white"
-                    >
+                    <Link href={link.href} className="Footer__nav-link">
                       {link.label}
                     </Link>
                   </li>
@@ -98,67 +127,18 @@ export function SiteFooter() {
               </ul>
             </nav>
           ))}
-        </div>
 
-        <div className="mt-14 grid gap-10 border-t border-white/12 pt-10 lg:grid-cols-[1.5fr_2fr]">
-          <div>
-            <h2 className="font-display text-[0.9375rem] font-semibold text-white">
-              Registration details
-            </h2>
-            <p className="mt-3 max-w-sm text-[0.875rem] leading-relaxed text-white/55">
-              {legalIdentity.note}
-            </p>
-            <dl className="mt-5 space-y-2">
-              {legalIdentity.fields.map((field) => (
-                <div key={field.label} className="flex items-baseline gap-3 text-[0.8125rem]">
-                  <dt className="w-40 shrink-0 text-white/60">{field.label}</dt>
-                  <dd className="figures text-white/55">Not yet issued</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-
-          <div>
-            <h2 className="font-display text-[0.9375rem] font-semibold text-white">
-              What we never promise
-            </h2>
-            <ul className="mt-4 space-y-2.5">
-              {permanentDisclaimers.map((line) => (
-                <li key={line} className="text-[0.875rem] leading-relaxed text-white/60">
-                  {line}
+          <nav aria-label="Legal" className="Footer__nav">
+            <ul role="list" className="flow">
+              {legalLinks.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="Footer__nav-link">
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
-            <p className="mt-6 max-w-xl text-[0.875rem] leading-relaxed text-white/55">
-              {contact.note}
-            </p>
-          </div>
-        </div>
-
-        <nav
-          aria-label="Legal"
-          className="mt-12 flex flex-wrap gap-x-6 gap-y-2 border-t border-white/12 pt-7"
-        >
-          {legalLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-[0.875rem] text-white/70 transition-colors hover:text-white"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="mt-7 flex flex-col gap-3 border-t border-white/12 pt-7 text-[0.8125rem] text-white/55 sm:flex-row sm:items-center sm:justify-between">
-          <p>
-            {site.name}. Page content last reviewed{" "}
-            <span className="figures">{lastReviewed}</span>.
-          </p>
-          <p className="max-w-md sm:text-right">
-            Every figure on this site names its source and says whether a person has
-            re-checked it. None of them has been re-checked this quarter.
-          </p>
+          </nav>
         </div>
       </div>
     </footer>

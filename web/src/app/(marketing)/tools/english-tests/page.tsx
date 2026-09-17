@@ -71,17 +71,17 @@ export default function EnglishTestsPage() {
       lede="Scale, format and whether it has historically counted for a UK student visa application, side by side. No table here converts a score from one test into a score on another: publishers occasionally offer their own concordance tables, and a university's own stated minimum on its own test governs, not this page."
       foot={
         <div className="max-w-3xl">
-          <h2 className="font-display text-[1.375rem] font-bold text-navy-900">
+          <h2 className="text-blue-dark">
             Why there is no conversion table here
           </h2>
-          <p className="mt-3 text-[0.9375rem] leading-relaxed text-body">
+          <p className="mt-3 text-[0.9375rem] leading-relaxed text-grey">
             A &ldquo;PTE 62 equals IELTS 6.5&rdquo; table looks precise and is not: the tests measure
             different things in different proportions, publishers revise their own
             concordance guidance periodically, and an admissions office reads the score your
             offer letter names, not an equivalence somebody else computed. Book the test your
             target programme actually names.
           </p>
-          <p className="mt-4 text-[0.9375rem] leading-relaxed text-body">
+          <p className="mt-4 text-[0.9375rem] leading-relaxed text-grey">
             The Secure English Language Test column is the single most consequential fact
             on this page and the one most likely to be out of date by the time you read it.
             Confirm the current approved list before booking anything for a UK Student visa
@@ -89,7 +89,7 @@ export default function EnglishTestsPage() {
           </p>
           <Link
             href="/tools/ielts-band-calculator"
-            className="mt-5 inline-flex items-center gap-1.5 font-medium text-blue-600 hover:text-blue-500"
+            className="mt-5 inline-flex items-center gap-1.5 font-medium text-pink hover:text-blue"
           >
             The IELTS band calculator, with the rounding rule shown
             <ArrowUpRight size={14} weight="bold" aria-hidden />
@@ -99,16 +99,16 @@ export default function EnglishTestsPage() {
     >
       <div className="space-y-6">
         {tests.map((test) => (
-          <article key={test.name} className="rounded-panel border border-line bg-paper p-6 md:p-7">
+          <article key={test.name} className="rounded-panel border border-line bg-white p-6 md:p-7">
             <div className="flex flex-wrap items-baseline justify-between gap-3">
-              <h2 className="font-display text-[1.125rem] font-bold text-navy-900">
+              <h2 className="text-blue-dark h--5">
                 {test.name}
               </h2>
               <a
                 href={test.officialUrl}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="inline-flex items-center gap-1 text-[0.8125rem] font-medium text-blue-600 hover:text-blue-500"
+                className="inline-flex items-center gap-1 text-[0.8125rem] font-medium text-pink hover:text-blue"
               >
                 {test.officialLabel}
                 <ArrowUpRight size={12} weight="bold" aria-hidden />
@@ -116,36 +116,36 @@ export default function EnglishTestsPage() {
             </div>
             <dl className="mt-4 grid gap-4 sm:grid-cols-2">
               <div>
-                <dt className="text-[0.75rem] font-semibold uppercase tracking-wide text-muted">
+                <dt className="eyebrow text-grey">
                   Scale
                 </dt>
-                <dd className="figures mt-1 text-[0.9375rem] text-navy-900">{test.scale}</dd>
+                <dd className="figures mt-1 text-[0.9375rem] text-blue-dark">{test.scale}</dd>
               </div>
               <div>
-                <dt className="text-[0.75rem] font-semibold uppercase tracking-wide text-muted">
+                <dt className="eyebrow text-grey">
                   Format
                 </dt>
-                <dd className="mt-1 text-[0.9375rem] text-navy-900">{test.format}</dd>
+                <dd className="mt-1 text-[0.9375rem] text-blue-dark">{test.format}</dd>
               </div>
               <div className="sm:col-span-2">
-                <dt className="text-[0.75rem] font-semibold uppercase tracking-wide text-muted">
+                <dt className="eyebrow text-grey">
                   Sections
                 </dt>
-                <dd className="mt-1 text-[0.9375rem] leading-relaxed text-navy-900">
+                <dd className="mt-1 text-[0.9375rem] leading-relaxed text-blue-dark">
                   {test.sections}
                 </dd>
               </div>
               <div>
-                <dt className="text-[0.75rem] font-semibold uppercase tracking-wide text-muted">
+                <dt className="eyebrow text-grey">
                   Validity
                 </dt>
-                <dd className="mt-1 text-[0.9375rem] text-navy-900">{test.validity}</dd>
+                <dd className="mt-1 text-[0.9375rem] text-blue-dark">{test.validity}</dd>
               </div>
               <div className="sm:col-span-2">
-                <dt className="text-[0.75rem] font-semibold uppercase tracking-wide text-muted">
+                <dt className="eyebrow text-grey">
                   UK Secure English Language Test status
                 </dt>
-                <dd className="mt-1 text-[0.875rem] leading-relaxed text-body">
+                <dd className="mt-1 text-[0.875rem] leading-relaxed text-grey">
                   {test.ukviSelt}
                 </dd>
               </div>

@@ -12,7 +12,7 @@ export function Skeleton({ className }: { className?: string }) {
   return (
     <span
       aria-hidden
-      className={cn("block animate-pulse rounded-input bg-surface-2", className)}
+      className={cn("block animate-pulse rounded-input bg-light", className)}
     />
   );
 }
@@ -26,7 +26,7 @@ export function SkeletonPanel({
   className?: string;
 }) {
   return (
-    <div className={cn("rounded-panel border border-line bg-paper p-6", className)}>
+    <div className={cn("rounded-panel border border-line bg-white p-6", className)}>
       <Skeleton className="h-4 w-32" />
       <div className="mt-5 space-y-3">
         {Array.from({ length: rows }).map((_, index) => (
@@ -47,7 +47,7 @@ export function SkeletonPanel({
  */
 export function PageLoading({ label }: { label: string }) {
   return (
-    <div className="shell py-10 md:py-14" role="status" aria-live="polite">
+    <div className="shell" role="status" aria-live="polite">
       <span className="sr-only">{label}</span>
       <Skeleton className="h-3 w-24" />
       <Skeleton className="mt-4 h-9 w-80 max-w-full" />

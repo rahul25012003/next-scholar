@@ -17,22 +17,22 @@ export default function EctsCheckPage() {
       lede="A programme that asks for 30 ECTS in mathematics and finds 18 on your transcript rejects on that, whatever your overall grade was. This is the subtraction that decides it, and almost nothing published for Indian applicants represents it at all."
       foot={
         <div className="max-w-3xl">
-          <h2 className="font-display text-[1.375rem] font-bold text-navy-900">
+          <h2 className="text-blue-dark">
             A shortfall is a question, not a verdict
           </h2>
-          <p className="mt-3 text-[0.9375rem] leading-relaxed text-body">
+          <p className="mt-3 text-[0.9375rem] leading-relaxed text-grey">
             Many German programmes admit applicants with conditional modules to be completed
             in the first year. Whether yours will is something the programme office answers in
             an email, and the answer is often yes. What loses the place is discovering the gap
             after the application rather than before it.
           </p>
-          <p className="mt-4 text-[0.9375rem] leading-relaxed text-body">
+          <p className="mt-4 text-[0.9375rem] leading-relaxed text-grey">
             The credit requirements to enter here come from the programme&rsquo;s own module
             handbook, not from a general figure. Everything else the German route gates on is
             on the{" "}
             <Link
               href="/destinations/germany"
-              className="font-medium text-blue-600 hover:text-blue-500"
+              className="font-medium text-pink hover:text-blue"
             >
               Germany guide
             </Link>

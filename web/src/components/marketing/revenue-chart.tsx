@@ -9,7 +9,7 @@ import { isPublishable } from "@/content/types";
  * drawn as a range, and the unconfirmed part is hatched rather than filled, so
  * the uncertainty is visible instead of averaged away into a tidy number.
  *
- * Palette validated for colour vision deficiency: #1553d6 against #b45309
+ * Palette validated for colour vision deficiency: #205bad against #00a3b9
  * separates at deltaE 29.5 under protanopia, well clear of the floor.
  */
 
@@ -40,13 +40,13 @@ export function RevenueChart() {
   const ticks = [0, 100_000, 200_000, 300_000, 400_000];
 
   return (
-    <section className="band bg-paper">
+    <section className="band">
       <div className="shell">
         <div className="max-w-2xl">
-          <h2 className="font-display text-3xl font-bold text-navy-900 md:text-[2.5rem]">
+          <h2 className="text-blue-dark">
             Where our money comes from, per route
           </h2>
-          <p className="mt-5 text-[1.0625rem] leading-relaxed text-body">
+          <p className="mt-5 leading-relaxed text-grey">
             On the German public route the fee you pay is the whole of it. On a
             private university the fee is the small part, and the university pays
             the rest. You can see which is which before you choose.
@@ -55,30 +55,30 @@ export function RevenueChart() {
 
         <figure className="mt-11">
           <div className="flex flex-wrap items-center gap-x-7 gap-y-2">
-            <span className="flex items-center gap-2 text-[0.875rem] text-ink-soft">
+            <span className="flex items-center gap-2 text-[0.875rem] text-grey">
               <span
                 aria-hidden
                 className="h-3 w-3 rounded-xs"
-                style={{ backgroundColor: "#1553d6" }}
+                style={{ backgroundColor: "#205bad" }}
               />
               What you pay us
             </span>
-            <span className="flex items-center gap-2 text-[0.875rem] text-ink-soft">
+            <span className="flex items-center gap-2 text-[0.875rem] text-grey">
               <span
                 aria-hidden
                 className="h-3 w-3 rounded-xs"
-                style={{ backgroundColor: "#b45309" }}
+                style={{ backgroundColor: "#00a3b9" }}
               />
               What the university pays us
             </span>
-            <span className="flex items-center gap-2 text-[0.875rem] text-muted">
+            <span className="flex items-center gap-2 text-[0.875rem] text-grey">
               <span
                 aria-hidden
                 className="h-3 w-3 rounded-xs border"
                 style={{
-                  borderColor: "#b45309",
+                  borderColor: "#00a3b9",
                   backgroundImage:
-                    "repeating-linear-gradient(135deg, #b4530955 0 2px, transparent 2px 4px)",
+                    "repeating-linear-gradient(135deg, #00a3b955 0 2px, transparent 2px 4px)",
                 }}
               />
               Unconfirmed range
@@ -101,7 +101,7 @@ export function RevenueChart() {
                   patternUnits="userSpaceOnUse"
                 >
                   <rect width="6" height="6" fill="#ffffff" />
-                  <line x1="0" y1="0" x2="0" y2="6" stroke="#b45309" strokeWidth="2.4" />
+                  <line x1="0" y1="0" x2="0" y2="6" stroke="#00a3b9" strokeWidth="2.4" />
                 </pattern>
               </defs>
 
@@ -112,14 +112,14 @@ export function RevenueChart() {
                     y1={TOP - 12}
                     x2={PLOT_X + x(tick)}
                     y2={TOP + rows.length * ROW_H - 18}
-                    stroke="#e7ebf3"
+                    stroke="#f0f0f0"
                     strokeWidth="1"
                   />
                   <text
                     x={PLOT_X + x(tick)}
                     y={TOP + rows.length * ROW_H}
                     textAnchor="middle"
-                    fill="#6a7280"
+                    fill="#484848"
                     fontSize="11"
                     className="figures"
                   >
@@ -138,10 +138,10 @@ export function RevenueChart() {
 
                 return (
                   <g key={row.label + row.sub}>
-                    <text x="0" y={y + 5} fill="#0e2a5e" fontSize="14" fontWeight="600">
+                    <text x="0" y={y + 5} fill="#205bad" fontSize="14" fontWeight="600">
                       {row.label}
                     </text>
-                    <text x="0" y={y + 22} fill="#6a7280" fontSize="12">
+                    <text x="0" y={y + 22} fill="#484848" fontSize="12">
                       {row.sub}
                     </text>
 
@@ -151,7 +151,7 @@ export function RevenueChart() {
                       width={Math.max(feeW, 3)}
                       height={BAR_H}
                       rx="4"
-                      fill="#1553d6"
+                      fill="#205bad"
                     />
 
                     {hasCommission && (
@@ -161,7 +161,7 @@ export function RevenueChart() {
                           y={y - 8}
                           width={lowW}
                           height={BAR_H}
-                          fill="#b45309"
+                          fill="#00a3b9"
                         />
                         <rect
                           x={confirmedStart + lowW + 2}
@@ -170,7 +170,7 @@ export function RevenueChart() {
                           height={BAR_H}
                           rx="4"
                           fill="url(#unconfirmed)"
-                          stroke="#b45309"
+                          stroke="#00a3b9"
                           strokeWidth="1"
                         />
                       </>
@@ -179,7 +179,7 @@ export function RevenueChart() {
                     <text
                       x={hasCommission ? confirmedStart + highW + 10 : PLOT_X + feeW + 10}
                       y={y + 6}
-                      fill="#3f4a5c"
+                      fill="#484848"
                       fontSize="12.5"
                       className="figures"
                     >
@@ -189,12 +189,12 @@ export function RevenueChart() {
                     </text>
 
                     {row.flagged && (
-                      <text x="0" y={y + 38} fill="#a16207" fontSize="11">
+                      <text x="0" y={y + 38} fill="#de2870" fontSize="11">
                         Above category average
                       </text>
                     )}
                     {row.verified && (
-                      <text x="0" y={y + 38} fill="#15803d" fontSize="11">
+                      <text x="0" y={y + 38} fill="#00a3b9" fontSize="11">
                         Verified
                       </text>
                     )}
@@ -204,7 +204,7 @@ export function RevenueChart() {
             </svg>
           </div>
 
-          <figcaption className="mt-5 max-w-3xl text-[0.875rem] leading-relaxed text-muted">
+          <figcaption className="mt-5 max-w-3xl text-[0.875rem] leading-relaxed text-grey">
             Hatched sections are commission bands that no university has confirmed
             to us in writing yet. They are drawn as ranges because that is what
             they are. The same figures, with their sources and verification

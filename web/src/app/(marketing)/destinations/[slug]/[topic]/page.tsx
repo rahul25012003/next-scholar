@@ -79,11 +79,11 @@ export default async function DestinationTopicPage(
         lede={heroLede(key, guide.country)}
       />
 
-      <section className="band bg-paper">
+      <section className="band">
         <div className="shell max-w-3xl">
           <Link
             href={`/destinations/${guide.slug}`}
-            className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-blue-600 hover:text-blue-500"
+            className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue"
           >
             <ArrowLeft size={14} weight="bold" aria-hidden />
             The full {guide.country} guide
@@ -102,11 +102,11 @@ export default async function DestinationTopicPage(
 
             {key === "scholarships" && (
               <div className="space-y-6">
-                <p className="text-[0.9375rem] leading-relaxed text-body">
+                <p className="text-[0.9375rem] leading-relaxed text-grey">
                   {scholarshipScope.note}
                 </p>
                 {scholarshipsFor(guide.slug).length === 0 ? (
-                  <p className="rounded-card border border-dashed border-line-strong bg-surface p-6 text-[0.9375rem] leading-relaxed text-body">
+                  <p className="rounded-card border border-dashed border-line-strong bg-light p-6 text-[0.9375rem] leading-relaxed text-grey">
                     Nothing on this short list is specific to {guide.country} yet. That is a
                     gap in what we have curated, not a claim that no scholarship exists here.
                   </p>
@@ -115,23 +115,23 @@ export default async function DestinationTopicPage(
                     {scholarshipsFor(guide.slug).map((scholarship) => (
                       <li
                         key={scholarship.slug}
-                        className="rounded-card border border-line bg-paper p-6"
+                        className="rounded-card border border-line bg-white p-6"
                       >
                         <div className="flex flex-wrap items-baseline justify-between gap-3">
-                          <h3 className="font-display text-[1.0625rem] font-bold text-navy-900">
+                          <h3 className="text-blue-dark h--6">
                             {scholarship.name}
                           </h3>
-                          <span className="text-[0.8125rem] text-muted">
+                          <span className="text-[0.8125rem] text-grey">
                             {scholarship.funder}
                           </span>
                         </div>
-                        <p className="mt-3 text-[0.9375rem] leading-relaxed text-body">
+                        <p className="mt-3 text-[0.9375rem] leading-relaxed text-grey">
                           {scholarship.coverage.state === "stated"
                             ? scholarship.coverage.value
                             : `Not stated here. ${scholarship.coverage.reason}`}
                         </p>
-                        <p className="mt-2 text-[0.875rem] leading-relaxed text-muted">
-                          <span className="font-medium text-navy-900">Deadline: </span>
+                        <p className="mt-2 text-[0.875rem] leading-relaxed text-grey">
+                          <span className="font-medium text-blue-dark">Deadline: </span>
                           {scholarship.deadline.state === "stated"
                             ? scholarship.deadline.value
                             : `Not stated here. ${scholarship.deadline.reason}`}
@@ -140,7 +140,7 @@ export default async function DestinationTopicPage(
                               <span className="block">{scholarship.deadline.qualifier}</span>
                             )}
                         </p>
-                        <p className="mt-2 text-[0.875rem] leading-relaxed text-body">
+                        <p className="mt-2 text-[0.875rem] leading-relaxed text-grey">
                           {scholarship.eligibility}
                         </p>
                         <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-3">
@@ -148,12 +148,12 @@ export default async function DestinationTopicPage(
                             href={scholarship.link}
                             target="_blank"
                             rel="noreferrer noopener"
-                            className="inline-flex items-center gap-1 text-[0.875rem] font-medium text-blue-600 hover:text-blue-500"
+                            className="inline-flex items-center gap-1 text-[0.875rem] font-medium text-pink hover:text-blue"
                           >
                             {scholarship.funder}&rsquo;s own page
                             <ArrowUpRight size={13} weight="bold" aria-hidden />
                           </a>
-                          <span className="text-[0.75rem] text-muted">
+                          <span className="text-[0.75rem] text-grey">
                             Source: {scholarship.source}, written down{" "}
                             <span className="figures">{scholarship.statedOn}</span>
                           </span>
@@ -164,7 +164,7 @@ export default async function DestinationTopicPage(
                 )}
                 <Link
                   href="/scholarships"
-                  className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-blue-600 hover:text-blue-500"
+                  className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue"
                 >
                   See scholarships for all three destinations
                   <ArrowUpRight size={13} weight="bold" aria-hidden />
@@ -174,7 +174,7 @@ export default async function DestinationTopicPage(
           </div>
 
           <nav aria-label="Other topics" className="mt-14 border-t border-line pt-8">
-            <h2 className="text-[0.75rem] font-semibold uppercase tracking-wide text-muted">
+            <h2 className="eyebrow text-grey">
               Also about {guide.country}
             </h2>
             <ul className="mt-4 flex flex-wrap gap-2.5">
@@ -182,7 +182,7 @@ export default async function DestinationTopicPage(
                 <li key={item}>
                   <Link
                     href={`/destinations/${guide.slug}/${item}`}
-                    className="inline-flex items-center rounded-full border border-line-strong bg-paper px-4 py-2 text-[0.8125rem] font-medium text-navy-900 transition-colors hover:border-blue-600 hover:text-blue-600"
+                    className="button button--light"
                   >
                     {topics[item].label}
                   </Link>

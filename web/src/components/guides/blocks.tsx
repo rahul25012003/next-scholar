@@ -42,15 +42,15 @@ export function GuideSection({
   return (
     <section id={id} className="scroll-mt-24 border-t border-line pt-10 md:pt-14">
       {eyebrow && (
-        <p className="text-[0.75rem] font-semibold uppercase tracking-wide text-blue-600">
+        <p className="eyebrow text-pink">
           {eyebrow}
         </p>
       )}
-      <h2 className="mt-2 font-display text-[1.625rem] font-bold text-navy-900 md:text-[2rem]">
+      <h2 className="mt-2 text-blue-dark">
         {title}
       </h2>
       {lede && (
-        <p className="mt-4 max-w-2xl text-[1.0625rem] leading-relaxed text-body">{lede}</p>
+        <p className="mt-4 max-w-2xl leading-relaxed text-grey">{lede}</p>
       )}
       <div className="mt-7">{children}</div>
     </section>
@@ -86,7 +86,7 @@ export function VerificationBanner({ verification }: { verification: Verificatio
             ? `Re-checked at source by ${verification.checkedBy} on ${verification.checkedOn}.`
             : "Not yet re-checked at source by a named person."}
         </p>
-        <p className="mt-1 text-body">
+        <p className="mt-1 text-grey">
           Every figure below names the official body it came from and was written into
           this page on <span className="figures">{verification.statedOn}</span>. Nobody
           has since re-read the full set at source, and until someone has, treat each
@@ -103,32 +103,32 @@ export function FigureRow({ figure, inr }: { figure: Figure; inr?: string }) {
   return (
     <div className="py-5 first:pt-0 last:pb-0">
       <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-1">
-        <h3 className="text-[0.9375rem] font-medium text-navy-900">{figure.label}</h3>
-        <p className="figures text-[1.0625rem] font-semibold text-navy-900">
+        <h3 className="text-blue-dark h--6">{figure.label}</h3>
+        <p className="figures font-semibold text-blue-dark">
           {figure.value}
           {inr && (
-            <span className="ml-2 text-[0.8125rem] font-normal text-muted">
+            <span className="ml-2 text-[0.8125rem] font-normal text-grey">
               about {inr}
             </span>
           )}
         </p>
       </div>
-      <p className="mt-2 max-w-prose text-[0.875rem] leading-relaxed text-body">
+      <p className="mt-2 max-w-prose text-[0.875rem] leading-relaxed text-grey">
         {figure.qualifier}
       </p>
       {figure.note && (
-        <p className="mt-2 max-w-prose text-[0.875rem] leading-relaxed text-muted">
+        <p className="mt-2 max-w-prose text-[0.875rem] leading-relaxed text-grey">
           {figure.note}
         </p>
       )}
-      <p className="mt-2 text-[0.8125rem] text-muted">Source: {figure.source}</p>
+      <p className="mt-2 text-[0.8125rem] text-grey">Source: {figure.source}</p>
     </div>
   );
 }
 
 export function FigureList({ figures }: { figures: Figure[] }) {
   return (
-    <div className="divide-y divide-line rounded-panel border border-line bg-paper p-6 md:p-7">
+    <div className="divide-y divide-line rounded-panel border border-line bg-white p-6 md:p-7">
       {figures.map((figure) => (
         <FigureRow key={figure.label} figure={figure} />
       ))}
@@ -142,18 +142,18 @@ export function RequirementList({ items }: { items: Requirement[] }) {
       {items.map((item) => (
         <article
           key={item.title}
-          className="card-lift flex flex-col rounded-card border border-line bg-paper p-6"
+          className=" flex flex-col rounded-card border border-line bg-white p-6"
         >
-          <h3 className="font-display text-[1.0625rem] font-semibold leading-snug text-navy-900">
+          <h3 className="text-blue-dark h--6">
             {item.title}
           </h3>
           {item.appliesTo && (
-            <p className="mt-2 text-[0.8125rem] font-medium text-blue-600">
+            <p className="mt-2 text-[0.8125rem] font-medium text-pink">
               Applies to: {item.appliesTo}
             </p>
           )}
-          <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-body">{item.body}</p>
-          <p className="mt-4 border-t border-line pt-3 text-[0.8125rem] text-muted">
+          <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-grey">{item.body}</p>
+          <p className="mt-4 border-t border-line pt-3 text-[0.8125rem] text-grey">
             Source: {item.source}
           </p>
         </article>
@@ -176,27 +176,27 @@ export function Checklist({
 }) {
   const List = ordered ? "ol" : "ul";
   return (
-    <List className="divide-y divide-line overflow-hidden rounded-panel border border-line bg-paper">
+    <List className="divide-y divide-line overflow-hidden rounded-panel border border-line bg-white">
       {items.map((item, index) => (
         <li key={item.id} className="flex gap-5 p-6">
           <span
             aria-hidden
-            className="figures grid h-7 w-7 shrink-0 place-items-center rounded-full bg-blue-100 text-[0.8125rem] font-semibold text-navy-900"
+            className="figures grid h-7 w-7 shrink-0 place-items-center rounded-full bg-blue-light text-[0.8125rem] font-semibold text-blue-dark"
           >
             {ordered ? index + 1 : "•"}
           </span>
           <div className="min-w-0">
-            <h3 className="text-[0.9375rem] font-semibold text-navy-900">{item.title}</h3>
-            <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-body">{item.detail}</p>
+            <h3 className="text-blue-dark h--6">{item.title}</h3>
+            <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-grey">{item.detail}</p>
             {item.blocks && (
-              <p className="mt-2.5 inline-flex items-start gap-1.5 rounded-input bg-pending-bg px-2.5 py-1.5 text-[0.8125rem] leading-snug text-pending">
+              <p className="mt-2.5 inline-flex items-start gap-1.5 rounded-card bg-pending-bg px-2.5 py-1.5 text-[0.8125rem] leading-snug text-pending">
                 <Prohibit size={14} weight="fill" aria-hidden className="mt-0.5 shrink-0" />
                 <span>
                   <span className="font-semibold">Holds up:</span> {item.blocks}
                 </span>
               </p>
             )}
-            <p className="mt-2.5 text-[0.8125rem] text-muted">Source: {item.source}</p>
+            <p className="mt-2.5 text-[0.8125rem] text-grey">Source: {item.source}</p>
           </div>
         </li>
       ))}
@@ -206,21 +206,21 @@ export function Checklist({
 
 export function LanguageTable({ items }: { items: LanguageQualification[] }) {
   return (
-    <div className="overflow-x-auto rounded-panel border border-line bg-paper">
+    <div className="overflow-x-auto rounded-panel border border-line bg-white">
       <table className="w-full min-w-[44rem] border-collapse text-left">
         <caption className="sr-only">
           Accepted language qualifications, the levels each is accepted at, and how long
           each remains valid.
         </caption>
         <thead>
-          <tr className="border-b border-line bg-surface">
-            <th scope="col" className="px-6 py-3.5 text-[0.8125rem] font-semibold text-navy-900">
+          <tr className="border-b border-line bg-light">
+            <th scope="col" className="px-6 py-3.5 text-[0.8125rem] font-semibold text-blue-dark">
               Qualification
             </th>
-            <th scope="col" className="px-6 py-3.5 text-[0.8125rem] font-semibold text-navy-900">
+            <th scope="col" className="px-6 py-3.5 text-[0.8125rem] font-semibold text-blue-dark">
               Accepted at
             </th>
-            <th scope="col" className="px-6 py-3.5 text-[0.8125rem] font-semibold text-navy-900">
+            <th scope="col" className="px-6 py-3.5 text-[0.8125rem] font-semibold text-blue-dark">
               Validity
             </th>
           </tr>
@@ -228,19 +228,19 @@ export function LanguageTable({ items }: { items: LanguageQualification[] }) {
         <tbody className="divide-y divide-line">
           {items.map((item) => (
             <tr key={item.name} className="align-top">
-              <th scope="row" className="px-6 py-5 text-[0.9375rem] font-semibold text-navy-900">
+              <th scope="row" className="px-6 py-5 text-[0.9375rem] font-semibold text-blue-dark">
                 {item.name}
-                <span className="mt-1.5 block text-[0.75rem] font-normal text-muted">
+                <span className="mt-1.5 block text-[0.75rem] font-normal text-grey">
                   {item.source}
                 </span>
               </th>
-              <td className="px-6 py-5 text-[0.875rem] leading-relaxed text-body">
+              <td className="px-6 py-5 text-[0.875rem] leading-relaxed text-grey">
                 {item.accepted}
                 {item.note && (
-                  <span className="mt-2 block text-[0.8125rem] text-muted">{item.note}</span>
+                  <span className="mt-2 block text-[0.8125rem] text-grey">{item.note}</span>
                 )}
               </td>
-              <td className="px-6 py-5 text-[0.875rem] leading-relaxed text-body">
+              <td className="px-6 py-5 text-[0.875rem] leading-relaxed text-grey">
                 {item.validity}
               </td>
             </tr>
@@ -271,9 +271,9 @@ export function IntakeTable({ intakes }: { intakes: Intake[] }) {
       {intakes.map((intake) => {
         const tone = intakeTone[intake.status];
         return (
-          <article key={intake.name} className="rounded-card border border-line bg-paper p-6">
+          <article key={intake.name} className="rounded-card border border-line bg-white p-6">
             <div className="flex items-start justify-between gap-4">
-              <h3 className="font-display text-[1.125rem] font-bold text-navy-900">
+              <h3 className="text-blue-dark h--5">
                 {intake.name}
               </h3>
               <span
@@ -287,22 +287,22 @@ export function IntakeTable({ intakes }: { intakes: Intake[] }) {
             </div>
             <dl className="mt-5 divide-y divide-line">
               <div className="flex items-baseline justify-between gap-4 pb-3">
-                <dt className="text-[0.875rem] text-body">Common application deadline</dt>
-                <dd className="figures text-[0.9375rem] font-semibold text-navy-900">
+                <dt className="text-[0.875rem] text-grey">Common application deadline</dt>
+                <dd className="figures text-[0.9375rem] font-semibold text-blue-dark">
                   {intake.applicationDeadline}
                 </dd>
               </div>
               <div className="flex items-baseline justify-between gap-4 py-3">
-                <dt className="text-[0.875rem] text-body">Teaching starts</dt>
-                <dd className="figures text-[0.9375rem] font-semibold text-navy-900">
+                <dt className="text-[0.875rem] text-grey">Teaching starts</dt>
+                <dd className="figures text-[0.9375rem] font-semibold text-blue-dark">
                   {intake.teachingStarts}
                 </dd>
               </div>
             </dl>
-            <p className="mt-4 text-[0.875rem] leading-relaxed text-body">
+            <p className="mt-4 text-[0.875rem] leading-relaxed text-grey">
               {intake.deadlineNote}
             </p>
-            <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.8125rem] text-muted">
+            <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.8125rem] text-grey">
               <CalendarBlank size={13} weight="bold" aria-hidden />
               Status established <span className="figures">{intake.statusAsOf}</span>. Source:{" "}
               {intake.source}
@@ -321,15 +321,15 @@ export function Timeline({ steps }: { steps: TimelineStep[] }) {
         <li key={step.title} className="relative">
           <span
             aria-hidden
-            className="absolute -left-[2.1rem] top-1.5 grid h-4 w-4 place-items-center rounded-full border-2 border-blue-600 bg-paper"
+            className="absolute -left-[2.1rem] top-1.5 grid h-4 w-4 place-items-center rounded-full border-2 border-blue-dark bg-white"
           />
-          <p className="figures text-[0.8125rem] font-medium text-blue-600">
+          <p className="figures text-[0.8125rem] font-medium text-pink">
             {step.monthsBefore[0]} to {step.monthsBefore[1]} months before you fly
           </p>
-          <h3 className="mt-1 font-display text-[1.0625rem] font-semibold text-navy-900">
+          <h3 className="mt-1 text-blue-dark h--6">
             {step.title}
           </h3>
-          <p className="mt-1.5 max-w-2xl text-[0.9375rem] leading-relaxed text-body">
+          <p className="mt-1.5 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
             {step.detail}
           </p>
         </li>
@@ -345,12 +345,12 @@ export function Pitfalls({ items }: { items: { title: string; body: string }[] }
       {items.map((item) => (
         <li
           key={item.title}
-          className="flex gap-4 rounded-card border border-line bg-paper p-5"
+          className="flex gap-4 rounded-card border border-line bg-white p-5"
         >
           <Warning size={18} weight="fill" aria-hidden className="mt-0.5 shrink-0 text-pending" />
           <div>
-            <h3 className="text-[0.9375rem] font-semibold text-navy-900">{item.title}</h3>
-            <p className="mt-1.5 text-[0.875rem] leading-relaxed text-body">{item.body}</p>
+            <h3 className="text-blue-dark h--6">{item.title}</h3>
+            <p className="mt-1.5 text-[0.875rem] leading-relaxed text-grey">{item.body}</p>
           </div>
         </li>
       ))}
@@ -370,17 +370,17 @@ export function ToolLink({
   return (
     <Link
       href={href}
-      className="group flex items-start justify-between gap-5 rounded-card border border-line bg-paper p-5 transition-[border-color,box-shadow] hover:border-blue-600 hover:shadow-card"
+      className="group flex items-start justify-between gap-5 rounded-card border border-line bg-white p-5 transition-[border-color,box-shadow] hover:border-pink hover:"
     >
       <span>
-        <span className="block text-[0.9375rem] font-semibold text-navy-900">{title}</span>
-        <span className="mt-1 block text-[0.875rem] leading-relaxed text-body">{note}</span>
+        <span className="block text-[0.9375rem] font-semibold text-blue-dark">{title}</span>
+        <span className="mt-1 block text-[0.875rem] leading-relaxed text-grey">{note}</span>
       </span>
       <ArrowUpRight
         size={16}
         weight="bold"
         aria-hidden
-        className="mt-1 shrink-0 text-muted transition-[color,transform] group-hover:-translate-y-0.5 group-hover:text-blue-600"
+        className="mt-1 shrink-0 text-grey transition-[color,transform] group-hover:-translate-y-0.5 group-hover:text-pink"
       />
     </Link>
   );

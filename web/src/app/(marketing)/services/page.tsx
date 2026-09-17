@@ -39,13 +39,13 @@ export default function ServicesPage() {
         title={servicesIntro.headline}
         lede={servicesIntro.lede}
         aside={
-          <div className="rounded-panel border border-line bg-paper p-6 shadow-card">
-            <p className="text-[0.8125rem] font-semibold text-navy-900">
+          <div className="rounded-panel border border-line bg-white p-6">
+            <p className="text-[0.8125rem] font-semibold text-blue-dark">
               The four rules on this page
             </p>
             <ul className="mt-3 space-y-2.5">
               {servicesIntro.rules.map((rule) => (
-                <li key={rule} className="text-[0.875rem] leading-relaxed text-body">
+                <li key={rule} className="text-[0.875rem] leading-relaxed text-grey">
                   {rule}
                 </li>
               ))}
@@ -54,17 +54,17 @@ export default function ServicesPage() {
         }
       />
 
-      <section className="band bg-paper">
+      <section className="band">
         <div className="shell space-y-14">
           {groups.map((group) => {
             const rows = services.filter((service) => service.group === group);
             if (rows.length === 0) return null;
             return (
               <div key={group}>
-                <h2 className="font-display text-[1.625rem] font-bold text-navy-900 md:text-[2rem]">
+                <h2 className="text-blue-dark">
                   {group}
                 </h2>
-                <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-body">
+                <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
                   {groupBlurb[group]}
                 </p>
 
@@ -73,28 +73,28 @@ export default function ServicesPage() {
                     <Reveal key={service.slug} delay={staggerDelay(index, 0.05)}>
                       <article
                         id={service.slug}
-                        className="flex h-full scroll-mt-24 flex-col rounded-panel border border-line bg-paper p-7"
+                        className="flex h-full scroll-mt-24 flex-col rounded-panel border border-line bg-white p-7"
                       >
                         <div className="flex flex-wrap items-start justify-between gap-3">
-                          <h3 className="font-display text-[1.125rem] font-bold text-navy-900">
+                          <h3 className="text-blue-dark h--5">
                             {service.name}
                           </h3>
                           <AvailabilityChip availability={service.availability} />
                         </div>
 
-                        <p className="mt-3 text-[0.9375rem] leading-relaxed text-body">
+                        <p className="mt-3 text-[0.9375rem] leading-relaxed text-grey">
                           {service.summary}
                         </p>
 
                         <div className="mt-5">
-                          <h4 className="text-[0.75rem] font-semibold uppercase tracking-wide text-muted">
+                          <h4 className="eyebrow text-grey">
                             What you get
                           </h4>
                           <ul className="mt-2.5 space-y-2">
                             {service.includes.map((item) => (
                               <li
                                 key={item}
-                                className="flex gap-2.5 text-[0.875rem] leading-relaxed text-body"
+                                className="flex gap-2.5 text-[0.875rem] leading-relaxed text-grey"
                               >
                                 <CheckCircle
                                   size={15}
@@ -109,20 +109,20 @@ export default function ServicesPage() {
                         </div>
 
                         <div className="mt-5">
-                          <h4 className="text-[0.75rem] font-semibold uppercase tracking-wide text-muted">
+                          <h4 className="eyebrow text-grey">
                             What it is not
                           </h4>
                           <ul className="mt-2.5 space-y-2">
                             {service.excludes.map((item) => (
                               <li
                                 key={item}
-                                className="flex gap-2.5 text-[0.875rem] leading-relaxed text-body"
+                                className="flex gap-2.5 text-[0.875rem] leading-relaxed text-grey"
                               >
                                 <Prohibit
                                   size={15}
                                   weight="fill"
                                   aria-hidden
-                                  className="mt-0.5 shrink-0 text-muted"
+                                  className="mt-0.5 shrink-0 text-grey"
                                 />
                                 {item}
                               </li>
@@ -134,7 +134,7 @@ export default function ServicesPage() {
 
                         <RemunerationBlock remuneration={service.remuneration} />
 
-                        <p className="mt-3 text-[0.8125rem] leading-relaxed text-muted">
+                        <p className="mt-3 text-[0.8125rem] leading-relaxed text-grey">
                           {service.availability.detail}
                         </p>
 
@@ -153,18 +153,18 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="band bg-surface">
+      <section className="band">
         <div className="shell max-w-3xl">
-          <h2 className="font-display text-3xl font-bold text-navy-900 md:text-[2.25rem]">
+          <h2 className="text-blue-dark">
             Why the loan section says we earn nothing
           </h2>
-          <p className="mt-5 text-[1.0625rem] leading-relaxed text-body">
+          <p className="mt-5 leading-relaxed text-grey">
             Because an education loan introduction is one of the most reliably paid
             referrals in this industry, and almost nobody publishes the figure. A
             consultancy that recommends a lender it is paid by, without saying so, is not
             giving you advice about lenders. It is selling you one.
           </p>
-          <p className="mt-4 text-[1.0625rem] leading-relaxed text-body">
+          <p className="mt-4 leading-relaxed text-grey">
             We take nothing from any lender today. If that ever changes, the figure appears
             on this page and on every page where the lender is named, before any
             introduction is made, in the same way that the commission we earn from a
@@ -178,19 +178,19 @@ export default function ServicesPage() {
               What we earn from universities
             </ButtonLink>
           </div>
-          <p className="mt-8 text-[0.875rem] leading-relaxed text-muted">
+          <p className="mt-8 text-[0.875rem] leading-relaxed text-grey">
             Fees, refunds and cancellation windows are on the{" "}
-            <Link href="/refund-policy" className="font-medium text-blue-600 hover:text-blue-500">
+            <Link href="/refund-policy" className="font-medium text-pink hover:text-blue">
               refund policy
             </Link>
             . What governs an engagement is in the{" "}
-            <Link href="/terms" className="font-medium text-blue-600 hover:text-blue-500">
+            <Link href="/terms" className="font-medium text-pink hover:text-blue">
               terms of use
             </Link>
             , and the bodies we are not affiliated with are named on the{" "}
             <Link
               href="/non-affiliation"
-              className="font-medium text-blue-600 hover:text-blue-500"
+              className="font-medium text-pink hover:text-blue"
             >
               non affiliation disclaimer
             </Link>
@@ -237,18 +237,18 @@ function RemunerationBlock({ remuneration }: { remuneration: Remuneration }) {
     <div
       className={cn(
         "rounded-card p-4",
-        remuneration.kind === "referral" ? "bg-pending-bg" : "bg-surface",
+        remuneration.kind === "referral" ? "bg-pending-bg" : "bg-light",
       )}
     >
       <p
         className={cn(
           "text-[0.875rem] font-semibold",
-          remuneration.kind === "referral" ? "text-pending" : "text-navy-900",
+          remuneration.kind === "referral" ? "text-pending" : "text-blue-dark",
         )}
       >
         {headline}
       </p>
-      <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-body">
+      <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-grey">
         {remuneration.detail}
       </p>
     </div>

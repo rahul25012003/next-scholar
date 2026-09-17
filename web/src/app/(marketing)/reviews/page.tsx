@@ -36,15 +36,15 @@ export default async function ReviewsPage(props: PageProps<"/reviews">) {
         lede="Checked against the actual case record by a named member of staff before publication, refusals included. No star rating anywhere: a rating is a number we would have computed, and this page publishes what the reviewer actually said instead."
       />
 
-      <section className="band bg-paper">
+      <section className="band">
         <div className="shell">
           <form method="get" action="/reviews" className="flex flex-wrap items-end gap-4">
             <label className="block">
-              <span className="block text-[0.8125rem] font-medium text-navy-900">Destination</span>
+              <span className="block text-[0.8125rem] font-medium text-blue-dark">Destination</span>
               <select
                 name="destination"
                 defaultValue={destination}
-                className="mt-1.5 rounded-input border border-line-strong bg-paper px-3 py-2 text-[0.875rem] text-navy-900"
+                className="mt-1.5 rounded-input border border-line-strong bg-white px-3 py-2 text-[0.875rem] text-blue-dark"
               >
                 <option value="">All</option>
                 {guides.map((guide) => (
@@ -55,11 +55,11 @@ export default async function ReviewsPage(props: PageProps<"/reviews">) {
               </select>
             </label>
             <label className="block">
-              <span className="block text-[0.8125rem] font-medium text-navy-900">Outcome</span>
+              <span className="block text-[0.8125rem] font-medium text-blue-dark">Outcome</span>
               <select
                 name="outcome"
                 defaultValue={outcome}
-                className="mt-1.5 rounded-input border border-line-strong bg-paper px-3 py-2 text-[0.875rem] text-navy-900"
+                className="mt-1.5 rounded-input border border-line-strong bg-white px-3 py-2 text-[0.875rem] text-blue-dark"
               >
                 <option value="">All, refusals included</option>
                 {(Object.keys(outcomeLabel) as ReviewOutcome[]).map((key) => (
@@ -71,22 +71,22 @@ export default async function ReviewsPage(props: PageProps<"/reviews">) {
             </label>
             <button
               type="submit"
-              className="rounded-full bg-blue-600 px-5 py-2.5 text-[0.875rem] font-medium text-white transition-colors hover:bg-blue-500"
+              className="button"
             >
               Apply
             </button>
           </form>
 
-          <p className="mt-6 max-w-2xl text-[0.9375rem] leading-relaxed text-body">
+          <p className="mt-6 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
             {reviewsScope.note}
           </p>
 
           {rows.length === 0 ? (
-            <div className="mt-8 rounded-panel border border-dashed border-line-strong bg-surface p-8">
-              <h2 className="font-display text-[1.125rem] font-bold text-navy-900">
+            <div className="mt-8 rounded-panel border border-dashed border-line-strong bg-light p-8">
+              <h2 className="text-blue-dark h--5">
                 No verified reviews published yet
               </h2>
-              <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-body">
+              <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
                 No client has completed a real, checked outcome yet. This is the honest
                 state rather than a placeholder quote, and it will change the day a real one
                 clears verification.
@@ -101,23 +101,23 @@ export default async function ReviewsPage(props: PageProps<"/reviews">) {
                 {rows.map((review) => {
                   const guide = guides.find((item) => item.slug === review.destination);
                   return (
-                    <li key={review.id} className="rounded-panel border border-line bg-paper p-6">
+                    <li key={review.id} className="rounded-panel border border-line bg-white p-6">
                       <div className="flex flex-wrap items-center justify-between gap-3">
-                        <span className="rounded-input bg-surface px-2.5 py-1 text-[0.75rem] font-medium text-navy-900">
+                        <span className="rounded-input bg-light px-2.5 py-1 text-[0.75rem] font-medium text-blue-dark">
                           {outcomeLabel[review.outcome]}
                         </span>
-                        <span className="text-[0.8125rem] text-muted">
+                        <span className="text-[0.8125rem] text-grey">
                           {guide?.country ?? review.destination}
                           {review.route ? `, ${review.route}` : ""}
                         </span>
                       </div>
-                      <p className="mt-4 text-[0.9375rem] leading-relaxed text-body">
+                      <p className="mt-4 text-[0.9375rem] leading-relaxed text-grey">
                         &ldquo;{review.quote}&rdquo;
                       </p>
-                      <p className="mt-4 text-[0.8125rem] text-muted">
+                      <p className="mt-4 text-[0.8125rem] text-grey">
                         {review.studentName}, {review.intake} intake
                       </p>
-                      <p className="mt-1 text-[0.75rem] text-muted">
+                      <p className="mt-1 text-[0.75rem] text-grey">
                         Checked by {review.verifiedBy} against the case record,{" "}
                         <span className="figures">{review.verifiedOn}</span>
                       </p>
@@ -138,8 +138,8 @@ export default async function ReviewsPage(props: PageProps<"/reviews">) {
                       }).toString()}`}
                       className={
                         number === page
-                          ? "grid h-9 w-9 place-items-center rounded-full bg-blue-600 text-[0.875rem] font-medium text-white"
-                          : "grid h-9 w-9 place-items-center rounded-full border border-line-strong text-[0.875rem] font-medium text-navy-900 hover:border-blue-600"
+                          ? "grid h-9 w-9 place-items-center rounded-full bg-blue-dark text-[0.875rem] font-medium text-white"
+                          : "grid h-9 w-9 place-items-center rounded-full border border-line-strong text-[0.875rem] font-medium text-blue-dark hover:border-pink"
                       }
                     >
                       {number}

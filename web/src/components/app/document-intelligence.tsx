@@ -49,13 +49,13 @@ export function DocumentIntelligence({
 
       {state.status === "unavailable" && (
         <div
-          className="mt-3 flex items-start gap-2.5 rounded-card border border-line bg-surface p-4"
+          className="mt-3 flex items-start gap-2.5 rounded-card border border-line bg-light p-4"
           role="status"
         >
-          <Prohibit size={17} weight="bold" className="mt-0.5 shrink-0 text-navy-700" aria-hidden />
+          <Prohibit size={17} weight="bold" className="mt-0.5 shrink-0 text-blue-tint" aria-hidden />
           <div>
-            <p className="text-[0.875rem] leading-relaxed text-ink-soft">{state.reason}</p>
-            <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-muted">
+            <p className="text-[0.875rem] leading-relaxed text-grey">{state.reason}</p>
+            <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-grey">
               {state.fallback}
             </p>
           </div>
@@ -69,11 +69,11 @@ export function DocumentIntelligence({
       )}
 
       {extraction && (
-        <div className="mt-3 rounded-card border border-line bg-surface p-4">
-          <p className="text-[0.8125rem] font-medium text-navy-900">
+        <div className="mt-3 rounded-card border border-line bg-light p-4">
+          <p className="text-[0.8125rem] font-medium text-blue-dark">
             Proposed values, none of them authoritative yet
           </p>
-          <p className="mt-1 text-[0.75rem] leading-relaxed text-muted">
+          <p className="mt-1 text-[0.75rem] leading-relaxed text-grey">
             {extraction.note} A confidence score describes the reading, not the
             truth. A high confidence value still needs a person behind it.
           </p>
@@ -83,12 +83,12 @@ export function DocumentIntelligence({
               <li key={field.name} className="py-3 first:pt-0 last:pb-0">
                 <div className="flex flex-wrap items-baseline justify-between gap-3">
                   <div>
-                    <p className="text-[0.875rem] font-medium text-navy-900">
+                    <p className="text-[0.875rem] font-medium text-blue-dark">
                       {field.name}
                     </p>
-                    <p className="figures text-[0.875rem] text-ink-soft">{field.value}</p>
+                    <p className="figures text-[0.875rem] text-grey">{field.value}</p>
                   </div>
-                  <span className="text-[0.75rem] text-muted">
+                  <span className="text-[0.75rem] text-grey">
                     {field.confidence} confidence
                   </span>
                 </div>
@@ -104,7 +104,7 @@ export function DocumentIntelligence({
                     className={
                       field.state === "confirmed"
                         ? "mt-1.5 flex items-center gap-1.5 text-[0.75rem] text-verified"
-                        : "mt-1.5 flex items-center gap-1.5 text-[0.75rem] text-muted"
+                        : "mt-1.5 flex items-center gap-1.5 text-[0.75rem] text-grey"
                     }
                   >
                     {field.state === "confirmed" ? (
@@ -158,7 +158,7 @@ function FieldDecision({
         </Button>
       </form>
       {state.status !== "idle" && (
-        <p className="mt-2 text-[0.75rem] leading-relaxed text-muted" role="status">
+        <p className="mt-2 text-[0.75rem] leading-relaxed text-grey" role="status">
           {state.message}
         </p>
       )}

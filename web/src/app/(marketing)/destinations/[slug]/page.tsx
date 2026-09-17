@@ -89,7 +89,7 @@ export default async function DestinationGuidePage(
 
   return (
     <>
-      <section className="relative overflow-hidden border-b border-line bg-navy-900">
+      <section className="relative overflow-hidden border-b border-line bg-blue-dark">
         <Image
           src={photoUrl(photo, 1800, 700)}
           alt={photo.alt}
@@ -101,9 +101,9 @@ export default async function DestinationGuidePage(
         />
         <span
           aria-hidden
-          className="absolute inset-0 bg-[linear-gradient(180deg,rgba(14,42,94,0.55)_0%,rgba(14,42,94,0.88)_100%)]"
+          className="absolute inset-0 bg-[linear-gradient(180deg,rgba(32,91,173,0.55)_0%,rgba(32,91,173,0.88)_100%)]"
         />
-        <div className="shell relative py-16 md:py-24">
+        <div className="shell relative">
           <div className="flex items-center gap-3">
             <Image
               src={`https://flagcdn.com/w80/${guide.flagCode}.png`}
@@ -114,10 +114,10 @@ export default async function DestinationGuidePage(
             />
             <p className="text-[0.875rem] font-medium text-white/75">{guide.country}</p>
           </div>
-          <h1 className="mt-5 max-w-3xl font-display text-[2.25rem] font-extrabold leading-[1.08] tracking-[-0.03em] text-white md:text-[3.25rem]">
+          <h1 className="mt-5 max-w-3xl text-white">
             {guide.headline}
           </h1>
-          <p className="mt-6 max-w-2xl text-[1.0625rem] leading-relaxed text-white/80">
+          <p className="mt-6 max-w-2xl leading-relaxed text-white/80">
             {guide.lede}
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
@@ -136,11 +136,11 @@ export default async function DestinationGuidePage(
         </div>
       </section>
 
-      <div className="shell grid gap-12 py-12 md:py-16 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-14">
+      <div className="shell grid gap-12 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-14">
         <div className="lg:sticky lg:top-24 lg:self-start">
           <JumpList items={sections} className="hidden lg:block" />
-          <details className="rounded-card border border-line bg-surface p-5 lg:hidden">
-            <summary className="cursor-pointer text-[0.875rem] font-semibold text-navy-900">
+          <details className="rounded-card border border-line bg-light p-5 lg:hidden">
+            <summary className="cursor-pointer text-[0.875rem] font-semibold text-blue-dark">
               Jump to a section
             </summary>
             <ul className="mt-3 grid gap-1.5 sm:grid-cols-2">
@@ -148,7 +148,7 @@ export default async function DestinationGuidePage(
                 <li key={section.id}>
                   <a
                     href={`#${section.id}`}
-                    className="block py-1 text-[0.875rem] text-blue-600"
+                    className="block py-1 text-[0.875rem] text-pink"
                   >
                     {section.title}
                   </a>
@@ -173,7 +173,7 @@ export default async function DestinationGuidePage(
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="inline-flex items-center rounded-full border border-line-strong bg-surface px-4 py-2 text-[0.8125rem] font-medium text-navy-900 transition-colors hover:border-blue-600 hover:text-blue-600"
+                    className="button button--light"
                   >
                     {item.label}
                   </Link>
@@ -195,28 +195,28 @@ export default async function DestinationGuidePage(
                   return (
                     <article
                       key={route.slug}
-                      className="flex flex-col rounded-card border border-line bg-paper p-6"
+                      className="flex flex-col rounded-card border border-line bg-white p-6"
                     >
-                      <h3 className="font-display text-[1.125rem] font-bold text-navy-900">
+                      <h3 className="text-blue-dark h--5">
                         {route.name}
                       </h3>
-                      <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-body">
+                      <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-grey">
                         {route.summary}
                       </p>
                       {row && (
                         <dl className="mt-5 divide-y divide-line border-t border-line pt-4">
                           <div className="flex items-start justify-between gap-4 pb-3">
-                            <dt className="text-[0.875rem] text-body">We earn</dt>
+                            <dt className="text-[0.875rem] text-grey">We earn</dt>
                             <dd className="flex flex-col items-end gap-1.5">
-                              <span className="figures text-[0.9375rem] font-semibold text-navy-900">
+                              <span className="figures text-[0.9375rem] font-semibold text-blue-dark">
                                 {row.commission.display}
                               </span>
                               <StatusChip status={row.commission.status} />
                             </dd>
                           </div>
                           <div className="flex items-baseline justify-between gap-4 pt-3">
-                            <dt className="text-[0.875rem] text-body">You pay us</dt>
-                            <dd className="figures text-[0.9375rem] font-semibold text-navy-900">
+                            <dt className="text-[0.875rem] text-grey">You pay us</dt>
+                            <dd className="figures text-[0.9375rem] font-semibold text-blue-dark">
                               {row.clientFee}
                             </dd>
                           </div>
@@ -226,12 +226,12 @@ export default async function DestinationGuidePage(
                   );
                 })}
               </div>
-              <p className="mt-5 text-[0.875rem] leading-relaxed text-muted">
+              <p className="mt-5 text-[0.875rem] leading-relaxed text-grey">
                 Every commission figure on this site is published with its verification
                 state attached, and the full method is on the{" "}
                 <Link
                   href="/open-ledger"
-                  className="font-medium text-blue-600 hover:text-blue-500"
+                  className="font-medium text-pink hover:text-blue"
                 >
                   Open Ledger
                 </Link>
@@ -400,11 +400,11 @@ export default async function DestinationGuidePage(
             </GuideSection>
           </div>
 
-          <div className="mt-14 rounded-panel border border-line bg-surface p-7 md:p-9">
-            <h2 className="font-display text-[1.375rem] font-bold text-navy-900">
+          <div className="mt-14 rounded-panel border border-line bg-light p-7 md:p-9">
+            <h2 className="text-blue-dark">
               Check yourself against this list before you pay anyone
             </h2>
-            <p className="mt-3 max-w-2xl text-[0.9375rem] leading-relaxed text-body">
+            <p className="mt-3 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
               The requirements checklist runs your own profile against everything on this
               page and tells you which items you meet, which you do not, and which we
               cannot answer without a document. It states facts and never a probability,
@@ -422,7 +422,7 @@ export default async function DestinationGuidePage(
           </div>
 
           <nav aria-label="Other destinations" className="mt-12 border-t border-line pt-8">
-            <h2 className="text-[0.75rem] font-semibold uppercase tracking-wide text-muted">
+            <h2 className="eyebrow text-grey">
               The other two
             </h2>
             <ul className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -432,13 +432,13 @@ export default async function DestinationGuidePage(
                   <li key={other.slug}>
                     <Link
                       href={`/destinations/${other.slug}`}
-                      className="group flex items-center justify-between gap-4 rounded-card border border-line bg-paper p-5 transition-[border-color,box-shadow] hover:border-blue-600 hover:shadow-card"
+                      className="group flex items-center justify-between gap-4 rounded-card border border-line bg-white p-5 transition-[border-color,box-shadow] hover:border-pink hover:"
                     >
                       <span>
-                        <span className="block font-display text-[1.0625rem] font-semibold text-navy-900">
+                        <span className="block font-display font-semibold text-blue-dark">
                           {other.country}
                         </span>
-                        <span className="mt-0.5 block text-[0.875rem] text-muted">
+                        <span className="mt-0.5 block text-[0.875rem] text-grey">
                           {other.routes.length === 1
                             ? other.routes[0].name
                             : `${other.routes.length} routes`}
@@ -448,7 +448,7 @@ export default async function DestinationGuidePage(
                         size={16}
                         weight="bold"
                         aria-hidden
-                        className="shrink-0 text-muted transition-[color,transform] group-hover:translate-x-0.5 group-hover:text-blue-600"
+                        className="shrink-0 text-grey transition-[color,transform] group-hover:translate-x-0.5 group-hover:text-pink"
                       />
                     </Link>
                   </li>

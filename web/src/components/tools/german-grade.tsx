@@ -52,11 +52,11 @@ export function GermanGradeCalculator() {
   return (
     <div className="grid gap-8 lg:grid-cols-[22rem_minmax(0,1fr)] lg:gap-10 lg:items-start">
       <form
-        className="rounded-panel border border-line bg-paper p-6 md:p-7"
+        className="rounded-panel border border-line bg-white p-6 md:p-7"
         onSubmit={(event) => event.preventDefault()}
       >
         <fieldset>
-          <legend className="text-[0.875rem] font-semibold text-navy-900">
+          <legend className="text-[0.875rem] font-semibold text-blue-dark">
             What does your transcript print?
           </legend>
           <div className="mt-3 space-y-2">
@@ -69,20 +69,20 @@ export function GermanGradeCalculator() {
                 className={cn(
                   "w-full rounded-input border p-3.5 text-left transition-colors",
                   option.key === preset
-                    ? "border-blue-600 bg-blue-50"
+                    ? "border-blue-dark bg-light"
                     : "border-line hover:border-line-strong",
                 )}
               >
-                <span className="block text-[0.9375rem] font-medium text-navy-900">
+                <span className="block text-[0.9375rem] font-medium text-blue-dark">
                   {option.label}
                 </span>
-                <span className="mt-0.5 block text-[0.8125rem] leading-snug text-muted">
+                <span className="mt-0.5 block text-[0.8125rem] leading-snug text-grey">
                   {option.note}
                 </span>
               </button>
             ))}
           </div>
-          <p className="mt-3 text-[0.8125rem] leading-relaxed text-muted">
+          <p className="mt-3 text-[0.8125rem] leading-relaxed text-grey">
             Picking a scale prefills the maximum and the pass mark. Both stay editable,
             because your university&rsquo;s regulation is the authority on them and not us.
           </p>
@@ -120,28 +120,28 @@ export function GermanGradeCalculator() {
 
         <div className="mt-7 space-y-5 border-t border-line pt-6">
           <label className="block">
-            <span className="block text-[0.875rem] font-medium text-navy-900">
-              Your degree <span className="font-normal text-muted">optional</span>
+            <span className="block text-[0.875rem] font-medium text-blue-dark">
+              Your degree <span className="font-normal text-grey">optional</span>
             </span>
             <input
               value={degree}
               onChange={(event) => setDegree(event.target.value)}
               placeholder="B.E. Mechanical Engineering"
-              className="mt-2 w-full rounded-input border border-line-strong bg-paper px-3.5 py-2.5 text-[1rem] text-navy-900 placeholder:text-muted"
+              className="mt-2 w-full rounded-card border border-line-strong bg-white px-3.5 py-2.5 text-blue-dark placeholder:text-grey"
             />
           </label>
           <label className="block">
-            <span className="block text-[0.875rem] font-medium text-navy-900">
-              Your university <span className="font-normal text-muted">optional</span>
+            <span className="block text-[0.875rem] font-medium text-blue-dark">
+              Your university <span className="font-normal text-grey">optional</span>
             </span>
             <input
               value={university}
               onChange={(event) => setUniversity(event.target.value)}
               placeholder="Visvesvaraya Technological University"
-              className="mt-2 w-full rounded-input border border-line-strong bg-paper px-3.5 py-2.5 text-[1rem] text-navy-900 placeholder:text-muted"
+              className="mt-2 w-full rounded-card border border-line-strong bg-white px-3.5 py-2.5 text-blue-dark placeholder:text-grey"
             />
           </label>
-          <p className="text-[0.8125rem] leading-relaxed text-muted">
+          <p className="text-[0.8125rem] leading-relaxed text-grey">
             These two are printed back into the result so you can paste the whole thing
             into an email to a programme office. Nothing you type here is sent anywhere:
             this calculator runs entirely in your browser and there is no form behind it.
@@ -151,12 +151,12 @@ export function GermanGradeCalculator() {
 
       <div className="min-w-0 space-y-8">
         {outcome === null && (
-          <div className="rounded-panel border border-dashed border-line-strong bg-surface p-8 text-center">
-            <p className="text-[0.9375rem] leading-relaxed text-body">
+          <div className="rounded-panel border border-dashed border-line-strong bg-light p-8 text-center">
+            <p className="text-[0.9375rem] leading-relaxed text-grey">
               Enter your grade and the result appears here, with the formula, your own
               numbers substituted into it, and every step of the arithmetic.
             </p>
-            <p className="mt-3 text-[0.875rem] text-muted">
+            <p className="mt-3 text-[0.875rem] text-grey">
               No signup, no email, no result held back.
             </p>
           </div>
@@ -173,21 +173,21 @@ export function GermanGradeCalculator() {
             />
 
             {(degree || university) && (
-              <p className="rounded-card border border-line bg-paper px-5 py-4 text-[0.875rem] leading-relaxed text-body">
-                <span className="font-medium text-navy-900">For the record.</span>{" "}
+              <p className="rounded-card border border-line bg-white px-5 py-4 text-[0.875rem] leading-relaxed text-grey">
+                <span className="font-medium text-blue-dark">For the record.</span>{" "}
                 {degree || "Degree not stated"}
                 {university ? `, ${university}` : ""}: {obtained} out of {max} with a pass
                 mark of {passing}, which converts to{" "}
-                <span className="figures font-medium text-navy-900">{outcome.display}</span> on
+                <span className="figures font-medium text-blue-dark">{outcome.display}</span> on
                 the German scale.
               </p>
             )}
 
             <div>
-              <h2 className="font-display text-[1.25rem] font-bold text-navy-900">
+              <h2 className="text-blue-dark h--5">
                 Where your grade sits on the German scale
               </h2>
-              <ol className="mt-4 divide-y divide-line overflow-hidden rounded-panel border border-line bg-paper">
+              <ol className="mt-4 divide-y divide-line overflow-hidden rounded-panel border border-line bg-white">
                 {germanBands.map((band) => {
                   const isYours = band.key === germanBandFor(outcome.value).key;
                   return (
@@ -195,30 +195,30 @@ export function GermanGradeCalculator() {
                       key={band.key}
                       className={cn(
                         "flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 px-6 py-4",
-                        isYours && "bg-blue-50",
+                        isYours && "bg-light",
                       )}
                     >
                       <span>
                         <span
                           className={cn(
                             "text-[0.9375rem] font-semibold",
-                            isYours ? "text-blue-600" : "text-navy-900",
+                            isYours ? "text-pink" : "text-blue-dark",
                           )}
                         >
                           {band.german}
                         </span>
-                        <span className="ml-2 text-[0.875rem] text-muted">{band.english}</span>
+                        <span className="ml-2 text-[0.875rem] text-grey">{band.english}</span>
                       </span>
-                      <span className="figures text-[0.875rem] text-body">
+                      <span className="figures text-[0.875rem] text-grey">
                         {band.range}
                         {isYours && (
-                          <span className="ml-3 font-medium text-blue-600">Your grade</span>
+                          <span className="ml-3 font-medium text-pink">Your grade</span>
                         )}
                       </span>
                     </li>
                   );
                 })}
-                <li className="px-6 py-4 text-[0.875rem] leading-relaxed text-muted">
+                <li className="px-6 py-4 text-[0.875rem] leading-relaxed text-grey">
                   Above 4.0 is <span className="italic">nicht ausreichend</span>, a fail, and
                   is not a converted grade at all. If the formula produced one, the pass mark
                   entered is probably not the one your university uses.
@@ -228,13 +228,13 @@ export function GermanGradeCalculator() {
 
             <Link
               href="/tools/requirements-check?destination=germany"
-              className="group flex items-start justify-between gap-5 rounded-card border border-line bg-paper p-6 transition-[border-color,box-shadow] hover:border-blue-600 hover:shadow-card"
+              className="group flex items-start justify-between gap-5 rounded-card border border-line bg-white p-6 transition-[border-color,box-shadow] hover:border-pink hover:"
             >
               <span>
-                <span className="block font-display text-[1.0625rem] font-semibold text-navy-900">
+                <span className="block font-display font-semibold text-blue-dark">
                   Now check the rest of the German requirements
                 </span>
-                <span className="mt-1 block text-[0.875rem] leading-relaxed text-body">
+                <span className="mt-1 block text-[0.875rem] leading-relaxed text-grey">
                   A grade is one gate. anabin recognition, subject credits, the language
                   level, the blocked account and the dMAT are the others, and the checklist
                   runs your profile against all of them.
@@ -244,7 +244,7 @@ export function GermanGradeCalculator() {
                 size={17}
                 weight="bold"
                 aria-hidden
-                className="mt-1 shrink-0 text-muted transition-[color,transform] group-hover:translate-x-0.5 group-hover:text-blue-600"
+                className="mt-1 shrink-0 text-grey transition-[color,transform] group-hover:translate-x-0.5 group-hover:text-pink"
               />
             </Link>
           </>

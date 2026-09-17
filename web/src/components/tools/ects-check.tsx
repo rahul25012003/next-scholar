@@ -51,16 +51,16 @@ export function EctsCheck() {
   return (
     <div className="grid gap-8 lg:grid-cols-[24rem_minmax(0,1fr)] lg:items-start lg:gap-10">
       <form
-        className="rounded-panel border border-line bg-paper p-6 md:p-7"
+        className="rounded-panel border border-line bg-white p-6 md:p-7"
         onSubmit={(event) => event.preventDefault()}
       >
         <fieldset>
-          <legend className="text-[0.875rem] font-semibold text-navy-900">
+          <legend className="text-[0.875rem] font-semibold text-blue-dark">
             Total credits
           </legend>
           <div className="mt-3 grid grid-cols-2 gap-3">
             <label>
-              <span className="block text-[0.75rem] text-muted">
+              <span className="block text-[0.75rem] text-grey">
                 The programme requires
               </span>
               <input
@@ -70,11 +70,11 @@ export function EctsCheck() {
                 step={1}
                 value={totalRequired}
                 onChange={(event) => setTotalRequired(event.target.value)}
-                className="figures mt-1 w-full rounded-input border border-line-strong px-3 py-2 text-[0.9375rem] text-navy-900"
+                className="figures mt-1 w-full rounded-input border border-line-strong px-3 py-2 text-[0.9375rem] text-blue-dark"
               />
             </label>
             <label>
-              <span className="block text-[0.75rem] text-muted">Your transcript shows</span>
+              <span className="block text-[0.75rem] text-grey">Your transcript shows</span>
               <input
                 type="number"
                 inputMode="numeric"
@@ -82,11 +82,11 @@ export function EctsCheck() {
                 step={1}
                 value={totalHeld}
                 onChange={(event) => setTotalHeld(event.target.value)}
-                className="figures mt-1 w-full rounded-input border border-line-strong px-3 py-2 text-[0.9375rem] text-navy-900"
+                className="figures mt-1 w-full rounded-input border border-line-strong px-3 py-2 text-[0.9375rem] text-blue-dark"
               />
             </label>
           </div>
-          <p className="mt-2.5 text-[0.8125rem] leading-relaxed text-muted">
+          <p className="mt-2.5 text-[0.8125rem] leading-relaxed text-grey">
             A German Bachelor&rsquo;s is 180 ECTS over three years and 240 over four. An Indian
             four year B.E. or B.Tech commonly maps to around 240 once converted, and a
             three year BSc or BCA to around 180.
@@ -94,23 +94,23 @@ export function EctsCheck() {
         </fieldset>
 
         <fieldset className="mt-7 border-t border-line pt-6">
-          <legend className="text-[0.875rem] font-semibold text-navy-900">
+          <legend className="text-[0.875rem] font-semibold text-blue-dark">
             Credits by area
           </legend>
-          <p className="mt-1 text-[0.8125rem] leading-relaxed text-muted">
+          <p className="mt-1 text-[0.8125rem] leading-relaxed text-grey">
             Take the required figures from the programme&rsquo;s module handbook. The rows below
             are the usual shape of an engineering requirement, not any real programme&rsquo;s.
           </p>
           <div className="mt-4 space-y-3">
             {areas.map((area, index) => (
-              <div key={index} className="rounded-input border border-line p-3">
+              <div key={index} className="rounded-card border border-line p-3">
                 <div className="flex items-end gap-2">
                   <label className="flex-1">
-                    <span className="block text-[0.75rem] text-muted">Area</span>
+                    <span className="block text-[0.75rem] text-grey">Area</span>
                     <input
                       value={area.name}
                       onChange={(event) => update(index, { name: event.target.value })}
-                      className="mt-1 w-full rounded-input border border-line-strong px-3 py-2 text-[0.9375rem] text-navy-900"
+                      className="mt-1 w-full rounded-input border border-line-strong px-3 py-2 text-[0.9375rem] text-blue-dark"
                     />
                   </label>
                   <button
@@ -118,14 +118,14 @@ export function EctsCheck() {
                     onClick={() => setAreas((current) => current.filter((_, i) => i !== index))}
                     disabled={areas.length <= 1}
                     aria-label={`Remove ${area.name || "this area"}`}
-                    className="mb-1 grid h-9 w-9 shrink-0 place-items-center rounded-input border border-line text-muted transition-colors hover:border-denied hover:text-denied disabled:opacity-40"
+                    className="mb-1 grid h-9 w-9 shrink-0 place-items-center rounded-input border border-line text-grey transition-colors hover:border-denied hover:text-denied disabled:opacity-40"
                   >
                     <Trash size={15} aria-hidden />
                   </button>
                 </div>
                 <div className="mt-2.5 grid grid-cols-2 gap-2">
                   <label>
-                    <span className="block text-[0.75rem] text-muted">Required</span>
+                    <span className="block text-[0.75rem] text-grey">Required</span>
                     <input
                       type="number"
                       inputMode="numeric"
@@ -133,11 +133,11 @@ export function EctsCheck() {
                       step={1}
                       value={area.required}
                       onChange={(event) => update(index, { required: event.target.value })}
-                      className="figures mt-1 w-full rounded-input border border-line-strong px-3 py-2 text-[0.9375rem] text-navy-900"
+                      className="figures mt-1 w-full rounded-input border border-line-strong px-3 py-2 text-[0.9375rem] text-blue-dark"
                     />
                   </label>
                   <label>
-                    <span className="block text-[0.75rem] text-muted">You have</span>
+                    <span className="block text-[0.75rem] text-grey">You have</span>
                     <input
                       type="number"
                       inputMode="numeric"
@@ -145,7 +145,7 @@ export function EctsCheck() {
                       step={1}
                       value={area.held}
                       onChange={(event) => update(index, { held: event.target.value })}
-                      className="figures mt-1 w-full rounded-input border border-line-strong px-3 py-2 text-[0.9375rem] text-navy-900"
+                      className="figures mt-1 w-full rounded-input border border-line-strong px-3 py-2 text-[0.9375rem] text-blue-dark"
                     />
                   </label>
                 </div>
@@ -167,34 +167,34 @@ export function EctsCheck() {
 
       <div className="min-w-0 space-y-8">
         {result === null ? (
-          <div className="rounded-panel border border-dashed border-line-strong bg-surface p-8 text-center">
-            <p className="text-[0.9375rem] leading-relaxed text-body">
+          <div className="rounded-panel border border-dashed border-line-strong bg-light p-8 text-center">
+            <p className="text-[0.9375rem] leading-relaxed text-grey">
               Enter what your transcript shows and the gap against each requirement appears
               here.
             </p>
-            <p className="mt-3 text-[0.875rem] text-muted">
+            <p className="mt-3 text-[0.875rem] text-grey">
               It reports subtraction, not an admission verdict.
             </p>
           </div>
         ) : (
           <>
-            <div className="overflow-hidden rounded-panel border border-line bg-paper">
+            <div className="overflow-hidden rounded-panel border border-line bg-white">
               <table className="w-full border-collapse text-left">
                 <caption className="sr-only">
                   Each stated credit requirement, what your transcript shows, and the gap.
                 </caption>
                 <thead>
-                  <tr className="border-b border-line bg-surface">
-                    <th scope="col" className="px-6 py-3 text-[0.75rem] font-semibold text-navy-900">
+                  <tr className="border-b border-line bg-light">
+                    <th scope="col" className="px-6 py-3 text-[0.75rem] font-semibold text-blue-dark">
                       Requirement
                     </th>
-                    <th scope="col" className="px-4 py-3 text-right text-[0.75rem] font-semibold text-navy-900">
+                    <th scope="col" className="px-4 py-3 text-right text-[0.75rem] font-semibold text-blue-dark">
                       Needs
                     </th>
-                    <th scope="col" className="px-4 py-3 text-right text-[0.75rem] font-semibold text-navy-900">
+                    <th scope="col" className="px-4 py-3 text-right text-[0.75rem] font-semibold text-blue-dark">
                       You have
                     </th>
-                    <th scope="col" className="px-6 py-3 text-right text-[0.75rem] font-semibold text-navy-900">
+                    <th scope="col" className="px-6 py-3 text-right text-[0.75rem] font-semibold text-blue-dark">
                       Gap
                     </th>
                   </tr>
@@ -219,17 +219,17 @@ export function EctsCheck() {
                   ))}
                 </tbody>
               </table>
-              <p className="figures border-t border-line bg-surface px-6 py-4 text-[0.9375rem] font-medium text-navy-900">
+              <p className="figures border-t border-line bg-light px-6 py-4 text-[0.9375rem] font-medium text-blue-dark">
                 {result.working.result}
               </p>
             </div>
 
             {result.shortfalls.length > 0 && (
               <div className="rounded-panel border border-pending/25 bg-pending-bg p-6">
-                <h2 className="font-display text-[1.0625rem] font-bold text-pending">
+                <h2 className="text-pending h--6">
                   What to ask the programme office
                 </h2>
-                <p className="mt-2 text-[0.9375rem] leading-relaxed text-body">
+                <p className="mt-2 text-[0.9375rem] leading-relaxed text-grey">
                   A shortfall is frequently fixable and it is a question rather than a
                   verdict. Ask, in writing, whether{" "}
                   {result.shortfalls
@@ -241,13 +241,13 @@ export function EctsCheck() {
               </div>
             )}
 
-            <div className="rounded-panel border border-line bg-surface p-6 md:p-7">
-              <h2 className="text-[0.8125rem] font-semibold uppercase tracking-wide text-muted">
+            <div className="rounded-panel border border-line bg-light p-6 md:p-7">
+              <h2 className="eyebrow text-grey">
                 What this does not decide
               </h2>
               <ul className="mt-3 space-y-2">
                 {ECTS_LIMITS.map((limit) => (
-                  <li key={limit} className="flex gap-2.5 text-[0.875rem] leading-relaxed text-body">
+                  <li key={limit} className="flex gap-2.5 text-[0.875rem] leading-relaxed text-grey">
                     <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-line-strong" />
                     {limit}
                   </li>
@@ -276,11 +276,11 @@ function Row({
 }) {
   return (
     <tr>
-      <th scope="row" className="px-6 py-4 text-[0.9375rem] font-medium text-navy-900">
+      <th scope="row" className="px-6 py-4 text-[0.9375rem] font-medium text-blue-dark">
         {name}
       </th>
-      <td className="figures px-4 py-4 text-right text-[0.9375rem] text-body">{required}</td>
-      <td className="figures px-4 py-4 text-right text-[0.9375rem] text-body">{held}</td>
+      <td className="figures px-4 py-4 text-right text-[0.9375rem] text-grey">{required}</td>
+      <td className="figures px-4 py-4 text-right text-[0.9375rem] text-grey">{held}</td>
       <td className="px-6 py-4 text-right">
         <span
           className={cn(

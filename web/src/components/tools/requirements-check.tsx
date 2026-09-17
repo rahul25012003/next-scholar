@@ -114,11 +114,11 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
   return (
     <div className="grid gap-8 lg:grid-cols-[24rem_minmax(0,1fr)] lg:items-start lg:gap-10">
       <form
-        className="rounded-panel border border-line bg-paper p-6 md:p-7"
+        className="rounded-panel border border-line bg-white p-6 md:p-7"
         onSubmit={(event) => event.preventDefault()}
       >
         <fieldset>
-          <legend className="text-[0.875rem] font-semibold text-navy-900">Destination</legend>
+          <legend className="text-[0.875rem] font-semibold text-blue-dark">Destination</legend>
           <div className="mt-3 flex flex-wrap gap-2">
             {guides.map((option) => (
               <button
@@ -127,10 +127,10 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
                 onClick={() => setDestination(option.slug)}
                 aria-pressed={option.slug === destination}
                 className={cn(
-                  "rounded-full border px-4 py-2 text-[0.875rem] font-medium transition-colors",
+                  "button",
                   option.slug === destination
-                    ? "border-blue-600 bg-blue-600 text-white"
-                    : "border-line-strong bg-paper text-navy-900 hover:border-blue-600 hover:text-blue-600",
+                    ? "button--selected"
+                    : "button--light",
                 )}
               >
                 {option.country}
@@ -140,7 +140,7 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
         </fieldset>
 
         <fieldset className="mt-7 space-y-4 border-t border-line pt-6">
-          <legend className="text-[0.875rem] font-semibold text-navy-900">Your academics</legend>
+          <legend className="text-[0.875rem] font-semibold text-blue-dark">Your academics</legend>
 
           <Select
             label="Applying for"
@@ -154,13 +154,13 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
           />
 
           <div>
-            <span className="block text-[0.875rem] font-medium text-navy-900">Your result</span>
+            <span className="block text-[0.875rem] font-medium text-blue-dark">Your result</span>
             <div className="mt-2 flex gap-2">
               <select
                 value={scale}
                 onChange={(event) => setScale(event.target.value as typeof scale)}
                 aria-label="Result scale"
-                className="w-32 shrink-0 rounded-input border border-line-strong bg-paper px-3 py-2.5 text-[0.9375rem] text-navy-900"
+                className="w-32 shrink-0 rounded-card border border-line-strong bg-white px-3 py-2.5 text-[0.9375rem] text-blue-dark"
               >
                 <option value="cgpa">CGPA / 10</option>
                 <option value="percentage">Percentage</option>
@@ -174,11 +174,11 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
                 value={grade}
                 onChange={(event) => setGrade(event.target.value)}
                 placeholder={scale === "cgpa" ? "8.2" : "76"}
-                className="figures w-full rounded-input border border-line-strong px-3.5 py-2.5 text-[1rem] text-navy-900"
+                className="figures w-full rounded-card border border-line-strong px-3.5 py-2.5 text-blue-dark"
               />
             </div>
             {scale === "cgpa" && percentage !== undefined && (
-              <p className="mt-1.5 text-[0.8125rem] text-muted">
+              <p className="mt-1.5 text-[0.8125rem] text-grey">
                 Converted at the CBSE 9.5 convention to{" "}
                 <span className="figures">{percentage}%</span>. Your university&rsquo;s own
                 conversion governs.
@@ -231,13 +231,13 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
         </fieldset>
 
         <fieldset className="mt-7 space-y-4 border-t border-line pt-6">
-          <legend className="text-[0.875rem] font-semibold text-navy-900">Language</legend>
+          <legend className="text-[0.875rem] font-semibold text-blue-dark">Language</legend>
           <div className="flex gap-2">
             <select
               value={testName}
               onChange={(event) => setTestName(event.target.value)}
               aria-label="English test"
-              className="w-32 shrink-0 rounded-input border border-line-strong bg-paper px-3 py-2.5 text-[0.9375rem] text-navy-900"
+              className="w-32 shrink-0 rounded-card border border-line-strong bg-white px-3 py-2.5 text-[0.9375rem] text-blue-dark"
             >
               {["IELTS", "TOEFL", "PTE", "Duolingo"].map((name) => (
                 <option key={name} value={name}>
@@ -253,7 +253,7 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
               onChange={(event) => setOverall(event.target.value)}
               placeholder="Overall"
               aria-label="Overall score"
-              className="figures w-full rounded-input border border-line-strong px-3.5 py-2.5 text-[1rem] text-navy-900"
+              className="figures w-full rounded-card border border-line-strong px-3.5 py-2.5 text-blue-dark"
             />
           </div>
           <input
@@ -264,7 +264,7 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
             onChange={(event) => setLowestSection(event.target.value)}
             placeholder="Your lowest section score"
             aria-label="Lowest section score"
-            className="figures w-full rounded-input border border-line-strong px-3.5 py-2.5 text-[1rem] text-navy-900"
+            className="figures w-full rounded-card border border-line-strong px-3.5 py-2.5 text-blue-dark"
           />
 
           {destination === "germany" && (
@@ -285,12 +285,12 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
         </fieldset>
 
         <fieldset className="mt-7 space-y-4 border-t border-line pt-6">
-          <legend className="text-[0.875rem] font-semibold text-navy-900">Money</legend>
+          <legend className="text-[0.875rem] font-semibold text-blue-dark">Money</legend>
           <label className="block">
-            <span className="block text-[0.875rem] font-medium text-navy-900">
+            <span className="block text-[0.875rem] font-medium text-blue-dark">
               What you can evidence
             </span>
-            <span className="mt-0.5 block text-[0.8125rem] leading-snug text-muted">
+            <span className="mt-0.5 block text-[0.8125rem] leading-snug text-grey">
               In lakh. Savings, family funds you can document, or a sanctioned loan.
             </span>
             <span className="mt-2 flex items-center gap-2">
@@ -302,16 +302,16 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
                 value={fundsLakh}
                 onChange={(event) => setFundsLakh(event.target.value)}
                 placeholder="15"
-                className="figures w-full rounded-input border border-line-strong px-3.5 py-2.5 text-[1rem] text-navy-900"
+                className="figures w-full rounded-card border border-line-strong px-3.5 py-2.5 text-blue-dark"
               />
-              <span className="shrink-0 text-[0.875rem] text-muted">lakh</span>
+              <span className="shrink-0 text-[0.875rem] text-grey">lakh</span>
             </span>
           </label>
           <label className="block">
-            <span className="block text-[0.875rem] font-medium text-navy-900">
+            <span className="block text-[0.875rem] font-medium text-blue-dark">
               How long it has been in the account
             </span>
-            <span className="mt-0.5 block text-[0.8125rem] leading-snug text-muted">
+            <span className="mt-0.5 block text-[0.8125rem] leading-snug text-grey">
               In months. This is what the UK 28 day rule and the Irish six month rule read.
             </span>
             <span className="mt-2 flex items-center gap-2">
@@ -323,16 +323,16 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
                 value={fundsHeldMonths}
                 onChange={(event) => setFundsHeldMonths(event.target.value)}
                 placeholder="6"
-                className="figures w-full rounded-input border border-line-strong px-3.5 py-2.5 text-[1rem] text-navy-900"
+                className="figures w-full rounded-card border border-line-strong px-3.5 py-2.5 text-blue-dark"
               />
-              <span className="shrink-0 text-[0.875rem] text-muted">months</span>
+              <span className="shrink-0 text-[0.875rem] text-grey">months</span>
             </span>
           </label>
         </fieldset>
 
         {destination === "germany" && (
           <fieldset className="mt-7 space-y-4 border-t border-line pt-6">
-            <legend className="text-[0.875rem] font-semibold text-navy-900">APS</legend>
+            <legend className="text-[0.875rem] font-semibold text-blue-dark">APS</legend>
             <Select
               label="Where your APS application stands"
               value={apsStatus ?? ""}
@@ -349,11 +349,11 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
                 type="checkbox"
                 checked={apsEarly}
                 onChange={(event) => setApsEarly(event.target.checked)}
-                className="mt-1 h-4 w-4 shrink-0 accent-[var(--color-blue-600)]"
+                className="mt-1 h-4 w-4 shrink-0 accent-[var(--color-blue-dark)]"
               />
-              <span className="text-[0.875rem] leading-snug text-body">
+              <span className="text-[0.875rem] leading-snug text-grey">
                 I registered with APS India before 29 June 2026
-                <span className="mt-0.5 block text-[0.8125rem] text-muted">
+                <span className="mt-0.5 block text-[0.8125rem] text-grey">
                   This is the transitional exemption from the dMAT.
                 </span>
               </span>
@@ -361,7 +361,7 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
           </fieldset>
         )}
 
-        <p className="mt-7 border-t border-line pt-6 text-[0.8125rem] leading-relaxed text-muted">
+        <p className="mt-7 border-t border-line pt-6 text-[0.8125rem] leading-relaxed text-grey">
           Nothing on this form is submitted anywhere. It runs in your browser, there is no
           account behind it, and the answer changes as you type. Leave a field blank and the
           row it feeds says we cannot tell rather than guessing.
@@ -369,8 +369,8 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
       </form>
 
       <div className="min-w-0 space-y-6">
-        <div className="rounded-panel border border-line bg-paper p-6 md:p-7">
-          <h2 className="font-display text-[1.25rem] font-bold text-navy-900">
+        <div className="rounded-panel border border-line bg-white p-6 md:p-7">
+          <h2 className="text-blue-dark h--5">
             {guide.country}: {results.length} requirements checked
           </h2>
           <dl className="mt-5 grid grid-cols-3 gap-3">
@@ -389,17 +389,17 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
               );
             })}
           </dl>
-          <p className="mt-5 text-[0.875rem] leading-relaxed text-body">
+          <p className="mt-5 text-[0.875rem] leading-relaxed text-grey">
             These are counts, not a score. Nothing on this page converts them into a
             percentage or a chance of admission, because a count of met requirements is not
             a probability of anything and publishing one as if it were is the single most
             common dishonesty in this industry.
           </p>
-          <p className="mt-3 text-[0.875rem] leading-relaxed text-muted">
+          <p className="mt-3 text-[0.875rem] leading-relaxed text-grey">
             Every figure the rows below check against is on the{" "}
             <Link
               href={`/destinations/${guide.slug}`}
-              className="font-medium text-blue-600 hover:text-blue-500"
+              className="font-medium text-pink hover:text-blue"
             >
               {guide.country} guide
             </Link>
@@ -414,7 +414,7 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
           if (rows.length === 0) return null;
           return (
             <section key={group}>
-              <h3 className="text-[0.75rem] font-semibold uppercase tracking-wide text-muted">
+              <h3 className="eyebrow text-grey">
                 {group}
               </h3>
               <ul className="mt-3 space-y-3">
@@ -424,7 +424,7 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
                   return (
                     <li
                       key={row.id}
-                      className="rounded-card border border-line bg-paper p-5 md:p-6"
+                      className="rounded-card border border-line bg-white p-5 md:p-6"
                     >
                       <div className="flex items-start gap-3.5">
                         <Icon
@@ -435,7 +435,7 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
                         />
                         <div className="min-w-0">
                           <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                            <h4 className="text-[0.9375rem] font-semibold text-navy-900">
+                            <h4 className="text-blue-dark h--6">
                               {row.title}
                             </h4>
                             <span
@@ -448,16 +448,16 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
                               {meta.label}
                             </span>
                           </div>
-                          <p className="mt-2 text-[0.9375rem] leading-relaxed text-body">
+                          <p className="mt-2 text-[0.9375rem] leading-relaxed text-grey">
                             {row.reason}
                           </p>
                           {row.action && (
-                            <p className="mt-2.5 rounded-input bg-surface px-3.5 py-2.5 text-[0.875rem] leading-relaxed text-body">
-                              <span className="font-medium text-navy-900">What to do.</span>{" "}
+                            <p className="mt-2.5 rounded-card bg-light px-3.5 py-2.5 text-[0.875rem] leading-relaxed text-grey">
+                              <span className="font-medium text-blue-dark">What to do.</span>{" "}
                               {row.action}
                             </p>
                           )}
-                          <p className="mt-2.5 text-[0.8125rem] text-muted">
+                          <p className="mt-2.5 text-[0.8125rem] text-grey">
                             Source: {row.source}
                           </p>
                         </div>
@@ -489,12 +489,12 @@ function Select({
 }) {
   return (
     <label className="block">
-      <span className="block text-[0.875rem] font-medium text-navy-900">{label}</span>
-      {hint && <span className="mt-0.5 block text-[0.8125rem] leading-snug text-muted">{hint}</span>}
+      <span className="block text-[0.875rem] font-medium text-blue-dark">{label}</span>
+      {hint && <span className="mt-0.5 block text-[0.8125rem] leading-snug text-grey">{hint}</span>}
       <select
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="mt-2 w-full rounded-input border border-line-strong bg-paper px-3.5 py-2.5 text-[0.9375rem] text-navy-900"
+        className="mt-2 w-full rounded-card border border-line-strong bg-white px-3.5 py-2.5 text-[0.9375rem] text-blue-dark"
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>

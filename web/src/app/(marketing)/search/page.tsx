@@ -26,7 +26,7 @@ export default async function SearchPage(props: PageProps<"/search">) {
         lede={`Everything on this site, in one place: ${total} records across guides, courses, universities, written pieces, tools and policies. A result that carries a commission figure carries it here too, because a course found through a search box is the same course.`}
       />
 
-      <section className="bg-paper py-10 md:py-14">
+      <section className="band">
         <div className="shell max-w-3xl">
           <form method="get" action="/search" role="search">
             <label htmlFor="q" className="sr-only">
@@ -38,7 +38,7 @@ export default async function SearchPage(props: PageProps<"/search">) {
                   size={17}
                   weight="bold"
                   aria-hidden
-                  className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted"
+                  className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-grey"
                 />
                 <input
                   id="q"
@@ -46,12 +46,12 @@ export default async function SearchPage(props: PageProps<"/search">) {
                   defaultValue={query}
                   autoFocus
                   placeholder="Blocked account, 28 day rule, dMAT, mechanical engineering"
-                  className="w-full rounded-full border border-line-strong bg-paper py-3 pl-11 pr-4 text-[1rem] text-navy-900 placeholder:text-muted focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/25"
+                  className="w-full rounded-full border border-line-strong bg-white py-3 pl-11 pr-4 text-blue-dark placeholder:text-grey focus:border-pink focus:outline-none focus:ring-2 focus:ring-pink/25"
                 />
               </div>
               <button
                 type="submit"
-                className="shrink-0 rounded-full bg-blue-600 px-6 text-[0.9375rem] font-medium text-white transition-colors hover:bg-blue-500"
+                className="shrink-0 button"
               >
                 Search
               </button>
@@ -59,21 +59,21 @@ export default async function SearchPage(props: PageProps<"/search">) {
           </form>
 
           {query === "" && (
-            <div className="mt-8 rounded-panel border border-line bg-surface p-6">
-              <h2 className="font-display text-[1.0625rem] font-bold text-navy-900">
+            <div className="mt-8 rounded-panel border border-line bg-light p-6">
+              <h2 className="text-blue-dark h--6">
                 What is searchable
               </h2>
               <dl className="mt-4 grid gap-3 sm:grid-cols-2">
                 {summary.map((item) => (
                   <div key={item.kind} className="flex items-baseline justify-between gap-4">
-                    <dt className="text-[0.9375rem] text-body">{item.kind}</dt>
-                    <dd className="figures text-[0.9375rem] font-semibold text-navy-900">
+                    <dt className="text-[0.9375rem] text-grey">{item.kind}</dt>
+                    <dd className="figures text-[0.9375rem] font-semibold text-blue-dark">
                       {item.count}
                     </dd>
                   </div>
                 ))}
               </dl>
-              <p className="mt-5 text-[0.875rem] leading-relaxed text-muted">
+              <p className="mt-5 text-[0.875rem] leading-relaxed text-grey">
                 The search is a plain scan over the site&rsquo;s own content, scored by where
                 the match landed: a title beats a summary, which beats the body. There is no
                 relevance tuning, no click signal and no personalisation, because each of
@@ -85,17 +85,17 @@ export default async function SearchPage(props: PageProps<"/search">) {
 
           {query !== "" && (
             <>
-              <p className="mt-6 text-[0.875rem] text-muted">
+              <p className="mt-6 text-[0.875rem] text-grey">
                 {results.length} result{results.length === 1 ? "" : "s"} for{" "}
-                <span className="font-medium text-navy-900">{query}</span>.
+                <span className="font-medium text-blue-dark">{query}</span>.
               </p>
 
               {results.length === 0 ? (
-                <div className="mt-5 rounded-panel border border-dashed border-line-strong bg-surface p-8">
-                  <h2 className="font-display text-[1.125rem] font-bold text-navy-900">
+                <div className="mt-5 rounded-panel border border-dashed border-line-strong bg-light p-8">
+                  <h2 className="text-blue-dark h--5">
                     Nothing on this site matches that
                   </h2>
-                  <p className="mt-2 text-[0.9375rem] leading-relaxed text-body">
+                  <p className="mt-2 text-[0.9375rem] leading-relaxed text-grey">
                     This searches {total} records across three destinations. If you were
                     looking for a fourth country, we do not cover one: a destination goes on
                     this site when its whole guide can be filled in, and that takes weeks per
@@ -104,24 +104,24 @@ export default async function SearchPage(props: PageProps<"/search">) {
                   <div className="mt-5 flex flex-wrap gap-4 text-[0.9375rem]">
                     <Link
                       href="/destinations"
-                      className="font-medium text-blue-600 hover:text-blue-500"
+                      className="font-medium text-pink hover:text-blue"
                     >
                       The three destinations
                     </Link>
-                    <Link href="/tools" className="font-medium text-blue-600 hover:text-blue-500">
+                    <Link href="/tools" className="font-medium text-pink hover:text-blue">
                       The free tools
                     </Link>
-                    <Link href="/guides" className="font-medium text-blue-600 hover:text-blue-500">
+                    <Link href="/guides" className="font-medium text-pink hover:text-blue">
                       The written guides
                     </Link>
                   </div>
                 </div>
               ) : (
-                <ul className="mt-5 divide-y divide-line rounded-panel border border-line bg-paper">
+                <ul className="mt-5 divide-y divide-line rounded-panel border border-line bg-white">
                   {results.map((result) => (
                     <li key={result.href + result.title} className="p-5 md:p-6">
                       <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-                        <span className="rounded-input bg-surface px-2 py-0.5 text-[0.6875rem] font-medium text-neutral-chip">
+                        <span className="rounded-card bg-light px-2 py-0.5 text-[0.6875rem] font-medium text-neutral-chip">
                           {result.kind}
                         </span>
                         {result.commission && (
@@ -136,17 +136,17 @@ export default async function SearchPage(props: PageProps<"/search">) {
                           </span>
                         )}
                         {result.minutes && (
-                          <span className="text-[0.75rem] text-muted">
+                          <span className="text-[0.75rem] text-grey">
                             {result.minutes} min read
                           </span>
                         )}
                       </div>
-                      <h2 className="mt-2 font-display text-[1.0625rem] font-bold leading-snug text-navy-900">
-                        <Link href={result.href} className="hover:text-blue-600">
+                      <h2 className="mt-2 text-blue-dark h--6">
+                        <Link href={result.href} className="hover:text-pink">
                           {result.title}
                         </Link>
                       </h2>
-                      <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-body">
+                      <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-grey">
                         {result.detail}
                       </p>
                     </li>

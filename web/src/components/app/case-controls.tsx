@@ -51,8 +51,8 @@ export function TaskControl({
           {open.map((task) => (
             <li key={task.id} className="flex flex-wrap items-center justify-between gap-3 px-6 py-4">
               <div>
-                <p className="text-[0.9375rem] text-navy-900">{task.title}</p>
-                <p className="figures text-[0.75rem] text-muted">
+                <p className="text-[0.9375rem] text-blue-dark">{task.title}</p>
+                <p className="figures text-[0.75rem] text-grey">
                   Due {task.dueOn}, set by {task.createdBy}
                 </p>
               </div>
@@ -66,8 +66,8 @@ export function TaskControl({
         <ul className="divide-y divide-line border-b border-line">
           {done.map((task) => (
             <li key={task.id} className="px-6 py-3">
-              <p className="text-[0.875rem] text-muted line-through">{task.title}</p>
-              <p className="figures text-[0.75rem] text-muted">
+              <p className="text-[0.875rem] text-grey line-through">{task.title}</p>
+              <p className="figures text-[0.75rem] text-grey">
                 Done by {task.completedBy}
               </p>
             </li>
@@ -108,7 +108,7 @@ function CompleteTask({ caseId, taskId }: { caseId: string; taskId: string }) {
       <button
         type="submit"
         disabled={pending}
-        className="rounded-full border border-line-strong px-4 py-1.5 text-[0.8125rem] font-medium text-navy-900 transition-colors hover:border-blue-600 hover:text-blue-600 disabled:opacity-55"
+        className="button button--light disabled:opacity-55"
       >
         {pending ? "Saving" : "Done"}
       </button>

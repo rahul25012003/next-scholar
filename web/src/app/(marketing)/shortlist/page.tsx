@@ -48,14 +48,14 @@ export default async function ShortlistPage() {
         lede="The comparison neither of the two largest platforms in this market offers, carrying the column neither of them publishes at all. Fee against fee, deadline against deadline, and what we earn on each one next to what we earn on the others."
       />
 
-      <section className="bg-paper py-10 md:py-14">
+      <section className="band">
         <div className="shell">
           {!actor && (
-            <div className="rounded-panel border border-line bg-surface p-8">
-              <h2 className="font-display text-[1.375rem] font-bold text-navy-900">
+            <div className="rounded-panel border border-line bg-light p-8">
+              <h2 className="text-blue-dark">
                 A shortlist needs an account
               </h2>
-              <p className="mt-3 max-w-2xl text-[0.9375rem] leading-relaxed text-body">
+              <p className="mt-3 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
                 It is the only thing on this site that does. Every fee, every requirement,
                 every calculator and every commission figure works signed out and will keep
                 working signed out. Saving a course to come back to needs somewhere to save
@@ -76,11 +76,11 @@ export default async function ShortlistPage() {
           )}
 
           {actor && rows.length === 0 && (
-            <div className="rounded-panel border border-dashed border-line-strong bg-surface p-8">
-              <h2 className="font-display text-[1.375rem] font-bold text-navy-900">
+            <div className="rounded-panel border border-dashed border-line-strong bg-light p-8">
+              <h2 className="text-blue-dark">
                 Nothing saved yet
               </h2>
-              <p className="mt-3 max-w-2xl text-[0.9375rem] leading-relaxed text-body">
+              <p className="mt-3 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
                 Save a course from the catalogue and it appears here, compared against
                 everything else you save. Nothing is recommended into this list by us: it
                 holds what you put in it, in the order you put it in.
@@ -94,7 +94,7 @@ export default async function ShortlistPage() {
 
           {actor && rows.length > 0 && (
             <>
-              <div className="overflow-x-auto rounded-panel border border-line bg-paper">
+              <div className="overflow-x-auto rounded-panel border border-line bg-white">
                 <table className="w-full border-collapse text-left">
                   <caption className="sr-only">
                     Your saved courses compared on fee, duration, deadline, language, the
@@ -102,10 +102,10 @@ export default async function ShortlistPage() {
                     stand against each destination&rsquo;s own requirements.
                   </caption>
                   <thead>
-                    <tr className="border-b border-line bg-surface">
+                    <tr className="border-b border-line bg-light">
                       <th
                         scope="col"
-                        className="sticky left-0 z-10 min-w-[14rem] bg-surface px-5 py-3 text-[0.75rem] font-semibold text-navy-900"
+                        className="sticky left-0 z-10 min-w-[14rem] bg-light px-5 py-3 text-[0.75rem] font-semibold text-blue-dark"
                       >
                         Course
                       </th>
@@ -117,11 +117,11 @@ export default async function ShortlistPage() {
                         >
                           <Link
                             href={`/universities/${row.university.slug}/${row.slug}`}
-                            className="block text-[0.9375rem] font-semibold text-navy-900 hover:text-blue-600"
+                            className="block text-[0.9375rem] font-semibold text-blue-dark hover:text-pink"
                           >
                             {row.name}
                           </Link>
-                          <span className="mt-1 block text-[0.8125rem] font-normal text-body">
+                          <span className="mt-1 block text-[0.8125rem] font-normal text-grey">
                             {row.university.name}, {row.university.city}
                           </span>
                         </th>
@@ -132,12 +132,12 @@ export default async function ShortlistPage() {
                     <Row label="Tuition, per year">
                       {rows.map((row) => (
                         <td key={row.slug} className="px-5 py-4 align-top">
-                          <span className="figures text-[1rem] font-semibold text-navy-900">
+                          <span className="figures font-semibold text-blue-dark">
                             {row.feePerYear.state === "stated"
                               ? formatFee(row.feePerYear.value, row.currency)
                               : "Not published"}
                           </span>
-                          <span className="mt-1 block text-[0.75rem] leading-snug text-muted">
+                          <span className="mt-1 block text-[0.75rem] leading-snug text-grey">
                             {row.feePerYear.state === "stated"
                               ? "Indicative. The programme's fee page governs."
                               : row.feePerYear.reason}
@@ -148,7 +148,7 @@ export default async function ShortlistPage() {
 
                     <Row label="Duration">
                       {rows.map((row) => (
-                        <td key={row.slug} className="figures px-5 py-4 align-top text-[0.9375rem] text-body">
+                        <td key={row.slug} className="figures px-5 py-4 align-top text-[0.9375rem] text-grey">
                           {row.durationMonths} months
                         </td>
                       ))}
@@ -156,7 +156,7 @@ export default async function ShortlistPage() {
 
                     <Row label="Next deadline">
                       {rows.map((row) => (
-                        <td key={row.slug} className="figures px-5 py-4 align-top text-[0.9375rem] text-body">
+                        <td key={row.slug} className="figures px-5 py-4 align-top text-[0.9375rem] text-grey">
                           {nextDeadline(row) ?? "None ahead"}
                         </td>
                       ))}
@@ -164,7 +164,7 @@ export default async function ShortlistPage() {
 
                     <Row label="Taught in">
                       {rows.map((row) => (
-                        <td key={row.slug} className="px-5 py-4 align-top text-[0.9375rem] text-body">
+                        <td key={row.slug} className="px-5 py-4 align-top text-[0.9375rem] text-grey">
                           {row.languageOfInstruction}
                         </td>
                       ))}
@@ -172,7 +172,7 @@ export default async function ShortlistPage() {
 
                     <Row label="Entry requirement">
                       {rows.map((row) => (
-                        <td key={row.slug} className="px-5 py-4 align-top text-[0.875rem] leading-relaxed text-body">
+                        <td key={row.slug} className="px-5 py-4 align-top text-[0.875rem] leading-relaxed text-grey">
                           {row.entryRequirement.state === "stated"
                             ? row.entryRequirement.value
                             : row.entryRequirement.reason}
@@ -194,7 +194,7 @@ export default async function ShortlistPage() {
                           const counts = eligibility[index];
                           return (
                             <td key={row.slug} className="px-5 py-4 align-top">
-                              <p className="text-[0.875rem] leading-relaxed text-body">
+                              <p className="text-[0.875rem] leading-relaxed text-grey">
                                 <span className="font-medium text-verified">{counts.met} met</span>
                                 {", "}
                                 <span className="font-medium text-denied">{counts["not-met"]} not met</span>
@@ -203,7 +203,7 @@ export default async function ShortlistPage() {
                               </p>
                               <Link
                                 href={`/tools/requirements-check?destination=${row.university.destination}`}
-                                className="mt-1.5 inline-block text-[0.8125rem] font-medium text-blue-600 hover:text-blue-500"
+                                className="mt-1.5 inline-block text-[0.8125rem] font-medium text-pink hover:text-blue"
                               >
                                 See the full breakdown
                               </Link>
@@ -230,11 +230,11 @@ export default async function ShortlistPage() {
               </div>
 
               <div className="mt-8 grid gap-5 lg:grid-cols-2">
-                <div className="rounded-panel border border-line bg-surface p-6">
-                  <h2 className="font-display text-[1.125rem] font-bold text-navy-900">
+                <div className="rounded-panel border border-line bg-light p-6">
+                  <h2 className="text-blue-dark h--5">
                     What this comparison is not
                   </h2>
-                  <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-body">
+                  <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-grey">
                     It is not a ranking and there is no best row. Nothing here is ordered by
                     a fit score, because a fit score computed from a fee and a deadline
                     would be arithmetic dressed as judgement. The order is the order you
@@ -243,11 +243,11 @@ export default async function ShortlistPage() {
                     states the counts, and the counts do not reorder anything either.
                   </p>
                 </div>
-                <div className="rounded-panel border border-line bg-surface p-6">
-                  <h2 className="font-display text-[1.125rem] font-bold text-navy-900">
+                <div className="rounded-panel border border-line bg-light p-6">
+                  <h2 className="text-blue-dark h--5">
                     Read the commission row across
                   </h2>
-                  <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-body">
+                  <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-grey">
                     If one of these pays us several times what another does, that is
                     visible here before anyone gives you advice about it. That is the entire
                     reason the row exists, and it is why we publish it on a comparison page
@@ -268,7 +268,7 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
     <tr>
       <th
         scope="row"
-        className="sticky left-0 z-10 bg-paper px-5 py-4 align-top text-[0.875rem] font-semibold text-navy-900"
+        className="sticky left-0 z-10 bg-white px-5 py-4 align-top text-[0.875rem] font-semibold text-blue-dark"
       >
         {label}
       </th>

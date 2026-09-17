@@ -13,9 +13,9 @@ import { cn } from "@/lib/cn";
 const DRAFT_KEY = "next-scholar.evaluation-draft";
 
 const fieldBase =
-  "w-full rounded-input border border-line-strong bg-paper px-3.5 py-2.5 text-[0.9375rem] text-navy-900 " +
-  "placeholder:text-muted/70 transition-colors focus:border-blue-600 focus:outline-none " +
-  "focus:ring-2 focus:ring-blue-600/25";
+  "w-full rounded-input border border-line-strong bg-white px-3.5 py-2.5 text-[0.9375rem] text-blue-dark " +
+  "placeholder:text-grey/70 transition-colors focus:border-pink focus:outline-none " +
+  "focus:ring-2 focus:ring-pink/25";
 
 function subscribeToStorage(onChange: () => void) {
   window.addEventListener("storage", onChange);
@@ -123,7 +123,7 @@ export function EvaluationRequestForm() {
       </div>
 
       <div>
-        <span className="text-[0.9375rem] font-medium text-navy-900">
+        <span className="text-[0.9375rem] font-medium text-blue-dark">
           Which destination should we check against?
         </span>
         <div className="mt-2.5 flex flex-wrap gap-2">
@@ -136,10 +136,10 @@ export function EvaluationRequestForm() {
                 onClick={() => toggleDestination(guide.slug)}
                 aria-pressed={active}
                 className={cn(
-                  "rounded-full border px-4 py-2 text-[0.875rem] font-medium transition-colors",
+                  "button",
                   active
-                    ? "border-blue-600 bg-blue-600 text-white"
-                    : "border-line-strong bg-paper text-navy-900 hover:border-blue-600 hover:text-blue-600",
+                    ? "button--selected"
+                    : "button--light",
                 )}
               >
                 {guide.country}
@@ -171,9 +171,9 @@ export function EvaluationRequestForm() {
           name="consent"
           checked={draft.consent === "on"}
           onChange={(event) => update("consent", event.target.checked ? "on" : "")}
-          className="mt-1 h-4 w-4 shrink-0 accent-[var(--color-blue-600)]"
+          className="mt-1 h-4 w-4 shrink-0 accent-[var(--color-blue-dark)]"
         />
-        <span className="text-[0.875rem] leading-snug text-body">
+        <span className="text-[0.875rem] leading-snug text-grey">
           I agree to be contacted about this request.
           {errors.consent && (
             <span className="mt-0.5 block text-[0.8125rem] font-medium text-denied">
@@ -203,20 +203,20 @@ export function EvaluationRequestForm() {
       </div>
 
       {state.status === "not-live" && (
-        <div className="rounded-panel border border-line bg-surface p-6" role="status">
+        <div className="rounded-panel border border-line bg-light p-6" role="status">
           <div className="flex items-start gap-3">
-            <Info size={20} weight="fill" className="mt-0.5 shrink-0 text-blue-600" aria-hidden />
+            <Info size={20} weight="fill" className="mt-0.5 shrink-0 text-pink" aria-hidden />
             <div>
-              <h3 className="font-display text-[1.0625rem] font-bold text-navy-900">
+              <h3 className="text-blue-dark h--6">
                 Your answers are complete. Nothing was sent.
               </h3>
-              <p className="mt-2 text-[0.9375rem] leading-relaxed text-body">{state.message}</p>
-              <p className="mt-4 text-[0.875rem] font-medium text-navy-900">
+              <p className="mt-2 text-[0.9375rem] leading-relaxed text-grey">{state.message}</p>
+              <p className="mt-4 text-[0.875rem] font-medium text-blue-dark">
                 Still to connect before this form can deliver a reply
               </p>
               <ul className="mt-2 space-y-1.5">
                 {state.missing.map((item) => (
-                  <li key={item} className="text-[0.875rem] leading-relaxed text-body">
+                  <li key={item} className="text-[0.875rem] leading-relaxed text-grey">
                     {item}
                   </li>
                 ))}
@@ -242,7 +242,7 @@ function Field({
 }) {
   return (
     <div className="grid gap-2">
-      <label htmlFor={id} className="text-[0.9375rem] font-medium text-navy-900">
+      <label htmlFor={id} className="text-[0.9375rem] font-medium text-blue-dark">
         {label}
       </label>
       {children}

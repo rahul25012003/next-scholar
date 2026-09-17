@@ -81,36 +81,30 @@ export function TalkToUs() {
               initial={reduced ? false : { opacity: 0, scale: 0.96, y: 8 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.18, ease: "easeOut" }}
-              className="w-80 max-w-full rounded-panel border border-line bg-paper p-5 shadow-lift"
+              className="flow w-80 max-w-full bg-white p-6 text-grey"
               role="dialog"
               aria-label="Talk to a counsellor"
             >
               <div className="flex items-start justify-between gap-4">
-                <h2 className="font-display text-[1rem] font-bold text-navy-900">
-                  Talk to a counsellor
-                </h2>
+                <h2 className="h--6 text-blue-dark">Talk to a counsellor</h2>
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
                   aria-label="Close"
-                  className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-muted transition-colors hover:bg-surface hover:text-navy-900"
+                  className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-transparent text-grey transition-colors hover:bg-light hover:text-pink"
                 >
-                  <X size={15} weight="bold" aria-hidden />
+                  <X size={16} weight="bold" aria-hidden />
                 </button>
               </div>
 
-              <p className="mt-2.5 text-[0.875rem] leading-relaxed text-body">
+              <p className="small">
                 The consultation is paid, priced in public, and ends in a written assessment
                 within 24 hours. It includes the answer nobody sells, which is that you
                 should not go at all.
               </p>
 
-              <div className="mt-4 grid gap-2">
-                <Link
-                  href="/book-consultation"
-                  onClick={() => setOpen(false)}
-                  className="rounded-full bg-blue-600 px-4 py-2.5 text-center text-[0.875rem] font-medium text-white transition-colors hover:bg-blue-500"
-                >
+              <div className="grid gap-2">
+                <Link href="/book-consultation" onClick={() => setOpen(false)} className="button">
                   Book a consultation
                 </Link>
                 {href ? (
@@ -118,19 +112,17 @@ export function TalkToUs() {
                     href={href}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-line-strong px-4 py-2.5 text-[0.875rem] font-medium text-navy-900 transition-colors hover:border-verified hover:text-verified"
+                    className="button button--light inline-flex items-center justify-center gap-2"
                   >
-                    <WhatsappLogo size={16} weight="fill" aria-hidden />
+                    <WhatsappLogo size={18} weight="fill" aria-hidden />
                     Message us on WhatsApp
                   </a>
                 ) : (
-                  <p className="rounded-input bg-surface px-3.5 py-3 text-[0.8125rem] leading-relaxed text-muted">
-                    {channels.pending}
-                  </p>
+                  <p className="small bg-light px-4 py-3">{channels.pending}</p>
                 )}
               </div>
 
-              <p className="mt-3.5 border-t border-line pt-3 text-[0.75rem] leading-relaxed text-muted">
+              <p className="small border-t-2 border-light pt-3">
                 Nothing on this site is behind this button. Every guide, every calculator
                 and every commission figure works without talking to anyone.
               </p>
@@ -138,7 +130,7 @@ export function TalkToUs() {
               <button
                 type="button"
                 onClick={() => setDismissed(true)}
-                className="mt-2 text-[0.75rem] text-muted underline underline-offset-2 hover:text-navy-900"
+                className="small bg-transparent text-pink underline underline-offset-2"
               >
                 Hide this for the rest of my visit
               </button>
@@ -150,9 +142,9 @@ export function TalkToUs() {
             type="button"
             onClick={() => setOpen((value) => !value)}
             aria-expanded={open}
-            className="inline-flex items-center gap-2 rounded-full bg-navy-900 px-5 py-3 text-[0.9375rem] font-medium text-white shadow-lift transition-colors hover:bg-navy-800"
+            className="button button--pink inline-flex items-center gap-2"
           >
-            <ChatCircleDots size={18} weight="fill" aria-hidden />
+            <ChatCircleDots size={20} weight="fill" aria-hidden />
             Talk to a counsellor
           </button>
         </motion.div>

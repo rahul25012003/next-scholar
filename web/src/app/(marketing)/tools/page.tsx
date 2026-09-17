@@ -29,7 +29,7 @@ const tools = [
     title: "Requirements checklist",
     lede: "Your profile against every published requirement for a destination. Met, not met, or cannot tell, with the source on each row.",
     detail: "The honest version of the admission predictor everyone else ships. Three states, no score.",
-    tone: "bg-pastel-blue",
+    tone: "bg-blue-light",
   },
   {
     href: "/tools/cost-of-living",
@@ -37,7 +37,7 @@ const tools = [
     title: "Cost of living calculator",
     lede: "A year in Munich, Berlin, London, Dublin or five other cities, broken into line items you can edit.",
     detail: "Add your own tuition and funds figures to see the first year whole, gap or surplus included.",
-    tone: "bg-pastel-mint",
+    tone: "bg-blue-light",
   },
   {
     href: "/tools/german-grade-calculator",
@@ -45,7 +45,7 @@ const tools = [
     title: "German grade calculator",
     lede: "Your CGPA or percentage on the German 1.0 to 4.0 scale, using the Modified Bavarian Formula.",
     detail: "Shows the formula, your numbers substituted into it, and every intermediate step.",
-    tone: "bg-pastel-peach",
+    tone: "bg-blue-light",
   },
   {
     href: "/tools/ects-check",
@@ -53,7 +53,7 @@ const tools = [
     title: "ECTS credit check",
     lede: "Total, core subject and mathematics credits against a programme's stated requirements, and each gap.",
     detail: "This is how German Master's admission is actually decided, and it is almost never published.",
-    tone: "bg-pastel-lilac",
+    tone: "bg-blue-light",
   },
   {
     href: "/tools/ielts-band-calculator",
@@ -61,7 +61,7 @@ const tools = [
     title: "IELTS band calculator",
     lede: "Four section scores to an overall band, with the half-band rounding rule shown, plus the per-section check.",
     detail: "The per-section minimum is where a good overall band still fails a language condition.",
-    tone: "bg-pastel-rose",
+    tone: "bg-blue-light",
   },
   {
     href: "/tools/grade-converter",
@@ -69,7 +69,7 @@ const tools = [
     title: "Grade converters",
     lede: "CGPA to percentage, percentage to GPA on three scales, SGPA to CGPA credit weighted, and four more.",
     detail: "Each one names the convention it rests on rather than presenting it as a standard.",
-    tone: "bg-pastel-blue",
+    tone: "bg-blue-light",
   },
   {
     href: "/tools/english-tests",
@@ -77,7 +77,7 @@ const tools = [
     title: "English test comparison",
     lede: "IELTS, TOEFL iBT, PTE Academic and the Duolingo English Test, side by side on scale, format and UK visa status.",
     detail: "No score converts between them here. A concordance table looks precise and is not.",
-    tone: "bg-pastel-mint",
+    tone: "bg-blue-light",
   },
 ];
 
@@ -111,9 +111,9 @@ export default function ToolsPage() {
         title="Seven tools, none of them behind a form"
         lede="These exist because the questions they answer are answerable, and because the industry standard is to answer them only after collecting a phone number. Every one shows its arithmetic, names its source, and states what it does not decide."
         aside={
-          <div className="rounded-panel border border-line bg-paper p-6 shadow-card">
-            <p className="text-[0.8125rem] font-semibold text-navy-900">The rules they share</p>
-            <ul className="mt-3 space-y-2 text-[0.875rem] leading-relaxed text-body">
+          <div className="rounded-panel border border-line bg-white p-6">
+            <p className="text-[0.8125rem] font-semibold text-blue-dark">The rules they share</p>
+            <ul className="mt-3 space-y-2 text-[0.875rem] leading-relaxed text-grey">
               <li>No signup, ever, for any result</li>
               <li>The working shown, not just the answer</li>
               <li>The source named on every figure</li>
@@ -125,7 +125,7 @@ export default function ToolsPage() {
         }
       />
 
-      <section className="band bg-paper">
+      <section className="band">
         <div className="shell grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {tools.map((tool, index) => {
             const Icon = tool.icon;
@@ -133,22 +133,22 @@ export default function ToolsPage() {
               <Reveal key={tool.href} delay={staggerDelay(index, 0.05)}>
                 <Link
                   href={tool.href}
-                  className="card-lift group flex h-full flex-col rounded-panel border border-line bg-paper p-7 shadow-card"
+                  className=" group flex h-full flex-col rounded-panel border border-line bg-white p-7"
                 >
                   <span
                     aria-hidden
                     className={`grid h-11 w-11 place-items-center rounded-input ${tool.tone}`}
                   >
-                    <Icon size={22} className="text-navy-900" />
+                    <Icon size={22} className="text-blue-dark" />
                   </span>
-                  <h2 className="mt-5 font-display text-[1.125rem] font-bold text-navy-900">
+                  <h2 className="mt-5 text-blue-dark h--5">
                     {tool.title}
                   </h2>
-                  <p className="mt-3 text-[0.9375rem] leading-relaxed text-body">{tool.lede}</p>
-                  <p className="mt-3 flex-1 text-[0.875rem] leading-relaxed text-muted">
+                  <p className="mt-3 text-[0.9375rem] leading-relaxed text-grey">{tool.lede}</p>
+                  <p className="mt-3 flex-1 text-[0.875rem] leading-relaxed text-grey">
                     {tool.detail}
                   </p>
-                  <span className="mt-5 inline-flex items-center gap-2 text-[0.9375rem] font-medium text-blue-600">
+                  <span className="mt-5 inline-flex items-center gap-2 text-[0.9375rem] font-medium text-pink">
                     Open it
                     <ArrowRight
                       size={15}
@@ -164,9 +164,9 @@ export default function ToolsPage() {
         </div>
       </section>
 
-      <section className="band bg-surface">
+      <section className="band">
         <div className="shell max-w-3xl">
-          <h2 className="font-display text-3xl font-bold text-navy-900 md:text-[2.25rem]">
+          <h2 className="text-blue-dark">
             Asked about the tools
           </h2>
           <div className="mt-8">

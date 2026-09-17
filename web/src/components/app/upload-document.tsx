@@ -29,8 +29,8 @@ export function UploadDocument({ caseId }: { caseId: string }) {
   return (
     <form action={formAction} className="border-t border-line px-6 py-5">
       <input type="hidden" name="caseId" value={caseId} />
-      <h3 className="text-[0.9375rem] font-medium text-navy-900">Add a document</h3>
-      <p className="mt-1 text-[0.8125rem] leading-relaxed text-muted">
+      <h3 className="text-blue-dark h--6">Add a document</h3>
+      <p className="mt-1 text-[0.8125rem] leading-relaxed text-grey">
         Consent for the category, an allowlisted file type, a size ceiling and a
         malware scan. All four, or it is not stored.
       </p>
@@ -48,7 +48,7 @@ export function UploadDocument({ caseId }: { caseId: string }) {
           type="file"
           name="file"
           accept=".pdf,.jpg,.jpeg,.png"
-          className={`${fieldClass} file:mr-3 file:rounded-full file:border-0 file:bg-surface file:px-3 file:py-1 file:text-[0.8125rem] file:text-navy-900`}
+          className={`${fieldClass} file:mr-3 file:rounded-full file:border-0 file:bg-light file:px-3 file:py-1 file:text-[0.8125rem] file:text-blue-dark`}
           aria-label="File"
         />
       </div>
@@ -65,10 +65,10 @@ export function UploadDocument({ caseId }: { caseId: string }) {
         >
           <Prohibit size={17} weight="bold" className="mt-0.5 shrink-0 text-pending" aria-hidden />
           <div>
-            <p className="text-[0.875rem] font-medium text-navy-900">
+            <p className="text-[0.875rem] font-medium text-blue-dark">
               Refused at the {state.blocker} check
             </p>
-            <p className="mt-1 text-[0.875rem] leading-relaxed text-ink-soft">
+            <p className="mt-1 text-[0.875rem] leading-relaxed text-grey">
               {state.reason}
             </p>
           </div>
@@ -76,7 +76,7 @@ export function UploadDocument({ caseId }: { caseId: string }) {
       )}
 
       {(state.status === "accepted" || state.status === "error") && (
-        <p className="mt-3 text-[0.875rem] leading-relaxed text-ink-soft" role="status">
+        <p className="mt-3 text-[0.875rem] leading-relaxed text-grey" role="status">
           {state.message}
         </p>
       )}

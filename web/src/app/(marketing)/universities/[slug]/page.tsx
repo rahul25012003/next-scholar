@@ -56,11 +56,11 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
 
   return (
     <>
-      <section className="border-b border-line bg-surface">
-        <div className="shell py-10 md:py-14">
+      <section className="band">
+        <div className="shell">
           <Link
             href="/universities"
-            className="text-[0.875rem] font-medium text-blue-600 hover:text-blue-500"
+            className="text-[0.875rem] font-medium text-pink hover:text-blue"
           >
             All courses
           </Link>
@@ -68,16 +68,16 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
           <div className="mt-5 flex flex-wrap items-start gap-5">
             <span
               aria-hidden
-              className="figures grid h-16 w-16 shrink-0 place-items-center rounded-card bg-blue-100 text-[1rem] font-bold text-navy-900"
+              className="figures grid h-16 w-16 shrink-0 place-items-center rounded-card bg-blue-light font-bold text-blue-dark"
             >
               {university.initials}
             </span>
             <div className="min-w-0 flex-1">
-              <h1 className="font-display text-[1.875rem] font-extrabold leading-tight tracking-[-0.03em] text-navy-900 md:text-[2.5rem]">
+              <h1 className="text-blue-dark">
                 {university.name}
               </h1>
-              <p className="mt-2 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[0.9375rem] text-body">
-                <MapPin size={15} weight="fill" aria-hidden className="text-muted" />
+              <p className="mt-2 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[0.9375rem] text-grey">
+                <MapPin size={15} weight="fill" aria-hidden className="text-grey" />
                 {university.city}
                 <Image
                   src={`https://flagcdn.com/w40/${university.flagCode}.png`}
@@ -95,7 +95,7 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                 </span>
                 {university.route}
               </p>
-              <p className="mt-4 max-w-3xl text-[1rem] leading-relaxed text-body">
+              <p className="mt-4 max-w-3xl leading-relaxed text-grey">
                 {university.summary}
               </p>
               <div className="mt-5">
@@ -108,7 +108,7 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
 
       <nav
         aria-label="University sections"
-        className="sticky top-18 z-20 border-b border-line bg-paper/95 backdrop-blur-md"
+        className="sticky top-18 z-20 border-b border-line bg-white/95"
       >
         <div className="shell flex gap-1 overflow-x-auto">
           {tabs.map((tab) => (
@@ -120,8 +120,8 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
               className={cn(
                 "whitespace-nowrap border-b-2 px-4 py-3.5 text-[0.9375rem] font-medium transition-colors",
                 tab.key === active
-                  ? "border-blue-600 text-blue-600"
-                  : "border-transparent text-ink-soft hover:text-navy-900",
+                  ? "border-blue-dark text-pink"
+                  : "border-transparent text-grey hover:text-blue-dark",
               )}
             >
               {tab.label}
@@ -130,16 +130,16 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
         </div>
       </nav>
 
-      <section className="bg-paper py-10 md:py-14">
+      <section className="band">
         <div className="shell grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
           <div className="min-w-0">
             {active === "overview" && (
               <div className="space-y-8">
                 <div>
-                  <h2 className="font-display text-[1.375rem] font-bold text-navy-900">
+                  <h2 className="text-blue-dark">
                     The institution
                   </h2>
-                  <dl className="mt-4 divide-y divide-line rounded-panel border border-line bg-paper px-6">
+                  <dl className="mt-4 divide-y divide-line rounded-panel border border-line bg-white px-6">
                     <FieldRow
                       label="Established"
                       field={university.highlights.established}
@@ -172,19 +172,19 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                 </div>
 
                 <div>
-                  <h2 className="font-display text-[1.375rem] font-bold text-navy-900">
+                  <h2 className="text-blue-dark">
                     Tuition position
                   </h2>
-                  <div className="mt-4 rounded-panel border border-line bg-paper p-6">
+                  <div className="mt-4 rounded-panel border border-line bg-white p-6">
                     <FieldValue field={university.tuitionNote} />
                   </div>
                 </div>
 
                 <div>
-                  <h2 className="font-display text-[1.375rem] font-bold text-navy-900">
+                  <h2 className="text-blue-dark">
                     What we have not checked
                   </h2>
-                  <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-body">
+                  <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
                     Listed rather than left as a gap for you to discover. A catalogue that
                     only prints what it knows looks more complete than it is.
                   </p>
@@ -192,7 +192,7 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                     {university.notChecked.map((line) => (
                       <li
                         key={line}
-                        className="flex gap-2.5 text-[0.9375rem] leading-relaxed text-body"
+                        className="flex gap-2.5 text-[0.9375rem] leading-relaxed text-grey"
                       >
                         <span
                           aria-hidden
@@ -209,36 +209,36 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
             {active === "admissions" && (
               <div className="space-y-8">
                 <div>
-                  <h2 className="font-display text-[1.375rem] font-bold text-navy-900">
+                  <h2 className="text-blue-dark">
                     Exam requirements
                   </h2>
-                  <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-body">
+                  <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
                     Split by level, because they differ and a single figure hides that.
                     &ldquo;Not required&rdquo; is an explicit answer here, and it is
                     different from an answer we do not have.
                   </p>
-                  <div className="mt-4 overflow-x-auto rounded-panel border border-line bg-paper">
+                  <div className="mt-4 overflow-x-auto rounded-panel border border-line bg-white">
                     <table className="w-full min-w-[42rem] border-collapse text-left">
                       <caption className="sr-only">
                         Exam requirements at {university.name}, split by study level.
                       </caption>
                       <thead>
-                        <tr className="border-b border-line bg-surface">
+                        <tr className="border-b border-line bg-light">
                           <th
                             scope="col"
-                            className="px-5 py-3 text-[0.75rem] font-semibold text-navy-900"
+                            className="px-5 py-3 text-[0.75rem] font-semibold text-blue-dark"
                           >
                             Exam
                           </th>
                           <th
                             scope="col"
-                            className="px-5 py-3 text-[0.75rem] font-semibold text-navy-900"
+                            className="px-5 py-3 text-[0.75rem] font-semibold text-blue-dark"
                           >
                             Undergraduate
                           </th>
                           <th
                             scope="col"
-                            className="px-5 py-3 text-[0.75rem] font-semibold text-navy-900"
+                            className="px-5 py-3 text-[0.75rem] font-semibold text-blue-dark"
                           >
                             Postgraduate
                           </th>
@@ -249,7 +249,7 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                           <tr key={exam.exam} className="align-top">
                             <th
                               scope="row"
-                              className="px-5 py-4 text-[0.875rem] font-semibold text-navy-900"
+                              className="px-5 py-4 text-[0.875rem] font-semibold text-blue-dark"
                             >
                               {exam.exam}
                             </th>
@@ -267,18 +267,18 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                 </div>
 
                 {guide && (
-                  <div className="rounded-panel border border-line bg-surface p-6">
-                    <h2 className="font-display text-[1.125rem] font-bold text-navy-900">
+                  <div className="rounded-panel border border-line bg-light p-6">
+                    <h2 className="text-blue-dark h--5">
                       The rest of the {guide.country} route
                     </h2>
-                    <p className="mt-2 text-[0.9375rem] leading-relaxed text-body">
+                    <p className="mt-2 text-[0.9375rem] leading-relaxed text-grey">
                       An offer is one gate. The funding threshold, the visa document file,
                       the language certificate and the timeline are the others, and they are
                       set by the country rather than by this institution.
                     </p>
                     <Link
                       href={`/destinations/${guide.slug}`}
-                      className="group mt-4 inline-flex items-center gap-1.5 text-[0.9375rem] font-medium text-blue-600 hover:text-blue-500"
+                      className="group mt-4 inline-flex items-center gap-1.5 text-[0.9375rem] font-medium text-pink hover:text-blue"
                     >
                       The {guide.country} guide
                       <ArrowRight
@@ -295,39 +295,39 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
 
             {active === "rankings" && (
               <div>
-                <h2 className="font-display text-[1.375rem] font-bold text-navy-900">
+                <h2 className="text-blue-dark">
                   Rankings
                 </h2>
-                <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-body">
+                <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
                   Each one names the body that published it, the year, and what the rank is
                   within. None of these is ours, and none of them is a measure of whether a
                   programme is right for you.
                 </p>
                 {university.rankings.length === 0 ? (
-                  <div className="mt-4 rounded-panel border border-dashed border-line-strong bg-surface p-6">
-                    <p className="text-[0.9375rem] leading-relaxed text-body">
+                  <div className="mt-4 rounded-panel border border-dashed border-line-strong bg-light p-6">
+                    <p className="text-[0.9375rem] leading-relaxed text-grey">
                       No ranking is published here for this institution. It does not appear
                       in the world tables we would cite, and constructing a position from
                       something else would be inventing one.
                     </p>
                   </div>
                 ) : (
-                  <ul className="mt-4 divide-y divide-line rounded-panel border border-line bg-paper">
+                  <ul className="mt-4 divide-y divide-line rounded-panel border border-line bg-white">
                     {university.rankings.map((ranking) => (
                       <li key={`${ranking.body}-${ranking.year}-${ranking.scope}`} className="p-6">
-                        <p className="text-[0.9375rem] font-semibold text-navy-900">
+                        <p className="text-[0.9375rem] font-semibold text-blue-dark">
                           {ranking.rank}
                         </p>
-                        <p className="mt-1 text-[0.875rem] text-body">
+                        <p className="mt-1 text-[0.875rem] text-grey">
                           {ranking.body}, <span className="figures">{ranking.year}</span>.{" "}
                           {ranking.scope}.
                         </p>
-                        <p className="mt-1 text-[0.75rem] text-muted">Source: {ranking.source}</p>
+                        <p className="mt-1 text-[0.75rem] text-grey">Source: {ranking.source}</p>
                       </li>
                     ))}
                   </ul>
                 )}
-                <p className="mt-5 max-w-2xl text-[0.875rem] leading-relaxed text-muted">
+                <p className="mt-5 max-w-2xl text-[0.875rem] leading-relaxed text-grey">
                   Rankings are stated as bands rather than exact positions, because an exact
                   position moves every year and a stale one printed to the digit is more
                   misleading than a band that is still true.
@@ -337,10 +337,10 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
 
             {active === "courses" && (
               <div>
-                <h2 className="font-display text-[1.375rem] font-bold text-navy-900">
+                <h2 className="text-blue-dark">
                   Courses in this catalogue
                 </h2>
-                <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-body">
+                <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
                   Not every course this university runs. These are the ones we have read the
                   pages for, and a course being absent means we have not curated it rather
                   than that it does not exist.
@@ -349,13 +349,13 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                   {university.programmes.map((programme) => (
                     <article
                       key={programme.slug}
-                      className="rounded-panel border border-line bg-paper p-6"
+                      className="rounded-panel border border-line bg-white p-6"
                     >
                       <div className="flex flex-wrap items-start justify-between gap-4">
-                        <h3 className="font-display text-[1.0625rem] font-bold text-navy-900">
+                        <h3 className="text-blue-dark h--6">
                           <Link
                             href={`/universities/${university.slug}/${programme.slug}`}
-                            className="hover:text-blue-600"
+                            className="hover:text-pink"
                           >
                             {programme.name}
                           </Link>
@@ -368,29 +368,29 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                       </div>
                       <dl className="mt-4 grid gap-4 sm:grid-cols-3">
                         <div>
-                          <dt className="text-[0.75rem] text-muted">Tuition, per year</dt>
-                          <dd className="figures mt-0.5 text-[1rem] font-semibold text-navy-900">
+                          <dt className="text-[0.75rem] text-grey">Tuition, per year</dt>
+                          <dd className="figures mt-0.5 font-semibold text-blue-dark">
                             {programme.feePerYear.state === "stated"
                               ? formatFee(programme.feePerYear.value, programme.currency)
                               : "Not published here"}
                           </dd>
                         </div>
                         <div>
-                          <dt className="text-[0.75rem] text-muted">Duration</dt>
-                          <dd className="figures mt-0.5 text-[1rem] font-semibold text-navy-900">
+                          <dt className="text-[0.75rem] text-grey">Duration</dt>
+                          <dd className="figures mt-0.5 font-semibold text-blue-dark">
                             {programme.durationMonths} months
                           </dd>
                         </div>
                         <div>
-                          <dt className="text-[0.75rem] text-muted">Taught in</dt>
-                          <dd className="mt-0.5 text-[0.9375rem] text-navy-900">
+                          <dt className="text-[0.75rem] text-grey">Taught in</dt>
+                          <dd className="mt-0.5 text-[0.9375rem] text-blue-dark">
                             {programme.languageOfInstruction}
                           </dd>
                         </div>
                       </dl>
                       <Link
                         href={`/universities/${university.slug}/${programme.slug}`}
-                        className="group mt-4 inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-blue-600 hover:text-blue-500"
+                        className="group mt-4 inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue"
                       >
                         Intake table and entry requirements
                         <ArrowRight
@@ -408,8 +408,8 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
           </div>
 
           <aside className="grid gap-5 lg:sticky lg:top-32">
-            <div className="rounded-panel border border-line bg-paper p-6">
-              <h2 className="font-display text-[1rem] font-bold text-navy-900">
+            <div className="rounded-panel border border-line bg-white p-6">
+              <h2 className="text-blue-dark h--6">
                 What we earn here
               </h2>
               <div className="mt-3">
@@ -421,34 +421,34 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
             </div>
 
             {guide && (
-              <div className="rounded-panel border border-line bg-surface p-6">
-                <h2 className="font-display text-[1rem] font-bold text-navy-900">
+              <div className="rounded-panel border border-line bg-light p-6">
+                <h2 className="text-blue-dark h--6">
                   Cost of living, {university.city}
                 </h2>
-                <p className="mt-2 text-[0.875rem] leading-relaxed text-body">
+                <p className="mt-2 text-[0.875rem] leading-relaxed text-grey">
                   Line-itemised and editable, with every range attributed to the body that
                   publishes it. Ungated, like every tool here.
                 </p>
                 <Link
                   href={`/tools/cost-of-living?destination=${guide.slug}`}
-                  className="mt-3 inline-block text-[0.875rem] font-medium text-blue-600 hover:text-blue-500"
+                  className="mt-3 inline-block text-[0.875rem] font-medium text-pink hover:text-blue"
                 >
                   Work out the year
                 </Link>
               </div>
             )}
 
-            <div className="rounded-panel border border-line bg-surface p-6">
-              <h2 className="font-display text-[1rem] font-bold text-navy-900">
+            <div className="rounded-panel border border-line bg-light p-6">
+              <h2 className="text-blue-dark h--6">
                 Check yourself against the route
               </h2>
-              <p className="mt-2 text-[0.875rem] leading-relaxed text-body">
+              <p className="mt-2 text-[0.875rem] leading-relaxed text-grey">
                 Met, not met, or cannot tell, against every published requirement. No score
                 and no probability of admission.
               </p>
               <Link
                 href={`/tools/requirements-check?destination=${university.destination}`}
-                className="mt-3 inline-block text-[0.875rem] font-medium text-blue-600 hover:text-blue-500"
+                className="mt-3 inline-block text-[0.875rem] font-medium text-pink hover:text-blue"
               >
                 Run the checklist
               </Link>

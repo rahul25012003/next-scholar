@@ -70,28 +70,28 @@ export default async function StagePage(props: PageProps<"/process/[stage]">) {
         lede={stage.summary}
       />
 
-      <section className="band bg-paper">
+      <section className="band">
         <div className="shell max-w-3xl">
           <Link
             href="/#process"
-            className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-blue-600 hover:text-blue-500"
+            className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue"
           >
             <ArrowLeft size={14} weight="bold" aria-hidden />
             All eleven stages
           </Link>
 
-          <div className="mt-8 rounded-panel border border-line bg-surface p-6 md:p-7">
-            <h2 className="text-[0.75rem] font-semibold uppercase tracking-wide text-muted">
+          <div className="mt-8 rounded-panel border border-line bg-light p-6 md:p-7">
+            <h2 className="eyebrow text-grey">
               What you receive
             </h2>
-            <p className="mt-2 text-[1.0625rem] leading-relaxed text-navy-900">
+            <p className="mt-2 leading-relaxed text-blue-dark">
               {stage.deliverable}
             </p>
           </div>
 
           {links.length > 0 && (
             <div className="mt-8">
-              <h2 className="text-[0.75rem] font-semibold uppercase tracking-wide text-muted">
+              <h2 className="eyebrow text-grey">
                 Related on this site
               </h2>
               <ul className="mt-3 flex flex-wrap gap-2.5">
@@ -99,7 +99,7 @@ export default async function StagePage(props: PageProps<"/process/[stage]">) {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="inline-flex items-center rounded-full border border-line-strong bg-paper px-4 py-2 text-[0.8125rem] font-medium text-navy-900 transition-colors hover:border-blue-600 hover:text-blue-600"
+                      className="button button--light"
                     >
                       {link.label}
                     </Link>
@@ -120,11 +120,11 @@ export default async function StagePage(props: PageProps<"/process/[stage]">) {
             {previous ? (
               <Link
                 href={`/process/${previous.key}`}
-                className="group flex items-center gap-2 text-[0.9375rem] font-medium text-navy-900 hover:text-blue-600"
+                className="group flex items-center gap-2 text-[0.9375rem] font-medium text-blue-dark hover:text-pink"
               >
                 <ArrowLeft size={15} weight="bold" aria-hidden />
                 <span>
-                  <span className="block text-[0.75rem] text-muted">Before this</span>
+                  <span className="block text-[0.75rem] text-grey">Before this</span>
                   {previous.name}
                 </span>
               </Link>
@@ -134,10 +134,10 @@ export default async function StagePage(props: PageProps<"/process/[stage]">) {
             {next ? (
               <Link
                 href={`/process/${next.key}`}
-                className="group flex items-center gap-2 text-right text-[0.9375rem] font-medium text-navy-900 hover:text-blue-600"
+                className="group flex items-center gap-2 text-right text-[0.9375rem] font-medium text-blue-dark hover:text-pink"
               >
                 <span>
-                  <span className="block text-[0.75rem] text-muted">After this</span>
+                  <span className="block text-[0.75rem] text-grey">After this</span>
                   {next.name}
                 </span>
                 <ArrowRight size={15} weight="bold" aria-hidden />

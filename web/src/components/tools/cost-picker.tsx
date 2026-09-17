@@ -17,7 +17,7 @@ export function CostOfLivingPicker({ initialDestination }: { initialDestination?
   return (
     <div className="space-y-7">
       <fieldset>
-        <legend className="text-[0.8125rem] font-semibold uppercase tracking-wide text-muted">
+        <legend className="eyebrow text-grey">
           Destination
         </legend>
         <div className="mt-3 flex flex-wrap gap-2">
@@ -28,10 +28,10 @@ export function CostOfLivingPicker({ initialDestination }: { initialDestination?
               onClick={() => setSlug(option.slug)}
               aria-pressed={option.slug === slug}
               className={cn(
-                "rounded-full border px-4 py-2 text-[0.9375rem] font-medium transition-colors",
+                "button",
                 option.slug === slug
-                  ? "border-blue-600 bg-blue-600 text-white"
-                  : "border-line-strong bg-paper text-navy-900 hover:border-blue-600 hover:text-blue-600",
+                  ? "button--selected"
+                  : "button--light",
               )}
             >
               {option.country}

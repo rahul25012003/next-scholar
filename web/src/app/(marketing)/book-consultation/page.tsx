@@ -21,18 +21,18 @@ export default function BookConsultationPage() {
         lede="Forty five minutes, structured around six questions. Within 24 hours you get a written assessment with two or three ranked destinations, the reasoning, and the risks attached to each."
         aside={
           <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-panel border border-line bg-line">
-            <div className="bg-paper p-5">
-              <dt className="text-[0.8125rem] text-muted">Length</dt>
-              <dd className="figures mt-1.5 text-[1.375rem] font-semibold text-navy-900">
+            <div className="bg-white p-5">
+              <dt className="text-[0.8125rem] text-grey">Length</dt>
+              <dd className="figures mt-1.5 text-[1.375rem] font-semibold text-blue-dark">
                 {consultation.duration}
               </dd>
             </div>
-            <div className="bg-paper p-5">
-              <dt className="text-[0.8125rem] text-muted">Fee</dt>
-              <dd className="figures mt-1.5 text-[1.375rem] font-semibold text-navy-900">
+            <div className="bg-white p-5">
+              <dt className="text-[0.8125rem] text-grey">Fee</dt>
+              <dd className="figures mt-1.5 text-[1.375rem] font-semibold text-blue-dark">
                 {consultation.price}
               </dd>
-              <dd className="mt-1.5 text-[0.75rem] leading-snug text-muted">
+              <dd className="mt-1.5 text-[0.75rem] leading-snug text-grey">
                 {consultation.creditNote}
               </dd>
             </div>
@@ -40,17 +40,17 @@ export default function BookConsultationPage() {
         }
       />
 
-      <section className="band bg-paper">
+      <section className="band">
         <div className="shell grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <div className="rounded-panel border border-blue-600/20 bg-blue-50/60 p-6">
+            <div className="rounded-panel border border-blue-dark/20 bg-light/60 p-6">
               <div className="flex items-start gap-3">
-                <Info size={20} weight="fill" className="mt-0.5 shrink-0 text-blue-600" aria-hidden />
+                <Info size={20} weight="fill" className="mt-0.5 shrink-0 text-pink" aria-hidden />
                 <div>
-                  <h2 className="font-display text-[1.0625rem] font-bold text-navy-900">
+                  <h2 className="text-blue-dark h--6">
                     This form cannot book you a slot yet
                   </h2>
-                  <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-soft">
+                  <p className="mt-2 text-[0.9375rem] leading-relaxed text-grey">
                     Scheduling and payment are not connected, and no personal
                     detail is stored anywhere until the data protection work is
                     finished. Fill this in to see the questions the call will
@@ -58,7 +58,7 @@ export default function BookConsultationPage() {
                   </p>
                   <ul className="mt-4 space-y-1.5">
                     {bookingIntegration.needed.map((item) => (
-                      <li key={item} className="text-[0.8125rem] leading-relaxed text-body">
+                      <li key={item} className="text-[0.8125rem] leading-relaxed text-grey">
                         {item}
                       </li>
                     ))}
@@ -68,23 +68,23 @@ export default function BookConsultationPage() {
             </div>
 
             <div className="mt-8">
-              <h2 className="font-display text-[1.25rem] font-bold text-navy-900">
+              <h2 className="text-blue-dark h--5">
                 What the call produces
               </h2>
-              <p className="mt-3 text-[0.9375rem] leading-relaxed text-body">
+              <p className="mt-3 text-[0.9375rem] leading-relaxed text-grey">
                 {consultationStage.deliverable}
               </p>
-              <p className="mt-4 text-[0.9375rem] leading-relaxed text-body">
+              <p className="mt-4 text-[0.9375rem] leading-relaxed text-grey">
                 {consultation.includesUncomfortable}
               </p>
             </div>
           </div>
 
           <div>
-            <h2 className="font-display text-[1.5rem] font-bold text-navy-900">
+            <h2 className="text-blue-dark">
               The six questions
             </h2>
-            <p className="mt-3 text-[0.9375rem] leading-relaxed text-body">
+            <p className="mt-3 text-[0.9375rem] leading-relaxed text-grey">
               Asked in this order, on the call and here. The last one matters
               more than it looks.
             </p>

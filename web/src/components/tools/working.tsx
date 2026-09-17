@@ -25,17 +25,17 @@ export function ResultPanel({
   headline?: string;
 }) {
   return (
-    <div className="overflow-hidden rounded-panel border border-line bg-paper">
-      <div className="flex flex-wrap items-end justify-between gap-6 border-b border-line bg-surface p-6 md:p-7">
+    <div className="overflow-hidden rounded-panel border border-line bg-white">
+      <div className="flex flex-wrap items-end justify-between gap-6 border-b border-line bg-light p-6 md:p-7">
         <div>
-          <p className="text-[0.8125rem] font-semibold uppercase tracking-wide text-muted">
+          <p className="eyebrow text-grey">
             {label}
           </p>
-          <p className="figures mt-2 text-[2.5rem] font-bold leading-none text-navy-900">
+          <p className="figures mt-2 text-[2.5rem] font-bold leading-none text-blue-dark">
             {conversion.display}
           </p>
           {headline && (
-            <p className="mt-2 text-[0.9375rem] font-medium text-blue-600">{headline}</p>
+            <p className="mt-2 text-[0.9375rem] font-medium text-pink">{headline}</p>
           )}
         </div>
         <CopyWorking working={conversion.working} />
@@ -49,19 +49,19 @@ export function ResultPanel({
       )}
 
       <div className="p-6 md:p-7">
-        <h3 className="text-[0.8125rem] font-semibold uppercase tracking-wide text-muted">
+        <h3 className="eyebrow text-grey">
           The arithmetic, on your numbers
         </h3>
         <dl className="mt-4 space-y-3">
           <div>
-            <dt className="text-[0.8125rem] text-muted">The formula</dt>
-            <dd className="figures mt-1 text-[0.9375rem] text-navy-900">
+            <dt className="text-[0.8125rem] text-grey">The formula</dt>
+            <dd className="figures mt-1 text-[0.9375rem] text-blue-dark">
               {conversion.working.formula}
             </dd>
           </div>
           <div>
-            <dt className="text-[0.8125rem] text-muted">With your figures in it</dt>
-            <dd className="figures mt-1 text-[0.9375rem] font-medium text-navy-900">
+            <dt className="text-[0.8125rem] text-grey">With your figures in it</dt>
+            <dd className="figures mt-1 text-[0.9375rem] font-medium text-blue-dark">
               {conversion.working.substituted}
             </dd>
           </div>
@@ -72,32 +72,32 @@ export function ResultPanel({
             <li key={index} className="flex gap-3">
               <span
                 aria-hidden
-                className="figures mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-surface-2 text-[0.6875rem] font-semibold text-neutral-chip"
+                className="figures mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-light text-[0.6875rem] font-semibold text-neutral-chip"
               >
                 {index + 1}
               </span>
-              <span className="figures text-[0.9375rem] leading-relaxed text-body">{step}</span>
+              <span className="figures text-[0.9375rem] leading-relaxed text-grey">{step}</span>
             </li>
           ))}
         </ol>
 
-        <p className="figures mt-5 rounded-card bg-blue-50 px-5 py-4 text-[0.9375rem] font-medium text-navy-900">
+        <p className="figures mt-5 rounded-card bg-light px-5 py-4 text-[0.9375rem] font-medium text-blue-dark">
           {conversion.working.result}
         </p>
       </div>
 
-      <div className="border-t border-line bg-surface p-6 md:p-7">
-        <p className="text-[0.875rem] leading-relaxed text-body">
-          <span className="font-semibold text-navy-900">Source.</span> {conversion.source}
+      <div className="border-t border-line bg-light p-6 md:p-7">
+        <p className="text-[0.875rem] leading-relaxed text-grey">
+          <span className="font-semibold text-blue-dark">Source.</span> {conversion.source}
         </p>
-        <h3 className="mt-5 text-[0.8125rem] font-semibold uppercase tracking-wide text-muted">
+        <h3 className="mt-5 eyebrow text-grey">
           What this does not decide
         </h3>
         <ul className="mt-3 space-y-2">
           {conversion.limits.map((limit) => (
             <li
               key={limit}
-              className="flex gap-2.5 text-[0.875rem] leading-relaxed text-body"
+              className="flex gap-2.5 text-[0.875rem] leading-relaxed text-grey"
             >
               <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-line-strong" />
               {limit}
@@ -182,8 +182,8 @@ export function NumberField({
 }) {
   return (
     <label className="block">
-      <span className="block text-[0.875rem] font-medium text-navy-900">{label}</span>
-      {hint && <span className="mt-0.5 block text-[0.8125rem] leading-snug text-muted">{hint}</span>}
+      <span className="block text-[0.875rem] font-medium text-blue-dark">{label}</span>
+      {hint && <span className="mt-0.5 block text-[0.8125rem] leading-snug text-grey">{hint}</span>}
       <span className="mt-2 flex items-center gap-2">
         <input
           type="number"
@@ -193,9 +193,9 @@ export function NumberField({
           max={max}
           step={step}
           onChange={(event) => onChange(event.target.value)}
-          className="figures w-full rounded-input border border-line-strong bg-paper px-3.5 py-2.5 text-[1rem] text-navy-900 placeholder:text-muted"
+          className="figures w-full rounded-card border border-line-strong bg-white px-3.5 py-2.5 text-blue-dark placeholder:text-grey"
         />
-        {suffix && <span className="shrink-0 text-[0.875rem] text-muted">{suffix}</span>}
+        {suffix && <span className="shrink-0 text-[0.875rem] text-grey">{suffix}</span>}
       </span>
     </label>
   );

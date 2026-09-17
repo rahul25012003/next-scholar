@@ -48,24 +48,24 @@ export default async function ArticlePage(props: PageProps<"/guides/[slug]">) {
   return (
     <>
       <article>
-        <header className="border-b border-line bg-surface">
-          <div className="shell max-w-3xl py-10 md:py-14">
+        <header className="border-b border-line bg-light">
+          <div className="shell max-w-3xl">
             <Link
               href="/guides"
-              className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-blue-600 hover:text-blue-500"
+              className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue"
             >
               <ArrowLeft size={14} weight="bold" aria-hidden />
               All guides
             </Link>
 
-            <h1 className="mt-5 font-display text-[2rem] font-extrabold leading-[1.12] tracking-[-0.03em] text-navy-900 md:text-[2.75rem]">
+            <h1 className="mt-5 text-blue-dark">
               {article.title}
             </h1>
-            <p className="mt-5 text-[1.125rem] leading-relaxed text-body">
+            <p className="mt-5 text-[1.125rem] leading-relaxed text-grey">
               {article.standfirst}
             </p>
 
-            <div className="mt-7 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-line pt-5 text-[0.8125rem] text-muted">
+            <div className="mt-7 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-line pt-5 text-[0.8125rem] text-grey">
               <span className="inline-flex items-center gap-1.5">
                 <Clock size={13} weight="bold" aria-hidden />
                 {readMinutes(article)} min read
@@ -86,28 +86,28 @@ export default async function ArticlePage(props: PageProps<"/guides/[slug]">) {
           </div>
         </header>
 
-        <div className="shell max-w-3xl py-10 md:py-14">
+        <div className="shell max-w-3xl">
           <div className="space-y-6">
             {article.body.map((block, index) => {
               let content: ReactNode;
               if ("h" in block) {
                 content = (
-                  <h2 className="pt-4 font-display text-[1.375rem] font-bold text-navy-900 md:text-[1.5rem]">
+                  <h2 className="pt-4 text-blue-dark">
                     {block.h}
                   </h2>
                 );
               } else if ("p" in block) {
                 content = (
-                  <p className="text-[1.0625rem] leading-relaxed text-body">{block.p}</p>
+                  <p className=" leading-relaxed text-grey">{block.p}</p>
                 );
               } else if ("note" in block) {
                 content = (
-                  <p className="flex gap-3.5 rounded-card border border-line bg-surface p-5 text-[1rem] leading-relaxed text-body">
+                  <p className="flex gap-3.5 rounded-card border border-line bg-light p-5 leading-relaxed text-grey">
                     <Info
                       size={18}
                       weight="fill"
                       aria-hidden
-                      className="mt-0.5 shrink-0 text-blue-600"
+                      className="mt-0.5 shrink-0 text-pink"
                     />
                     {block.note}
                   </p>
@@ -116,10 +116,10 @@ export default async function ArticlePage(props: PageProps<"/guides/[slug]">) {
                 content = (
                   <ul className="space-y-2.5">
                     {block.list.map((item) => (
-                      <li key={item} className="flex gap-3 text-[1.0625rem] leading-relaxed text-body">
+                      <li key={item} className="flex gap-3 leading-relaxed text-grey">
                         <span
                           aria-hidden
-                          className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-600"
+                          className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-dark"
                         />
                         {item}
                       </li>
@@ -136,8 +136,8 @@ export default async function ArticlePage(props: PageProps<"/guides/[slug]">) {
               return (
                 <Fragment key={index}>
                   {showWidget && (
-                    <div className="flex flex-wrap items-center justify-between gap-4 rounded-card border border-blue-600/20 bg-blue-50/60 p-5">
-                      <p className="text-[0.9375rem] leading-relaxed text-navy-900">
+                    <div className="flex flex-wrap items-center justify-between gap-4 rounded-card border border-blue-dark/20 bg-light/60 p-5">
+                      <p className="text-[0.9375rem] leading-relaxed text-blue-dark">
                         {guide
                           ? `Check your own profile against ${guide.country}'s published requirements.`
                           : "Check your own profile against a published requirement, in your browser."}
@@ -160,11 +160,11 @@ export default async function ArticlePage(props: PageProps<"/guides/[slug]">) {
             })}
           </div>
 
-          <div className="mt-12 rounded-panel border border-line bg-surface p-7">
-            <h2 className="font-display text-[1.125rem] font-bold text-navy-900">
+          <div className="mt-12 rounded-panel border border-line bg-light p-7">
+            <h2 className="text-blue-dark h--5">
               Every figure in this piece is on one page
             </h2>
-            <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-body">
+            <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-grey">
               With the official body it came from, the date it was written down, and
               whether a named person has since re-checked it. That count is currently zero
               and the page says so.
@@ -172,14 +172,14 @@ export default async function ArticlePage(props: PageProps<"/guides/[slug]">) {
             <div className="mt-5 flex flex-wrap gap-4 text-[0.9375rem]">
               <Link
                 href="/our-numbers"
-                className="font-medium text-blue-600 hover:text-blue-500"
+                className="font-medium text-pink hover:text-blue"
               >
                 Our numbers, one source
               </Link>
               {guide && (
                 <Link
                   href={`/destinations/${guide.slug}`}
-                  className="font-medium text-blue-600 hover:text-blue-500"
+                  className="font-medium text-pink hover:text-blue"
                 >
                   The full {guide.country} guide
                 </Link>
@@ -189,7 +189,7 @@ export default async function ArticlePage(props: PageProps<"/guides/[slug]">) {
 
           {related.length > 0 && (
             <nav aria-label="Related guides" className="mt-12 border-t border-line pt-8">
-              <h2 className="text-[0.75rem] font-semibold uppercase tracking-wide text-muted">
+              <h2 className="eyebrow text-grey">
                 Related
               </h2>
               <ul className="mt-4 grid gap-4">
@@ -197,13 +197,13 @@ export default async function ArticlePage(props: PageProps<"/guides/[slug]">) {
                   <li key={other.slug}>
                     <Link
                       href={`/guides/${other.slug}`}
-                      className="group flex items-start justify-between gap-5 rounded-card border border-line bg-paper p-5 transition-[border-color,box-shadow] hover:border-blue-600 hover:shadow-card"
+                      className="group flex items-start justify-between gap-5 rounded-card border border-line bg-white p-5 transition-[border-color,box-shadow] hover:border-pink hover:"
                     >
                       <span>
-                        <span className="block text-[0.9375rem] font-semibold text-navy-900">
+                        <span className="block text-[0.9375rem] font-semibold text-blue-dark">
                           {other.title}
                         </span>
-                        <span className="mt-1 block text-[0.8125rem] text-muted">
+                        <span className="mt-1 block text-[0.8125rem] text-grey">
                           {readMinutes(other)} min read · {destinationLabel[other.destination]}
                         </span>
                       </span>
@@ -211,7 +211,7 @@ export default async function ArticlePage(props: PageProps<"/guides/[slug]">) {
                         size={16}
                         weight="bold"
                         aria-hidden
-                        className="mt-1 shrink-0 text-muted transition-[color,transform] group-hover:translate-x-0.5 group-hover:text-blue-600"
+                        className="mt-1 shrink-0 text-grey transition-[color,transform] group-hover:translate-x-0.5 group-hover:text-pink"
                       />
                     </Link>
                   </li>

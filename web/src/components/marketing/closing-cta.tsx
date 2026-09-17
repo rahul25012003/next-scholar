@@ -1,37 +1,34 @@
 import { ButtonLink } from "@/components/ui/button";
+import { ExplodeBurst } from "@/components/ui/explode-burst";
 import { bookingIntegration, consultation } from "@/content/consultation";
 import { primaryCta } from "@/content/site";
 
+/**
+ * The reference's ticket slat: centred light type on the ground, and the one
+ * pink button on the page, with the burst behind it.
+ */
 export function ClosingCta() {
   return (
-    <section className="band bg-paper">
-      <div className="shell">
-        <div className="grid gap-10 rounded-panel border border-line bg-surface px-7 py-11 md:px-12 md:py-14 lg:grid-cols-[1.2fr_1fr] lg:items-center lg:gap-16">
-          <div>
-            <h2 className="font-display text-3xl font-bold text-navy-900 md:text-[2.25rem]">
-              Start with 45 paid minutes
-            </h2>
-            <p className="mt-5 max-w-xl text-[1.0625rem] leading-relaxed text-body">
-              {consultation.price} for the call, {consultation.creditNote.toLowerCase()}{" "}
-              {consultation.promise}
-            </p>
-            <p className="mt-4 max-w-xl text-[0.9375rem] leading-relaxed text-muted">
-              {consultation.includesUncomfortable}
-            </p>
-          </div>
-
-          <div className="lg:justify-self-end">
-            <ButtonLink href={primaryCta.href} size="lg" className="w-full sm:w-auto">
-              {primaryCta.label}
-            </ButtonLink>
-            {!bookingIntegration.live && (
-              <p className="mt-4 max-w-xs text-[0.8125rem] leading-relaxed text-muted">
-                Scheduling and payment are not connected yet. The form records
-                your request and answers, and says so on the page.
-              </p>
-            )}
-          </div>
+    <section className="Ticket-slat constrain constrain--mid pad-around-lg text-light bg-none">
+      <div className="Ticket-slat__inner center text-constrain u-center pad-x flow flow--lg">
+        <h2 className="h h--3 text-light">Start with 45 paid minutes</h2>
+        <p>
+          {consultation.price} for the call, {consultation.creditNote.toLowerCase()}{" "}
+          {consultation.promise}
+        </p>
+        <p className="small">{consultation.includesUncomfortable}</p>
+        <div className="Ticket-slat__button tickets anim-explode-container">
+          <ButtonLink href={primaryCta.href} variant="pink">
+            {primaryCta.label}
+          </ButtonLink>
+          <ExplodeBurst />
         </div>
+        {!bookingIntegration.live && (
+          <p className="small u-center max-w-xs">
+            Scheduling and payment are not connected yet. The form records
+            your request and answers, and says so on the page.
+          </p>
+        )}
       </div>
     </section>
   );

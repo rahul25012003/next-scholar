@@ -1,25 +1,18 @@
-import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, DM_Sans, JetBrains_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Montserrat, DM_Sans } from "next/font/google";
 import "./globals.css";
 
-const display = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
+const display = Montserrat({
+  variable: "--font-montserrat",
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
+  weight: ["700", "900"],
   display: "swap",
 });
 
 const sans = DM_Sans({
-  variable: "--font-inter",
+  variable: "--font-dm-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  display: "swap",
-});
-
-const figures = JetBrains_Mono({
-  variable: "--font-mono-figures",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -44,11 +37,15 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#4899df",
+};
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en-IN"
-      className={`${display.variable} ${sans.variable} ${figures.variable} h-full`}
+      className={`${display.variable} ${sans.variable} background anim--home has-js h-full`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

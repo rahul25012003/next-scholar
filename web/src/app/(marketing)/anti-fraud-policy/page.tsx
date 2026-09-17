@@ -24,12 +24,12 @@ export default function AntiFraudPolicyPage() {
         title="Anti fraud and data protection"
         lede="Two policies on one page. The first is finished and non negotiable. The second is an unfinished draft, published in that state rather than dressed up as complete."
         aside={
-          <div className="rounded-panel border border-line bg-paper p-6">
-            <p className="text-[0.8125rem] text-muted">Page last reviewed</p>
-            <p className="figures mt-1 text-[1.25rem] font-semibold text-navy-900">
+          <div className="rounded-panel border border-line bg-white p-6">
+            <p className="text-[0.8125rem] text-grey">Page last reviewed</p>
+            <p className="figures mt-1 text-[1.25rem] font-semibold text-blue-dark">
               {lastReviewed}
             </p>
-            <p className="mt-3 text-[0.8125rem] leading-relaxed text-muted">
+            <p className="mt-3 text-[0.8125rem] leading-relaxed text-grey">
               The data protection half has not been through legal review. The
               open items below are listed as gaps, not as features.
             </p>
@@ -37,13 +37,13 @@ export default function AntiFraudPolicyPage() {
         }
       />
 
-      <section className="band bg-paper">
+      <section className="band">
         <div className="shell grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           <div>
-            <h2 className="font-display text-[1.75rem] font-bold text-navy-900">
+            <h2 className="text-blue-dark">
               Document integrity
             </h2>
-            <p className="mt-4 text-[0.9375rem] leading-relaxed text-body">
+            <p className="mt-4 text-[0.9375rem] leading-relaxed text-grey">
               {documentIntegrity.intro}
             </p>
           </div>
@@ -52,15 +52,15 @@ export default function AntiFraudPolicyPage() {
             {documentIntegrity.commitments.map((commitment) => (
               <li
                 key={commitment}
-                className="flex gap-3.5 bg-paper px-6 py-5 odd:bg-surface"
+                className="flex gap-3.5 bg-white px-6 py-5 odd:bg-light"
               >
                 <ShieldCheck
                   size={20}
                   weight="fill"
-                  className="mt-0.5 shrink-0 text-blue-600"
+                  className="mt-0.5 shrink-0 text-pink"
                   aria-hidden
                 />
-                <span className="text-[0.9375rem] leading-relaxed text-ink-soft">
+                <span className="text-[0.9375rem] leading-relaxed text-grey">
                   {commitment}
                 </span>
               </li>
@@ -69,13 +69,13 @@ export default function AntiFraudPolicyPage() {
         </div>
       </section>
 
-      <section className="band bg-surface">
+      <section className="band">
         <div className="shell">
           <div className="max-w-2xl">
-            <h2 className="font-display text-[1.75rem] font-bold text-navy-900 md:text-[2rem]">
+            <h2 className="text-blue-dark">
               Enforced in the software, not in a promise
             </h2>
-            <p className="mt-4 text-[0.9375rem] leading-relaxed text-body">
+            <p className="mt-4 text-[0.9375rem] leading-relaxed text-grey">
               {platformSafeguards.intro}
             </p>
           </div>
@@ -83,14 +83,14 @@ export default function AntiFraudPolicyPage() {
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {platformSafeguards.items.map((item, index) => (
               <Reveal key={item} delay={staggerDelay(index, 0.05)}>
-                <div className="flex h-full gap-3.5 rounded-card border border-line bg-paper p-6">
+                <div className="flex h-full gap-3.5 rounded-card border border-line bg-white p-6">
                   <Prohibit
                     size={20}
                     weight="bold"
-                    className="mt-0.5 shrink-0 text-navy-700"
+                    className="mt-0.5 shrink-0 text-blue-tint"
                     aria-hidden
                   />
-                  <p className="text-[0.9375rem] leading-relaxed text-ink-soft">
+                  <p className="text-[0.9375rem] leading-relaxed text-grey">
                     {item}
                   </p>
                 </div>
@@ -100,7 +100,7 @@ export default function AntiFraudPolicyPage() {
         </div>
       </section>
 
-      <section className="band bg-paper">
+      <section className="band">
         <div className="shell">
           <div className="rounded-panel border border-pending/25 bg-pending-bg/50 p-7 md:p-9">
             <div className="flex items-start gap-3.5">
@@ -111,10 +111,10 @@ export default function AntiFraudPolicyPage() {
                 aria-hidden
               />
               <div className="max-w-3xl">
-                <h2 className="font-display text-[1.25rem] font-bold text-navy-900">
+                <h2 className="text-blue-dark h--5">
                   Data protection, in draft
                 </h2>
-                <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-soft">
+                <p className="mt-3 text-[0.9375rem] leading-relaxed text-grey">
                   {dataProtection.statusNote}
                 </p>
               </div>
@@ -123,36 +123,36 @@ export default function AntiFraudPolicyPage() {
 
           <div className="mt-12 grid gap-12 lg:grid-cols-2 lg:gap-16">
             <div>
-              <h3 className="font-display text-[1.25rem] font-bold text-navy-900">
+              <h3 className="text-blue-dark h--5">
                 What we collect
               </h3>
-              <p className="mt-3 text-[0.9375rem] leading-relaxed text-body">
+              <p className="mt-3 text-[0.9375rem] leading-relaxed text-grey">
                 {dataProtection.collected.intro}
               </p>
               <ul className="mt-5 grid gap-2.5 sm:grid-cols-2">
                 {dataProtection.collected.items.map((item) => (
                   <li
                     key={item}
-                    className="rounded-input bg-surface px-3.5 py-2.5 text-[0.875rem] text-ink-soft"
+                    className="rounded-card bg-light px-3.5 py-2.5 text-[0.875rem] text-grey"
                   >
                     {item}
                   </li>
                 ))}
               </ul>
 
-              <h3 className="mt-10 font-display text-[1.25rem] font-bold text-navy-900">
+              <h3 className="mt-10 text-blue-dark h--5">
                 Consent
               </h3>
-              <p className="mt-3 text-[0.9375rem] leading-relaxed text-body">
+              <p className="mt-3 text-[0.9375rem] leading-relaxed text-grey">
                 {dataProtection.consent}
               </p>
 
-              <h3 className="mt-10 font-display text-[1.25rem] font-bold text-navy-900">
+              <h3 className="mt-10 text-blue-dark h--5">
                 Under the DPDP Act 2023
               </h3>
               <ul className="mt-4 divide-y divide-line border-t border-line">
                 {dataProtection.dpdpItems.map((item) => (
-                  <li key={item} className="py-3 text-[0.9375rem] leading-relaxed text-body">
+                  <li key={item} className="py-3 text-[0.9375rem] leading-relaxed text-grey">
                     {item}
                   </li>
                 ))}
@@ -160,10 +160,10 @@ export default function AntiFraudPolicyPage() {
             </div>
 
             <div>
-              <h3 className="font-display text-[1.25rem] font-bold text-navy-900">
+              <h3 className="text-blue-dark h--5">
                 What this policy still does not answer
               </h3>
-              <p className="mt-3 text-[0.9375rem] leading-relaxed text-body">
+              <p className="mt-3 text-[0.9375rem] leading-relaxed text-grey">
                 Four gaps. Each one needs a real answer, and a lawyer, before
                 the first student document is accepted.
               </p>
@@ -171,12 +171,12 @@ export default function AntiFraudPolicyPage() {
                 {dataProtection.openItems.map((item) => (
                   <div
                     key={item.title}
-                    className="rounded-card border border-line bg-surface p-5"
+                    className="rounded-card border border-line bg-light p-5"
                   >
-                    <dt className="font-display text-[1rem] font-bold text-navy-900">
+                    <dt className="font-display font-bold text-blue-dark">
                       {item.title}
                     </dt>
-                    <dd className="mt-2 text-[0.9375rem] leading-relaxed text-body">
+                    <dd className="mt-2 text-[0.9375rem] leading-relaxed text-grey">
                       {item.body}
                     </dd>
                   </div>
@@ -187,17 +187,17 @@ export default function AntiFraudPolicyPage() {
         </div>
       </section>
 
-      <section className="band bg-surface">
+      <section className="band">
         <div className="shell">
           <div className="max-w-3xl">
-            <h2 className="font-display text-[1.75rem] font-bold text-navy-900">
+            <h2 className="text-blue-dark">
               What we never promise
             </h2>
             <ul className="mt-6 divide-y divide-line-strong border-y border-line-strong">
               {permanentDisclaimers.map((line) => (
                 <li
                   key={line}
-                  className="py-4 text-[1.0625rem] leading-relaxed text-ink-soft"
+                  className="py-4 leading-relaxed text-grey"
                 >
                   {line}
                 </li>

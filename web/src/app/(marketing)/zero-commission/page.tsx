@@ -26,12 +26,12 @@ export default function ZeroCommissionPage() {
         lede="Some universities pay agents no commission at all. You can apply to them yourself, for free, and this page tells you how. It is the cheapest proof we have that the shortlist is not commission driven."
       />
 
-      <section className="band bg-paper">
+      <section className="band">
         <div className="shell">
           <div className="grid gap-5 lg:grid-cols-3">
             {zeroCommissionEntries.map((entry, index) => (
               <Reveal key={entry.destination + entry.headline} delay={staggerDelay(index, 0.07)}>
-                <article className="flex h-full flex-col rounded-panel border border-line bg-paper p-7 shadow-card">
+                <article className="flex h-full flex-col rounded-panel border border-line bg-white p-7">
                   <div className="flex items-center gap-3">
                     <Image
                       src={`https://flagcdn.com/w80/${entry.flagCode}.png`}
@@ -40,7 +40,7 @@ export default function ZeroCommissionPage() {
                       height={30}
                       className="h-6 w-auto rounded-xs ring-1 ring-line"
                     />
-                    <h2 className="font-display text-[1.125rem] font-bold text-navy-900">
+                    <h2 className="text-blue-dark h--5">
                       {entry.destination}
                     </h2>
                     {entry.state === "verified" ? (
@@ -56,14 +56,14 @@ export default function ZeroCommissionPage() {
                     )}
                   </div>
 
-                  <h3 className="mt-5 font-display text-[1.0625rem] font-bold leading-snug text-navy-900">
+                  <h3 className="mt-5 text-blue-dark h--6">
                     {entry.headline}
                   </h3>
-                  <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-body">
+                  <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-grey">
                     {entry.body}
                   </p>
                   {entry.ourFee && (
-                    <p className="mt-5 rounded-card bg-surface p-4 text-[0.875rem] leading-relaxed text-ink-soft">
+                    <p className="mt-5 rounded-card bg-light p-4 text-[0.875rem] leading-relaxed text-grey">
                       {entry.ourFee}
                     </p>
                   )}
@@ -74,13 +74,13 @@ export default function ZeroCommissionPage() {
         </div>
       </section>
 
-      <section className="band bg-surface">
+      <section className="band">
         <div className="shell">
           <div className="max-w-2xl">
-            <h2 className="font-display text-3xl font-bold text-navy-900 md:text-[2.25rem]">
+            <h2 className="text-blue-dark">
               How to apply without us
             </h2>
-            <p className="mt-5 text-[1.0625rem] leading-relaxed text-body">
+            <p className="mt-5 leading-relaxed text-grey">
               Five steps. None of them need a consultancy, and the last one is
               the only place a fee is worth paying.
             </p>
@@ -90,10 +90,10 @@ export default function ZeroCommissionPage() {
             {selfApplySteps.map((step, index) => (
               <Reveal key={step.title} delay={staggerDelay(index, 0.05)} as="li">
                 <div className="border-t border-line-strong pt-5">
-                  <h3 className="font-display text-[1.0625rem] font-bold leading-snug text-navy-900">
+                  <h3 className="text-blue-dark h--6">
                     {step.title}
                   </h3>
-                  <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-body">
+                  <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-grey">
                     {step.body}
                   </p>
                 </div>
@@ -103,21 +103,21 @@ export default function ZeroCommissionPage() {
         </div>
       </section>
 
-      <section className="band bg-paper">
+      <section className="band">
         <div className="shell">
-          <div className="rounded-panel bg-navy-900 px-7 py-11 text-white md:px-12 md:py-14">
+          <div className="rounded-panel bg-blue-dark px-7 py-11 text-white md:px-12 md:py-14">
             <div className="max-w-3xl">
-              <h2 className="font-display text-[1.75rem] font-bold text-white md:text-[2rem]">
+              <h2 className="text-white">
                 Why publish a page that costs us money
               </h2>
-              <p className="mt-5 text-[1.0625rem] leading-relaxed text-white/75">
+              <p className="mt-5 leading-relaxed text-white/75">
                 {zeroCommissionRationale}
               </p>
               <div className="mt-9 flex flex-wrap gap-3">
                 <ButtonLink
                   href={primaryCta.href}
                   size="lg"
-                  className="bg-white text-navy-900 hover:bg-blue-100"
+                  className="bg-white text-blue-dark hover:bg-blue-light"
                 >
                   {primaryCta.label}
                 </ButtonLink>

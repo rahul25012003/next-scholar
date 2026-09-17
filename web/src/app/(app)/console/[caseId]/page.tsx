@@ -69,22 +69,22 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
         <div>
           <Link
             href="/console"
-            className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-blue-600 hover:text-blue-500"
+            className="inline-flex items-center gap-1.5 font-bold text-light hover:text-blue-light"
           >
             <ArrowLeft size={14} weight="bold" aria-hidden />
             All cases
           </Link>
-          <h1 className="mt-3 font-display text-[1.75rem] font-bold text-navy-900">
+          <h1 className="h h--3 mt-3 text-light">
             {record.name}
           </h1>
-          <p className="mt-1 text-[0.9375rem] text-body">
+          <p className="mt-1 text-light">
             {record.destination}
             {record.route ? `, ${record.route}` : ""}, {record.intake}. At{" "}
             {stage?.name.toLowerCase()} for{" "}
             <span className="figures">{daysSince(record.stageUpdatedAt)}</span> days.
           </p>
           {!record.route && routesFor(record.destination).length > 1 && (
-            <p className="mt-2 inline-flex items-center gap-1.5 rounded-input bg-pending-bg px-2.5 py-1.5 text-[0.8125rem] font-medium text-pending">
+            <p className="mt-2 inline-flex items-center gap-1.5 rounded-card bg-pending-bg px-2.5 py-1.5 text-[0.8125rem] font-medium text-pending">
               No route recorded. {record.destination} has{" "}
               {routesFor(record.destination).length} routes with different requirements, so
               the completeness check has nothing to run against.
@@ -102,17 +102,17 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                 {record.summary ? (
                   <>
                     <div className="flex items-start gap-2.5">
-                      <Sparkle size={16} weight="fill" className="mt-1 shrink-0 text-blue-600" aria-hidden />
-                      <p className="text-[0.9375rem] leading-relaxed text-ink-soft">
+                      <Sparkle size={16} weight="fill" className="mt-1 shrink-0 text-pink" aria-hidden />
+                      <p className="text-[0.9375rem] leading-relaxed text-grey">
                         {record.summary}
                       </p>
                     </div>
                     {record.suggestedAction && (
-                      <p className="mt-4 rounded-card bg-surface p-4 text-[0.875rem] leading-relaxed text-ink-soft">
+                      <p className="mt-4 rounded-card bg-light p-4 text-[0.875rem] leading-relaxed text-grey">
                         Suggested next step: {record.suggestedAction}
                       </p>
                     )}
-                    <p className="mt-3 text-[0.75rem] text-muted">
+                    <p className="mt-3 text-[0.75rem] text-grey">
                       {record.summarySource === "human"
                         ? "Written by a person."
                         : "Machine written. It cannot change the stage, the priority or a document status."}
@@ -120,10 +120,10 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                   </>
                 ) : (
                   <div>
-                    <p className="text-[0.9375rem] leading-relaxed text-body">
+                    <p className="text-[0.9375rem] leading-relaxed text-grey">
                       No machine summary on this case. Read the log below.
                     </p>
-                    <p className="mt-2 text-[0.8125rem] leading-relaxed text-muted">
+                    <p className="mt-2 text-[0.8125rem] leading-relaxed text-grey">
                       {agents.note}
                     </p>
                   </div>
@@ -181,15 +181,15 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                     />
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-                        <p className="text-[0.9375rem] font-medium text-navy-900">
+                        <p className="text-[0.9375rem] font-medium text-blue-dark">
                           {check.label}
                         </p>
-                        <p className="figures text-[0.8125rem] text-body">{check.actual}</p>
+                        <p className="figures text-[0.8125rem] text-grey">{check.actual}</p>
                       </div>
-                      <p className="mt-1 text-[0.875rem] leading-relaxed text-body">
+                      <p className="mt-1 text-[0.875rem] leading-relaxed text-grey">
                         {check.detail}
                       </p>
-                      <p className="mt-1 text-[0.75rem] text-muted">
+                      <p className="mt-1 text-[0.75rem] text-grey">
                         Target: {check.target}. {slaLabel[check.state]}.
                       </p>
                     </div>
@@ -217,10 +217,10 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                         }
                       />
                       <div className="min-w-0">
-                        <p className="text-[0.9375rem] font-medium text-navy-900">
+                        <p className="text-[0.9375rem] font-medium text-blue-dark">
                           {gate.title}
                         </p>
-                        <p className="mt-1 text-[0.875rem] leading-relaxed text-body">
+                        <p className="mt-1 text-[0.875rem] leading-relaxed text-grey">
                           {gate.detail}
                         </p>
                         {gate.blocks && (
@@ -228,7 +228,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                             Holds up: {gate.blocks}
                           </p>
                         )}
-                        <p className="mt-1.5 text-[0.75rem] text-muted">
+                        <p className="mt-1.5 text-[0.75rem] text-grey">
                           Source: {gate.source}
                         </p>
                       </div>
@@ -236,7 +236,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                   ))}
                 </ul>
                 {record.profile.recognition?.checkedBy ? (
-                  <p className="border-t border-line px-6 py-4 text-[0.8125rem] leading-relaxed text-muted">
+                  <p className="border-t border-line px-6 py-4 text-[0.8125rem] leading-relaxed text-grey">
                     Recorded by {record.profile.recognition.checkedBy} on{" "}
                     <span className="figures">{record.profile.recognition.checkedOn}</span>.
                     {record.profile.recognition.note
@@ -266,7 +266,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                         key={document.label}
                         className="flex items-baseline justify-between gap-6 py-2.5 first:pt-0"
                       >
-                        <span className="text-[0.9375rem] text-ink-soft">
+                        <span className="text-[0.9375rem] text-grey">
                           {document.label}
                         </span>
                         <span
@@ -282,20 +282,20 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                     ))}
                   </ul>
                   {completeness.recognitionGate && (
-                    <p className="mt-4 rounded-input bg-surface px-3.5 py-3 text-[0.8125rem] leading-relaxed text-ink-soft">
-                      <span className="font-medium text-navy-900">
+                    <p className="mt-4 rounded-card bg-light px-3.5 py-3 text-[0.8125rem] leading-relaxed text-grey">
+                      <span className="font-medium text-blue-dark">
                         Ahead of the documents.
                       </span>{" "}
                       {completeness.recognitionGate}
                     </p>
                   )}
-                  <p className="mt-4 text-[0.8125rem] leading-relaxed text-muted">
+                  <p className="mt-4 text-[0.8125rem] leading-relaxed text-grey">
                     {completeness.note}
                   </p>
-                  <p className="mt-2 text-[0.8125rem] leading-relaxed text-muted">
+                  <p className="mt-2 text-[0.8125rem] leading-relaxed text-grey">
                     Remaining process steps: {completeness.steps.join(". ")}.
                   </p>
-                  <p className="mt-3 border-t border-line pt-3 text-[0.8125rem] leading-relaxed text-muted">
+                  <p className="mt-3 border-t border-line pt-3 text-[0.8125rem] leading-relaxed text-grey">
                     {record.destination}, {completeness.route}. Written down{" "}
                     <span className="figures">{completeness.statedOn}</span> from{" "}
                     {completeness.sources.join(", ")}.
@@ -321,10 +321,10 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                       className="flex flex-wrap items-start justify-between gap-4 px-6 py-4"
                     >
                       <div>
-                        <p className="text-[0.9375rem] font-medium text-navy-900">
+                        <p className="text-[0.9375rem] font-medium text-blue-dark">
                           {document.name}
                         </p>
-                        <p className="mt-0.5 text-[0.8125rem] text-muted">
+                        <p className="mt-0.5 text-[0.8125rem] text-grey">
                           {document.status}, version {document.version}
                           {document.verifiedBy ? `, by ${document.verifiedBy}` : ""}
                         </p>
@@ -368,17 +368,17 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                   {threads.map((thread) => (
                     <li key={thread.id} className="px-6 py-5">
                       <div className="flex flex-wrap items-baseline justify-between gap-3">
-                        <p className="text-[0.875rem] font-medium text-navy-900">
+                        <p className="text-[0.875rem] font-medium text-blue-dark">
                           {channelLabel[thread.channel]}, {thread.direction}
                         </p>
-                        <p className="figures text-[0.75rem] text-muted">
+                        <p className="figures text-[0.75rem] text-grey">
                           {thread.occurredAt.slice(0, 10)}
                         </p>
                       </div>
-                      <p className="mt-0.5 text-[0.75rem] text-muted">
+                      <p className="mt-0.5 text-[0.75rem] text-grey">
                         {thread.participants}
                       </p>
-                      <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-soft">
+                      <p className="mt-2 text-[0.9375rem] leading-relaxed text-grey">
                         {thread.raw}
                       </p>
                       <ThreadSummary
@@ -407,10 +407,10 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
               <ol className="divide-y divide-line">
                 {[...record.log].reverse().map((entry) => (
                   <li key={entry.ts + entry.text} className="px-6 py-4">
-                    <p className="text-[0.9375rem] leading-relaxed text-ink-soft">
+                    <p className="text-[0.9375rem] leading-relaxed text-grey">
                       {entry.text}
                     </p>
-                    <p className="figures mt-1.5 text-[0.75rem] text-muted">
+                    <p className="figures mt-1.5 text-[0.75rem] text-grey">
                       {entry.ts.slice(0, 16).replace("T", " ")}, {entry.author},{" "}
                       {entry.source === "human" ? "written by a person" : `written by ${entry.source}`}
                     </p>
@@ -438,17 +438,17 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                   {risk.band}
                 </span>
                 {risk.indicators.length === 0 ? (
-                  <p className="mt-4 text-[0.875rem] leading-relaxed text-body">
+                  <p className="mt-4 text-[0.875rem] leading-relaxed text-grey">
                     Nothing on this case has crossed a threshold.
                   </p>
                 ) : (
                   <ul className="mt-4 space-y-4">
                     {risk.indicators.map((indicator) => (
                       <li key={indicator.factor + indicator.evidence}>
-                        <p className="text-[0.875rem] font-medium text-navy-900">
+                        <p className="text-[0.875rem] font-medium text-blue-dark">
                           {indicator.factor}
                         </p>
-                        <p className="mt-1 text-[0.875rem] leading-relaxed text-body">
+                        <p className="mt-1 text-[0.875rem] leading-relaxed text-grey">
                           {indicator.evidence}
                         </p>
                       </li>
@@ -468,13 +468,13 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                 <ul className="divide-y divide-line">
                   {events.map((event) => (
                     <li key={event.key} className="px-6 py-4">
-                      <p className="text-[0.875rem] font-medium text-navy-900">
+                      <p className="text-[0.875rem] font-medium text-blue-dark">
                         {event.title}
                       </p>
-                      <p className="mt-1 text-[0.875rem] leading-relaxed text-body">
+                      <p className="mt-1 text-[0.875rem] leading-relaxed text-grey">
                         {event.detail}
                       </p>
-                      <p className="mt-1.5 text-[0.75rem] text-muted">
+                      <p className="mt-1.5 text-[0.75rem] text-grey">
                         Read from: {event.basis}
                       </p>
                     </li>
@@ -491,21 +491,21 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                 <ul className="divide-y divide-line">
                   {shortlist.proposals.map((proposal) => (
                     <li key={proposal.destination + (proposal.route ?? "")} className="px-6 py-4">
-                      <p className="text-[0.9375rem] font-medium text-navy-900">
+                      <p className="text-[0.9375rem] font-medium text-blue-dark">
                         {proposal.destination}
                         {proposal.route ? `, ${proposal.route}` : ""}
                       </p>
                       <ul className="mt-2 space-y-1">
                         {proposal.reasons.map((reason) => (
-                          <li key={reason} className="text-[0.875rem] leading-relaxed text-body">
+                          <li key={reason} className="text-[0.875rem] leading-relaxed text-grey">
                             {reason}
                           </li>
                         ))}
                       </ul>
-                      <p className="figures mt-2 text-[0.8125rem] text-navy-900">
+                      <p className="figures mt-2 text-[0.8125rem] text-blue-dark">
                         We earn {proposal.commission.display}
                       </p>
-                      <p className="text-[0.75rem] text-muted">
+                      <p className="text-[0.75rem] text-grey">
                         {proposal.commission.statusLabel}
                         {proposal.commission.flag ? `, ${proposal.commission.flag.toLowerCase()}` : ""}
                       </p>
@@ -522,19 +522,19 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                         <ul className="mt-3 space-y-3 border-t border-line pt-3">
                           {proposal.universities.map((university) => (
                             <li key={university.slug}>
-                              <p className="text-[0.8125rem] font-medium text-navy-900">
+                              <p className="text-[0.8125rem] font-medium text-blue-dark">
                                 {university.name}
-                                <span className="font-normal text-muted"> · {university.city}</span>
+                                <span className="font-normal text-grey"> · {university.city}</span>
                               </p>
-                              <p className="mt-0.5 text-[0.75rem] leading-relaxed text-body">
+                              <p className="mt-0.5 text-[0.75rem] leading-relaxed text-grey">
                                 {university.tuitionNote}
                               </p>
                               {university.languageNote && (
-                                <p className="mt-0.5 text-[0.75rem] leading-relaxed text-body">
+                                <p className="mt-0.5 text-[0.75rem] leading-relaxed text-grey">
                                   {university.languageNote}
                                 </p>
                               )}
-                              <p className="figures mt-0.5 text-[0.75rem] text-muted">
+                              <p className="figures mt-0.5 text-[0.75rem] text-grey">
                                 We earn {university.commission.display}, {university.commission.statusLabel}
                                 {university.commission.flag ? `, ${university.commission.flag.toLowerCase()}` : ""}
                               </p>
@@ -546,16 +546,16 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                   ))}
                   {shortlist.excluded.map((entry) => (
                     <li key={entry.destination} className="px-6 py-4">
-                      <p className="text-[0.9375rem] text-muted">
+                      <p className="text-[0.9375rem] text-grey">
                         {entry.destination}, excluded
                       </p>
-                      <p className="mt-1 text-[0.875rem] leading-relaxed text-body">
+                      <p className="mt-1 text-[0.875rem] leading-relaxed text-grey">
                         {entry.why}
                       </p>
                     </li>
                   ))}
                   {shortlist.proposals.length === 0 && shortlist.excluded.length === 0 && (
-                    <li className="px-6 py-4 text-[0.875rem] text-muted">
+                    <li className="px-6 py-4 text-[0.875rem] text-grey">
                       Nothing on file to match against yet.
                     </li>
                   )}
@@ -568,26 +568,26 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
               description="Generated from stored state, so a case changing hands does not depend on anyone remembering."
             >
               <div className="px-6 py-5">
-                <p className="text-[0.875rem] leading-relaxed text-ink-soft">
+                <p className="text-[0.875rem] leading-relaxed text-grey">
                   {handover.summary}
                 </p>
                 <dl className="mt-4 space-y-2">
                   <div>
-                    <dt className="text-[0.75rem] text-muted">Open tasks</dt>
-                    <dd className="figures text-[0.875rem] text-navy-900">
+                    <dt className="text-[0.75rem] text-grey">Open tasks</dt>
+                    <dd className="figures text-[0.875rem] text-blue-dark">
                       {handover.openTasks.length}
                     </dd>
                   </div>
                   <div>
-                    <dt className="text-[0.75rem] text-muted">Documents outstanding</dt>
-                    <dd className="text-[0.875rem] text-navy-900">
+                    <dt className="text-[0.75rem] text-grey">Documents outstanding</dt>
+                    <dd className="text-[0.875rem] text-blue-dark">
                       {handover.pendingDocuments.length === 0
                         ? "None"
                         : handover.pendingDocuments.join(", ")}
                     </dd>
                   </div>
                 </dl>
-                <p className="mt-4 text-[0.75rem] leading-relaxed text-muted">
+                <p className="mt-4 text-[0.75rem] leading-relaxed text-grey">
                   {handover.acknowledgement}
                 </p>
               </div>
@@ -603,18 +603,18 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                 <ul className="divide-y divide-line">
                   {record.applications.map((application) => (
                     <li key={application.id} className="px-6 py-4">
-                      <p className="text-[0.9375rem] font-medium text-navy-900">
+                      <p className="text-[0.9375rem] font-medium text-blue-dark">
                         {application.university}
                       </p>
-                      <p className="mt-0.5 text-[0.875rem] text-body">
+                      <p className="mt-0.5 text-[0.875rem] text-grey">
                         {application.programme}
                       </p>
-                      <p className="figures mt-1.5 text-[0.75rem] text-muted">
+                      <p className="figures mt-1.5 text-[0.75rem] text-grey">
                         {application.reference ?? "No reference"},{" "}
                         {application.outcome}
                       </p>
                       {application.offer && (
-                        <p className="figures mt-1 text-[0.75rem] text-muted">
+                        <p className="figures mt-1 text-[0.75rem] text-grey">
                           {application.offer.depositInr
                             ? `Deposit ₹${application.offer.depositInr.toLocaleString("en-IN")}`
                             : "Deposit amount not on file"}
@@ -641,7 +641,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                   <table className="w-full text-left text-[0.8125rem]">
                     <caption className="sr-only">Offers received on this case, compared</caption>
                     <thead>
-                      <tr className="text-muted">
+                      <tr className="text-grey">
                         <th className="px-6 py-2 font-medium">University</th>
                         <th className="px-6 py-2 font-medium">Deposit</th>
                         <th className="px-6 py-2 font-medium">Deadline</th>
@@ -653,7 +653,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                         .filter((item) => item.offer)
                         .map((item) => (
                           <tr key={item.id}>
-                            <td className="px-6 py-2 text-navy-900">{item.university}</td>
+                            <td className="px-6 py-2 text-blue-dark">{item.university}</td>
                             <td className="figures px-6 py-2">
                               {item.offer?.depositInr
                                 ? `₹${item.offer.depositInr.toLocaleString("en-IN")}`

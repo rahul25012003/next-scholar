@@ -7,7 +7,7 @@ import { signIn, signUp, type AuthResult } from "@/app/actions/auth";
 import { Button } from "@/components/ui/button";
 
 const field =
-  "w-full rounded-input border border-line-strong bg-paper px-3.5 py-2.5 text-[0.9375rem] text-navy-900 placeholder:text-muted/70 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/25";
+  "w-full rounded-input border border-line-strong bg-white px-3.5 py-2.5 text-[0.9375rem] text-blue-dark placeholder:text-grey/70 focus:border-pink focus:outline-none focus:ring-2 focus:ring-pink/25";
 
 function Field({
   id,
@@ -26,10 +26,10 @@ function Field({
 }) {
   return (
     <div className="grid gap-2">
-      <label htmlFor={id} className="text-[0.875rem] font-medium text-navy-900">
+      <label htmlFor={id} className="text-[0.875rem] font-medium text-blue-dark">
         {label}
       </label>
-      {help && <p className="text-[0.8125rem] leading-relaxed text-muted">{help}</p>}
+      {help && <p className="text-[0.8125rem] leading-relaxed text-grey">{help}</p>}
       <input
         id={id}
         name={id}
@@ -49,7 +49,7 @@ function Error({ message }: { message: string }) {
       role="alert"
     >
       <WarningCircle size={17} weight="fill" className="mt-0.5 shrink-0 text-denied" aria-hidden />
-      <p className="text-[0.875rem] leading-relaxed text-ink-soft">{message}</p>
+      <p className="text-[0.875rem] leading-relaxed text-grey">{message}</p>
     </div>
   );
 }
@@ -70,9 +70,9 @@ export function SignInForm() {
         {pending ? "Signing in" : "Sign in"}
       </Button>
 
-      <p className="text-[0.875rem] text-body">
+      <p className="text-[0.875rem] text-grey">
         No account yet?{" "}
-        <Link href="/signup" className="font-medium text-blue-600 hover:text-blue-500">
+        <Link href="/signup" className="font-medium text-pink hover:text-blue">
           Create one
         </Link>
         .
@@ -111,14 +111,14 @@ export function SignUpForm() {
         {pending ? "Creating your account" : "Create account"}
       </Button>
 
-      <p className="text-[0.875rem] leading-relaxed text-muted">
+      <p className="text-[0.875rem] leading-relaxed text-grey">
         Creating an account does not start an application and does not commit you
         to anything. It gives you a portal to watch one from.
       </p>
 
-      <p className="text-[0.875rem] text-body">
+      <p className="text-[0.875rem] text-grey">
         Already have one?{" "}
-        <Link href="/login" className="font-medium text-blue-600 hover:text-blue-500">
+        <Link href="/login" className="font-medium text-pink hover:text-blue">
           Sign in
         </Link>
         .

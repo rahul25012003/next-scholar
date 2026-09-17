@@ -87,11 +87,11 @@ export function CostOfLivingCalculator({
   const surplusInr = Math.max(0, fundsInr - firstYearInr);
 
   return (
-    <div className="rounded-panel border border-line bg-paper">
+    <div className="rounded-panel border border-line bg-white">
       <div className="border-b border-line p-6 md:p-7">
         <fieldset>
-          <legend className="text-[0.8125rem] font-semibold text-navy-900">City</legend>
-          <p className="mt-1 text-[0.875rem] text-body">
+          <legend className="text-[0.8125rem] font-semibold text-blue-dark">City</legend>
+          <p className="mt-1 text-[0.875rem] text-grey">
             Rent moves more than every other line combined, so the city is the first
             choice rather than a detail.
           </p>
@@ -108,21 +108,21 @@ export function CostOfLivingCalculator({
                 }}
                 aria-pressed={option.slug === citySlug}
                 className={cn(
-                  "rounded-full border px-4 py-2 text-[0.875rem] font-medium transition-colors",
+                  "button",
                   option.slug === citySlug
-                    ? "border-blue-600 bg-blue-600 text-white"
-                    : "border-line-strong bg-paper text-navy-900 hover:border-blue-600 hover:text-blue-600",
+                    ? "button--selected"
+                    : "button--light",
                 )}
               >
                 {option.name}
               </button>
             ))}
           </div>
-          <p className="mt-3.5 text-[0.875rem] leading-relaxed text-muted">{city.note}</p>
+          <p className="mt-3.5 text-[0.875rem] leading-relaxed text-grey">{city.note}</p>
         </fieldset>
 
         <fieldset className="mt-7">
-          <legend className="text-[0.8125rem] font-semibold text-navy-900">
+          <legend className="text-[0.8125rem] font-semibold text-blue-dark">
             Starting point
           </legend>
           <div className="mt-3 flex flex-wrap gap-2">
@@ -136,17 +136,17 @@ export function CostOfLivingCalculator({
                 }}
                 aria-pressed={option.key === level}
                 className={cn(
-                  "rounded-full border px-4 py-2 text-[0.875rem] font-medium transition-colors",
+                  "button",
                   option.key === level
-                    ? "border-navy-900 bg-navy-900 text-white"
-                    : "border-line-strong bg-paper text-navy-900 hover:border-navy-900",
+                    ? "button--selected"
+                    : "button--light",
                 )}
               >
                 {option.label}
               </button>
             ))}
           </div>
-          <p className="mt-3 text-[0.875rem] leading-relaxed text-muted">
+          <p className="mt-3 text-[0.875rem] leading-relaxed text-grey">
             {levels.find((option) => option.key === level)!.note}
           </p>
         </fieldset>
@@ -159,14 +159,14 @@ export function CostOfLivingCalculator({
             and your own figure for each.
           </caption>
           <thead>
-            <tr className="border-b border-line bg-surface">
-              <th scope="col" className="px-6 py-3 text-[0.75rem] font-semibold text-navy-900">
+            <tr className="border-b border-line bg-light">
+              <th scope="col" className="px-6 py-3 text-[0.75rem] font-semibold text-blue-dark">
                 Line item
               </th>
-              <th scope="col" className="px-6 py-3 text-[0.75rem] font-semibold text-navy-900">
+              <th scope="col" className="px-6 py-3 text-[0.75rem] font-semibold text-blue-dark">
                 Our published range
               </th>
-              <th scope="col" className="px-6 py-3 text-right text-[0.75rem] font-semibold text-navy-900">
+              <th scope="col" className="px-6 py-3 text-right text-[0.75rem] font-semibold text-blue-dark">
                 Your figure, per month
               </th>
             </tr>
@@ -188,27 +188,27 @@ export function CostOfLivingCalculator({
                           )
                         }
                         aria-label={`Include ${row.label}`}
-                        className="mt-1 h-4 w-4 shrink-0 accent-[var(--color-blue-600)]"
+                        className="mt-1 h-4 w-4 shrink-0 accent-[var(--color-blue-dark)]"
                       />
                     ) : null}
                     <span>
-                      <span className="block text-[0.9375rem] font-medium text-navy-900">
+                      <span className="block text-[0.9375rem] font-medium text-blue-dark">
                         {row.label}
                       </span>
                       {row.note && (
-                        <span className="mt-1 block max-w-sm text-[0.8125rem] leading-snug text-muted">
+                        <span className="mt-1 block max-w-sm text-[0.8125rem] leading-snug text-grey">
                           {row.note}
                         </span>
                       )}
                       {row.optional && (
-                        <span className="mt-1 block text-[0.75rem] text-muted">
+                        <span className="mt-1 block text-[0.75rem] text-grey">
                           Optional line. Switch it off if it does not apply to you.
                         </span>
                       )}
                     </span>
                   </span>
                 </th>
-                <td className="figures whitespace-nowrap px-6 py-4 align-top text-[0.875rem] text-body">
+                <td className="figures whitespace-nowrap px-6 py-4 align-top text-[0.875rem] text-grey">
                   {row.low === row.high
                     ? `${symbol}${row.low}`
                     : `${symbol}${row.low} to ${symbol}${row.high}`}
@@ -216,7 +216,7 @@ export function CostOfLivingCalculator({
                 <td className="px-6 py-4 align-top text-right">
                   <label className="inline-flex items-center gap-1.5">
                     <span className="sr-only">{row.label}, your figure per month</span>
-                    <span aria-hidden className="text-[0.9375rem] text-muted">
+                    <span aria-hidden className="text-[0.9375rem] text-grey">
                       {symbol}
                     </span>
                     <input
@@ -232,11 +232,11 @@ export function CostOfLivingCalculator({
                           [row.key]: Math.max(0, Number(event.target.value) || 0),
                         }))
                       }
-                      className="figures w-24 rounded-input border border-line-strong px-2.5 py-1.5 text-right text-[0.9375rem] text-navy-900 disabled:bg-surface"
+                      className="figures w-24 rounded-card border border-line-strong px-2.5 py-1.5 text-right text-[0.9375rem] text-blue-dark disabled:bg-light"
                     />
                   </label>
                   {row.overridden && (
-                    <span className="mt-1 block text-[0.75rem] text-blue-600">
+                    <span className="mt-1 block text-[0.75rem] text-pink">
                       Your figure, not ours
                     </span>
                   )}
@@ -246,29 +246,29 @@ export function CostOfLivingCalculator({
           </tbody>
           <tfoot className="border-t-2 border-line-strong">
             <tr>
-              <th scope="row" className="px-6 py-5 text-[0.9375rem] font-semibold text-navy-900">
+              <th scope="row" className="px-6 py-5 text-[0.9375rem] font-semibold text-blue-dark">
                 Per month
               </th>
               <td />
-              <td className="figures px-6 py-5 text-right text-[1.25rem] font-bold text-navy-900">
+              <td className="figures px-6 py-5 text-right text-[1.25rem] font-bold text-blue-dark">
                 {symbol}
                 {monthly.toLocaleString("en-IN")}
               </td>
             </tr>
             <tr className="border-t border-line">
-              <th scope="row" className="px-6 py-5 text-[0.9375rem] font-semibold text-navy-900">
+              <th scope="row" className="px-6 py-5 text-[0.9375rem] font-semibold text-blue-dark">
                 Per year, twelve months
-                <span className="mt-1 block text-[0.8125rem] font-normal text-muted">
+                <span className="mt-1 block text-[0.8125rem] font-normal text-grey">
                   Tuition is not included. It is a separate figure on the guide page.
                 </span>
               </th>
               <td />
               <td className="px-6 py-5 text-right">
-                <span className="figures block text-[1.25rem] font-bold text-navy-900">
+                <span className="figures block text-[1.25rem] font-bold text-blue-dark">
                   {symbol}
                   {(monthly * 12).toLocaleString("en-IN")}
                 </span>
-                <span className="figures mt-1 block text-[0.875rem] text-muted">
+                <span className="figures mt-1 block text-[0.875rem] text-grey">
                   about ₹
                   {Math.round(
                     (monthly * 12 * rate.inrPerUnit) / 1000,
@@ -282,21 +282,21 @@ export function CostOfLivingCalculator({
       </div>
 
       <div className="border-t border-line p-6 md:p-7">
-        <h3 className="text-[0.9375rem] font-semibold text-navy-900">
+        <h3 className="text-blue-dark h--6">
           Add tuition and funds to see the first year whole
         </h3>
-        <p className="mt-1 text-[0.8125rem] leading-relaxed text-muted">
+        <p className="mt-1 text-[0.8125rem] leading-relaxed text-grey">
           Living cost carries over from above. Tuition is your own figure, not ours: it
           depends on the exact programme, which is a separate, sourced number on the
           university and course pages, not something this tool can look up for you.
         </p>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <label className="block">
-            <span className="text-[0.8125rem] font-medium text-navy-900">
+            <span className="text-[0.8125rem] font-medium text-blue-dark">
               Annual tuition, in rupees
             </span>
             <span className="mt-1.5 flex items-center gap-1.5">
-              <span aria-hidden className="text-[0.9375rem] text-muted">
+              <span aria-hidden className="text-[0.9375rem] text-grey">
                 ₹
               </span>
               <input
@@ -307,16 +307,16 @@ export function CostOfLivingCalculator({
                 value={tuitionInr || ""}
                 onChange={(event) => setTuitionInr(Math.max(0, Number(event.target.value) || 0))}
                 placeholder="From the course page"
-                className="figures w-full rounded-input border border-line-strong px-2.5 py-1.5 text-[0.9375rem] text-navy-900"
+                className="figures w-full rounded-card border border-line-strong px-2.5 py-1.5 text-[0.9375rem] text-blue-dark"
               />
             </span>
           </label>
           <label className="block">
-            <span className="text-[0.8125rem] font-medium text-navy-900">
+            <span className="text-[0.8125rem] font-medium text-blue-dark">
               Funds you can show, in rupees
             </span>
             <span className="mt-1.5 flex items-center gap-1.5">
-              <span aria-hidden className="text-[0.9375rem] text-muted">
+              <span aria-hidden className="text-[0.9375rem] text-grey">
                 ₹
               </span>
               <input
@@ -327,12 +327,12 @@ export function CostOfLivingCalculator({
                 value={fundsInr || ""}
                 onChange={(event) => setFundsInr(Math.max(0, Number(event.target.value) || 0))}
                 placeholder="Savings, loan sanction, sponsor"
-                className="figures w-full rounded-input border border-line-strong px-2.5 py-1.5 text-[0.9375rem] text-navy-900"
+                className="figures w-full rounded-card border border-line-strong px-2.5 py-1.5 text-[0.9375rem] text-blue-dark"
               />
             </span>
           </label>
         </div>
-        <p className="figures mt-4 text-[0.9375rem] text-navy-900">
+        <p className="figures mt-4 text-[0.9375rem] text-blue-dark">
           First year, living plus tuition: <span className="font-bold">₹{firstYearInr.toLocaleString("en-IN")}</span>
           {" "}(₹{livingInr.toLocaleString("en-IN")} living + ₹{tuitionInr.toLocaleString("en-IN")} tuition).
         </p>
@@ -343,10 +343,10 @@ export function CostOfLivingCalculator({
               : `Covered, with ₹${surplusInr.toLocaleString("en-IN")} to spare against this estimate.`}
           </p>
         )}
-        <p className="mt-2 text-[0.8125rem] text-muted">
+        <p className="mt-2 text-[0.8125rem] text-grey">
           This is not the visa authority&rsquo;s blocked-account or funds requirement, which is a
           separate, stricter figure on the destination guide. Scholarships for{" "}
-          <a href={`/scholarships?destination=${guide.slug}`} className="text-blue-600 underline">
+          <a href={`/scholarships?destination=${guide.slug}`} className="text-pink underline">
             {guide.country}
           </a>{" "}
           are not included here either.
@@ -354,19 +354,19 @@ export function CostOfLivingCalculator({
       </div>
 
       <div className="flex flex-col gap-4 border-t border-line p-6 md:flex-row md:items-start md:justify-between md:p-7">
-        <div className="max-w-2xl space-y-2 text-[0.8125rem] leading-relaxed text-muted">
+        <div className="max-w-2xl space-y-2 text-[0.8125rem] leading-relaxed text-grey">
           <p>
-            <span className="font-medium text-body">What this is.</span>{" "}
+            <span className="font-medium text-grey">What this is.</span>{" "}
             {guide.living.qualifier}
           </p>
           <p>
-            <span className="font-medium text-body">Where the ranges come from.</span>{" "}
+            <span className="font-medium text-grey">Where the ranges come from.</span>{" "}
             {guide.living.source}. Written into this page on{" "}
             <span className="figures">{guide.verification.statedOn}</span> and not since
             re-checked by a named person.
           </p>
           <p>
-            <span className="font-medium text-body">The rupee figure is indicative.</span>{" "}
+            <span className="font-medium text-grey">The rupee figure is indicative.</span>{" "}
             Converted at ₹{rate.inrPerUnit} to the {guide.currency === "EUR" ? "euro" : "pound"},
             a rate recorded by hand on{" "}
             <span className="figures">{rate.takenOn}</span>. No exchange rate service is

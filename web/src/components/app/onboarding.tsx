@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 
 const field =
-  "w-full rounded-input border border-line-strong bg-paper px-3.5 py-2.5 text-[0.9375rem] text-navy-900 placeholder:text-muted/70 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/25";
+  "w-full rounded-input border border-line-strong bg-white px-3.5 py-2.5 text-[0.9375rem] text-blue-dark placeholder:text-grey/70 focus:border-pink focus:outline-none focus:ring-2 focus:ring-pink/25";
 
 /**
  * The onboarding form.
@@ -35,7 +35,7 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
   const current = onboardingSteps[step];
 
   return (
-    <form action={formAction} className="rounded-panel border border-line bg-paper">
+    <form action={formAction} className="rounded-panel border border-line bg-white">
       <div className="border-b border-line px-6 py-5">
         <ol className="flex flex-wrap gap-x-6 gap-y-2">
           {onboardingSteps.map((item, index) => (
@@ -45,10 +45,10 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
                 className={cn(
                   "figures grid h-6 w-6 place-items-center rounded-full text-[0.75rem] font-semibold",
                   index === step
-                    ? "bg-blue-600 text-white"
+                    ? "bg-blue-dark text-white"
                     : index < step
                       ? "bg-verified-bg text-verified"
-                      : "bg-surface-2 text-muted",
+                      : "bg-light text-grey",
                 )}
               >
                 {index + 1}
@@ -58,7 +58,7 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
                 onClick={() => setStep(index)}
                 className={cn(
                   "text-[0.875rem] font-medium transition-colors",
-                  index === step ? "text-navy-900" : "text-muted hover:text-navy-900",
+                  index === step ? "text-blue-dark" : "text-grey hover:text-blue-dark",
                 )}
               >
                 {item.title}
@@ -66,7 +66,7 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
             </li>
           ))}
         </ol>
-        <p className="mt-3 text-[0.8125rem] leading-relaxed text-muted">{current.blurb}</p>
+        <p className="mt-3 text-[0.8125rem] leading-relaxed text-grey">{current.blurb}</p>
       </div>
 
       {/* Every step's inputs stay mounted, so moving between steps never
@@ -76,16 +76,16 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
           <legend className="sr-only">Where you want to go</legend>
 
           <div className="grid gap-2">
-            <span className="text-[0.875rem] font-medium text-navy-900">Destination</span>
+            <span className="text-[0.875rem] font-medium text-blue-dark">Destination</span>
             <div className="flex flex-wrap gap-2">
               {guides.map((option) => (
                 <label
                   key={option.slug}
                   className={cn(
-                    "cursor-pointer rounded-full border px-4 py-2 text-[0.9375rem] font-medium transition-colors",
+                    "button cursor-pointer",
                     destination === option.slug
-                      ? "border-blue-600 bg-blue-600 text-white"
-                      : "border-line-strong bg-paper text-navy-900 hover:border-blue-600",
+                      ? "button--selected"
+                      : "button--light",
                   )}
                 >
                   <input
@@ -100,7 +100,7 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
                 </label>
               ))}
             </div>
-            <p className="text-[0.8125rem] leading-relaxed text-muted">
+            <p className="text-[0.8125rem] leading-relaxed text-grey">
               Not sure yet is a legitimate answer. Read the guides first and come back:
               nothing here is required and nothing is held back if you leave it blank.
             </p>
@@ -108,10 +108,10 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
 
           {guide && guide.routes.length > 1 && (
             <div className="grid gap-2">
-              <label htmlFor="route" className="text-[0.875rem] font-medium text-navy-900">
+              <label htmlFor="route" className="text-[0.875rem] font-medium text-blue-dark">
                 Which route
               </label>
-              <p className="text-[0.8125rem] leading-relaxed text-muted">
+              <p className="text-[0.8125rem] leading-relaxed text-grey">
                 {guide.country} splits into routes with different requirements and different
                 commission to us. If you do not know yet, leave it.
               </p>
@@ -127,7 +127,7 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
           )}
 
           <div className="grid gap-2">
-            <label htmlFor="applyingFor" className="text-[0.875rem] font-medium text-navy-900">
+            <label htmlFor="applyingFor" className="text-[0.875rem] font-medium text-blue-dark">
               What you are applying for
             </label>
             <select
@@ -143,7 +143,7 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
           </div>
 
           <div className="grid gap-2">
-            <label htmlFor="intake" className="text-[0.875rem] font-medium text-navy-900">
+            <label htmlFor="intake" className="text-[0.875rem] font-medium text-blue-dark">
               Which intake
             </label>
             <select id="intake" name="intake" defaultValue={profile.intake ?? ""} className={field}>
@@ -155,7 +155,7 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
               ))}
             </select>
             {guide && (
-              <p className="text-[0.8125rem] leading-relaxed text-muted">
+              <p className="text-[0.8125rem] leading-relaxed text-grey">
                 Dates rather than month names, because a month name has never told anyone
                 when to submit anything.
               </p>
@@ -167,7 +167,7 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
           <legend className="sr-only">Your academic record</legend>
 
           <div className="grid gap-2">
-            <label htmlFor="degree" className="text-[0.875rem] font-medium text-navy-900">
+            <label htmlFor="degree" className="text-[0.875rem] font-medium text-blue-dark">
               Your degree
             </label>
             <input
@@ -180,14 +180,14 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
           </div>
 
           <div className="grid gap-2">
-            <span className="text-[0.875rem] font-medium text-navy-900">Your result</span>
+            <span className="text-[0.875rem] font-medium text-blue-dark">Your result</span>
             <div className="flex gap-2">
               <select
                 name="scale"
                 value={scale}
                 onChange={(event) => setScale(event.target.value as typeof scale)}
                 aria-label="Result scale"
-                className="w-36 shrink-0 rounded-input border border-line-strong bg-paper px-3 py-2.5 text-[0.9375rem] text-navy-900"
+                className="w-36 shrink-0 rounded-card border border-line-strong bg-white px-3 py-2.5 text-[0.9375rem] text-blue-dark"
               >
                 <option value="cgpa">CGPA / 10</option>
                 <option value="percentage">Percentage</option>
@@ -204,7 +204,7 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
                 className={cn(field, "figures")}
               />
             </div>
-            <p className="text-[0.8125rem] leading-relaxed text-muted">
+            <p className="text-[0.8125rem] leading-relaxed text-grey">
               A CGPA is converted at the CBSE 9.5 convention, which is a convention rather
               than a standard. Your university&rsquo;s own conversion is the one that counts,
               and we will use that instead once we have your transcript.
@@ -212,7 +212,7 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
           </div>
 
           <div className="grid gap-2">
-            <label htmlFor="degreeYears" className="text-[0.875rem] font-medium text-navy-900">
+            <label htmlFor="degreeYears" className="text-[0.875rem] font-medium text-blue-dark">
               How long your Bachelor&rsquo;s was
             </label>
             <select
@@ -226,7 +226,7 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
               <option value="4">Four years</option>
             </select>
             {destination === "germany" && (
-              <p className="text-[0.8125rem] leading-relaxed text-muted">
+              <p className="text-[0.8125rem] leading-relaxed text-grey">
                 For Germany this matters more than it does elsewhere, and it matters less
                 than the credits behind it.
               </p>
@@ -234,7 +234,7 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
           </div>
 
           <div className="grid gap-2">
-            <span className="text-[0.875rem] font-medium text-navy-900">
+            <span className="text-[0.875rem] font-medium text-blue-dark">
               English test, if you have sat one
             </span>
             <div className="flex flex-wrap gap-2">
@@ -242,7 +242,7 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
                 name="testName"
                 defaultValue={profile.englishTest?.name ?? ""}
                 aria-label="English test"
-                className="w-36 shrink-0 rounded-input border border-line-strong bg-paper px-3 py-2.5 text-[0.9375rem] text-navy-900"
+                className="w-36 shrink-0 rounded-card border border-line-strong bg-white px-3 py-2.5 text-[0.9375rem] text-blue-dark"
               >
                 <option value="">Not sat yet</option>
                 {["IELTS", "IELTS for UKVI", "TOEFL", "PTE", "Duolingo"].map((name) => (
@@ -274,7 +274,7 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
                 className={cn(field, "figures w-36")}
               />
             </div>
-            <p className="text-[0.8125rem] leading-relaxed text-muted">
+            <p className="text-[0.8125rem] leading-relaxed text-grey">
               The lowest section score is the one that decides whether you meet a per-section
               condition, and it is where a good overall band still fails.
             </p>
@@ -285,10 +285,10 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
           <legend className="sr-only">Money</legend>
 
           <div className="grid gap-2">
-            <label htmlFor="fundsLakh" className="text-[0.875rem] font-medium text-navy-900">
+            <label htmlFor="fundsLakh" className="text-[0.875rem] font-medium text-blue-dark">
               What you can evidence, in lakh
             </label>
-            <p className="text-[0.8125rem] leading-relaxed text-muted">
+            <p className="text-[0.8125rem] leading-relaxed text-grey">
               Savings, family funds you can document, or a sanctioned education loan. A
               rough figure is useful; an exact one is not needed here.
             </p>
@@ -308,11 +308,11 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
           <div className="grid gap-2">
             <label
               htmlFor="fundsHeldMonths"
-              className="text-[0.875rem] font-medium text-navy-900"
+              className="text-[0.875rem] font-medium text-blue-dark"
             >
               How long it has been in the account, in months
             </label>
-            <p className="text-[0.8125rem] leading-relaxed text-muted">
+            <p className="text-[0.8125rem] leading-relaxed text-grey">
               The UK reads 28 consecutive days and Ireland reads six months of statements.
               This is the answer that most often decides whether a visa application is ready.
             </p>
@@ -329,7 +329,7 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
             />
           </div>
 
-          <p className="rounded-card bg-surface px-4 py-3.5 text-[0.8125rem] leading-relaxed text-body">
+          <p className="rounded-card bg-light px-4 py-3.5 text-[0.8125rem] leading-relaxed text-grey">
             This is held on your account, not shared with any university, and used only to
             run published requirements against what you told us. You can change or clear it
             whenever you like, and the privacy policy sets out the rest.

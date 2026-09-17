@@ -42,17 +42,17 @@ export function IeltsBandCalculator() {
   return (
     <div className="grid gap-8 lg:grid-cols-[22rem_minmax(0,1fr)] lg:items-start lg:gap-10">
       <form
-        className="rounded-panel border border-line bg-paper p-6 md:p-7"
+        className="rounded-panel border border-line bg-white p-6 md:p-7"
         onSubmit={(event) => event.preventDefault()}
       >
         <fieldset>
-          <legend className="text-[0.875rem] font-semibold text-navy-900">
+          <legend className="text-[0.875rem] font-semibold text-blue-dark">
             Your four section scores
           </legend>
           <div className="mt-4 space-y-4">
             {sections.map((section) => (
               <label key={section.key} className="block">
-                <span className="block text-[0.875rem] font-medium text-navy-900">
+                <span className="block text-[0.875rem] font-medium text-blue-dark">
                   {section.label}
                 </span>
                 <select
@@ -60,7 +60,7 @@ export function IeltsBandCalculator() {
                   onChange={(event) =>
                     setScores((current) => ({ ...current, [section.key]: event.target.value }))
                   }
-                  className="figures mt-1.5 w-full rounded-input border border-line-strong bg-paper px-3.5 py-2.5 text-[1rem] text-navy-900"
+                  className="figures mt-1.5 w-full rounded-card border border-line-strong bg-white px-3.5 py-2.5 text-blue-dark"
                 >
                   <option value="">Not entered</option>
                   {options.map((option) => (
@@ -76,17 +76,17 @@ export function IeltsBandCalculator() {
 
         <div className="mt-7 border-t border-line pt-6">
           <label className="block">
-            <span className="block text-[0.875rem] font-medium text-navy-900">
+            <span className="block text-[0.875rem] font-medium text-blue-dark">
               The minimum your university sets per section
             </span>
-            <span className="mt-0.5 block text-[0.8125rem] leading-snug text-muted">
+            <span className="mt-0.5 block text-[0.8125rem] leading-snug text-grey">
               Almost every offer sets one, and it is where a good overall band still fails.
               Enter the one from your offer condition.
             </span>
             <select
               value={minimumPerSection}
               onChange={(event) => setMinimumPerSection(event.target.value)}
-              className="figures mt-2 w-full rounded-input border border-line-strong bg-paper px-3.5 py-2.5 text-[1rem] text-navy-900"
+              className="figures mt-2 w-full rounded-card border border-line-strong bg-white px-3.5 py-2.5 text-blue-dark"
             >
               {options
                 .filter((option) => option >= 4)
@@ -99,7 +99,7 @@ export function IeltsBandCalculator() {
           </label>
         </div>
 
-        <p className="mt-6 text-[0.8125rem] leading-relaxed text-muted">
+        <p className="mt-6 text-[0.8125rem] leading-relaxed text-grey">
           This calculates the band your four scores produce. It does not predict a band you
           have not sat for, and no tool on this site does.
         </p>
@@ -107,12 +107,12 @@ export function IeltsBandCalculator() {
 
       <div className="min-w-0 space-y-8">
         {result === null && (
-          <div className="rounded-panel border border-dashed border-line-strong bg-surface p-8 text-center">
-            <p className="text-[0.9375rem] leading-relaxed text-body">
+          <div className="rounded-panel border border-dashed border-line-strong bg-light p-8 text-center">
+            <p className="text-[0.9375rem] leading-relaxed text-grey">
               Enter all four section scores and your overall band appears here, with the
               rounding rule applied step by step.
             </p>
-            <p className="mt-3 text-[0.875rem] text-muted">Ungated, like every tool here.</p>
+            <p className="mt-3 text-[0.875rem] text-grey">Ungated, like every tool here.</p>
           </div>
         )}
 
@@ -136,7 +136,7 @@ export function IeltsBandCalculator() {
             >
               <h2
                 className={cn(
-                  "font-display text-[1.0625rem] font-bold",
+                  "font-display font-bold",
                   belowMinimum.length === 0 ? "text-verified" : "text-pending",
                 )}
               >
@@ -144,7 +144,7 @@ export function IeltsBandCalculator() {
                   ? `Every section meets the ${minimum.toFixed(1)} minimum`
                   : `${belowMinimum.length} section${belowMinimum.length === 1 ? "" : "s"} below the ${minimum.toFixed(1)} minimum`}
               </h2>
-              <p className="mt-2 text-[0.9375rem] leading-relaxed text-body">
+              <p className="mt-2 text-[0.9375rem] leading-relaxed text-grey">
                 {belowMinimum.length === 0
                   ? "On these scores the per-section condition is met as well as the overall one. Check the offer for anything else attached to the language condition, such as a required test variant."
                   : `${belowMinimum.map((section) => section.label).join(" and ")} ${belowMinimum.length === 1 ? "is" : "are"} short. An overall band of ${result.display} does not satisfy a per-section condition on its own, and this is the most common reason a language condition is not met by someone who thinks it is.`}
@@ -152,21 +152,21 @@ export function IeltsBandCalculator() {
             </div>
 
             <div>
-              <h2 className="font-display text-[1.25rem] font-bold text-navy-900">
+              <h2 className="text-blue-dark h--5">
                 The nine bands, as the test provider describes them
               </h2>
-              <ol className="mt-4 divide-y divide-line overflow-hidden rounded-panel border border-line bg-paper">
+              <ol className="mt-4 divide-y divide-line overflow-hidden rounded-panel border border-line bg-white">
                 {ieltsDescriptors.map((descriptor) => {
                   const isYours = descriptor.band === Math.floor(result.value);
                   return (
                     <li
                       key={descriptor.band}
-                      className={cn("flex gap-5 px-6 py-4", isYours && "bg-blue-50")}
+                      className={cn("flex gap-5 px-6 py-4", isYours && "bg-light")}
                     >
                       <span
                         className={cn(
-                          "figures w-8 shrink-0 text-[1.0625rem] font-bold",
-                          isYours ? "text-blue-600" : "text-navy-900",
+                          "figures w-8 shrink-0 font-bold",
+                          isYours ? "text-pink" : "text-blue-dark",
                         )}
                       >
                         {descriptor.band}
@@ -175,15 +175,15 @@ export function IeltsBandCalculator() {
                         <span
                           className={cn(
                             "block text-[0.9375rem] font-semibold",
-                            isYours ? "text-blue-600" : "text-navy-900",
+                            isYours ? "text-pink" : "text-blue-dark",
                           )}
                         >
                           {descriptor.name}
                           {isYours && (
-                            <span className="ml-2 font-normal text-blue-600">Your band</span>
+                            <span className="ml-2 font-normal text-pink">Your band</span>
                           )}
                         </span>
-                        <span className="mt-1 block text-[0.875rem] leading-relaxed text-body">
+                        <span className="mt-1 block text-[0.875rem] leading-relaxed text-grey">
                           {descriptor.description}
                         </span>
                       </span>

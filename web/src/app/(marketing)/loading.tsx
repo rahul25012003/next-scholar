@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
  */
 export default function MarketingLoading() {
   return (
-    <div className="shell py-14 md:py-18" role="status" aria-live="polite">
+    <div className="shell" role="status" aria-live="polite">
       <span className="sr-only">Loading the page</span>
       <Skeleton className="h-3 w-20" />
       <Skeleton className="mt-5 h-11 w-full max-w-2xl" />

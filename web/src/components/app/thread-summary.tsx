@@ -28,9 +28,9 @@ export function ThreadSummary({
   return (
     <div className="mt-3">
       {line && (
-        <p className="rounded-card bg-surface p-3 text-[0.875rem] leading-relaxed text-ink-soft">
+        <p className="rounded-card bg-light p-3 text-[0.875rem] leading-relaxed text-grey">
           {line}
-          <span className="mt-1 block text-[0.75rem] text-muted">
+          <span className="mt-1 block text-[0.75rem] text-grey">
             Machine written. The thread above is unchanged.
           </span>
         </p>
@@ -47,7 +47,7 @@ export function ThreadSummary({
       )}
 
       {state.status === "unavailable" && (
-        <p className="mt-2 text-[0.8125rem] leading-relaxed text-muted" role="status">
+        <p className="mt-2 text-[0.8125rem] leading-relaxed text-grey" role="status">
           {state.message}
         </p>
       )}

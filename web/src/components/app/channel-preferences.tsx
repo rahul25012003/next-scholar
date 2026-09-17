@@ -73,10 +73,10 @@ export function ChannelPreferences({
                     size={18}
                     weight="fill"
                     aria-hidden
-                    className={cn("mt-0.5 shrink-0", live ? "text-verified" : "text-muted")}
+                    className={cn("mt-0.5 shrink-0", live ? "text-verified" : "text-grey")}
                   />
                   <div className="min-w-0">
-                    <p className="text-[0.9375rem] font-medium text-navy-900">
+                    <p className="text-[0.9375rem] font-medium text-blue-dark">
                       {channel.label}
                       <span
                         className={cn(
@@ -89,16 +89,16 @@ export function ChannelPreferences({
                         {live ? "On" : "Off"}
                       </span>
                     </p>
-                    <p className="mt-1 max-w-prose text-[0.8125rem] leading-relaxed text-body">
+                    <p className="mt-1 max-w-prose text-[0.8125rem] leading-relaxed text-grey">
                       {channel.detail}
                     </p>
                     {live && (
-                      <p className="figures mt-1.5 text-[0.75rem] text-muted">
+                      <p className="figures mt-1.5 text-[0.75rem] text-grey">
                         Opted in {live.grantedAt.slice(0, 10)} by {live.grantedBy}
                       </p>
                     )}
                     {history.map((consent) => (
-                      <p key={consent.id} className="figures mt-1 text-[0.75rem] text-muted">
+                      <p key={consent.id} className="figures mt-1 text-[0.75rem] text-grey">
                         Withdrawn {consent.withdrawnAt?.slice(0, 10)}. The record is kept
                         rather than deleted.
                       </p>
@@ -131,7 +131,7 @@ export function ChannelPreferences({
         </p>
       )}
 
-      <p className="mt-5 border-t border-line pt-4 text-[0.8125rem] leading-relaxed text-muted">
+      <p className="mt-5 border-t border-line pt-4 text-[0.8125rem] leading-relaxed text-grey">
         Neither channel is connected to a provider yet, so nothing is actually delivered on
         either today. What is recorded here is the permission, and the notification planner
         already refuses to queue a message on a channel with no live opt in.

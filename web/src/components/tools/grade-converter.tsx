@@ -48,7 +48,7 @@ export function GradeConverter() {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-[0.8125rem] font-semibold uppercase tracking-wide text-muted">
+        <h2 className="eyebrow text-grey">
           Pick the conversion you need
         </h2>
         <div
@@ -64,17 +64,17 @@ export function GradeConverter() {
               aria-selected={option.key === variant}
               onClick={() => setVariant(option.key)}
               className={cn(
-                "rounded-full border px-4 py-2 text-[0.875rem] font-medium transition-colors",
+                "button",
                 option.key === variant
-                  ? "border-blue-600 bg-blue-600 text-white"
-                  : "border-line-strong bg-paper text-navy-900 hover:border-blue-600 hover:text-blue-600",
+                  ? "button--selected"
+                  : "button--light",
               )}
             >
               {option.label}
             </button>
           ))}
         </div>
-        <p className="mt-3 text-[0.875rem] text-muted">
+        <p className="mt-3 text-[0.875rem] text-grey">
           {variants.find((option) => option.key === variant)!.note}
         </p>
       </div>
@@ -144,12 +144,12 @@ export function GradeConverter() {
       {variant === "sgpa-cgpa" && <SgpaToCgpa />}
       {variant === "gpa-calculator" && <GpaCalculator />}
 
-      <p className="rounded-card border border-line bg-surface px-5 py-4 text-[0.875rem] leading-relaxed text-body">
-        <span className="font-medium text-navy-900">Applying to Germany?</span> None of these
+      <p className="rounded-card border border-line bg-light px-5 py-4 text-[0.875rem] leading-relaxed text-grey">
+        <span className="font-medium text-blue-dark">Applying to Germany?</span> None of these
         is the conversion a German university runs. That one is the{" "}
         <Link
           href="/tools/german-grade-calculator"
-          className="font-medium text-blue-600 hover:text-blue-500"
+          className="font-medium text-pink hover:text-blue"
         >
           Modified Bavarian Formula
         </Link>
@@ -176,18 +176,18 @@ function Shell({
   return (
     <div className="grid gap-8 lg:grid-cols-[22rem_minmax(0,1fr)] lg:items-start lg:gap-10">
       <form
-        className="rounded-panel border border-line bg-paper p-6 md:p-7"
+        className="rounded-panel border border-line bg-white p-6 md:p-7"
         onSubmit={(event) => event.preventDefault()}
       >
         {form}
       </form>
       <div className="min-w-0">
         {result === null ? (
-          <div className="rounded-panel border border-dashed border-line-strong bg-surface p-8 text-center">
-            <p className="text-[0.9375rem] leading-relaxed text-body">
+          <div className="rounded-panel border border-dashed border-line-strong bg-light p-8 text-center">
+            <p className="text-[0.9375rem] leading-relaxed text-grey">
               Enter your figure and the result appears here with its full working.
             </p>
-            <p className="mt-3 text-[0.875rem] text-muted">No signup. No email. Ever.</p>
+            <p className="mt-3 text-[0.875rem] text-grey">No signup. No email. Ever.</p>
           </div>
         ) : "error" in result ? (
           <InputError message={result.error} />
@@ -310,7 +310,7 @@ function ScaledInput({
             max={max}
           />
           <fieldset>
-            <legend className="text-[0.875rem] font-medium text-navy-900">
+            <legend className="text-[0.875rem] font-medium text-blue-dark">
               Which GPA scale does the form ask for?
             </legend>
             <div className="mt-2.5 flex flex-wrap gap-2">
@@ -321,17 +321,17 @@ function ScaledInput({
                   onClick={() => setScale(option)}
                   aria-pressed={option === scale}
                   className={cn(
-                    "figures rounded-full border px-4 py-2 text-[0.875rem] font-medium transition-colors",
+                    "button figures",
                     option === scale
-                      ? "border-navy-900 bg-navy-900 text-white"
-                      : "border-line-strong bg-paper text-navy-900 hover:border-navy-900",
+                      ? "button--selected"
+                      : "button--light",
                   )}
                 >
                   {option}.0
                 </button>
               ))}
             </div>
-            <p className="mt-2.5 text-[0.8125rem] leading-relaxed text-muted">
+            <p className="mt-2.5 text-[0.8125rem] leading-relaxed text-grey">
               If the form does not say, 4.0 is the usual assumption in North America and
               10.0 is the usual one in India.
             </p>
@@ -365,8 +365,8 @@ function SgpaToCgpa() {
       result={result}
       form={
         <div>
-          <p className="text-[0.875rem] font-medium text-navy-900">Each semester</p>
-          <p className="mt-1 text-[0.8125rem] leading-relaxed text-muted">
+          <p className="text-[0.875rem] font-medium text-blue-dark">Each semester</p>
+          <p className="mt-1 text-[0.8125rem] leading-relaxed text-grey">
             Credits are optional and they change the answer. Leave them blank and you get
             the unweighted mean, which is wrong whenever your semesters carried different
             loads. Fill them in and you get the figure your regulation actually specifies.
@@ -375,7 +375,7 @@ function SgpaToCgpa() {
             {rows.map((row, index) => (
               <div key={index} className="flex items-end gap-2">
                 <label className="flex-1">
-                  <span className="block text-[0.75rem] text-muted">
+                  <span className="block text-[0.75rem] text-grey">
                     Semester {index + 1} SGPA
                   </span>
                   <input
@@ -392,11 +392,11 @@ function SgpaToCgpa() {
                         ),
                       )
                     }
-                    className="figures mt-1 w-full rounded-input border border-line-strong px-3 py-2 text-[0.9375rem] text-navy-900"
+                    className="figures mt-1 w-full rounded-input border border-line-strong px-3 py-2 text-[0.9375rem] text-blue-dark"
                   />
                 </label>
                 <label className="w-24">
-                  <span className="block text-[0.75rem] text-muted">Credits</span>
+                  <span className="block text-[0.75rem] text-grey">Credits</span>
                   <input
                     type="number"
                     inputMode="numeric"
@@ -410,7 +410,7 @@ function SgpaToCgpa() {
                         ),
                       )
                     }
-                    className="figures mt-1 w-full rounded-input border border-line-strong px-3 py-2 text-[0.9375rem] text-navy-900"
+                    className="figures mt-1 w-full rounded-input border border-line-strong px-3 py-2 text-[0.9375rem] text-blue-dark"
                   />
                 </label>
                 <button
@@ -418,7 +418,7 @@ function SgpaToCgpa() {
                   onClick={() => setRows((current) => current.filter((_, i) => i !== index))}
                   disabled={rows.length <= 1}
                   aria-label={`Remove semester ${index + 1}`}
-                  className="mb-1 grid h-9 w-9 shrink-0 place-items-center rounded-input border border-line text-muted transition-colors hover:border-denied hover:text-denied disabled:opacity-40"
+                  className="mb-1 grid h-9 w-9 shrink-0 place-items-center rounded-input border border-line text-grey transition-colors hover:border-denied hover:text-denied disabled:opacity-40"
                 >
                   <Trash size={15} aria-hidden />
                 </button>
@@ -463,18 +463,18 @@ function GpaCalculator() {
       result={result}
       form={
         <div>
-          <p className="text-[0.875rem] font-medium text-navy-900">Each subject</p>
-          <p className="mt-1 text-[0.8125rem] leading-relaxed text-muted">
+          <p className="text-[0.875rem] font-medium text-blue-dark">Each subject</p>
+          <p className="mt-1 text-[0.8125rem] leading-relaxed text-grey">
             The grade points below are the common Indian 10 point mapping. Check the letter
             to point table in your own regulation, because they do differ.
           </p>
           <div className="mt-4 space-y-3">
             {rows.map((row, index) => (
-              <div key={index} className="rounded-input border border-line p-3">
+              <div key={index} className="rounded-card border border-line p-3">
                 <div className="flex items-end gap-2">
                   <label className="flex-1">
-                    <span className="block text-[0.75rem] text-muted">
-                      Subject <span className="text-muted">optional</span>
+                    <span className="block text-[0.75rem] text-grey">
+                      Subject <span className="text-grey">optional</span>
                     </span>
                     <input
                       value={row.name}
@@ -485,7 +485,7 @@ function GpaCalculator() {
                           ),
                         )
                       }
-                      className="mt-1 w-full rounded-input border border-line-strong px-3 py-2 text-[0.9375rem] text-navy-900"
+                      className="mt-1 w-full rounded-input border border-line-strong px-3 py-2 text-[0.9375rem] text-blue-dark"
                     />
                   </label>
                   <button
@@ -493,14 +493,14 @@ function GpaCalculator() {
                     onClick={() => setRows((current) => current.filter((_, i) => i !== index))}
                     disabled={rows.length <= 1}
                     aria-label={`Remove subject ${index + 1}`}
-                    className="mb-1 grid h-9 w-9 shrink-0 place-items-center rounded-input border border-line text-muted transition-colors hover:border-denied hover:text-denied disabled:opacity-40"
+                    className="mb-1 grid h-9 w-9 shrink-0 place-items-center rounded-input border border-line text-grey transition-colors hover:border-denied hover:text-denied disabled:opacity-40"
                   >
                     <Trash size={15} aria-hidden />
                   </button>
                 </div>
                 <div className="mt-2.5 flex gap-2">
                   <label className="w-24">
-                    <span className="block text-[0.75rem] text-muted">Credits</span>
+                    <span className="block text-[0.75rem] text-grey">Credits</span>
                     <input
                       type="number"
                       inputMode="numeric"
@@ -514,11 +514,11 @@ function GpaCalculator() {
                           ),
                         )
                       }
-                      className="figures mt-1 w-full rounded-input border border-line-strong px-3 py-2 text-[0.9375rem] text-navy-900"
+                      className="figures mt-1 w-full rounded-input border border-line-strong px-3 py-2 text-[0.9375rem] text-blue-dark"
                     />
                   </label>
                   <label className="flex-1">
-                    <span className="block text-[0.75rem] text-muted">Grade</span>
+                    <span className="block text-[0.75rem] text-grey">Grade</span>
                     <select
                       value={row.points}
                       onChange={(event) =>
@@ -528,7 +528,7 @@ function GpaCalculator() {
                           ),
                         )
                       }
-                      className="mt-1 w-full rounded-input border border-line-strong bg-paper px-3 py-2 text-[0.9375rem] text-navy-900"
+                      className="mt-1 w-full rounded-input border border-line-strong bg-white px-3 py-2 text-[0.9375rem] text-blue-dark"
                     >
                       {gradePointOptions.map((option) => (
                         <option key={option.letter} value={option.points}>

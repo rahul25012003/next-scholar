@@ -4,13 +4,13 @@ import { staggerDelay } from "@/lib/stagger";
 
 export function Outcomes() {
   return (
-    <section id="outcomes" className="band scroll-mt-20 bg-surface">
+    <section id="outcomes" className="band scroll-mt-20">
       <div className="shell">
         <div className="max-w-2xl">
-          <h2 className="font-display text-3xl font-bold text-navy-900 md:text-[2.5rem]">
+          <h2 className="text-blue-dark">
             Outcomes, including the ones nobody publishes
           </h2>
-          <p className="mt-5 text-[1.0625rem] leading-relaxed text-body">
+          <p className="mt-5 leading-relaxed text-grey">
             Every counter below is empty, and stays empty until there is a real
             case behind it. The prototype this business replaces carried
             invented figures here, which is the specific habit Next Scholar
@@ -19,7 +19,7 @@ export function Outcomes() {
         </div>
 
         <Reveal>
-          <div className="mt-12 grid overflow-hidden rounded-panel border border-line bg-paper sm:grid-cols-2 lg:grid-cols-5">
+          <div className="mt-12 grid overflow-hidden rounded-panel border border-line bg-white sm:grid-cols-2 lg:grid-cols-5">
             {outcomeMetrics.map((metric) => (
               <div
                 key={metric.key}
@@ -28,10 +28,10 @@ export function Outcomes() {
                 <p className="figures text-[1.75rem] font-semibold leading-none text-line-strong">
                   {metric.value.state === "measured" ? metric.value.value : "0"}
                 </p>
-                <p className="mt-3 text-[0.9375rem] font-medium leading-snug text-navy-900">
+                <p className="mt-3 text-[0.9375rem] font-medium leading-snug text-blue-dark">
                   {metric.label}
                 </p>
-                <p className="mt-2 text-[0.8125rem] leading-relaxed text-muted">
+                <p className="mt-2 text-[0.8125rem] leading-relaxed text-grey">
                   {metric.value.state === "pending"
                     ? metric.value.reason
                     : `As of ${metric.value.asOf}`}
@@ -44,7 +44,7 @@ export function Outcomes() {
         <div className="mt-12 grid gap-x-10 gap-y-5 md:grid-cols-2">
           {reportingRules.map((rule, index) => (
             <Reveal key={rule} delay={staggerDelay(index, 0.05)}>
-              <p className="border-t border-line-strong pt-4 text-[0.9375rem] leading-relaxed text-body">
+              <p className="border-t border-line-strong pt-4 text-[0.9375rem] leading-relaxed text-grey">
                 {rule}
               </p>
             </Reveal>

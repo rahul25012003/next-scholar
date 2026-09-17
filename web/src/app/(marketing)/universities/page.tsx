@@ -46,14 +46,14 @@ export default async function UniversitiesPage(props: PageProps<"/universities">
         title="Every course here shows what we earn on it"
         lede="Forty-five universities, fifty-two courses, three destinations. The number neither of the two largest platforms in this market prints anywhere is on every row of this list, next to the fee, because they are the same kind of fact and you are entitled to both."
         aside={
-          <div className="rounded-panel border border-line bg-paper p-6 shadow-card">
-            <p className="text-[0.8125rem] font-semibold text-navy-900">
+          <div className="rounded-panel border border-line bg-white p-6">
+            <p className="text-[0.8125rem] font-semibold text-blue-dark">
               What this catalogue is
             </p>
-            <p className="mt-2 text-[0.875rem] leading-relaxed text-body">
+            <p className="mt-2 text-[0.875rem] leading-relaxed text-grey">
               {catalogueScope.note}
             </p>
-            <p className="mt-3 text-[0.8125rem] text-muted">
+            <p className="mt-3 text-[0.8125rem] text-grey">
               Written down <span className="figures">{catalogueScope.statedOn}</span>. Not yet
               re-checked at source by a named person.
             </p>
@@ -61,11 +61,11 @@ export default async function UniversitiesPage(props: PageProps<"/universities">
         }
       />
 
-      <section className="bg-paper py-10 md:py-14">
+      <section className="band">
         <div className="shell grid gap-8 lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-10 lg:items-start">
           <div className="lg:sticky lg:top-24">
             <details className="lg:hidden">
-              <summary className="cursor-pointer rounded-card border border-line bg-surface px-5 py-3.5 text-[0.9375rem] font-semibold text-navy-900">
+              <summary className="cursor-pointer rounded-card border border-line bg-light px-5 py-3.5 text-[0.9375rem] font-semibold text-blue-dark">
                 Filters{activeCount > 0 ? ` (${activeCount} applied)` : ""}
               </summary>
               <div className="mt-3">
@@ -79,26 +79,26 @@ export default async function UniversitiesPage(props: PageProps<"/universities">
 
           <div className="min-w-0">
             <div className="flex flex-wrap items-baseline justify-between gap-4">
-              <h2 className="font-display text-[1.375rem] font-bold text-navy-900">
+              <h2 className="text-blue-dark">
                 {rows.length} course{rows.length === 1 ? "" : "s"}
                 {activeCount > 0 && (
-                  <span className="ml-2 text-[0.875rem] font-normal text-muted">
+                  <span className="ml-2 text-[0.875rem] font-normal text-grey">
                     from {programmes.length}, on {activeCount} filter
                     {activeCount === 1 ? "" : "s"}
                   </span>
                 )}
               </h2>
-              <p className="text-[0.8125rem] text-muted">
+              <p className="text-[0.8125rem] text-grey">
                 Ordered by {sortOptions.find((option) => option.key === sort)?.label.toLowerCase()}
               </p>
             </div>
 
             {rows.length === 0 ? (
-              <div className="mt-6 rounded-panel border border-dashed border-line-strong bg-surface p-8">
-                <h3 className="font-display text-[1.125rem] font-bold text-navy-900">
+              <div className="mt-6 rounded-panel border border-dashed border-line-strong bg-light p-8">
+                <h3 className="text-blue-dark h--5">
                   Nothing matches those filters
                 </h3>
-                <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-body">
+                <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
                   That is a fact about this catalogue rather than about the world. We cover
                   forty-five institutions across three destinations, seeded by hand, so an empty
                   result usually means the combination is outside what we have curated, not
@@ -106,7 +106,7 @@ export default async function UniversitiesPage(props: PageProps<"/universities">
                 </p>
                 <Link
                   href="/universities"
-                  className="mt-4 inline-block text-[0.9375rem] font-medium text-blue-600 hover:text-blue-500"
+                  className="mt-4 inline-block text-[0.9375rem] font-medium text-pink hover:text-blue"
                 >
                   Clear the filters
                 </Link>
@@ -124,8 +124,8 @@ export default async function UniversitiesPage(props: PageProps<"/universities">
               </div>
             )}
 
-            <div className="mt-10 rounded-panel border border-line bg-surface p-6 md:p-7">
-              <h2 className="flex items-center gap-2 font-display text-[1.125rem] font-bold text-navy-900">
+            <div className="mt-10 rounded-panel border border-line bg-light p-6 md:p-7">
+              <h2 className="flex items-center gap-2 text-blue-dark h--5">
                 <WarningCircle size={18} weight="fill" aria-hidden className="text-pending" />
                 What this catalogue does not do
               </h2>
@@ -133,7 +133,7 @@ export default async function UniversitiesPage(props: PageProps<"/universities">
                 {catalogueScope.omissions.map((line) => (
                   <li
                     key={line}
-                    className="flex gap-2.5 text-[0.9375rem] leading-relaxed text-body"
+                    className="flex gap-2.5 text-[0.9375rem] leading-relaxed text-grey"
                   >
                     <span
                       aria-hidden
@@ -143,13 +143,13 @@ export default async function UniversitiesPage(props: PageProps<"/universities">
                   </li>
                 ))}
               </ul>
-              <p className="mt-5 text-[0.875rem] leading-relaxed text-muted">
+              <p className="mt-5 text-[0.875rem] leading-relaxed text-grey">
                 The commission bands here are market estimates rather than contract terms,
                 except the German public universities, where the figure is a confirmed zero.
                 The method, the seven verification states and the dispute route are on the{" "}
                 <Link
                   href="/open-ledger"
-                  className="font-medium text-blue-600 hover:text-blue-500"
+                  className="font-medium text-pink hover:text-blue"
                 >
                   Open Ledger
                 </Link>

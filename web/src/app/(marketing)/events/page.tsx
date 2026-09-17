@@ -22,18 +22,18 @@ export default function EventsPage() {
         lede="Nothing is scheduled today. When something is, it appears here with a real registration link and, once registrations exist, a real count rather than one that starts at a plausible-looking number and never moves."
       />
 
-      <section className="band bg-paper">
+      <section className="band">
         <div className="shell">
-          <p className="max-w-2xl text-[0.9375rem] leading-relaxed text-body">
+          <p className="max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
             {eventsScope.note}
           </p>
 
           {upcoming.length === 0 ? (
-            <div className="mt-8 rounded-panel border border-dashed border-line-strong bg-surface p-8">
-              <h2 className="font-display text-[1.125rem] font-bold text-navy-900">
+            <div className="mt-8 rounded-panel border border-dashed border-line-strong bg-light p-8">
+              <h2 className="text-blue-dark h--5">
                 Nothing scheduled
               </h2>
-              <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-body">
+              <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
                 No webinar or in-person session is booked at the moment. Every guide and
                 every calculator on this site works without one.
               </p>
@@ -46,24 +46,24 @@ export default function EventsPage() {
               {upcoming.map((event) => {
                 const guide = guides.find((item) => item.slug === event.destination);
                 return (
-                  <li key={event.slug} className="rounded-panel border border-line bg-paper p-6">
-                    <h2 className="font-display text-[1.0625rem] font-bold text-navy-900">
+                  <li key={event.slug} className="rounded-panel border border-line bg-white p-6">
+                    <h2 className="text-blue-dark h--6">
                       {event.title}
                     </h2>
-                    <p className="mt-1 text-[0.8125rem] text-muted">
+                    <p className="mt-1 text-[0.8125rem] text-grey">
                       {guide?.country ?? "All destinations"} ·{" "}
                       {event.format === "online" ? "Online" : event.city ?? "In person"}
                     </p>
-                    <p className="mt-3 text-[0.9375rem] leading-relaxed text-body">
+                    <p className="mt-3 text-[0.9375rem] leading-relaxed text-grey">
                       {event.summary}
                     </p>
-                    <p className="figures mt-3 text-[0.875rem] font-medium text-navy-900">
+                    <p className="figures mt-3 text-[0.875rem] font-medium text-blue-dark">
                       {new Date(event.startsAt).toLocaleString("en-IN", {
                         dateStyle: "medium",
                         timeStyle: "short",
                       })}
                     </p>
-                    <p className="mt-1 text-[0.8125rem] text-muted">
+                    <p className="mt-1 text-[0.8125rem] text-grey">
                       {event.registeredCount.state === "measured"
                         ? `${event.registeredCount.value} registered as of ${event.registeredCount.asOf}`
                         : event.registeredCount.reason}
@@ -81,14 +81,14 @@ export default function EventsPage() {
 
           {past.length > 0 && (
             <div className="mt-12 border-t border-line pt-8">
-              <h2 className="text-[0.75rem] font-semibold uppercase tracking-wide text-muted">
+              <h2 className="eyebrow text-grey">
                 Past
               </h2>
               <ul className="mt-4 space-y-2">
                 {past.map((event) => (
-                  <li key={event.slug} className="text-[0.9375rem] text-body">
+                  <li key={event.slug} className="text-[0.9375rem] text-grey">
                     {event.title} —{" "}
-                    <span className="figures text-muted">
+                    <span className="figures text-grey">
                       {new Date(event.startsAt).toLocaleDateString("en-IN", { dateStyle: "medium" })}
                     </span>
                   </li>

@@ -30,7 +30,7 @@ export function VerifyDocument({
         <p
           className={
             state.status === "done"
-              ? "mt-2 max-w-xs text-[0.75rem] leading-relaxed text-muted"
+              ? "mt-2 max-w-xs text-[0.75rem] leading-relaxed text-grey"
               : "mt-2 max-w-xs text-[0.75rem] leading-relaxed text-denied"
           }
           role="status"

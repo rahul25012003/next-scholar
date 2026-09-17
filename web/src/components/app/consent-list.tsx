@@ -18,16 +18,16 @@ export function ConsentList({ consents }: { consents: ConsentRecord[] }) {
           <li key={consent.id} className="px-6 py-5">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div className="max-w-xl">
-                <p className="text-[0.9375rem] font-medium text-navy-900">
+                <p className="text-[0.9375rem] font-medium text-blue-dark">
                   {categoryLabel[consent.category]}
                 </p>
-                <p className="mt-1 text-[0.875rem] leading-relaxed text-body">
+                <p className="mt-1 text-[0.875rem] leading-relaxed text-grey">
                   {consent.purpose}
                 </p>
-                <p className="mt-2 text-[0.8125rem] leading-relaxed text-muted">
+                <p className="mt-2 text-[0.8125rem] leading-relaxed text-grey">
                   Shared with: {consent.sharedWith.join(", ")}
                 </p>
-                <p className="figures mt-1 text-[0.75rem] text-muted">
+                <p className="figures mt-1 text-[0.75rem] text-grey">
                   Given {consent.grantedAt.slice(0, 10)} by {consent.grantedBy}
                   {consent.withdrawnAt
                     ? `, withdrawn ${consent.withdrawnAt.slice(0, 10)}`
@@ -54,7 +54,7 @@ export function ConsentList({ consents }: { consents: ConsentRecord[] }) {
 
       {state.status !== "idle" && (
         <p
-          className="border-t border-line px-6 py-4 text-[0.875rem] leading-relaxed text-ink-soft"
+          className="border-t border-line px-6 py-4 text-[0.875rem] leading-relaxed text-grey"
           role="status"
         >
           {state.message}
