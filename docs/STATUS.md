@@ -48,9 +48,11 @@ measuring text against its real background rather than against the tokens: the
 destination guides, the legal documents and the article bodies rendered their
 body as a bare `.shell`, which outside a `.band` is not the white panel, so grey
 and pink text sat on the blue ground at 1.4:1. Measured across 57 pages after
-the fix, nothing is below 3:1; the one pattern left below AA is the reference's
-own light-blue pill button (white on #4899df, 3.04:1 at 18px bold), kept as a
-deliberate design choice.
+the fix, nothing is below 3:1. The last pattern below AA was the reference's
+own light-blue pill button (white on #4899df, 3.04:1 at 18px bold, 15px on
+phones). The user chose to hold every button at 19px, past WCAG's bold
+large-text size, over darkening the blue; measured across 45 pages afterwards,
+no text on the site is below AA.
 `reference/design-reference.png` is no longer the source of any token.
 
 ---
