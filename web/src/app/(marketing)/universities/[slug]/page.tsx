@@ -375,6 +375,11 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                               ? formatFee(programme.feePerYear.value, programme.currency)
                               : "Not published here"}
                           </dd>
+                          {programme.feePerYear.state === "unknown" && (
+                            <dd className="mt-1 text-[0.75rem] leading-snug text-grey">
+                              {programme.feePerYear.reason}
+                            </dd>
+                          )}
                         </div>
                         <div>
                           <dt className="text-[0.75rem] text-grey">Duration</dt>
