@@ -39,9 +39,9 @@ export const unitedKingdom: DestinationGuide = {
   tuition: [
     {
       label: "Taught Master's, year one",
-      value: "£14,000 to £46,000",
+      value: "£12,500 to £46,000",
       qualifier:
-        "Indicative range across institutions and subjects. Not a quoted price. Business and computing at a high-ranked university sit at the top of it, which is where our own catalogue's highest entry sits, and MBA programmes sit above it.",
+        "Indicative range across institutions and subjects. Not a quoted price. The low end is Wrexham University's published international MA/MSc rate for 2026/27. Business and computing at a high-ranked university sit at the top of it, which is where our own catalogue's highest entry sits, and MBA programmes sit above it.",
       source: "University published international fee schedules",
     },
     {

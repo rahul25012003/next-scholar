@@ -1360,6 +1360,11 @@
     animation: spin 24s linear infinite;
   }
 
+  /* Paused rather than removed, so the ring resumes from where it stopped. */
+  [data-spin="paused"] .anim-spin {
+    animation-play-state: paused;
+  }
+
   /* ----------------------------------------------------------------------
      Overview: white boxes staggered on the ground, images between them
      ------------------------------------------------------------------- */

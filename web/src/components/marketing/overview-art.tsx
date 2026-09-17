@@ -1,8 +1,21 @@
 "use client";
 
-import { useId } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { useId, useRef, type RefObject } from "react";
+import { motion, useInView, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/cn";
+
+/**
+ * Two things decorative art should not do while nobody is looking at it: turn
+ * forever, and fetch photographs. `spin` is false while the art is off screen,
+ * which pauses the ring through [data-spin="paused"] in globals.css. `load`
+ * turns true once the art comes within a screen of the viewport and stays true,
+ * so an <image> gets its href, and so its request, only then.
+ */
+export function useArtVisibility(ref: RefObject<Element | null>) {
+  const spin = useInView(ref);
+  const load = useInView(ref, { once: true, margin: "600px 0px" });
+  return { spin, load };
+}
 
 /**
  * The decorative pieces of the reference's overview section: the long pale
@@ -80,8 +93,12 @@ export function SpinRing({
 /** The ring that hangs off the corner of the first overview box. */
 export function SpinCircle({ text }: { text: string }) {
   const id = useId().replace(/:/g, "");
+  const ref = useRef<SVGSVGElement>(null);
+  const { spin } = useArtVisibility(ref);
   return (
     <svg
+      ref={ref}
+      data-spin={spin ? "running" : "paused"}
       className="anim-circle Overview__circle"
       role="presentation"
       aria-hidden
@@ -132,6 +149,8 @@ export function OverviewImage({
 }) {
   const id = useId().replace(/:/g, "");
   const reduced = useReducedMotion();
+  const ref = useRef<SVGSVGElement>(null);
+  const { load } = useArtVisibility(ref);
   const box =
     variant === 1
       ? { x: 188, y: 93.77, width: 289.99, height: 289.99 }
@@ -140,6 +159,7 @@ export function OverviewImage({
 
   return (
     <motion.svg
+      ref={ref}
       className="Overview__image"
       role="img"
       aria-labelledby={`${id}-title`}
@@ -189,7 +209,7 @@ export function OverviewImage({
 
       <image
         preserveAspectRatio="xMidYMid slice"
-        href={src}
+        href={load ? src : undefined}
         clipPath={`url(#${id}-mask)`}
         {...box}
       />

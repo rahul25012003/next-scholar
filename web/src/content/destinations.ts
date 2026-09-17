@@ -45,7 +45,7 @@ export const destinations: DestinationRow[] = [
     country: "United Kingdom",
     flagCode: "gb",
     intakes: "September, January",
-    tuition: "£14k to £46k",
+    tuition: "£12.5k to £46k",
     tuitionNote: "First year tuition, taught masters",
     postStudy: "18 months",
     postStudyNote:
@@ -114,7 +114,7 @@ export const destinations: DestinationRow[] = [
     country: "Ireland",
     flagCode: "ie",
     intakes: "September, January",
-    tuition: "€12k to €26k",
+    tuition: "€12k to €28k",
     tuitionNote: "First year tuition, taught masters",
     postStudy: "12 + 12 months",
     postStudyNote:

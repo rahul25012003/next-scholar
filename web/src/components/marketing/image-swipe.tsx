@@ -1,8 +1,8 @@
 "use client";
 
-import { useId } from "react";
+import { useId, useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { SpinRing } from "@/components/marketing/overview-art";
+import { SpinRing, useArtVisibility } from "@/components/marketing/overview-art";
 import { cn } from "@/lib/cn";
 
 type Frame = { src: string; alt: string };
@@ -29,6 +29,8 @@ export function ImageSwipe({
 }) {
   const id = useId().replace(/:/g, "");
   const reduced = useReducedMotion();
+  const ref = useRef<SVGSVGElement>(null);
+  const { spin, load } = useArtVisibility(ref);
   const topBox = reverse
     ? { width: 280, height: 280, x: 215, y: 0 }
     : { width: 215, height: 215, x: 282, y: 0 };
@@ -38,6 +40,8 @@ export function ImageSwipe({
 
   return (
     <motion.svg
+      ref={ref}
+      data-spin={spin ? "running" : "paused"}
       className={cn("anim-image-swipe", reverse && "anim-image-swipe--reverse", className)}
       role="img"
       aria-labelledby={`${id}-title`}
@@ -67,13 +71,13 @@ export function ImageSwipe({
         clipPath={`url(#${id}-top)`}
         {...topBox}
         preserveAspectRatio="xMidYMid slice"
-        href={top.src}
+        href={load ? top.src : undefined}
       />
       <image
         clipPath={`url(#${id}-bottom)`}
         {...bottomBox}
         preserveAspectRatio="xMidYMid slice"
-        href={bottom.src}
+        href={load ? bottom.src : undefined}
       />
       <SpinRing
         id={`${id}-ring`}

@@ -462,20 +462,24 @@ fifty-two programmes held in memory, with no external fetch anywhere in the path
 every read is a plain synchronous loop over that array. Wrapping it in a
 cache would add a layer with nothing slow underneath it.
 
-**Investigated, framework behaviour, deliberately not patched.** On a full
-document load of any route group that has a `loading.tsx`, the live DOM ends
-up with the whole page twice: once in `main`, and once inside
-`<div hidden id="S:0">` left over under `body`. Measured on 2026-09-17
-against a production build: identical text on both copies, ~300 KB of hidden
-DOM per page, and a second `<h1>` that `hidden` keeps out of the
-accessibility tree. The served HTML has one of everything, no console error,
-and the (auth) group — no `loading.tsx`, so no boundary — is clean. The
-cause is React 19.2's batched-reveal streaming protocol (the served `$RC`
-pushes to `$RB` and defers `$RV` by a frame or up to two seconds); under
-Next 16.3.4 the reveal fills `main` but does not remove the holder. None of
-it is app code. Removing `S:*` holders in an effect would race React's own
-reveal, so the honest move is to leave it, re-check after the next Next or
-React patch, and never "fix" it by deleting `loading.tsx`, which is 1.10.
+**Investigated, and not a bug: a test-environment artefact, corrected.** An
+earlier write-up here said every page with a `loading.tsx` kept a second,
+hidden copy of itself in `<div hidden id="S:0">`, and blamed React 19.2 and
+Next 16.3.4. That was wrong, and it was measured wrong. React's batched
+streaming reveal (the served `$RC` pushes to `$RB`) finishes on the next
+animation frame, and the browser automation tab the measurement ran in was a
+hidden tab: `document.visibilityState` was `"hidden"` and it produced zero
+`requestAnimationFrame` callbacks in a second. With no frame, the reveal never
+ran, so the holder stayed. As soon as a screenshot forced a frame, `S:0` was
+removed and the page finished hydrating on its own. A visible browser tab
+produces frames continuously, so a real visitor never sees it.
+
+The same stall explains two other readings from that session, and neither is a
+defect: `IntersectionObserver` callbacks (so Motion's `useInView` and
+`whileInView`) arrive late, and CSS animations do not advance. Anyone measuring
+live behaviour through that automation must force a frame first, a screenshot
+is enough, and check `document.visibilityState` before believing a stuck
+animation, a missing reveal or a duplicated DOM.
 
 **5.10, 5.15, 5.16, E.06 — done in the only honest form available.**
 `src/content/events.ts` models an event's registration count as a

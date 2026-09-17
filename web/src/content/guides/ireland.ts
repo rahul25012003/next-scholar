@@ -42,7 +42,7 @@ export const ireland: DestinationGuide = {
       label: "Taught Master's, year one",
       value: "€12,000 to €28,000",
       qualifier:
-        "Indicative range across institutions and subjects. Not a quoted price. Business, data and computing at the larger universities sit at the top of it, which is where our own catalogue's highest entry sits.",
+        "Indicative range across institutions and subjects. Not a quoted price. The low end is what Munster Technological University's own fee page states for its data science MSc after its EUR 3,000 scholarship, for applicants who qualify; before any scholarship the lowest in our catalogue is EUR 14,000. Business, data and computing at the larger universities sit at the top of it, which is where our own catalogue's highest entry sits.",
       source: "University published international fee schedules",
     },
     {
