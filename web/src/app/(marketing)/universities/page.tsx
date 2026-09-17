@@ -106,7 +106,7 @@ export default async function UniversitiesPage(props: PageProps<"/universities">
                 </p>
                 <Link
                   href="/universities"
-                  className="mt-4 inline-block text-[0.9375rem] font-medium text-pink hover:text-blue"
+                  className="mt-4 inline-block text-[0.9375rem] font-medium text-pink hover:text-blue-dark"
                 >
                   Clear the filters
                 </Link>
@@ -149,7 +149,7 @@ export default async function UniversitiesPage(props: PageProps<"/universities">
                 The method, the seven verification states and the dispute route are on the{" "}
                 <Link
                   href="/open-ledger"
-                  className="font-medium text-pink hover:text-blue"
+                  className="font-medium text-pink hover:text-blue-dark"
                 >
                   Open Ledger
                 </Link>

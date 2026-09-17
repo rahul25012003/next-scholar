@@ -74,7 +74,7 @@ export default async function StagePage(props: PageProps<"/process/[stage]">) {
         <div className="shell max-w-3xl">
           <Link
             href="/#process"
-            className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue"
+            className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue-dark"
           >
             <ArrowLeft size={14} weight="bold" aria-hidden />
             All eleven stages

@@ -64,7 +64,7 @@ export function PolicyDesk() {
                   </p>
                   <Link
                     href={`/destinations/${note.guideSlug}`}
-                    className="group mt-3 inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue"
+                    className="group mt-3 inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue-dark"
                   >
                     The full {note.destination} guide
                     <ArrowRight

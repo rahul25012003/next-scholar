@@ -24,7 +24,7 @@ export default function ProfileEvaluationPage() {
         <div className="shell">
           <Link
             href="/services"
-            className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue"
+            className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue-dark"
           >
             <ArrowLeft size={14} weight="bold" aria-hidden />
             All services

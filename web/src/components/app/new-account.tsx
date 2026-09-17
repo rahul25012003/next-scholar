@@ -140,7 +140,7 @@ export function NewAccountState({
                 The same checklist runs without an account at{" "}
                 <Link
                   href={`/tools/requirements-check?destination=${guide.slug}`}
-                  className="font-medium text-pink hover:text-blue"
+                  className="font-medium text-pink hover:text-blue-dark"
                 >
                   /tools/requirements-check
                 </Link>
@@ -173,7 +173,7 @@ export function NewAccountState({
                       {step.href && (
                         <Link
                           href={step.href}
-                          className="group mt-2 inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue"
+                          className="group mt-2 inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue-dark"
                         >
                           {step.hrefLabel}
                           <ArrowRight

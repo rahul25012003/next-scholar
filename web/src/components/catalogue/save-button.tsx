@@ -43,14 +43,14 @@ export function SaveToShortlist({
         A shortlist needs an account.{" "}
         <Link
           href={`/login?next=${encodeURIComponent(returnTo)}`}
-          className="font-medium text-pink hover:text-blue"
+          className="font-medium text-pink hover:text-blue-dark"
         >
           Sign in
         </Link>{" "}
         or{" "}
         <Link
           href={`/signup?next=${encodeURIComponent(returnTo)}`}
-          className="font-medium text-pink hover:text-blue"
+          className="font-medium text-pink hover:text-blue-dark"
         >
           create one
         </Link>

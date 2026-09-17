@@ -47,7 +47,7 @@ export function HeroLedger() {
             </div>
             <Link
               href="/open-ledger"
-              className="flex shrink-0 items-center gap-1 text-[0.8125rem] font-medium text-pink transition-colors hover:text-blue"
+              className="flex shrink-0 items-center gap-1 text-[0.8125rem] font-medium text-pink transition-colors hover:text-blue-dark"
             >
               Full ledger
               <ArrowUpRight size={14} weight="bold" aria-hidden />

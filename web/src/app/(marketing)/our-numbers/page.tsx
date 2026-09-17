@@ -209,11 +209,11 @@ export default function OurNumbersPage() {
               <div className="mt-6 flex flex-wrap gap-4 text-[0.9375rem]">
                 <Link
                   href="/book-consultation"
-                  className="font-medium text-pink hover:text-blue"
+                  className="font-medium text-pink hover:text-blue-dark"
                 >
                   Tell us about a wrong figure
                 </Link>
-                <Link href="/open-ledger" className="font-medium text-pink hover:text-blue">
+                <Link href="/open-ledger" className="font-medium text-pink hover:text-blue-dark">
                   How a disputed commission figure is handled
                 </Link>
               </div>

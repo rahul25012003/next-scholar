@@ -84,7 +84,7 @@ export async function MastersLanding({
                 </p>
                 <Link
                   href={`/universities?destination=${destinationSlug}`}
-                  className="mt-4 inline-block text-[0.9375rem] font-medium text-pink hover:text-blue"
+                  className="mt-4 inline-block text-[0.9375rem] font-medium text-pink hover:text-blue-dark"
                 >
                   Clear the extra filters
                 </Link>
@@ -110,7 +110,7 @@ export async function MastersLanding({
                 programme in the country.{" "}
                 <Link
                   href="/universities"
-                  className="font-medium text-pink hover:text-blue"
+                  className="font-medium text-pink hover:text-blue-dark"
                 >
                   Search the full catalogue, all three destinations
                 </Link>

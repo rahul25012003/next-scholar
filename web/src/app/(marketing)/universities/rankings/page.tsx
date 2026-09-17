@@ -174,7 +174,7 @@ export default async function RankingsPage(props: PageProps<"/universities/ranki
 
           <p className="mt-6 max-w-2xl text-[0.875rem] leading-relaxed text-grey">
             Forty-five institutions, seeded by hand. See{" "}
-            <Link href="/universities" className="font-medium text-pink hover:text-blue">
+            <Link href="/universities" className="font-medium text-pink hover:text-blue-dark">
               the full catalogue
             </Link>{" "}
             for fees, commission and courses.

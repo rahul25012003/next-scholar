@@ -114,7 +114,7 @@ export default async function ScholarshipsPage(props: PageProps<"/scholarships">
                         href={scholarship.link}
                         target="_blank"
                         rel="noreferrer noopener"
-                        className="inline-flex items-center gap-1 text-[0.875rem] font-medium text-pink hover:text-blue"
+                        className="inline-flex items-center gap-1 text-[0.875rem] font-medium text-pink hover:text-blue-dark"
                       >
                         {scholarship.funder}&rsquo;s own page
                         <ArrowUpRight size={13} weight="bold" aria-hidden />

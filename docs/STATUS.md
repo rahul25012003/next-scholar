@@ -43,6 +43,14 @@ instead of seven; pill choice groups use `.button--selected` beside
 `.button--light`; body font DM Sans, since Apercu is commercial and absent.
 Two previously done items did not survive it: D.16 and the D.14 exemptions,
 both noted in their rows below. D.16 has since been restored on 2026-09-17.
+The port also left three page templates unreadable, found on 2026-09-17 by
+measuring text against its real background rather than against the tokens: the
+destination guides, the legal documents and the article bodies rendered their
+body as a bare `.shell`, which outside a `.band` is not the white panel, so grey
+and pink text sat on the blue ground at 1.4:1. Measured across 57 pages after
+the fix, nothing is below 3:1; the one pattern left below AA is the reference's
+own light-blue pill button (white on #4899df, 3.04:1 at 18px bold), kept as a
+deliberate design choice.
 `reference/design-reference.png` is no longer the source of any token.
 
 ---

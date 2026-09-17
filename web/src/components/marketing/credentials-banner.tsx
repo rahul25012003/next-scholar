@@ -31,11 +31,11 @@ export function CredentialsBanner() {
               >
                 <div>
                   <p className="font-bold text-white">{credential.name}</p>
-                  <p className="small mt-0.5 leading-snug text-white/70">
+                  <p className="small mt-0.5 leading-snug text-light">
                     {credential.body}
                   </p>
                 </div>
-                <span className="figures small shrink-0 text-white/70">
+                <span className="figures small shrink-0 text-light">
                   {credential.timeline}
                 </span>
               </li>

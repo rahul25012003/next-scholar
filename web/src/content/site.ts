@@ -59,7 +59,7 @@ export const nav: NavItem[] = [
         href: "/universities",
         note: "Every row shows what we earn on it",
       },
-      { label: "Masters in Germany", href: "/masters-in-germany", note: "No tuition, two exceptions" },
+      { label: "Masters in Germany", href: "/masters-in-germany", note: "Mostly no tuition" },
       { label: "Masters in the UK", href: "/masters-in-uk", note: "The catalogue, one destination" },
       { label: "Masters in Ireland", href: "/masters-in-ireland", note: "The catalogue, one destination" },
       { label: "Rankings", href: "/universities/rankings", note: "As published, never averaged" },

@@ -37,7 +37,7 @@ export default async function RequirementsCheckPage(
           </p>
           <Link
             href="/services/profile-evaluation"
-            className="mt-5 inline-flex items-center gap-1.5 font-medium text-pink hover:text-blue"
+            className="mt-5 inline-flex items-center gap-1.5 font-medium text-pink hover:text-blue-dark"
           >
             Want a person to read your actual transcript and confirm this in writing?
             <ArrowRight size={14} weight="bold" aria-hidden />

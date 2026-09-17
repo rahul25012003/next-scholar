@@ -110,7 +110,7 @@ export default function ZeroCommissionPage() {
               <h2 className="text-white">
                 Why publish a page that costs us money
               </h2>
-              <p className="mt-5 leading-relaxed text-white/75">
+              <p className="mt-5 leading-relaxed text-white/90">
                 {zeroCommissionRationale}
               </p>
               <div className="mt-9 flex flex-wrap gap-3">

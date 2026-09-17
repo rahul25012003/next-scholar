@@ -60,7 +60,7 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
         <div className="shell">
           <Link
             href="/universities"
-            className="text-[0.875rem] font-medium text-pink hover:text-blue"
+            className="text-[0.875rem] font-medium text-pink hover:text-blue-dark"
           >
             All courses
           </Link>
@@ -120,7 +120,7 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
               className={cn(
                 "whitespace-nowrap border-b-2 px-4 py-3.5 text-[0.9375rem] font-medium transition-colors",
                 tab.key === active
-                  ? "border-blue-dark text-pink"
+                  ? "border-blue-dark text-pink-dark"
                   : "border-transparent text-grey hover:text-blue-dark",
               )}
             >
@@ -278,7 +278,7 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                     </p>
                     <Link
                       href={`/destinations/${guide.slug}`}
-                      className="group mt-4 inline-flex items-center gap-1.5 text-[0.9375rem] font-medium text-pink hover:text-blue"
+                      className="group mt-4 inline-flex items-center gap-1.5 text-[0.9375rem] font-medium text-pink hover:text-blue-dark"
                     >
                       The {guide.country} guide
                       <ArrowRight
@@ -396,7 +396,7 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                       </dl>
                       <Link
                         href={`/universities/${university.slug}/${programme.slug}`}
-                        className="group mt-4 inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue"
+                        className="group mt-4 inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue-dark"
                       >
                         Intake table and entry requirements
                         <ArrowRight
@@ -437,7 +437,7 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                 </p>
                 <Link
                   href={`/tools/cost-of-living?destination=${guide.slug}`}
-                  className="mt-3 inline-block text-[0.875rem] font-medium text-pink hover:text-blue"
+                  className="mt-3 inline-block text-[0.875rem] font-medium text-pink hover:text-blue-dark"
                 >
                   Work out the year
                 </Link>
@@ -454,7 +454,7 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
               </p>
               <Link
                 href={`/tools/requirements-check?destination=${university.destination}`}
-                className="mt-3 inline-block text-[0.875rem] font-medium text-pink hover:text-blue"
+                className="mt-3 inline-block text-[0.875rem] font-medium text-pink hover:text-blue-dark"
               >
                 Run the checklist
               </Link>

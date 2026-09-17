@@ -1784,6 +1784,19 @@
   }
 }
 
+/* Pink is 4.52:1 on white but 3.97:1 on the light grey of a side card or tag
+   chip, which fails AA for the small links that sit there. Inside a light box,
+   pink darkens to pink-dark (5.45:1) wherever the class is written, so no
+   caller has to remember it. :where() keeps this at a single utility's
+   specificity: it wins over plain text-pink by coming later in the layer, and
+   still loses to hover:text-blue-dark, so the hover colour is unchanged. */
+@layer utilities {
+  :where(.bg-light) .text-pink,
+  .text-pink:where(.bg-light) {
+    color: var(--color-pink-dark);
+  }
+}
+
 /* ------------------------------------------------------------------------
    Keyframes
    --------------------------------------------------------------------- */

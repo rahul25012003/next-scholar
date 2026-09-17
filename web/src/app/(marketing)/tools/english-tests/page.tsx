@@ -89,7 +89,7 @@ export default function EnglishTestsPage() {
           </p>
           <Link
             href="/tools/ielts-band-calculator"
-            className="mt-5 inline-flex items-center gap-1.5 font-medium text-pink hover:text-blue"
+            className="mt-5 inline-flex items-center gap-1.5 font-medium text-pink hover:text-blue-dark"
           >
             The IELTS band calculator, with the rounding rule shown
             <ArrowUpRight size={14} weight="bold" aria-hidden />
@@ -108,7 +108,7 @@ export default function EnglishTestsPage() {
                 href={test.officialUrl}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="inline-flex items-center gap-1 text-[0.8125rem] font-medium text-pink hover:text-blue"
+                className="inline-flex items-center gap-1 text-[0.8125rem] font-medium text-pink hover:text-blue-dark"
               >
                 {test.officialLabel}
                 <ArrowUpRight size={12} weight="bold" aria-hidden />

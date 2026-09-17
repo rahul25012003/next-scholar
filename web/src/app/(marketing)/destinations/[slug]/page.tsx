@@ -112,7 +112,7 @@ export default async function DestinationGuidePage(
               height={30}
               className="h-6 w-auto rounded-xs ring-1 ring-white/40"
             />
-            <p className="text-[0.875rem] font-medium text-white/75">{guide.country}</p>
+            <p className="text-[0.875rem] font-medium text-white/90">{guide.country}</p>
           </div>
           <h1 className="mt-5 max-w-3xl text-white">
             {guide.headline}
@@ -136,327 +136,329 @@ export default async function DestinationGuidePage(
         </div>
       </section>
 
-      <div className="shell grid gap-12 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-14">
-        <div className="lg:sticky lg:top-24 lg:self-start">
-          <JumpList items={sections} className="hidden lg:block" />
-          <details className="rounded-card border border-line bg-light p-5 lg:hidden">
-            <summary className="cursor-pointer text-[0.875rem] font-semibold text-blue-dark">
-              Jump to a section
-            </summary>
-            <ul className="mt-3 grid gap-1.5 sm:grid-cols-2">
-              {sections.map((section) => (
-                <li key={section.id}>
-                  <a
-                    href={`#${section.id}`}
-                    className="block py-1 text-[0.875rem] text-pink"
-                  >
-                    {section.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </details>
-        </div>
-
-        <div className="min-w-0">
-          <VerificationBanner verification={guide.verification} />
-
-          <nav aria-label="Read one topic on its own page" className="mt-6">
-            <ul className="flex flex-wrap gap-2.5">
-              {[
-                { href: `/destinations/${guide.slug}/cost-of-studying`, label: "Cost of studying" },
-                { href: `/destinations/${guide.slug}/cost-of-living`, label: "Cost of living" },
-                { href: `/destinations/${guide.slug}/scholarships`, label: "Scholarships" },
-                { href: `/destinations/${guide.slug}/jobs`, label: "Working while you study" },
-                { href: `/destinations/${guide.slug}/post-study-work`, label: "Working after you graduate" },
-              ].map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="button button--light"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <div className="mt-10 space-y-0 [&>section:first-child]:border-t-0 [&>section:first-child]:pt-0">
-            <GuideSection
-              id="routes"
-              eyebrow="Routes"
-              title={`How ${guide.country} splits`}
-              lede="Where a country pays us differently on different routes, it is two rows on our ledger and two sets of advice, not one."
-            >
-              <div className="grid gap-5 md:grid-cols-2">
-                {guide.routes.map((route) => {
-                  const row = rows.find((item) => item.slug === route.destinationSlug);
-                  return (
-                    <article
-                      key={route.slug}
-                      className="flex flex-col rounded-card border border-line bg-white p-6"
+      <section className="band">
+        <div className="shell grid gap-12 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-14">
+          <div className="lg:sticky lg:top-24 lg:self-start">
+            <JumpList items={sections} className="hidden lg:block" />
+            <details className="rounded-card border border-line bg-light p-5 lg:hidden">
+              <summary className="cursor-pointer text-[0.875rem] font-semibold text-blue-dark">
+                Jump to a section
+              </summary>
+              <ul className="mt-3 grid gap-1.5 sm:grid-cols-2">
+                {sections.map((section) => (
+                  <li key={section.id}>
+                    <a
+                      href={`#${section.id}`}
+                      className="block py-1 text-[0.875rem] text-pink"
                     >
-                      <h3 className="text-blue-dark h--5">
-                        {route.name}
-                      </h3>
-                      <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-grey">
-                        {route.summary}
-                      </p>
-                      {row && (
-                        <dl className="mt-5 divide-y divide-line border-t border-line pt-4">
-                          <div className="flex items-start justify-between gap-4 pb-3">
-                            <dt className="text-[0.875rem] text-grey">We earn</dt>
-                            <dd className="flex flex-col items-end gap-1.5">
-                              <span className="figures text-[0.9375rem] font-semibold text-blue-dark">
-                                {row.commission.display}
-                              </span>
-                              <StatusChip status={row.commission.status} />
-                            </dd>
-                          </div>
-                          <div className="flex items-baseline justify-between gap-4 pt-3">
-                            <dt className="text-[0.875rem] text-grey">You pay us</dt>
-                            <dd className="figures text-[0.9375rem] font-semibold text-blue-dark">
-                              {row.clientFee}
-                            </dd>
-                          </div>
-                        </dl>
-                      )}
-                    </article>
-                  );
-                })}
-              </div>
-              <p className="mt-5 text-[0.875rem] leading-relaxed text-grey">
-                Every commission figure on this site is published with its verification
-                state attached, and the full method is on the{" "}
-                <Link
-                  href="/open-ledger"
-                  className="font-medium text-pink hover:text-blue"
-                >
-                  Open Ledger
-                </Link>
-                .
-              </p>
-            </GuideSection>
-
-            <GuideSection
-              id="tuition"
-              eyebrow="Money"
-              title="Tuition"
-              lede="Each figure below carries a qualifier saying what it is, because a range read as a quote is how a budget goes wrong before it starts."
-            >
-              <FigureList figures={guide.tuition} />
-            </GuideSection>
-
-            <GuideSection
-              id="living"
-              eyebrow="Money"
-              title="Cost of living, line by line"
-              lede="Ungated on purpose. There is no form in front of this result and there is not going to be one. Every line is editable, so our published range and your actual rent can sit next to each other."
-            >
-              <CostOfLivingCalculator guide={guide} rate={rate} />
-            </GuideSection>
-
-            <GuideSection
-              id="funds"
-              eyebrow="Money"
-              title="What the visa authority wants to see"
-              lede="This is the section people underestimate. It is not the same question as what living there costs, and the two figures are not interchangeable."
-            >
-              <FigureList figures={guide.funds} />
-            </GuideSection>
-
-            <GuideSection
-              id="academic"
-              eyebrow="Eligibility"
-              title="Academic requirements"
-              lede="What decides whether you are eligible at all, ahead of any question about which university."
-            >
-              <RequirementList items={guide.academic} />
-              {guide.slug === "germany" && (
-                <div className="mt-6 grid gap-4 md:grid-cols-2">
-                  <ToolLink
-                    href="/tools/german-grade-calculator"
-                    title="Convert your grade to the German 1.0 to 4.0 scale"
-                    note="The Modified Bavarian Formula, with the arithmetic on your own numbers shown in full. Free, no signup."
-                  />
-                  <ToolLink
-                    href="/tools/ects-check"
-                    title="Check your ECTS credits against a programme"
-                    note="Total, core subject and mathematics credits, and what is missing. This is how German Master's admission is actually decided."
-                  />
-                </div>
-              )}
-            </GuideSection>
-
-            <GuideSection
-              id="language"
-              eyebrow="Eligibility"
-              title="Language qualifications"
-              lede="Which test, at which level, and how long it lasts. Booking the wrong one is a common and expensive mistake."
-            >
-              <LanguageTable items={guide.language} />
-              <div className="mt-6">
-                <ToolLink
-                  href="/tools/ielts-band-calculator"
-                  title="Work out your IELTS overall band"
-                  note="Four section scores, equal weighting, half-band rounding, and the descriptor for the band you land on."
-                />
-              </div>
-            </GuideSection>
-
-            <GuideSection
-              id="intakes"
-              eyebrow="Timing"
-              title="Intakes and deadlines"
-              lede="Dates, not month names. A month name has never told anyone when to submit anything."
-            >
-              <IntakeTable intakes={guide.intakes} />
-            </GuideSection>
-
-            <GuideSection
-              id="timeline"
-              eyebrow="Timing"
-              title="Working backwards from the flight"
-              lede="Built backwards on purpose. Every one of these routes has one step that decides whether the intake is reachable, and it is named in the row it belongs to."
-            >
-              <Timeline steps={guide.timeline} />
-            </GuideSection>
-
-            <GuideSection
-              id="visa"
-              eyebrow="Visa"
-              title="The steps, in order"
-              lede="Each step says what stops if it is late, because that is the part a list of requirements never tells you."
-            >
-              <Checklist items={guide.visaSteps} />
-            </GuideSection>
-
-            <GuideSection
-              id="documents"
-              eyebrow="Visa"
-              title="The document file"
-              lede="Assembled once, checked twice. We verify each of these against your original or with the issuing institution, and we never edit one."
-            >
-              <Checklist items={guide.visaDocuments} ordered={false} />
-            </GuideSection>
-
-            <GuideSection
-              id="fees"
-              eyebrow="Money"
-              title="Fees and charges"
-              lede="Government fees, test fees and provider fees, separated, because only some of them are refundable and none of them are optional."
-            >
-              <FigureList figures={guide.visaFees} />
-            </GuideSection>
-
-            <GuideSection
-              id="insurance"
-              eyebrow="Practicalities"
-              title="Health insurance"
-              lede="A visa requirement in two of our three destinations and an included benefit in the third. It is not the same question anywhere."
-            >
-              <RequirementList items={guide.insurance} />
-            </GuideSection>
-
-            <GuideSection
-              id="arrival"
-              eyebrow="Practicalities"
-              title="After you arrive"
-              lede="The first three weeks have a sequence, and getting it out of order costs time you do not have while a course is starting."
-            >
-              <Checklist items={guide.postArrival} />
-            </GuideSection>
-
-            <GuideSection
-              id="work"
-              eyebrow="Practicalities"
-              title="Work rights"
-              lede="Stated as hours and days, not as reassurance. Breaching a work condition is an immigration problem rather than an employment one."
-            >
-              <RequirementList items={guide.workRights} />
-            </GuideSection>
-
-            <GuideSection
-              id="post-study"
-              eyebrow="After"
-              title="After you graduate"
-              lede="The number most sites publish here is the one most often out of date. Ours carries the date it changes on."
-            >
-              <RequirementList items={guide.postStudy} />
-            </GuideSection>
-
-            <GuideSection
-              id="pitfalls"
-              eyebrow="Honesty"
-              title="What actually goes wrong"
-              lede="Named failures, including two we published incorrectly ourselves and have corrected on this page."
-            >
-              <Pitfalls items={guide.pitfalls} />
-            </GuideSection>
-
-            <GuideSection id="faq" eyebrow="Questions" title="Asked most often">
-              <Accordion items={guide.faqs} name={`faq-${guide.slug}`} />
-            </GuideSection>
+                      {section.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </details>
           </div>
 
-          <div className="mt-14 rounded-panel border border-line bg-light p-7 md:p-9">
-            <h2 className="text-blue-dark">
-              Check yourself against this list before you pay anyone
-            </h2>
-            <p className="mt-3 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
-              The requirements checklist runs your own profile against everything on this
-              page and tells you which items you meet, which you do not, and which we
-              cannot answer without a document. It states facts and never a probability,
-              and it does not ask you to sign up.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <ButtonLink href={`/tools/requirements-check?destination=${guide.slug}`}>
-                Run the checklist
-                <ArrowRight size={15} weight="bold" aria-hidden />
-              </ButtonLink>
-              <ButtonLink href="/tools" variant="outline">
-                All the free tools
-              </ButtonLink>
-            </div>
-          </div>
+          <div className="min-w-0">
+            <VerificationBanner verification={guide.verification} />
 
-          <nav aria-label="Other destinations" className="mt-12 border-t border-line pt-8">
-            <h2 className="eyebrow text-grey">
-              The other two
-            </h2>
-            <ul className="mt-4 grid gap-4 sm:grid-cols-2">
-              {guides
-                .filter((other) => other.slug !== guide.slug)
-                .map((other) => (
-                  <li key={other.slug}>
+            <nav aria-label="Read one topic on its own page" className="mt-6">
+              <ul className="flex flex-wrap gap-2.5">
+                {[
+                  { href: `/destinations/${guide.slug}/cost-of-studying`, label: "Cost of studying" },
+                  { href: `/destinations/${guide.slug}/cost-of-living`, label: "Cost of living" },
+                  { href: `/destinations/${guide.slug}/scholarships`, label: "Scholarships" },
+                  { href: `/destinations/${guide.slug}/jobs`, label: "Working while you study" },
+                  { href: `/destinations/${guide.slug}/post-study-work`, label: "Working after you graduate" },
+                ].map((item) => (
+                  <li key={item.href}>
                     <Link
-                      href={`/destinations/${other.slug}`}
-                      className="group flex items-center justify-between gap-4 rounded-card border border-line bg-white p-5 transition-[border-color,box-shadow] hover:border-pink hover:"
+                      href={item.href}
+                      className="button button--light"
                     >
-                      <span>
-                        <span className="block font-display font-semibold text-blue-dark">
-                          {other.country}
-                        </span>
-                        <span className="mt-0.5 block text-[0.875rem] text-grey">
-                          {other.routes.length === 1
-                            ? other.routes[0].name
-                            : `${other.routes.length} routes`}
-                        </span>
-                      </span>
-                      <ArrowRight
-                        size={16}
-                        weight="bold"
-                        aria-hidden
-                        className="shrink-0 text-grey transition-[color,transform] group-hover:translate-x-0.5 group-hover:text-pink"
-                      />
+                      {item.label}
                     </Link>
                   </li>
                 ))}
-            </ul>
-          </nav>
+              </ul>
+            </nav>
+
+            <div className="mt-10 space-y-0 [&>section:first-child]:border-t-0 [&>section:first-child]:pt-0">
+              <GuideSection
+                id="routes"
+                eyebrow="Routes"
+                title={`How ${guide.country} splits`}
+                lede="Where a country pays us differently on different routes, it is two rows on our ledger and two sets of advice, not one."
+              >
+                <div className="grid gap-5 md:grid-cols-2">
+                  {guide.routes.map((route) => {
+                    const row = rows.find((item) => item.slug === route.destinationSlug);
+                    return (
+                      <article
+                        key={route.slug}
+                        className="flex flex-col rounded-card border border-line bg-white p-6"
+                      >
+                        <h3 className="text-blue-dark h--5">
+                          {route.name}
+                        </h3>
+                        <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-grey">
+                          {route.summary}
+                        </p>
+                        {row && (
+                          <dl className="mt-5 divide-y divide-line border-t border-line pt-4">
+                            <div className="flex items-start justify-between gap-4 pb-3">
+                              <dt className="text-[0.875rem] text-grey">We earn</dt>
+                              <dd className="flex flex-col items-end gap-1.5">
+                                <span className="figures text-[0.9375rem] font-semibold text-blue-dark">
+                                  {row.commission.display}
+                                </span>
+                                <StatusChip status={row.commission.status} />
+                              </dd>
+                            </div>
+                            <div className="flex items-baseline justify-between gap-4 pt-3">
+                              <dt className="text-[0.875rem] text-grey">You pay us</dt>
+                              <dd className="figures text-[0.9375rem] font-semibold text-blue-dark">
+                                {row.clientFee}
+                              </dd>
+                            </div>
+                          </dl>
+                        )}
+                      </article>
+                    );
+                  })}
+                </div>
+                <p className="mt-5 text-[0.875rem] leading-relaxed text-grey">
+                  Every commission figure on this site is published with its verification
+                  state attached, and the full method is on the{" "}
+                  <Link
+                    href="/open-ledger"
+                    className="font-medium text-pink hover:text-blue-dark"
+                  >
+                    Open Ledger
+                  </Link>
+                  .
+                </p>
+              </GuideSection>
+
+              <GuideSection
+                id="tuition"
+                eyebrow="Money"
+                title="Tuition"
+                lede="Each figure below carries a qualifier saying what it is, because a range read as a quote is how a budget goes wrong before it starts."
+              >
+                <FigureList figures={guide.tuition} />
+              </GuideSection>
+
+              <GuideSection
+                id="living"
+                eyebrow="Money"
+                title="Cost of living, line by line"
+                lede="Ungated on purpose. There is no form in front of this result and there is not going to be one. Every line is editable, so our published range and your actual rent can sit next to each other."
+              >
+                <CostOfLivingCalculator guide={guide} rate={rate} />
+              </GuideSection>
+
+              <GuideSection
+                id="funds"
+                eyebrow="Money"
+                title="What the visa authority wants to see"
+                lede="This is the section people underestimate. It is not the same question as what living there costs, and the two figures are not interchangeable."
+              >
+                <FigureList figures={guide.funds} />
+              </GuideSection>
+
+              <GuideSection
+                id="academic"
+                eyebrow="Eligibility"
+                title="Academic requirements"
+                lede="What decides whether you are eligible at all, ahead of any question about which university."
+              >
+                <RequirementList items={guide.academic} />
+                {guide.slug === "germany" && (
+                  <div className="mt-6 grid gap-4 md:grid-cols-2">
+                    <ToolLink
+                      href="/tools/german-grade-calculator"
+                      title="Convert your grade to the German 1.0 to 4.0 scale"
+                      note="The Modified Bavarian Formula, with the arithmetic on your own numbers shown in full. Free, no signup."
+                    />
+                    <ToolLink
+                      href="/tools/ects-check"
+                      title="Check your ECTS credits against a programme"
+                      note="Total, core subject and mathematics credits, and what is missing. This is how German Master's admission is actually decided."
+                    />
+                  </div>
+                )}
+              </GuideSection>
+
+              <GuideSection
+                id="language"
+                eyebrow="Eligibility"
+                title="Language qualifications"
+                lede="Which test, at which level, and how long it lasts. Booking the wrong one is a common and expensive mistake."
+              >
+                <LanguageTable items={guide.language} />
+                <div className="mt-6">
+                  <ToolLink
+                    href="/tools/ielts-band-calculator"
+                    title="Work out your IELTS overall band"
+                    note="Four section scores, equal weighting, half-band rounding, and the descriptor for the band you land on."
+                  />
+                </div>
+              </GuideSection>
+
+              <GuideSection
+                id="intakes"
+                eyebrow="Timing"
+                title="Intakes and deadlines"
+                lede="Dates, not month names. A month name has never told anyone when to submit anything."
+              >
+                <IntakeTable intakes={guide.intakes} />
+              </GuideSection>
+
+              <GuideSection
+                id="timeline"
+                eyebrow="Timing"
+                title="Working backwards from the flight"
+                lede="Built backwards on purpose. Every one of these routes has one step that decides whether the intake is reachable, and it is named in the row it belongs to."
+              >
+                <Timeline steps={guide.timeline} />
+              </GuideSection>
+
+              <GuideSection
+                id="visa"
+                eyebrow="Visa"
+                title="The steps, in order"
+                lede="Each step says what stops if it is late, because that is the part a list of requirements never tells you."
+              >
+                <Checklist items={guide.visaSteps} />
+              </GuideSection>
+
+              <GuideSection
+                id="documents"
+                eyebrow="Visa"
+                title="The document file"
+                lede="Assembled once, checked twice. We verify each of these against your original or with the issuing institution, and we never edit one."
+              >
+                <Checklist items={guide.visaDocuments} ordered={false} />
+              </GuideSection>
+
+              <GuideSection
+                id="fees"
+                eyebrow="Money"
+                title="Fees and charges"
+                lede="Government fees, test fees and provider fees, separated, because only some of them are refundable and none of them are optional."
+              >
+                <FigureList figures={guide.visaFees} />
+              </GuideSection>
+
+              <GuideSection
+                id="insurance"
+                eyebrow="Practicalities"
+                title="Health insurance"
+                lede="A visa requirement in two of our three destinations and an included benefit in the third. It is not the same question anywhere."
+              >
+                <RequirementList items={guide.insurance} />
+              </GuideSection>
+
+              <GuideSection
+                id="arrival"
+                eyebrow="Practicalities"
+                title="After you arrive"
+                lede="The first three weeks have a sequence, and getting it out of order costs time you do not have while a course is starting."
+              >
+                <Checklist items={guide.postArrival} />
+              </GuideSection>
+
+              <GuideSection
+                id="work"
+                eyebrow="Practicalities"
+                title="Work rights"
+                lede="Stated as hours and days, not as reassurance. Breaching a work condition is an immigration problem rather than an employment one."
+              >
+                <RequirementList items={guide.workRights} />
+              </GuideSection>
+
+              <GuideSection
+                id="post-study"
+                eyebrow="After"
+                title="After you graduate"
+                lede="The number most sites publish here is the one most often out of date. Ours carries the date it changes on."
+              >
+                <RequirementList items={guide.postStudy} />
+              </GuideSection>
+
+              <GuideSection
+                id="pitfalls"
+                eyebrow="Honesty"
+                title="What actually goes wrong"
+                lede="Named failures, including two we published incorrectly ourselves and have corrected on this page."
+              >
+                <Pitfalls items={guide.pitfalls} />
+              </GuideSection>
+
+              <GuideSection id="faq" eyebrow="Questions" title="Asked most often">
+                <Accordion items={guide.faqs} name={`faq-${guide.slug}`} />
+              </GuideSection>
+            </div>
+
+            <div className="mt-14 rounded-panel border border-line bg-light p-7 md:p-9">
+              <h2 className="text-blue-dark">
+                Check yourself against this list before you pay anyone
+              </h2>
+              <p className="mt-3 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
+                The requirements checklist runs your own profile against everything on this
+                page and tells you which items you meet, which you do not, and which we
+                cannot answer without a document. It states facts and never a probability,
+                and it does not ask you to sign up.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <ButtonLink href={`/tools/requirements-check?destination=${guide.slug}`}>
+                  Run the checklist
+                  <ArrowRight size={15} weight="bold" aria-hidden />
+                </ButtonLink>
+                <ButtonLink href="/tools" variant="outline">
+                  All the free tools
+                </ButtonLink>
+              </div>
+            </div>
+
+            <nav aria-label="Other destinations" className="mt-12 border-t border-line pt-8">
+              <h2 className="eyebrow text-grey">
+                The other two
+              </h2>
+              <ul className="mt-4 grid gap-4 sm:grid-cols-2">
+                {guides
+                  .filter((other) => other.slug !== guide.slug)
+                  .map((other) => (
+                    <li key={other.slug}>
+                      <Link
+                        href={`/destinations/${other.slug}`}
+                        className="group flex items-center justify-between gap-4 rounded-card border border-line bg-white p-5 transition-[border-color,box-shadow] hover:border-pink hover:"
+                      >
+                        <span>
+                          <span className="block font-display font-semibold text-blue-dark">
+                            {other.country}
+                          </span>
+                          <span className="mt-0.5 block text-[0.875rem] text-grey">
+                            {other.routes.length === 1
+                              ? other.routes[0].name
+                              : `${other.routes.length} routes`}
+                          </span>
+                        </span>
+                        <ArrowRight
+                          size={16}
+                          weight="bold"
+                          aria-hidden
+                          className="shrink-0 text-grey transition-[color,transform] group-hover:translate-x-0.5 group-hover:text-pink"
+                        />
+                      </Link>
+                    </li>
+                  ))}
+              </ul>
+            </nav>
+          </div>
         </div>
-      </div>
+      </section>
     </>
   );
 }

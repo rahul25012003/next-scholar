@@ -399,7 +399,7 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
             Every figure the rows below check against is on the{" "}
             <Link
               href={`/destinations/${guide.slug}`}
-              className="font-medium text-pink hover:text-blue"
+              className="font-medium text-pink hover:text-blue-dark"
             >
               {guide.country} guide
             </Link>

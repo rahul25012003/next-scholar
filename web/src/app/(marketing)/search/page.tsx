@@ -104,14 +104,14 @@ export default async function SearchPage(props: PageProps<"/search">) {
                   <div className="mt-5 flex flex-wrap gap-4 text-[0.9375rem]">
                     <Link
                       href="/destinations"
-                      className="font-medium text-pink hover:text-blue"
+                      className="font-medium text-pink hover:text-blue-dark"
                     >
                       The three destinations
                     </Link>
-                    <Link href="/tools" className="font-medium text-pink hover:text-blue">
+                    <Link href="/tools" className="font-medium text-pink hover:text-blue-dark">
                       The free tools
                     </Link>
-                    <Link href="/guides" className="font-medium text-pink hover:text-blue">
+                    <Link href="/guides" className="font-medium text-pink hover:text-blue-dark">
                       The written guides
                     </Link>
                   </div>

@@ -30,7 +30,7 @@ export function ToolPage({
           </Link>
           <h1 className="h h--3 max-w-3xl text-blue-dark">{title}</h1>
           <p className="intro max-w-2xl">{lede}</p>
-          <p className="small inline-flex bg-light px-3 py-1.5 font-bold text-teal">
+          <p className="small inline-flex bg-light px-3 py-1.5 font-bold text-teal-dark">
             No signup. No email. The result is never held back.
           </p>
         </div>

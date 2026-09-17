@@ -83,7 +83,7 @@ export default async function DestinationTopicPage(
         <div className="shell max-w-3xl">
           <Link
             href={`/destinations/${guide.slug}`}
-            className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue"
+            className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue-dark"
           >
             <ArrowLeft size={14} weight="bold" aria-hidden />
             The full {guide.country} guide
@@ -148,7 +148,7 @@ export default async function DestinationTopicPage(
                             href={scholarship.link}
                             target="_blank"
                             rel="noreferrer noopener"
-                            className="inline-flex items-center gap-1 text-[0.875rem] font-medium text-pink hover:text-blue"
+                            className="inline-flex items-center gap-1 text-[0.875rem] font-medium text-pink hover:text-blue-dark"
                           >
                             {scholarship.funder}&rsquo;s own page
                             <ArrowUpRight size={13} weight="bold" aria-hidden />
@@ -164,7 +164,7 @@ export default async function DestinationTopicPage(
                 )}
                 <Link
                   href="/scholarships"
-                  className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue"
+                  className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue-dark"
                 >
                   See scholarships for all three destinations
                   <ArrowUpRight size={13} weight="bold" aria-hidden />

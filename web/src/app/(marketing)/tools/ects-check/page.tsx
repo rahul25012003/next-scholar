@@ -32,7 +32,7 @@ export default function EctsCheckPage() {
             on the{" "}
             <Link
               href="/destinations/germany"
-              className="font-medium text-pink hover:text-blue"
+              className="font-medium text-pink hover:text-blue-dark"
             >
               Germany guide
             </Link>

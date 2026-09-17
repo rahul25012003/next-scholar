@@ -159,7 +159,7 @@ export default async function GuidesPage(props: PageProps<"/guides">) {
                 </p>
                 <Link
                   href="/guides"
-                  className="mt-4 inline-block text-[0.9375rem] font-medium text-pink hover:text-blue"
+                  className="mt-4 inline-block text-[0.9375rem] font-medium text-pink hover:text-blue-dark"
                 >
                   Clear the filters
                 </Link>
@@ -197,7 +197,7 @@ export default async function GuidesPage(props: PageProps<"/guides">) {
                         </p>
                         <Link
                           href={`/guides/${article.slug}`}
-                          className="group inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue"
+                          className="group inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue-dark"
                         >
                           Read it
                           <ArrowRight

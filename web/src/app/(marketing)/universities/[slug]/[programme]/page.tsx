@@ -66,7 +66,7 @@ export default async function ProgrammePage(
       <section className="band">
         <div className="shell">
           <nav aria-label="Breadcrumb" className="text-[0.875rem] text-grey">
-            <Link href="/universities" className="font-medium text-pink hover:text-blue">
+            <Link href="/universities" className="font-medium text-pink hover:text-blue-dark">
               All courses
             </Link>
             <span aria-hidden className="mx-2">
@@ -74,7 +74,7 @@ export default async function ProgrammePage(
             </span>
             <Link
               href={`/universities/${row.university.slug}`}
-              className="font-medium text-pink hover:text-blue"
+              className="font-medium text-pink hover:text-blue-dark"
             >
               {row.university.name}
             </Link>
@@ -237,7 +237,7 @@ export default async function ProgrammePage(
                       the overall grade was.{" "}
                       <Link
                         href="/tools/ects-check"
-                        className="font-medium text-pink hover:text-blue"
+                        className="font-medium text-pink hover:text-blue-dark"
                       >
                         Check your credits against them
                       </Link>
@@ -288,7 +288,7 @@ export default async function ProgrammePage(
               </div>
               <Link
                 href="/open-ledger"
-                className="mt-4 inline-block text-[0.875rem] font-medium text-pink hover:text-blue"
+                className="mt-4 inline-block text-[0.875rem] font-medium text-pink hover:text-blue-dark"
               >
                 How the figure is verified
               </Link>
@@ -303,7 +303,7 @@ export default async function ProgrammePage(
                   <li>
                     <Link
                       href={`/destinations/${guide.slug}#funds`}
-                      className="text-pink hover:text-blue"
+                      className="text-pink hover:text-blue-dark"
                     >
                       What the visa authority wants to see
                     </Link>
@@ -311,7 +311,7 @@ export default async function ProgrammePage(
                   <li>
                     <Link
                       href={`/destinations/${guide.slug}#visa`}
-                      className="text-pink hover:text-blue"
+                      className="text-pink hover:text-blue-dark"
                     >
                       Visa steps, in order
                     </Link>
@@ -319,7 +319,7 @@ export default async function ProgrammePage(
                   <li>
                     <Link
                       href={`/tools/cost-of-living?destination=${guide.slug}`}
-                      className="text-pink hover:text-blue"
+                      className="text-pink hover:text-blue-dark"
                     >
                       Cost of living in {row.university.city}
                     </Link>
@@ -327,7 +327,7 @@ export default async function ProgrammePage(
                   <li>
                     <Link
                       href={`/tools/requirements-check?destination=${guide.slug}`}
-                      className="text-pink hover:text-blue"
+                      className="text-pink hover:text-blue-dark"
                     >
                       Where you stand, requirement by requirement
                     </Link>
@@ -346,7 +346,7 @@ export default async function ProgrammePage(
               </p>
               <Link
                 href="/shortlist"
-                className="group mt-3 inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue"
+                className="group mt-3 inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue-dark"
               >
                 Your shortlist
                 <ArrowRight

@@ -82,7 +82,7 @@ function DestinationBox({
           className="mt-2 h-6 w-auto rounded-xs"
         />
       </div>
-      {row.route && <p className="h text-teal text-bold">{row.route}</p>}
+      {row.route && <p className="h text-teal-dark text-bold">{row.route}</p>}
       <p className="small">{row.intakes} intakes</p>
 
       <div className="divide-y-2 divide-light">

@@ -33,72 +33,74 @@ export function LegalDocumentView({ doc }: { doc: LegalDocument }) {
         </div>
       </section>
 
-      <div className="shell grid gap-12 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-14">
-        <div className="lg:sticky lg:top-24 lg:self-start">
-          <JumpList items={sections} className="hidden lg:block" />
-          <details className="rounded-card border border-line bg-light p-5 lg:hidden">
-            <summary className="cursor-pointer text-[0.875rem] font-semibold text-blue-dark">
-              Jump to a section
-            </summary>
-            <ul className="mt-3 grid gap-1.5">
-              {sections.map((section) => (
-                <li key={section.id}>
-                  <a href={`#${section.id}`} className="block py-1 text-[0.875rem] text-pink">
-                    {section.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </details>
-
-          <nav aria-label="Other legal pages" className="mt-8 hidden lg:block">
-            <p className="eyebrow text-grey">
-              The other policies
-            </p>
-            <ul className="mt-3 space-y-1.5">
-              {legalDocuments
-                .filter((other) => other.slug !== doc.slug)
-                .map((other) => (
-                  <li key={other.slug}>
-                    <Link
-                      href={`/${other.slug}`}
-                      className="text-[0.875rem] text-grey transition-colors hover:text-pink"
-                    >
-                      {other.title}
-                    </Link>
+      <section className="band">
+        <div className="shell grid gap-12 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-14">
+          <div className="lg:sticky lg:top-24 lg:self-start">
+            <JumpList items={sections} className="hidden lg:block" />
+            <details className="rounded-card border border-line bg-light p-5 lg:hidden">
+              <summary className="cursor-pointer text-[0.875rem] font-semibold text-blue-dark">
+                Jump to a section
+              </summary>
+              <ul className="mt-3 grid gap-1.5">
+                {sections.map((section) => (
+                  <li key={section.id}>
+                    <a href={`#${section.id}`} className="block py-1 text-[0.875rem] text-pink">
+                      {section.title}
+                    </a>
                   </li>
                 ))}
-              <li>
-                <Link
-                  href="/anti-fraud-policy"
-                  className="text-[0.875rem] text-grey transition-colors hover:text-pink"
-                >
-                  Anti fraud and document integrity
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        </div>
+              </ul>
+            </details>
 
-        <div className="min-w-0">
-          <ReviewBanner doc={doc} />
-
-          <div className="mt-10 space-y-10">
-            {doc.sections.map((section) => (
-              <section key={section.id} id={section.id} className="scroll-mt-24">
-                <h2 className="text-blue-dark">
-                  {section.heading}
-                </h2>
-                <div className="mt-5 space-y-5">
-                  {section.blocks.map((block, index) => (
-                    <Block key={index} block={block} />
+            <nav aria-label="Other legal pages" className="mt-8 hidden lg:block">
+              <p className="eyebrow text-grey">
+                The other policies
+              </p>
+              <ul className="mt-3 space-y-1.5">
+                {legalDocuments
+                  .filter((other) => other.slug !== doc.slug)
+                  .map((other) => (
+                    <li key={other.slug}>
+                      <Link
+                        href={`/${other.slug}`}
+                        className="text-[0.875rem] text-grey transition-colors hover:text-pink"
+                      >
+                        {other.title}
+                      </Link>
+                    </li>
                   ))}
-                </div>
-              </section>
-            ))}
+                <li>
+                  <Link
+                    href="/anti-fraud-policy"
+                    className="text-[0.875rem] text-grey transition-colors hover:text-pink"
+                  >
+                    Anti fraud and document integrity
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+          </div>
+
+          <div className="min-w-0">
+            <ReviewBanner doc={doc} />
+
+            <div className="mt-10 space-y-10">
+              {doc.sections.map((section) => (
+                <section key={section.id} id={section.id} className="scroll-mt-24">
+                  <h2 className="text-blue-dark">
+                    {section.heading}
+                  </h2>
+                  <div className="mt-5 space-y-5">
+                    {section.blocks.map((block, index) => (
+                      <Block key={index} block={block} />
+                    ))}
+                  </div>
+                </section>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </>
   );
 }

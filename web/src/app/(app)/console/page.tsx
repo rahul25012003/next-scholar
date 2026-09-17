@@ -345,7 +345,7 @@ export default async function ConsolePage(props: PageProps<"/console">) {
                       <td className="px-6 py-4 text-right">
                         <Link
                           href={`/console/${record.id}`}
-                          className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue"
+                          className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue-dark"
                         >
                           Open
                           <ArrowRight size={14} weight="bold" aria-hidden />

@@ -157,7 +157,7 @@ export function CourseCard({
         <CommissionBadge university={row.university} />
         <Link
           href={`/universities/${row.university.slug}/${row.slug}`}
-          className="group inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue"
+          className="group inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue-dark"
         >
           Course detail
           <ArrowRight

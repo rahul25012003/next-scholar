@@ -149,7 +149,7 @@ export function GradeConverter() {
         is the conversion a German university runs. That one is the{" "}
         <Link
           href="/tools/german-grade-calculator"
-          className="font-medium text-pink hover:text-blue"
+          className="font-medium text-pink hover:text-blue-dark"
         >
           Modified Bavarian Formula
         </Link>

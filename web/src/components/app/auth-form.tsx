@@ -72,7 +72,7 @@ export function SignInForm() {
 
       <p className="text-[0.875rem] text-grey">
         No account yet?{" "}
-        <Link href="/signup" className="font-medium text-pink hover:text-blue">
+        <Link href="/signup" className="font-medium text-pink hover:text-blue-dark">
           Create one
         </Link>
         .
@@ -118,7 +118,7 @@ export function SignUpForm() {
 
       <p className="text-[0.875rem] text-grey">
         Already have one?{" "}
-        <Link href="/login" className="font-medium text-pink hover:text-blue">
+        <Link href="/login" className="font-medium text-pink hover:text-blue-dark">
           Sign in
         </Link>
         .

@@ -180,17 +180,17 @@ export default function ServicesPage() {
           </div>
           <p className="mt-8 text-[0.875rem] leading-relaxed text-grey">
             Fees, refunds and cancellation windows are on the{" "}
-            <Link href="/refund-policy" className="font-medium text-pink hover:text-blue">
+            <Link href="/refund-policy" className="font-medium text-pink hover:text-blue-dark">
               refund policy
             </Link>
             . What governs an engagement is in the{" "}
-            <Link href="/terms" className="font-medium text-pink hover:text-blue">
+            <Link href="/terms" className="font-medium text-pink hover:text-blue-dark">
               terms of use
             </Link>
             , and the bodies we are not affiliated with are named on the{" "}
             <Link
               href="/non-affiliation"
-              className="font-medium text-pink hover:text-blue"
+              className="font-medium text-pink hover:text-blue-dark"
             >
               non affiliation disclaimer
             </Link>

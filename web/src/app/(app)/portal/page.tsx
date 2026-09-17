@@ -483,7 +483,7 @@ function Offers({ record }: { record: StudentCase }) {
                   href={application.portalUrl}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="mt-3 inline-flex items-center gap-1.5 text-[0.8125rem] font-medium text-pink hover:text-blue"
+                  className="mt-3 inline-flex items-center gap-1.5 text-[0.8125rem] font-medium text-pink hover:text-blue-dark"
                 >
                   <ArrowSquareOut size={14} weight="bold" aria-hidden />
                   {application.portalUrl}

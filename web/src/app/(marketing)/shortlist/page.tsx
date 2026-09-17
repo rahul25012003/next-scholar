@@ -203,7 +203,7 @@ export default async function ShortlistPage() {
                               </p>
                               <Link
                                 href={`/tools/requirements-check?destination=${row.university.destination}`}
-                                className="mt-1.5 inline-block text-[0.8125rem] font-medium text-pink hover:text-blue"
+                                className="mt-1.5 inline-block text-[0.8125rem] font-medium text-pink hover:text-blue-dark"
                               >
                                 See the full breakdown
                               </Link>

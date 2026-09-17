@@ -33,7 +33,7 @@ export default function GermanGradePage() {
             applicant to Germany: that is{" "}
             <Link
               href="/destinations/germany#academic"
-              className="font-medium text-pink hover:text-blue"
+              className="font-medium text-pink hover:text-blue-dark"
             >
               anabin recognition and subject credits
             </Link>
