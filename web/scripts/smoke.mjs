@@ -17,6 +17,10 @@
  *
  *   npm run build && npm start &
  *   npm run smoke
+ *
+ * Never run `next build` while `next start` is serving from the same .next:
+ * the running server keeps its old manifest, so it 404s the new chunks and
+ * 500s the deleted ones, and every page renders unstyled. Stop it first.
  */
 
 const BASE = process.env.SMOKE_BASE_URL ?? "http://localhost:3000";

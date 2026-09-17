@@ -13,6 +13,14 @@ cause) and **D.14** (the design-token inventory, then the lint rule it was
 waiting on). Every P0 that needed nothing but a device is now done; what is left
 at P0 needs a Supabase project or an API key.
 
+Since then, on 2026-09-13, the whole frontend was ported to the UX Fest
+reference design (commit `4710e4c`, recorded in `STATUS.md`). Content, domain
+and data were untouched; two done items were not. **D.16** (the header
+condensing on scroll) no longer exists in the ported `header.tsx`, and the five
+`token-exempt` values from **D.14** were replaced by the reference's own class
+system, so the lint rule now has nothing to exempt. Both are noted in place
+below rather than re-opened silently.
+
 State at handover: `npm test` 363 passing, `npm run lint` clean, `npm run build`
 clean, `npm run smoke` clean across 71 checked URLs. This count does not yet
 include the essential-implementation-plan work from the 10 September 2026
@@ -396,7 +404,10 @@ blue-tinted glow, and the primary button's 1px contact shadow. The rule is
 `no-restricted-syntax` in `eslint.config.mjs` matching `rounded-*-[` and
 `shadow-[` across `Literal` and `TemplateElement`, so it catches values inside
 `cn()` calls and not just JSX attributes; it was verified to fire on a probe
-before the probe was deleted.
+before the probe was deleted. The design port of 2026-09-13 then replaced the
+five exempted values with the reference's own component classes; the rule is
+unchanged and still runs, and `src` now carries zero arbitrary radius, shadow
+or hex values and zero exemptions.
 
 ### B4. P3 — 6 of 20 done this session
 
@@ -417,7 +428,10 @@ before the probe was deleted.
   parameters, so a filtered result is a real URL.
 - **D.16** — The header now reads scroll position and condenses its height
   (h-18 to h-14) and logo size past an 8px threshold, with a CSS transition
-  the global reduced-motion rule already collapses.
+  the global reduced-motion rule already collapses. **Undone by the design
+  port of 2026-09-13:** the ported `header.tsx` carries no scroll listener and
+  no condensed state. It is a P3 in `BACKLOG.md`; re-do it against the new
+  `.Header` classes or record a decision not to.
 - **D.17** — Found the actual cause: Lenis (the smooth-scroll library
   wrapping the whole app) owns scroll position once mounted, so the browser's
   native scroll-to-top-on-navigation never visibly did anything — the native
@@ -442,6 +456,21 @@ is nothing to cache. The whole catalogue is forty-five institutions and
 fifty-two programmes held in memory, with no external fetch anywhere in the path, and
 every read is a plain synchronous loop over that array. Wrapping it in a
 cache would add a layer with nothing slow underneath it.
+
+**Investigated, framework behaviour, deliberately not patched.** On a full
+document load of any route group that has a `loading.tsx`, the live DOM ends
+up with the whole page twice: once in `main`, and once inside
+`<div hidden id="S:0">` left over under `body`. Measured on 2026-09-17
+against a production build: identical text on both copies, ~300 KB of hidden
+DOM per page, and a second `<h1>` that `hidden` keeps out of the
+accessibility tree. The served HTML has one of everything, no console error,
+and the (auth) group — no `loading.tsx`, so no boundary — is clean. The
+cause is React 19.2's batched-reveal streaming protocol (the served `$RC`
+pushes to `$RB` and defers `$RV` by a frame or up to two seconds); under
+Next 16.3.4 the reveal fills `main` but does not remove the holder. None of
+it is app code. Removing `S:*` holders in an effect would race React's own
+reveal, so the honest move is to leave it, re-check after the next Next or
+React patch, and never "fix" it by deleting `loading.tsx`, which is 1.10.
 
 **5.10, 5.15, 5.16, E.06 — done in the only honest form available.**
 `src/content/events.ts` models an event's registration count as a
@@ -563,7 +592,7 @@ cd web
 npm install
 npm run dev          # http://localhost:3000
 
-npm test             # 345 tests
+npm test             # 363 tests
 npm run lint
 npm run build        # type checks as part of the build
 

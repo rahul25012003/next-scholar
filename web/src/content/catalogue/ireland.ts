@@ -29,9 +29,11 @@ const IE_COMMISSION = {
 /**
  * Ireland.
  *
- * Every programme here carries its NFQ level, because that single field decides
- * whether the applicant gets 12 months of post-study permission or 24, and it
- * is the fact our own site published incorrectly until this week.
+ * Every entry here names the NFQ Level 9 question in what it has not checked,
+ * because that single fact decides whether the applicant gets 12 months of
+ * post-study permission or 24, and it is the fact our own site published
+ * incorrectly until early September 2026. There is no nfqLevel field on the
+ * programme type; the level is confirmed per intake, not stored.
  */
 export const irishUniversities: University[] = [
   {
@@ -261,6 +263,7 @@ export const irishUniversities: University[] = [
       },
     ],
     notChecked: [
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. It almost certainly is, and it decides whether post-study permission is 12 months or up to 24, so it is confirmed rather than assumed.",
       "The programme's own application closing date, which on competitive Trinity programmes can be earlier than the general one.",
     ],
   },
@@ -362,6 +365,7 @@ export const irishUniversities: University[] = [
       },
     ],
     notChecked: [
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. It almost certainly is, and it decides whether post-study permission is 12 months or up to 24, so it is confirmed rather than assumed.",
       "Accommodation availability for the coming September, which in Galway runs out earlier than in Dublin relative to demand.",
     ],
   },
@@ -465,6 +469,7 @@ export const irishUniversities: University[] = [
       },
     ],
     notChecked: [
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. It almost certainly is, and it decides whether post-study permission is 12 months or up to 24, so it is confirmed rather than assumed.",
       "Whether the cooperative placement is available to non-EU students, and under which immigration permission.",
     ],
   },

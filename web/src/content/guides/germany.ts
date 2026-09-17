@@ -9,7 +9,7 @@ import type { DestinationGuide } from "./types";
  *  - Tuition. "No tuition fee" was false for one federal state. Baden-
  *    Wurttemberg has charged non-EU students EUR 1,500 per semester since the
  *    2017/18 winter semester, which is EUR 6,000 across a four semester
- *    Master's. Stuttgart, Karlsruhe, Heidelberg, Freiburg, Mannheim and KIT all
+ *    Master's. Stuttgart, Karlsruhe (KIT), Heidelberg, Freiburg and Mannheim all
  *    sit in that state, and they are exactly the universities an engineering
  *    applicant from Bengaluru shortlists first.
  *

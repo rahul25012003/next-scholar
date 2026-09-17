@@ -45,7 +45,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en-IN"
-      className={`${display.variable} ${sans.variable} background anim--home has-js h-full`}
+      className={`${display.variable} ${sans.variable} background h-full`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

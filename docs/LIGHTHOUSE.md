@@ -1,5 +1,10 @@
 # Lighthouse baseline, September 2026
 
+This baseline predates the 2026-09-13 design port (commit `4710e4c`), which
+replaced every stylesheet and most components. The bugs it found and fixed
+stay fixed in content and structure, but none of the scores or timings below
+describe the current site; re-run before quoting any of them.
+
 Item 1.14 from `REMAINING.md`: no LCP, INP or CLS figure existed for any route
 before this. Run against a local production build (`npm run build && npm
 start`), mobile emulation, Chrome's default throttling, using `npx lighthouse`

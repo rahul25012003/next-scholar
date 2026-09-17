@@ -19,7 +19,7 @@ const ON_RECORD =
  *
  * Five of the sixteen institutions below charge non-EU students tuition at a public
  * university, which is the thing "study in Germany for free" gets wrong and the
- * thing our own site got wrong until this week. KIT, Stuttgart, Heidelberg and Freiburg
+ * thing our own site got wrong until early September 2026. KIT, Stuttgart, Heidelberg and Freiburg
  * sit in Baden-Wurttemberg and charge EUR 1,500 a semester. TUM introduced fees for
  * non-EU students from the 2024/25 winter semester under Bavaria's own law; LMU
  * Munich, in the same state, has not applied that law and stays genuinely free.
@@ -247,7 +247,7 @@ export const germanUniversities: University[] = [
     flagCode: "de",
     initials: "KIT",
     summary:
-      "One of Germany's strongest engineering institutions, and in Baden-Wurttemberg, which charges non-EU students EUR 1,500 per semester. That is EUR 6,000 across a four semester Master's, and it is the exception our own site published incorrectly until this week.",
+      "One of Germany's strongest engineering institutions, and in Baden-Wurttemberg, which charges non-EU students EUR 1,500 per semester. That is EUR 6,000 across a four semester Master's, and it is the exception our own site published incorrectly until early September 2026.",
     commission: PUBLIC_ZERO,
     highlights: {
       established: stated(2009, "Institution's own history page. The merger date; its predecessor dates from 1825.", ON),

@@ -130,12 +130,18 @@ Stated so the passes above are not read as more than they are.
 
 ## 5. Re-running it
 
+The counts in this section are as of 2026-09-17; the sections above are the
+2026-09-02 record and are left as written. Since then authentication exists
+(`src/domain/auth.ts`, tested in `tests/auth.test.ts`), every route has been
+looked at in a browser including at 390px, and the route list has grown to
+the 71 that `npm run smoke` checks.
+
 ```bash
 cd web
-npm test                 # the 172 guardrail and behaviour tests
+npm test                 # 363 guardrail and behaviour tests
 npx eslint src tests     # zero warnings expected
 npm run build            # type check plus production build
-NEXT_SCHOLAR_DEMO_DATA=true npm start   # then walk the ten routes
+NEXT_SCHOLAR_DEMO_DATA=true npm start   # then npm run smoke, or walk the routes
 ```
 
 The fabricated-data sweep in section 2 is a grep over the rendered HTML. Any new

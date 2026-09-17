@@ -15,7 +15,7 @@ docs/STATUS.md       what is built, and the correction record
 docs/REMAINING.md    every open item, what unblocks it, and where it goes
 docs/AUDIT.md        the no-fabricated-data audit, and how to re-run it
 docs/BACKLOG.md      the numbered backlog the status page is measured against
-reference/           the source specification and the design reference image
+reference/           the source specification, and the original design reference image (superseded, see below)
 ```
 
 ## Running it
@@ -24,11 +24,11 @@ reference/           the source specification and the design reference image
 cd web
 npm install
 npm run dev          # http://localhost:3000
-npm test             # 305 tests
+npm test             # 363 tests
 npm run lint
 npm run build
 npm start &          # the smoke check needs a running production build
-npm run smoke        # 52 routes, structure and route guards
+npm run smoke        # 71 routes, structure and route guards
 ```
 
 No environment variables are needed to run it. See `web/.env.example` for the
@@ -42,9 +42,11 @@ them.
 ## What is here
 
 **Marketing** (`/`, `/open-ledger`, `/zero-commission`, `/anti-fraud-policy`,
-`/book-consultation`, `/search`). Design tokens are derived from the reference
-screenshot in `reference/design-reference.png`. Anything sampled by eye rather
-than pixel picked is flagged `[VERIFY]` in `web/src/app/globals.css`.
+`/book-consultation`, `/search`). Since 2026-09-13 the whole frontend is a port
+of the UX Fest 2021 reference stylesheet the user supplied; the palette, type
+scale, layout primitives and every component class live in
+`web/src/app/globals.css`, whose header names the source. The earlier
+`reference/design-reference.png` no longer feeds any token.
 
 **Destination guides** (`/destinations`, `/destinations/[slug]`). Sixteen
 sections per country: tuition, cost of living, the money the visa authority
@@ -55,8 +57,8 @@ official body it came from; a banner at the top states plainly that nobody has
 re-checked the set at source.
 
 **The catalogue** (`/universities`, `/universities/[slug]`,
-`/universities/[slug]/[programme]`, `/shortlist`). Fifteen universities and
-thirty courses, seeded by hand. Every row carries what we earn if a student
+`/universities/[slug]/[programme]`, `/shortlist`). Forty-five universities and
+fifty-two courses, seeded by hand. Every row carries what we earn if a student
 enrols there. A catalogue field has exactly two shapes in the type system, a
 value with its source and date or an absence with a stated reason, so a bare
 "not available" cannot be rendered because it cannot be represented.
@@ -177,18 +179,23 @@ Nothing is guessed in their place.
 
 Listed here so nothing reads as an oversight:
 
-- **A database.** Cases live in memory from synthetic fixtures. `data/store.ts`
-  is the only file that changes when Supabase arrives, and the permission matrix
-  moves down into row level policies at the same time.
+- **A database, switched on.** The Supabase schema, row level policies
+  mirroring the permission matrix, and the `data/store.ts` / `data/users.ts`
+  migration are all written and tested (`web/supabase/`); without
+  `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` set, cases live in memory from
+  synthetic fixtures and every write is lost on restart, which the
+  authenticated pages say plainly.
 - **Document storage.** The upload pipeline fails closed: no consent, no
   allowlisted type, no scanner, no upload. Document extraction refuses to run
   until there is a stored document to read.
 - **Payment and scheduling.** The consultation form validates the six questions,
   keeps the answers in the visitor's own browser, and says plainly that nothing
   was sent, no slot was held and no money was taken.
-- **Photography.** The site carries flags and one chart, no stock imagery. A
-  photograph implying real students or a real founder would be the same
-  fabrication the brand exists to avoid.
+- **Photography of real people.** A self-hosted hero portrait and Unsplash
+  destination photographs exist (`content/photos.ts`, each with its credit);
+  none depicts a real student, counsellor or founder, because a photograph
+  implying one would be the same fabrication the brand exists to avoid. The
+  hero photograph matching the brief (1.16, D.10) is still outstanding.
 - **Notification delivery.** The queue plans, dedupes and escalates. Nothing
   sends, because no provider is connected, and a channel that cannot send says
   so rather than logging a pretend delivery.
@@ -196,8 +203,9 @@ Listed here so nothing reads as an oversight:
   edited in the repository under review. The founder-only permission that will
   gate the eventual write path exists and is tested; the path itself arrives
   with the database.
-- **Rate limiting and per-agent cost tracking.** Phase two items in the source
-  guide, and not worth building against a four person caseload.
+- **Per-agent cost tracking.** A phase two item in the source guide, and not
+  worth building against a four person caseload. (Rate limiting on the auth
+  actions and the sweep endpoint is built: `domain/rate-limit.ts`.)
 
 ## What has to happen outside this repository
 

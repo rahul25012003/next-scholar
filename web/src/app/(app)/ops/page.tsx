@@ -80,6 +80,7 @@ export default async function OpsPage() {
 
   return (
     <AppShell actor={actor} current="/ops">
+      <h1 className="sr-only">Operations</h1>
       <div className="shell grid gap-6">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {[

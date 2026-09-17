@@ -4,6 +4,7 @@ import { ArrowRight, MagnifyingGlass } from "@phosphor-icons/react/ssr";
 import { ButtonLink } from "@/components/ui/button";
 import { primaryCta } from "@/content/site";
 import { destinations } from "@/content/destinations";
+import { programmes } from "@/content/catalogue";
 
 /**
  * The reference hero: one centred white box on the blue ground holding the
@@ -46,7 +47,7 @@ export function Hero() {
 }
 
 const quickLinks = [
-  { label: "Browse 30 courses", href: "/universities" },
+  { label: `Browse ${programmes.length} courses`, href: "/universities" },
   { label: "Check your requirements", href: "/tools/requirements-check" },
   { label: "Cost of living calculator", href: "/tools/cost-of-living" },
   { label: "Germany guide", href: "/destinations/germany" },

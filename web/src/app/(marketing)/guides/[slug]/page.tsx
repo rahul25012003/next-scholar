@@ -197,7 +197,7 @@ export default async function ArticlePage(props: PageProps<"/guides/[slug]">) {
                   <li key={other.slug}>
                     <Link
                       href={`/guides/${other.slug}`}
-                      className="group flex items-start justify-between gap-5 rounded-card border border-line bg-white p-5 transition-[border-color,box-shadow] hover:border-pink hover:"
+                      className="group flex items-start justify-between gap-5 rounded-card border border-line bg-white p-5 transition-[border-color,box-shadow] hover:border-pink"
                     >
                       <span>
                         <span className="block text-[0.9375rem] font-semibold text-blue-dark">

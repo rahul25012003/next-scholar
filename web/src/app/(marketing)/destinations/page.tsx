@@ -35,7 +35,7 @@ export default function DestinationsIndexPage() {
               What each guide contains
             </p>
             <ul className="mt-3 space-y-1.5 text-[0.875rem] leading-relaxed text-grey">
-              <li>Sixteen sections, the same sixteen for every country</li>
+              <li>Seventeen sections, the same seventeen for every country</li>
               <li>Every figure with its official source named</li>
               <li>Deadlines as dates, never as month names</li>
               <li>An editable cost of living calculator, ungated</li>
@@ -149,7 +149,7 @@ export default function DestinationsIndexPage() {
             </h2>
             <p className="mt-3 max-w-3xl text-[0.9375rem] leading-relaxed text-grey">
               Because a fourth country would be a list of plausible sentences. Every
-              destination here has sixteen filled sections, a named source on each figure,
+              destination here has seventeen filled sections, a named source on each figure,
               and a stated verification state, and producing that takes weeks per country.
               Adding Canada or Australia to a dropdown would take an afternoon, and the
               answer you got when you asked a real question about either would be worth

@@ -48,7 +48,7 @@ export const nav: NavItem[] = [
         href: "/destinations/ireland",
         note: "Six months of statements, tuition paid before the visa",
       },
-      { label: "All three, compared", href: "/destinations", note: "Sixteen sections each" },
+      { label: "All three, compared", href: "/destinations", note: "Seventeen sections each" },
     ],
   },
   {

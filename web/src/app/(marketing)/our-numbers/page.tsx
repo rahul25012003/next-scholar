@@ -202,8 +202,8 @@ export default function OurNumbersPage() {
               <p className="mt-3 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
                 Tell us and we will check it. If it is wrong we correct it, we say on the
                 page that it was wrong, and we leave that correction visible rather than
-                quietly editing the number. Two of the figures on this site were corrected
-                that way last week, and both corrections are still printed next to the
+                quietly editing the number. Two of the figures on this site have already
+                been corrected that way, and both corrections are still printed next to the
                 values that replaced them.
               </p>
               <div className="mt-6 flex flex-wrap gap-4 text-[0.9375rem]">

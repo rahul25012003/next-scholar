@@ -102,5 +102,5 @@ export function photoUrl(
   width: number,
   height: number,
 ): string {
-  return `https://images.unsplash.com/photo-${photo.id}?w=${width}&h=${height}&fit=crop&q=80`;
+  return `https://images.unsplash.com/photo-${photo.id}?w=${width}&h=${height}&fit=crop&q=80&auto=format`;
 }

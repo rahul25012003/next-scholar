@@ -25,6 +25,26 @@ a pre-departure checklist, a funding plan, staleness enforcement, all built
 and tested this session) — real work, not yet reconciled against
 `BACKLOG.md`'s original 207, so not folded into the count above.
 
+**The design port, 2026-09-13.** The whole frontend was restyled to a
+reference the user supplied: the UX Fest 2021 homepage by Clearleft, one HTML
+file and one 2,700-line stylesheet, no JS, fonts or images. Committed as
+`4710e4c` on 2026-09-17 after verification: tsc, lint, 363 tests, production
+build and the 71-route smoke all clean, key surfaces checked in a browser.
+Scope was exactly the brief: only `app/` pages, `components/` and
+`globals.css` changed; `src/content`, `src/domain` and `src/data` are
+untouched, so no copy, catalogue entry or business rule moved. The palette,
+Utopia type scale, `.constrain`/`.flow`/`pad-*`, `.button*`, Header, Nav,
+Footer, Hero, Intro, Overview, Cta and Ticket-slat systems live in
+`globals.css`; four new components (`background-shapes`, `overview-art`,
+`image-swipe`, `explode-burst`) carry what the reference drove with GSAP.
+Deliberate deviations, kept on purpose: header container 1600px and desktop
+nav breakpoint 1300px rather than 1200px, because this nav carries nine items
+instead of seven; pill choice groups use `.button--selected` beside
+`.button--light`; body font DM Sans, since Apercu is commercial and absent.
+Two previously done items did not survive it: D.16 and the D.14 exemptions,
+both noted in their rows below. `reference/design-reference.png` is no longer
+the source of any token.
+
 ---
 
 ## Done
@@ -89,7 +109,7 @@ and tested this session) — real work, not yet reconciled against
 | 4.04 | Course detail with intake tables and entry requirements |
 | 4.05 | Left-rail filters with an explicit Apply |
 | 4.08 | Comparison tool |
-| 4.09 | Destination guides, sixteen sections, verification date on every figure |
+| 4.09 | Destination guides, seventeen sections, verification date on every figure |
 | 4.12 | Cost of living in line items, local currency and INR |
 | 4.13 | Visa fees as figures per country |
 | 4.14 | Work rights stated concretely per country |
@@ -176,10 +196,11 @@ genuinely blocked on durable storage, the same as items 1.07–1.09.
 | E.01 | Already satisfied at `/shortlist`; deliberately not duplicated onto the ungated tools, whose own badge promises no signup ever |
 | E.03 | One inline "check your own profile" widget per article, at the midpoint, matching the audit's own "adopt sparingly" verdict | `src/app/(marketing)/guides/[slug]/page.tsx` |
 
-D.14 (a lint rule for radius and shadow tokens) was attempted and deliberately
-not shipped: the codebase has legitimate bespoke arbitrary values (the hero
-card's cut corner) that a blanket rule cannot distinguish from drift without
-a real design-token audit first.
+D.14 (a lint rule for radius and shadow tokens) was first attempted here and
+deliberately not shipped: the codebase had legitimate bespoke arbitrary values
+(the hero card's cut corner) that a blanket rule could not distinguish from
+drift without a real design-token audit first. That audit, and the rule, were
+done in Phase 9 below.
 
 ### Phase 9 — Six P3s, and everything else in P3 was genuinely blocked
 
@@ -188,11 +209,11 @@ a real design-token audit first.
 | 3.42 | "Read the case again" button, running the Case Summary agent on demand instead of only on the next note | `src/app/actions/case.ts` (`resummarise`), `src/components/app/case-controls.tsx` |
 | 4.30 | Related-search blocks built from queries the catalogue can actually answer: destination views, zero commission, rankings, scholarships, top disciplines | `src/components/catalogue/related-searches.tsx` |
 | 4.31 | Rankings gained text search and destination/body filters, all as GET parameters | `/universities/rankings` |
-| D.16 | Header condenses height and logo size past an 8px scroll threshold | `src/components/site/header.tsx` |
+| D.16 | Header condenses height and logo size past an 8px scroll threshold. **Undone by the 2026-09-13 design port:** the ported header has no scroll listener. Open again; see `REMAINING.md` B4 | `src/components/site/header.tsx` |
 | D.17 | Found the real cause of a scroll-to-top failure: Lenis owns scroll position once mounted, so Next's native scroll reset on navigation moved the browser's offset but not Lenis's virtualised one. Fixed with `usePathname` plus `useLenis().scrollTo(0, { immediate: true })` | `src/components/ui/smooth-scroll.tsx` |
 | F.09 | English test comparison: IELTS, TOEFL iBT, PTE Academic, Duolingo, on scale, format, validity and historical UK SELT status, with an official link per test. No cross-test score conversion, and GRE/GMAT/SAT excluded as genuinely out of scope for a UK/Germany/Ireland Master's audience | `/tools/english-tests` |
 | 1.11, D.01 | Fifty routes walked at a real 390px viewport against a production build, not checked structurally. Found two shared bugs and fixed each at its one common cause: `sr-only` labels are absolute and so escaped their *static* `overflow-x-auto` table wrappers, keeping their position out at the table's full width and pushing nine routes sideways by up to 119px; and the button primitive's `whitespace-nowrap` plus fixed height sent a long label past the edge on three more. All fifty now measure zero horizontal scroll | `src/app/globals.css`, `src/components/ui/button.tsx`, `src/components/marketing/revenue-chart.tsx` |
-| D.14 | The design-token audit the rule was waiting on, then the rule. 18 arbitrary radius/shadow values inventoried: 13 were drift and became tokens, five are deliberate and carry a `token-exempt` disable with the reason | `eslint.config.mjs`, `src/components/marketing/hero.tsx`, and nine other surfaces |
+| D.14 | The design-token audit the rule was waiting on, then the rule. 18 arbitrary radius/shadow values inventoried: 13 were drift and became tokens, five were deliberate and carried a `token-exempt` disable with the reason. The 2026-09-13 design port then replaced those five with the reference's own classes; the rule is unchanged and `src` now holds zero arbitrary values and zero exemptions | `eslint.config.mjs` |
 
 F.10 (recommended books per exam) is folded into F.09 in reduced form: an
 official resources link per test, not a named book, which would be a

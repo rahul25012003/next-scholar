@@ -328,9 +328,10 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                   </ul>
                 )}
                 <p className="mt-5 max-w-2xl text-[0.875rem] leading-relaxed text-grey">
-                  Rankings are stated as bands rather than exact positions, because an exact
-                  position moves every year and a stale one printed to the digit is more
-                  misleading than a band that is still true.
+                  Rankings are stated as bands wherever the published sources disagreed, and
+                  as an exact position only where the institution itself published one,
+                  because a position moves every year and a stale one printed to the digit
+                  is more misleading than a band that is still true.
                 </p>
               </div>
             )}

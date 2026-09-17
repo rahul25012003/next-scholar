@@ -23,7 +23,7 @@ const particles = [
 
 export function ExplodeBurst() {
   return (
-    <svg className="anim-explode fouc" viewBox="0 0 500 500" aria-hidden focusable="false">
+    <svg className="anim-explode" viewBox="0 0 500 500" aria-hidden focusable="false">
       {particles.map((particle, index) => (
         <circle
           key={index}

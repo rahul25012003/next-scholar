@@ -40,9 +40,9 @@ export const ireland: DestinationGuide = {
   tuition: [
     {
       label: "Taught Master's, year one",
-      value: "€12,000 to €26,000",
+      value: "€12,000 to €28,000",
       qualifier:
-        "Indicative range across institutions and subjects. Not a quoted price. Business, data and computing at the larger universities sit at the top of it.",
+        "Indicative range across institutions and subjects. Not a quoted price. Business, data and computing at the larger universities sit at the top of it, which is where our own catalogue's highest entry sits.",
       source: "University published international fee schedules",
     },
     {

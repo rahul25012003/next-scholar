@@ -107,7 +107,7 @@ export const articles: Article[] = [
     slug: "germany-is-not-free",
     title: "Germany is not free, and one federal state is the reason",
     standfirst:
-      "We published \"no tuition fee\" on our own site until this week. It was wrong for Baden-Wurttemberg, where non-EU students pay EUR 1,500 a semester, and the universities in that state are exactly the ones an Indian engineering applicant shortlists first.",
+      "We published \"no tuition fee\" on our own site until early September 2026. It was wrong for Baden-Wurttemberg, where non-EU students pay EUR 1,500 a semester, and the universities in that state are exactly the ones an Indian engineering applicant shortlists first.",
     destination: "germany",
     topics: ["Money", "Choosing"],
     service: "Shortlist",

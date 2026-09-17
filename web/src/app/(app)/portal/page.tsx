@@ -60,6 +60,7 @@ export default async function PortalPage() {
     const user = await findById(actor.id);
     return (
       <AppShell actor={actor} current="/portal">
+      <h1 className="sr-only">Student portal</h1>
         <div className="shell">
           <NewAccountState
             name={actor.name}
@@ -83,6 +84,7 @@ export default async function PortalPage() {
 
   return (
     <AppShell actor={actor} current="/portal">
+      <h1 className="sr-only">Student portal</h1>
       <div className="shell grid gap-6 lg:grid-cols-[1.6fr_1fr]">
         <div className="grid gap-6">
           <Panel

@@ -109,6 +109,7 @@ export default async function ConsolePage(props: PageProps<"/console">) {
 
   return (
     <AppShell actor={actor} current="/console">
+      <h1 className="sr-only">Counselor console</h1>
       <div className="shell grid gap-6">
         <div className="grid gap-6 lg:grid-cols-3">
           <Panel title="Your caseload">
