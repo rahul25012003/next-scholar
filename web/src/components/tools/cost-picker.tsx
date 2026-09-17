@@ -40,7 +40,7 @@ export function CostOfLivingPicker({ initialDestination }: { initialDestination?
         </div>
       </fieldset>
 
-      <CostOfLivingCalculator guide={guide} rate={rateFor(guide.currency)} />
+      <CostOfLivingCalculator key={guide.slug} guide={guide} rate={rateFor(guide.currency)} />
     </div>
   );
 }

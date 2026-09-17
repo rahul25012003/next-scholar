@@ -80,7 +80,7 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
     if (grade.trim() === "") return undefined;
     const value = Number(grade);
     if (!Number.isFinite(value)) return undefined;
-    if (scale === "percentage") return value;
+    if (scale === "percentage") return value >= 0 && value <= 100 ? value : undefined;
     const converted = cgpaToPercentage(value);
     return "error" in converted ? undefined : converted.value;
   }, [grade, scale]);
@@ -173,6 +173,7 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
                 step={0.01}
                 value={grade}
                 onChange={(event) => setGrade(event.target.value)}
+                aria-label="Your result"
                 placeholder={scale === "cgpa" ? "8.2" : "76"}
                 className="figures w-full rounded-card border border-line-strong px-3.5 py-2.5 text-blue-dark"
               />

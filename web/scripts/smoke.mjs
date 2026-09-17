@@ -104,7 +104,9 @@ const problems = [];
 const lines = [];
 
 async function fetchPage(path, redirect = "follow") {
-  const response = await fetch(BASE + path, { redirect });
+  // A route that hangs fails this check in 30 seconds instead of holding CI
+  // until the job's 15 minute timeout.
+  const response = await fetch(BASE + path, { redirect, signal: AbortSignal.timeout(30_000) });
   const body = response.headers.get("content-type")?.includes("text")
     ? await response.text()
     : "";

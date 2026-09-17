@@ -207,9 +207,9 @@ export function EctsCheck() {
                     gap={result.totalGap}
                     met={result.meetsTotal}
                   />
-                  {result.areas.map((area) => (
+                  {result.areas.map((area, index) => (
                     <Row
-                      key={area.name}
+                      key={index}
                       name={area.name}
                       required={area.required}
                       held={area.held}

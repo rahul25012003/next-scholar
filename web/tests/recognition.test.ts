@@ -126,6 +126,22 @@ describe("onboarding", () => {
     expect(second.fundsInr).toBe(1800000);
   });
 
+  it("converts a CGPA with the calculator's half-up rounding", () => {
+    // 5.81 × 9.5 is 55.195, which plain float rounding turns into 55.19.
+    const profile = parseOnboarding(form({ scale: "cgpa", result: "5.81" }), emptyOnboarding());
+    expect(profile.percentage).toBe(55.2);
+  });
+
+  it("states a shortfall under a lakh in rupees rather than as ₹0 lakh", () => {
+    // The blocked account is €11,904 at ₹101, about ₹12,02,304.
+    const money = runChecklist({ destination: "germany", fundsInr: 1_200_000 }).find(
+      (check) => check.id === "blocked",
+    );
+    expect(money?.state).toBe("not-met");
+    expect(money?.reason).not.toContain("₹0 lakh");
+    expect(money?.reason).toContain("shortfall of about ₹2,304");
+  });
+
   it("drops an out of range result rather than storing it", () => {
     const profile = parseOnboarding(
       form({ destination: "ireland", scale: "percentage", result: "180" }),

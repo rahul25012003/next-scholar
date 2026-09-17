@@ -29,7 +29,7 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
   );
   const [step, setStep] = useState(0);
   const [destination, setDestination] = useState(profile.destination ?? "");
-  const [scale, setScale] = useState<"cgpa" | "percentage">("cgpa");
+  const [scale, setScale] = useState<"cgpa" | "percentage">(profile.percentage === null ? "cgpa" : "percentage");
 
   const guide = guides.find((item) => item.slug === destination);
   const current = onboardingSteps[step];
@@ -195,6 +195,7 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
               <input
                 id="result"
                 name="result"
+                defaultValue={profile.percentage ?? ""}
                 type="number"
                 inputMode="decimal"
                 step="0.01"

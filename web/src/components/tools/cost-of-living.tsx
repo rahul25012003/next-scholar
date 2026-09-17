@@ -270,10 +270,9 @@ export function CostOfLivingCalculator({
                 </span>
                 <span className="figures mt-1 block text-[0.875rem] text-grey">
                   about ₹
-                  {Math.round(
-                    (monthly * 12 * rate.inrPerUnit) / 1000,
+                  {(
+                    Math.round((monthly * 12 * rate.inrPerUnit) / 1000) * 1000
                   ).toLocaleString("en-IN")}
-                  ,000
                 </span>
               </td>
             </tr>

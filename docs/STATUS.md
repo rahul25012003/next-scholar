@@ -55,6 +55,49 @@ large-text size, over darkening the blue; measured across 45 pages afterwards,
 no text on the site is below AA.
 `reference/design-reference.png` is no longer the source of any token.
 
+**The bug audit, 2026-09-17.** A full pass over security, domain logic, the
+calculators and forms, and every public route at runtime. Fixed, each with a
+test that fails without its fix (`tests/security-fixes.test.ts`,
+`tests/domain-fixes.test.ts`, `tests/tools-fixes.test.tsx`, plus additions to
+`search.test.ts` and `recognition.test.ts`):
+
+- **Security.** A production build seeded the demo accounts, founder included,
+  with a password published in this repo; it now seeds them only with
+  `NEXT_SCHOLAR_DEMO_DATA=true` and `SEED_ACCOUNT_PASSWORD` both set. The daily
+  sweep accepted only a custom header Vercel Cron cannot send, so it never ran;
+  it now takes `Authorization: Bearer $CRON_SECRET`, compared timing-safe.
+  Thread summaries, consent withdrawal and extraction decisions now check the
+  record's own case, since their ids are sequential.
+- **Domain.** A recurring notification reused its resolved row's id, which
+  Postgres refuses in one upsert. Closed cases escalated forever. Invalid
+  corrections were logged, and reported to the user, as made. A catalogue
+  deadline closed at midnight UTC on its own day. The sensitive-input guard
+  missed lowercase passport numbers and read "years 2021" as rupees.
+- **Tools and forms.** Switching the cost-of-living destination crashed it. The
+  shared rounding helper lost exact halves to float error (8.9 out of 10 gave
+  1.5, not 1.6; CGPA 5.81 gave 55.19), and the grade working showed steps that
+  contradicted the result. The intake form's Next button became the submit
+  button. Smaller: an emptied pass mark still converted, onboarding blanked a
+  saved result, the filter rail's two copies shared ids, rupees printed in
+  Western grouping, a 150% result counted as met, and a shortfall under half a
+  lakh printed as "₹0 lakh".
+- **Search.** "universitat" found nothing, because matching kept accents; both
+  site search and the catalogue filter now fold them. Two TU names had also
+  lost their umlaut.
+
+Verified: tsc and lint clean, 398 tests passing, clean production build, the
+71-route smoke clean, all 164 sitemap routes 200, and a console-error sweep
+of every page type in a browser. Left for a decision, not changed: whether
+German grades should be truncated after the first decimal as uni-assist often
+does, rather than rounded; whether staff may withdraw a student's consent;
+whether students may run the drafting copilot and extraction on their own case;
+signup confirming that an email is registered; sign-in ignoring its `next`
+parameter; the case-to-student link overwriting silently and auditing the
+wrong actor; rate limiting trusting `x-forwarded-for`; closed cases still
+raising inactivity events; staff forms losing typed input when the server
+rejects them; onboarding having no way to clear a saved answer; and
+sign-off and "days until" dates computed in UTC, a day early before 05:30 IST.
+
 ---
 
 ## Done

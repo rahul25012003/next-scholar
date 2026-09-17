@@ -1,5 +1,13 @@
 import { enforceRetention, syncNotifications } from "@/data/store";
 import { check, clientKey, policies } from "@/domain/rate-limit";
+import { createHash, timingSafeEqual } from "node:crypto";
+
+/** Hashing first gives equal lengths, so the compare leaks neither content nor length. */
+const sameSecret = (given: string, want: string) =>
+  timingSafeEqual(
+    createHash("sha256").update(given).digest(),
+    createHash("sha256").update(want).digest(),
+  );
 
 /**
  * The scheduled sweep. A cron hits this, it runs detection across every case,
@@ -36,20 +44,28 @@ export async function POST(request: Request): Promise<Response> {
     );
   }
 
-  const configured = process.env.SWEEP_SECRET;
+  // Vercel Cron cannot send a custom header. It sends `Authorization: Bearer
+  // $CRON_SECRET`, so that is accepted alongside the manual header.
+  const secrets = [process.env.CRON_SECRET, process.env.SWEEP_SECRET].filter(
+    (value): value is string => Boolean(value),
+  );
+  const presented =
+    request.headers.get("x-sweep-secret") ??
+    request.headers.get("authorization")?.match(/^Bearer (.+)$/)?.[1] ??
+    "";
 
-  if (!configured) {
+  if (secrets.length === 0) {
     if (process.env.NODE_ENV === "production") {
       return Response.json(
         {
           ran: false,
           reason:
-            "SWEEP_SECRET is not configured. The sweep will not run unauthenticated in production.",
+            "Neither CRON_SECRET nor SWEEP_SECRET is configured. The sweep will not run unauthenticated in production.",
         },
         { status: 503 },
       );
     }
-  } else if (request.headers.get("x-sweep-secret") !== configured) {
+  } else if (!secrets.some((secret) => sameSecret(presented, secret))) {
     return Response.json({ ran: false, reason: "Bad secret." }, { status: 401 });
   }
 

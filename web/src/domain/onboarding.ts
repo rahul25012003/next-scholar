@@ -1,6 +1,7 @@
 import { guides } from "@/content/guides";
 import { routesFor } from "@/content/requirements";
 import type { Profile } from "./eligibility";
+import { round } from "./calculators";
 
 /**
  * What a new account knows about itself before a case exists.
@@ -210,7 +211,7 @@ export function parseOnboarding(
     raw === null
       ? previous.percentage
       : scale === "cgpa"
-        ? Math.round(raw * 9.5 * 100) / 100
+        ? round(raw * 9.5, 2)
         : raw;
 
   const applyingFor = text("applyingFor");

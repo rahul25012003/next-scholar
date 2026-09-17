@@ -73,6 +73,12 @@ const unknown = (
 const INR_PER_EUR = 101;
 const INR_PER_GBP = 118;
 
+/** Rounded to the lakh, except below one, where that rounding would print "₹0 lakh". */
+const approxInr = (amount: number) =>
+  amount < 100000
+    ? `₹${Math.round(amount).toLocaleString("en-IN")}`
+    : `₹${Math.round(amount / 100000)} lakh`;
+
 function moneyCheck(
   id: string,
   title: string,
@@ -92,7 +98,7 @@ function moneyCheck(
       "Money",
       title,
       "You have not told us what you can evidence.",
-      `The requirement is ${symbol}${requiredLocal.toLocaleString("en-IN")}, roughly ₹${Math.round(requiredInr / 100000)} lakh at ₹${rate} to the ${currency === "EUR" ? "euro" : "pound"}. ${note}`,
+      `The requirement is ${symbol}${requiredLocal.toLocaleString("en-IN")}, roughly ${approxInr(requiredInr)} at ₹${rate} to the ${currency === "EUR" ? "euro" : "pound"}. ${note}`,
       source,
     );
   }
@@ -104,8 +110,8 @@ function moneyCheck(
     title,
     state: met ? "met" : "not-met",
     reason: met
-      ? `You can evidence about ₹${Math.round(profile.fundsInr / 100000)} lakh, against a requirement of ${symbol}${requiredLocal.toLocaleString("en-IN")}, roughly ₹${Math.round(requiredInr / 100000)} lakh at ₹${rate} to the ${currency === "EUR" ? "euro" : "pound"}. The rupee comparison is indicative: no exchange rate service is connected to this site.`
-      : `You can evidence about ₹${Math.round(profile.fundsInr / 100000)} lakh. The requirement is ${symbol}${requiredLocal.toLocaleString("en-IN")}, roughly ₹${Math.round(requiredInr / 100000)} lakh at ₹${rate} to the ${currency === "EUR" ? "euro" : "pound"}, which leaves a shortfall of about ₹${Math.max(0, Math.round((requiredInr - profile.fundsInr) / 100000))} lakh.`,
+      ? `You can evidence about ${approxInr(profile.fundsInr)}, against a requirement of ${symbol}${requiredLocal.toLocaleString("en-IN")}, roughly ${approxInr(requiredInr)} at ₹${rate} to the ${currency === "EUR" ? "euro" : "pound"}. The rupee comparison is indicative: no exchange rate service is connected to this site.`
+      : `You can evidence about ${approxInr(profile.fundsInr)}. The requirement is ${symbol}${requiredLocal.toLocaleString("en-IN")}, roughly ${approxInr(requiredInr)} at ₹${rate} to the ${currency === "EUR" ? "euro" : "pound"}, which leaves a shortfall of about ${approxInr(requiredInr - profile.fundsInr)}.`,
     action: met ? note : `${note} An education loan sanction letter is accepted on some routes and not on others, which is worth establishing before you apply.`,
     source,
   };

@@ -239,7 +239,9 @@ export function detectEvents(record: StudentCase, now = new Date()): LifecycleEv
     });
   }
 
-  if (stuckFor >= ESCALATION_DAYS) {
+  // Escalation is stagnation past the second threshold, so it carries the same
+  // stage condition: a case at its outcome is not stuck.
+  if (stuckFor >= ESCALATION_DAYS && stageIndex(record.stage) < 10) {
     events.push({
       key: `${record.id}:escalation`,
       caseId: record.id,

@@ -709,9 +709,13 @@ export async function decideExtractedField(
 ): Promise<Extraction | null> {
   const extraction = await getExtraction(documentId);
   if (!extraction) return null;
-  if (!can(actor, "document.verify")) return null;
+  // Scoped to the case, not just the role: a counselor verifies only their own
+  // caseload. A field already decided is a no-op, and a no-op is not audited.
+  const record = await getCase(extraction.caseId, actor);
+  if (!record || !can(actor, "document.verify", record)) return null;
 
   const before = extraction.fields.find((field) => field.name === fieldName);
+  if (before?.state !== "pending-verification") return null;
   const updated = decideField(extraction, fieldName, decision, actor.name);
 
   if (supabaseConfigured()) {
@@ -958,8 +962,12 @@ export async function withdrawConsent(
   actor: Actor,
 ): Promise<ConsentRecord[]> {
   const before = (await allConsents()).find((consent) => consent.id === consentId);
+  // Consent ids are sequential, so the id alone proves nothing: the consent has
+  // to sit on a case this actor can read. An already-withdrawn consent is a
+  // no-op, and a no-op writes no audit entry claiming a withdrawal.
+  if (!before || !(await getCase(before.caseId, actor))) return [];
 
-  if (before && before.withdrawnAt === null) {
+  if (before.withdrawnAt === null) {
     if (supabaseConfigured()) {
       const { error } = await supabaseAdmin()!
         .from("consents")
@@ -969,22 +977,22 @@ export async function withdrawConsent(
     } else {
       consents = withdraw(consents, consentId);
     }
+
+    await recordAudit({
+      actorId: actor.id,
+      actorName: actor.name,
+      actorRole: actor.role,
+      action: "withdraw-consent",
+      subjectType: "consent",
+      subjectId: consentId,
+      field: "withdrawnAt",
+      before: "null",
+      after: new Date().toISOString(),
+      note: `Category: ${before.category}`,
+    });
   }
 
-  await recordAudit({
-    actorId: actor.id,
-    actorName: actor.name,
-    actorRole: actor.role,
-    action: "withdraw-consent",
-    subjectType: "consent",
-    subjectId: consentId,
-    field: "withdrawnAt",
-    before: "null",
-    after: new Date().toISOString(),
-    note: before ? `Category: ${before.category}` : undefined,
-  });
-
-  return (await allConsents()).filter((consent) => consent.caseId === before?.caseId);
+  return (await allConsents()).filter((consent) => consent.caseId === before.caseId);
 }
 
 /**

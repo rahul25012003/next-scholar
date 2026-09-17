@@ -33,9 +33,17 @@ import { caseIdsForCounselor } from "@/data/store";
  * makes `counselor_id` the single source of truth for both.
  */
 
-const seedPassword = process.env.SEED_ACCOUNT_PASSWORD ?? "next-scholar-dev-1";
+// The fallback password is published in this repository. A production build
+// seeds these accounts, founder included, only when demo data is switched on
+// (the same gate as the synthetic cases) and a password was set on purpose.
+const seedPassword =
+  process.env.NODE_ENV !== "production"
+    ? (process.env.SEED_ACCOUNT_PASSWORD ?? "next-scholar-dev-1")
+    : process.env.NEXT_SCHOLAR_DEMO_DATA === "true"
+      ? process.env.SEED_ACCOUNT_PASSWORD || undefined
+      : undefined;
 
-let users: AuthUser[] = [
+let users: AuthUser[] = seedPassword === undefined ? [] : [
   {
     id: "user-student-1",
     email: "meghana@example.in",

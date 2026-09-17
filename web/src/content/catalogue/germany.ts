@@ -1282,7 +1282,7 @@ export const germanUniversities: University[] = [
 
   {
     slug: "tu-dresden",
-    name: "Technische Universitat Dresden",
+    name: "Technische Universität Dresden",
     destination: "germany",
     city: "Dresden",
     route: "Public universities",
@@ -1490,7 +1490,7 @@ export const germanUniversities: University[] = [
 
   {
     slug: "tu-darmstadt",
-    name: "Technische Universitat Darmstadt",
+    name: "Technische Universität Darmstadt",
     destination: "germany",
     city: "Darmstadt",
     route: "Public universities",

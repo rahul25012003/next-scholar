@@ -31,6 +31,10 @@ import { routesFor } from "@/content/requirements";
 import { buildHandoverPacket } from "@/domain/counselor-ops";
 import { profileFromCase, proposeShortlist } from "@/domain/matching";
 import { channelLabel, newestFirst } from "@/domain/communications";
+import type { Metadata } from "next";
+
+// Generic on purpose: a student's name in the tab title would sit in browser history.
+export const metadata: Metadata = { title: "Case file" };
 
 export default async function CaseDetailPage(props: PageProps<"/console/[caseId]">) {
   const { caseId } = await props.params;

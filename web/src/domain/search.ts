@@ -5,6 +5,7 @@ import { legalDocuments } from "@/content/legal";
 import { services } from "@/content/services";
 import { destinations } from "@/content/destinations";
 import { scholarships } from "@/content/scholarships";
+import { fold } from "@/lib/fold";
 
 /**
  * Site search.
@@ -341,9 +342,9 @@ const RECORDS = corpus();
  * that also publishes what it earns from each one.
  */
 function score(record: Record_, terms: string[]): number {
-  const title = record.title.toLowerCase();
-  const detail = record.detail.toLowerCase();
-  const body = record.body.toLowerCase();
+  const title = fold(record.title);
+  const detail = fold(record.detail);
+  const body = fold(record.body);
 
   let total = 0;
   let matched = 0;
@@ -363,8 +364,7 @@ function score(record: Record_, terms: string[]): number {
 }
 
 export function search(query: string, limit = 40): SearchResult[] {
-  const terms = query
-    .toLowerCase()
+  const terms = fold(query)
     .split(/\s+/)
     .map((term) => term.trim())
     .filter((term) => term.length > 1);

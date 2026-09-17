@@ -44,6 +44,7 @@ export function Copilot({ caseId }: { caseId: string }) {
             </p>
           )}
           <textarea
+            key={state.draft}
             defaultValue={state.draft}
             rows={6}
             aria-label="Draft message, editable before you send it"

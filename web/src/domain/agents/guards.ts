@@ -127,11 +127,11 @@ export function filterWrites(
 const sensitiveInputPatterns: { rule: string; pattern: RegExp }[] = [
   {
     rule: "A passport or document number does not go to a model",
-    pattern: /\b[A-Z]{1,2}\d{6,8}\b/,
+    pattern: /\b[A-Z]{1,2}\d{6,8}\b/i,
   },
   {
     rule: "A financial figure does not go to a model",
-    pattern: /(₹|rs\.?|inr|eur|€|gbp|£|\$)\s?[\d,]{4,}/i,
+    pattern: /(₹|€|£|\$|\b(rs\.?|inr|eur|gbp))\s?[\d,]{4,}/i,
   },
   {
     rule: "A long account or reference number does not go to a model",

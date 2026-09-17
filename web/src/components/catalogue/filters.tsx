@@ -1,3 +1,4 @@
+import { useId } from "react";
 import Link from "next/link";
 import { ArrowCounterClockwise, FunnelSimple } from "@phosphor-icons/react/ssr";
 import { disciplines, sortOptions, type Filters } from "@/content/catalogue";
@@ -24,6 +25,8 @@ export function FilterRail({
   resultCount: number;
 }) {
   const subjects = disciplines();
+  // Pages render the rail twice, for phone and desktop, so fixed ids would collide.
+  const id = useId();
 
   return (
     <form
@@ -49,13 +52,13 @@ export function FilterRail({
       <div className="space-y-6 px-5 py-5">
         <div>
           <label
-            htmlFor="q"
+            htmlFor={`${id}-q`}
             className="block text-[0.8125rem] font-semibold text-blue-dark"
           >
             Search
           </label>
           <input
-            id="q"
+            id={`${id}-q`}
             name="q"
             defaultValue={filters.query}
             placeholder="Course, university or city"
@@ -189,11 +192,11 @@ export function FilterRail({
         </fieldset>
 
         <div>
-          <label htmlFor="sort" className="block text-[0.8125rem] font-semibold text-blue-dark">
+          <label htmlFor={`${id}-sort`} className="block text-[0.8125rem] font-semibold text-blue-dark">
             Order by
           </label>
           <select
-            id="sort"
+            id={`${id}-sort`}
             name="sort"
             defaultValue={sort}
             className="mt-2 w-full rounded-input border border-line-strong bg-white px-3 py-2 text-[0.875rem] text-blue-dark"

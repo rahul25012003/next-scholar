@@ -35,8 +35,9 @@ export function GermanGradeCalculator() {
     if (obtained.trim() === "") return null;
     return modifiedBavarian({
       obtained: Number(obtained),
-      max: Number(max),
-      passing: Number(passing),
+      // An emptied field is missing, not zero.
+      max: max.trim() === "" ? Number.NaN : Number(max),
+      passing: passing.trim() === "" ? Number.NaN : Number(passing),
     });
   }, [obtained, max, passing]);
 

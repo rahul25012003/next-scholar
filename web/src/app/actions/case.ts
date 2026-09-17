@@ -333,7 +333,12 @@ export async function withdrawConsentAction(
   const consentId = String(formData.get("consentId") ?? "");
   if (!consentId) return { status: "error", message: "No consent record named." };
 
-  await withdrawConsent(consentId, actor);
+  // The store refuses a consent on a case this account cannot read, and says so
+  // with an empty list. Reporting a withdrawal then would be false.
+  const onCase = await withdrawConsent(consentId, actor);
+  if (onCase.length === 0) {
+    return { status: "error", message: "That consent record is not on your case." };
+  }
   revalidatePath("/portal");
 
   return {

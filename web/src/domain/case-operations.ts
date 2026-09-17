@@ -76,17 +76,24 @@ export function applyCorrection(
     const parsed = Number(correction.value.replace(/[^\d]/g, ""));
     next.budgetInr = Number.isFinite(parsed) && parsed > 0 ? parsed : null;
   } else if (correction.field === "priority") {
+    // Refused as a no-op, like every other invalid mutation here: a priority
+    // outside the three breaks the queue sort and the database check constraint.
+    if (!["Normal", "High", "Urgent"].includes(correction.value)) return record;
     before = record.priority;
     next.priority = correction.value as StudentCase["priority"];
   } else if (correction.field === "deadline") {
     const target = record.deadlines.find((item) => item.label === correction.targetId);
-    before = target?.date ?? "not set";
+    // A correction to a deadline that is not on file, or to a date that does not
+    // parse, would log a change that never happened or store a date nothing can read.
+    if (!target || Number.isNaN(Date.parse(correction.value))) return record;
+    before = target.date;
     next.deadlines = record.deadlines.map((item) =>
       item.label === correction.targetId ? { ...item, date: correction.value } : item,
     );
   } else if (correction.field === "reference") {
     const target = record.applications.find((item) => item.id === correction.targetId);
-    before = target?.reference ?? "not set";
+    if (!target) return record;
+    before = target.reference ?? "not set";
     next.applications = record.applications.map((item) =>
       item.id === correction.targetId ? { ...item, reference: correction.value } : item,
     );

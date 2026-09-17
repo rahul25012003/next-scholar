@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import {
   activeFilterCount,
   applyFilters,
@@ -228,9 +228,18 @@ describe("sorting", () => {
   });
 
   it("orders by the soonest deadline still ahead", () => {
-    const rows = sortProgrammes(programmes, "deadline");
-    const dates = rows.map((row) => nextDeadline(row)).filter((date): date is string => date !== null);
-    expect([...dates]).toEqual([...dates].sort());
+    // Pinned: on the real clock every catalogue deadline eventually passes,
+    // nextDeadline returns null for all of them, and this would pass on an
+    // empty list while checking nothing.
+    vi.setSystemTime(new Date("2026-09-17T00:00:00.000Z"));
+    try {
+      const rows = sortProgrammes(programmes, "deadline");
+      const dates = rows.map((row) => nextDeadline(row)).filter((date): date is string => date !== null);
+      expect(dates.length).toBeGreaterThan(1);
+      expect([...dates]).toEqual([...dates].sort());
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it("falls back to alphabetical for an unrecognised key", () => {

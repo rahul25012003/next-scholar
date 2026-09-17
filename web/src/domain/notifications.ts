@@ -78,6 +78,10 @@ export function planNotifications(
   const open = new Set(
     existing.filter((item) => !item.resolvedAt).map((item) => `${item.eventKey}:${item.channel}`),
   );
+  // An event that cleared and came back (a student gone quiet twice) needs a
+  // fresh id: reusing the resolved row's id puts two rows with one primary key
+  // in the same upsert, which Postgres refuses.
+  const taken = new Set(existing.map((item) => item.id));
 
   const planned: Notification[] = [];
   for (const event of events) {
@@ -94,7 +98,7 @@ export function planNotifications(
       const dedupeKey = `${event.key}:${channel}`;
       if (open.has(dedupeKey)) continue;
       planned.push({
-        id: dedupeKey,
+        id: taken.has(dedupeKey) ? `${dedupeKey}:${now.getTime()}` : dedupeKey,
         eventKey: event.key,
         caseId: event.caseId,
         type: event.type,

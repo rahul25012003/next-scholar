@@ -2,6 +2,7 @@ import { germanUniversities } from "./germany";
 import { irishUniversities } from "./ireland";
 import { ukUniversities } from "./united-kingdom";
 import type { Field, Programme, University } from "./types";
+import { fold } from "@/lib/fold";
 
 export * from "./types";
 
@@ -96,7 +97,7 @@ const feeValue = (field: Field<number>): number | null =>
  * whole set being applied at once.
  */
 export function applyFilters(rows: ProgrammeRow[], filters: Filters): ProgrammeRow[] {
-  const query = filters.query.trim().toLowerCase();
+  const query = fold(filters.query.trim());
 
   return rows.filter((row) => {
     if (
@@ -136,21 +137,24 @@ export function applyFilters(rows: ProgrammeRow[], filters: Filters): ProgrammeR
         row.university.city,
         row.campus,
         ...row.disciplines,
-      ]
-        .join(" ")
-        .toLowerCase();
-      if (!haystack.includes(query)) return false;
+      ];
+      if (!fold(haystack.join(" ")).includes(query)) return false;
     }
 
     return true;
   });
 }
 
-/** The earliest deadline still ahead of a given date, for the deadline sort. */
+/**
+ * The earliest deadline still ahead of a given date, for the deadline sort.
+ * A deadline is a calendar day, so it stays open through that whole day rather
+ * than closing at the first minute of it.
+ */
 export function nextDeadline(row: ProgrammeRow, from = new Date()): string | null {
+  const today = Date.parse(from.toISOString().slice(0, 10));
   const upcoming = row.intakes
     .map((intake) => intake.applicationDeadline)
-    .filter((date) => new Date(date).getTime() >= from.getTime())
+    .filter((date) => new Date(date).getTime() >= today)
     .sort();
   return upcoming[0] ?? null;
 }

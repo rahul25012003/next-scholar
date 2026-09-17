@@ -354,15 +354,28 @@ export async function correct(
     };
   }
 
+  // applyCorrection hands back the same record when it refuses a correction,
+  // and a refusal must not be reported as "Corrected."
+  let changed = false;
   const updated = await mutateCase(
     caseId,
     actor,
     "case.note.write",
-    (record) => applyCorrection(record, { field, value, reason, targetId }, actor.name),
+    (record) => {
+      const next = applyCorrection(record, { field, value, reason, targetId }, actor.name);
+      changed = next !== record;
+      return next;
+    },
     `Corrected ${field}`,
   );
 
   if (!updated) return { status: "error", message: "Not permitted on this case." };
+  if (!changed) {
+    return {
+      status: "error",
+      message: "Nothing was changed. The value is not one this field accepts, or the deadline or application it names is not on this case.",
+    };
+  }
   refreshed(caseId);
 
   return {
@@ -592,12 +605,15 @@ export async function summariseCommunication(
   }
 
   const communicationId = String(formData.get("communicationId") ?? "");
-  const caseId = String(formData.get("caseId") ?? "");
 
+  // The store looks threads up by id alone, so the thread's own case has to be
+  // one this person may write notes on before its contents reach the agent.
   const communication = await getCommunication(communicationId);
-  if (!communication) {
+  const record = communication ? await getCase(communication.caseId, actor) : null;
+  if (!communication || !record || !can(actor, "case.note.write", record)) {
     return { status: "unavailable", message: "That thread is not on file." };
   }
+  const caseId = record.id;
 
   const run = await summariseThread(
     communication.raw,

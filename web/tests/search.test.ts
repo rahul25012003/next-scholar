@@ -25,6 +25,14 @@ describe("site search", () => {
     }
   });
 
+  it("matches an accented name typed without its accent, in search and the catalogue filter", async () => {
+    const { applyFilters, emptyFilters, programmes } = await import("@/content/catalogue");
+    const titles = search("technische universitat").map((result) => result.title);
+    expect(titles).toContain("Technische Universität Dresden");
+    const rows = applyFilters(programmes, { ...emptyFilters, query: "freie universitat" });
+    expect(rows.map((row) => row.university.name)).toContain("Freie Universität Berlin");
+  });
+
   it("finds a figure that only appears in a guide's body", () => {
     const results = search("blocked account");
     expect(results.length).toBeGreaterThan(0);

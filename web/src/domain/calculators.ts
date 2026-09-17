@@ -35,9 +35,11 @@ export type Conversion = {
   clamped?: string;
 };
 
-const round = (value: number, places = 2): number => {
+export const round = (value: number, places = 2): number => {
   const factor = 10 ** places;
-  return Math.round(value * factor) / factor;
+  // toPrecision strips binary noise first: 10 − 8.9 is 1.0999999999999996, which
+  // would otherwise turn an exact 1.55 into 1.5 instead of rounding half up.
+  return Math.round(Number((value * factor).toPrecision(12))) / factor;
 };
 
 /* ------------------------------------------------------------------ *
@@ -108,7 +110,10 @@ export function modifiedBavarian(input: {
 
   const numerator = round(max - obtained, 2);
   const denominator = round(max - passing, 2);
-  const quotient = round(numerator / denominator, 4);
+  // Multiplied before dividing, so the shown steps stay exact: 3 × 1.1 ÷ 6 is
+  // 0.55, where 1.1 ÷ 6 first shows 0.1833 and then a 1.5499 that rounds down.
+  const product = round(3 * numerator, 4);
+  const quotient = round(product / denominator, 4);
 
   return {
     value,
@@ -119,9 +124,9 @@ export function modifiedBavarian(input: {
       steps: [
         `Nmax − Nd = ${max} − ${obtained} = ${numerator}`,
         `Nmax − Nmin = ${max} − ${passing} = ${denominator}`,
-        `${numerator} ÷ ${denominator} = ${quotient}`,
-        `3 × ${quotient} = ${round(3 * quotient, 4)}`,
-        `1 + ${round(3 * quotient, 4)} = ${round(raw, 4)}`,
+        `3 × ${numerator} = ${product}`,
+        `${product} ÷ ${denominator} = ${quotient}`,
+        `1 + ${quotient} = ${round(raw, 4)}`,
         `Rounded to one decimal place: ${value.toFixed(1)}`,
       ],
       result: `${value.toFixed(1)} — ${germanBandFor(value).german} (${germanBandFor(value).english})`,
@@ -388,7 +393,9 @@ export function sgpaToCgpa(
       ],
       result: value.toFixed(2),
     },
-    source: "Unweighted mean, because no credit figures were entered",
+    source: usable.some((item) => item.credits !== undefined)
+      ? "Unweighted mean, because not every semester has a credit figure"
+      : "Unweighted mean, because no credit figures were entered",
     limits: [
       "Without credits this assumes every semester carried the same load, which is usually not true. Add the credits for each semester and this becomes the credit weighted figure your regulation specifies.",
       "This is not the figure to put on an application form. Use the CGPA printed on your official transcript.",

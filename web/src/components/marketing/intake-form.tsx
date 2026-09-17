@@ -259,12 +259,12 @@ export function IntakeForm() {
             Back
           </Button>
           {step < intakeSteps.length - 1 ? (
-            <Button type="button" onClick={() => setStep((value) => value + 1)}>
+            <Button key="next" type="button" onClick={() => setStep((value) => value + 1)}>
               Next
               <ArrowRight size={15} weight="bold" aria-hidden />
             </Button>
           ) : (
-            <Button type="submit" disabled={pending}>
+            <Button key="submit" type="submit" disabled={pending}>
               {pending ? "Checking your answers" : "Check and continue"}
             </Button>
           )}
