@@ -15,9 +15,9 @@ export const unitedKingdom: DestinationGuide = {
   flagCode: "gb",
   currency: "GBP",
   symbol: "£",
-  headline: "The United Kingdom, with the whole bill on one page",
+  headline: "The United Kingdom, step by step",
   lede:
-    "A UK Student visa is refused far more often on the money than on the academics, and almost always because one of three stacking figures was missed. This page states all three, the 28 day rule that catches people with the right balance at the wrong time, and the date that shortens the Graduate Route.",
+    "A UK Student visa is refused more often on money than on grades. This guide covers entry requirements, deadlines, the visa steps and the date that shortens the Graduate Route. Every cost, including the 28 day rule on your funds, is on the costs page.",
   verification: {
     statedOn: "2026-09-03",
     checkedBy: null,
@@ -32,7 +32,7 @@ export const unitedKingdom: DestinationGuide = {
       name: "Taught Master's",
       destinationSlug: "united-kingdom",
       summary:
-        "One year taught postgraduate degrees, September and January intakes, offer to CAS to visa in that order. This is the route almost every Indian applicant we see is on.",
+        "One year taught postgraduate degrees, with September and January intakes. The order is offer, then CAS, then visa, and almost every Indian applicant we see takes this route.",
     },
   ],
 
@@ -41,14 +41,14 @@ export const unitedKingdom: DestinationGuide = {
       label: "Taught Master's, year one",
       value: "£12,500 to £46,000",
       qualifier:
-        "Indicative range across institutions and subjects. Not a quoted price. The low end is Wrexham University's published international MA/MSc rate for 2026/27. Business and computing at a high-ranked university sit at the top of it, which is where our own catalogue's highest entry sits, and MBA programmes sit above it.",
+        "An indicative range across universities and subjects, not a quoted price. Low end: Wrexham University's published 2026/27 international MA/MSc rate. Top end: business and computing at high-ranked universities, where our catalogue's highest entry sits. MBAs cost more.",
       source: "University published international fee schedules",
     },
     {
       label: "Tuition deposit to hold an offer",
       value: "£2,000 to £5,000, or 50 per cent of year one",
       qualifier:
-        "Varies by institution, and it is a condition of the CAS rather than of the offer. Usually non-refundable once the CAS is issued.",
+        "Varies by university. It is a condition of the CAS, not of the offer, and is usually non-refundable once the CAS is issued.",
       source: "University offer conditions",
     },
   ],
@@ -57,7 +57,7 @@ export const unitedKingdom: DestinationGuide = {
     currency: "GBP",
     symbol: "£",
     qualifier:
-      "Monthly ranges for one student sharing accommodation. The London and non-London split is not a style of living, it is a different maintenance requirement in the immigration rules.",
+      "Monthly ranges for one student in shared housing. London is listed separately because the immigration rules set a different maintenance figure for it, not because of lifestyle.",
     source:
       "University accommodation offices, Office for National Statistics rent data, and published Home Office maintenance rates",
     cities: [
@@ -65,7 +65,7 @@ export const unitedKingdom: DestinationGuide = {
         slug: "london",
         name: "London",
         note:
-          "The immigration rules treat London separately, and so does the rent. Institution location, not campus address, decides which maintenance rate applies to you.",
+          "The immigration rules treat London separately, and so does the rent. Where your institution is, not your campus address, decides which maintenance rate applies.",
         lines: [
           { id: "rent", label: "Rent, shared flat or hall", low: 900, high: 1500 },
           { id: "food", label: "Groceries", low: 180, high: 280 },
@@ -74,7 +74,7 @@ export const unitedKingdom: DestinationGuide = {
             label: "Transport, 18+ Student Oyster",
             low: 90,
             high: 140,
-            note: "The 18+ Student Oyster photocard gives 30 per cent off travelcards and is applied for after enrolment.",
+            note: "The 18+ Student Oyster photocard gives 30 per cent off travelcards. You apply for it after enrolment.",
           },
           { id: "phone", label: "Phone and internet", low: 15, high: 35 },
           { id: "utilities", label: "Utilities, where not included in rent", low: 0, high: 90 },
@@ -87,7 +87,7 @@ export const unitedKingdom: DestinationGuide = {
         slug: "manchester",
         name: "Manchester, Birmingham, Leeds, Glasgow",
         note:
-          "Large city universities outside London, where the maintenance requirement and the actual rent are both materially lower.",
+          "Big-city universities outside London. Both the maintenance requirement and the rent are much lower.",
         lines: [
           { id: "rent", label: "Rent, shared flat or hall", low: 550, high: 900 },
           { id: "food", label: "Groceries", low: 160, high: 250 },
@@ -122,16 +122,16 @@ export const unitedKingdom: DestinationGuide = {
       label: "Maintenance funds, courses in London",
       value: "£1,529 per month, up to nine months",
       qualifier:
-        "A statutory minimum in the immigration rules, not an estimate of living costs. Nine months is the cap, so the maximum on this line is £13,761.",
+        "The minimum set by the immigration rules, not an estimate of living costs. Nine months is the cap, so this line is at most £13,761.",
       source: "UKVI Student route guidance, Appendix Finance",
       note:
-        "London means the institution is inside Greater London. A campus outside the boundary can change which rate applies, so it is checked per institution.",
+        "London means the institution is inside Greater London. A campus outside that boundary can change the rate, so check it for each institution.",
     },
     {
       label: "Maintenance funds, courses outside London",
       value: "£1,171 per month, up to nine months",
       qualifier:
-        "The same statutory minimum outside Greater London. Nine months caps this line at £10,539.",
+        "The same legal minimum, for courses outside Greater London. Nine months caps this line at £10,539.",
       source: "UKVI Student route guidance, Appendix Finance",
     },
     {
@@ -141,22 +141,22 @@ export const unitedKingdom: DestinationGuide = {
         "Added to the maintenance figure, not included in it. A deposit already paid is deducted only if the CAS records it.",
       source: "UKVI Student route guidance, Appendix Finance",
       note:
-        "This is the single most common miscalculation on a UK application: the maintenance figure is treated as the whole requirement, and the tuition balance on the CAS is not added to it.",
+        "The most common mistake on a UK application is treating maintenance as the whole requirement and not adding the tuition balance on the CAS.",
     },
     {
       label: "The 28 consecutive day rule",
       value: "Funds held for 28 consecutive days",
       qualifier:
-        "The balance must not drop below the required amount on any day in a 28 day period, and the closing balance date must be within 31 days of the visa application date.",
+        "The balance must not drop below the required amount on any day of a 28 day period. The closing balance date must be within 31 days of your visa application.",
       source: "UKVI Student route guidance, Appendix Finance",
       note:
-        "A transfer that dips the balance for a single day restarts the 28 days. Money arriving from a relative needs to be in the account, settled, before the clock starts, and if the account is not yours the relationship evidence rules apply.",
+        "One day below the amount, for example after a transfer out, restarts the 28 days. Money from a relative must be in the account and settled before the clock starts, and if the account is not yours you must also evidence the relationship.",
     },
     {
       label: "Where the funds may sit",
       value: "A personal or parental account, or an official financial sponsor letter",
       qualifier:
-        "Parental funds need the birth certificate linking you and a signed letter of consent. Some account types, including certain investment and pension products, are not accepted at all.",
+        "Parents' money needs your birth certificate, to show the link, and their signed consent letter. Some account types, such as certain investment and pension products, are not accepted at all.",
       source: "UKVI Student route guidance, Appendix Finance",
     },
   ],
@@ -172,30 +172,30 @@ export const unitedKingdom: DestinationGuide = {
       label: "Immigration Health Surcharge",
       value: "£776 per year of the visa",
       qualifier:
-        "Paid in full up front for the whole visa length, not annually. A 12 month course with the standard four month post-course grant is charged for the longer period, so the sum is usually above one year's figure.",
+        "Paid in full, up front, for the whole length of the visa, not year by year. A 12 month course plus the standard four months after it is charged for the longer period, so you usually pay more than one year's figure.",
       source: "UK Home Office, Immigration Health Surcharge",
       note:
-        "This is a real cash requirement at application time and it is not part of the maintenance funds calculation. It buys NHS access on the same terms as a UK resident.",
+        "Real cash you pay when you apply, separate from the maintenance funds. It gives you NHS access on the same terms as a UK resident.",
     },
     {
       label: "TB test certificate",
       value: "₹3,000 to ₹6,000",
       qualifier:
-        "Clinic pricing at a Home Office approved centre, not a government fee. Mandatory for applicants resident in India for a course longer than six months.",
+        "Clinic pricing at a Home Office approved centre, not a government fee. Required if you live in India and your course is longer than six months.",
       source: "UK Home Office approved TB clinic list",
     },
     {
       label: "Priority visa service",
       value: "£500, optional",
       qualifier:
-        "Buys a faster decision, not a better one. Worth it only when a specific start date is genuinely at risk.",
+        "Buys a faster decision, not a better one. Worth it only when a specific start date is really at risk.",
       source: "UK Home Office fee schedule",
     },
     {
       label: "ATAS certificate",
       value: "No fee",
       qualifier:
-        "Free, but it takes weeks and is required before the CAS for certain programmes. See the academic section.",
+        "Free, but it takes weeks, and some programmes need it before the CAS. See the academic requirements.",
       source: "Foreign, Commonwealth and Development Office",
     },
   ],
@@ -204,30 +204,30 @@ export const unitedKingdom: DestinationGuide = {
     {
       name: "IELTS for UKVI (Academic)",
       accepted:
-        "A Secure English Language Test. Required where the university relies on the Home Office SELT list rather than on its own assessment. Component minimums, usually 5.5 or 6.0, matter as much as the overall band.",
+        "A Secure English Language Test (SELT), needed where the university uses the Home Office SELT list instead of its own assessment. Minimum scores in each part, usually 5.5 or 6.0, matter as much as the overall band.",
       validity: "Two years from the test date.",
       note:
-        "This is a different booking from IELTS Academic, sat at a different centre type, and the two are not interchangeable when a SELT is required. Booking the wrong one is a common and expensive mistake, because the retake costs both the fee and the calendar.",
+        "A separate booking from IELTS Academic, at a different type of centre. Where a SELT is required the two are not interchangeable, and booking the wrong one is a common mistake that costs a retake fee and weeks.",
       source: "UKVI approved SELT provider list",
     },
     {
       name: "IELTS Academic",
       accepted:
-        "Accepted by most universities for admission, where the institution assesses language itself rather than requiring a SELT. Not valid where a SELT is specified.",
+        "Accepted for admission by most universities that assess your English themselves. Not valid where a SELT is required.",
       validity: "Two years from the test date.",
       source: "University admission requirements",
     },
     {
       name: "PTE Academic (UKVI), TOEFL iBT, Duolingo",
       accepted:
-        "Acceptance varies by institution, and by whether a SELT is required. TOEFL is accepted by many universities and not by all. Duolingo acceptance is institution-specific and narrower.",
+        "Acceptance varies by university and by whether a SELT is required. TOEFL is accepted by many universities but not all, and Duolingo by fewer.",
       validity: "Two years, typically.",
       source: "University admission requirements, and the UKVI SELT list",
     },
     {
       name: "Class XII English, or a Medium of Instruction letter",
       accepted:
-        "Some universities waive the language test for Indian applicants on the strength of Class XII English marks or an MOI letter. It is an institutional waiver, not a Home Office one, and it does not apply where a SELT is required.",
+        "Some universities waive the test for Indian applicants based on Class XII English marks or an MOI letter. The waiver is the university's, not the Home Office's, and does not apply where a SELT is required.",
       validity: "Institution-specific.",
       source: "University admission requirements",
     },
@@ -237,35 +237,39 @@ export const unitedKingdom: DestinationGuide = {
     {
       title: "A three year Indian Bachelor's is normally accepted",
       body:
-        "Unlike Germany, the UK generally accepts a three year Indian Bachelor's degree for entry to a one year taught Master's. Entry is stated as a percentage or CGPA threshold, commonly 55 to 65 per cent depending on the university's tier and its own list of recognised Indian institutions.",
+        "Unlike Germany, the UK generally accepts a three year Indian Bachelor's degree for a one year taught Master's. Each university sets a percentage or CGPA threshold, commonly 55 to 65 per cent, depending on its tier and its own list of recognised Indian institutions.",
       source: "University admission requirements",
       appliesTo: "Master's applicants",
     },
     {
       title: "Backlogs and arrears are asked about explicitly",
       body:
-        "Most UK universities state a maximum number of backlogs they will consider, often somewhere between five and fifteen, and they mean cleared backlogs. This is one of the few places where an honest count improves your outcome: a university that would accept it is not the same as a university that discovers it later, and the second one withdraws the offer.",
+        "Most UK universities state the most backlogs they will consider, often between five and fifteen, and they mean cleared backlogs. Give an honest count: a university that finds out later withdraws the offer.",
       source: "University admission requirements",
       appliesTo: "Applicants with academic arrears",
     },
     {
       title: "ATAS, for certain STEM programmes",
       body:
-        "The Academic Technology Approval Scheme covers named postgraduate subjects with security relevance, mostly in engineering, physics, materials and computing. It is free and it takes several weeks. Where required, the university cannot issue your CAS without it, so it sits before the CAS in the sequence and not beside it.",
+        "The Academic Technology Approval Scheme covers named postgraduate subjects with security relevance, mostly in engineering, physics, materials and computing. It is free but takes several weeks, and where it applies the university cannot issue your CAS until you have it.",
       source: "Foreign, Commonwealth and Development Office",
       appliesTo: "Applicants to ATAS-listed subjects",
     },
     {
       title: "The CAS is a dated dependency, not a document",
-      body:
-        "A Confirmation of Acceptance for Studies is issued after you accept the offer and meet its conditions, including the deposit. It expires, and the visa application has to be made inside that window. Every date after the offer hangs off the CAS date, which is why the deposit conversation happens at shortlist rather than at offer.",
+      body: "Every date after the offer depends on your Confirmation of Acceptance for Studies (CAS).",
+      points: [
+        "It is issued once you accept the offer and meet its conditions, including the deposit.",
+        "It expires, and you must apply for the visa within its window.",
+        "That is why we discuss the deposit when you shortlist, not when the offer arrives.",
+      ],
       source: "UKVI Student route guidance",
       appliesTo: "All applicants",
     },
     {
       title: "The credibility interview",
       body:
-        "UKVI may call you for a credibility interview, by video, asking why this course, why this university, how it is funded and what you intend afterwards. It is not a trick. Refusals here come from an applicant who cannot describe their own course, which is a preparation problem and is the one we rehearse.",
+        "UKVI may call you for a video interview on why this course and university, how you are funding it and your plans afterwards. It is not a trick: refusals come from applicants who cannot describe their own course, and that is what we rehearse with you.",
       source: "UKVI Student route guidance",
       appliesTo: "Applicants selected for interview",
     },
@@ -276,7 +280,7 @@ export const unitedKingdom: DestinationGuide = {
       name: "September intake",
       applicationDeadline: "2027-06-30",
       deadlineNote:
-        "Most universities have no single hard deadline and close programmes as they fill, which functions as an earlier deadline than the published one. Competitive courses at high-ranked universities can close by February. The practical window opens roughly a year ahead.",
+        "Most universities have no single hard deadline and close programmes as they fill, so the real deadline is earlier than the published one. Competitive courses at high-ranked universities can close by February, and the practical window opens about a year ahead.",
       teachingStarts: "2027-09-20",
       status: "not-yet-open",
       statusAsOf: "2026-09-03",
@@ -286,7 +290,7 @@ export const unitedKingdom: DestinationGuide = {
       name: "January intake",
       applicationDeadline: "2027-10-31",
       deadlineNote:
-        "A smaller intake, with fewer programmes and fewer scholarships, but a real option where the September visa timeline has already slipped.",
+        "A smaller intake, with fewer programmes and fewer scholarships. A real option if your September visa timeline has already slipped.",
       teachingStarts: "2028-01-17",
       status: "not-yet-open",
       statusAsOf: "2026-09-03",
@@ -299,37 +303,37 @@ export const unitedKingdom: DestinationGuide = {
       monthsBefore: [12, 10],
       title: "Language test and shortlist",
       detail:
-        "Decide first whether any target university requires a SELT, because that decides which IELTS you book. Shortlist against the university's own recognised-institution list and its backlog policy.",
+        "First check whether any target university requires a SELT, because that decides which IELTS you book. Shortlist against each university's list of recognised institutions and its backlog policy.",
     },
     {
       monthsBefore: [10, 7],
       title: "Applications and references",
       detail:
-        "Personal statement written by you. References requested early, since a slow referee is the most common self-inflicted delay. ATAS started now if your subject needs it.",
+        "Write your own personal statement and ask for references early, because a slow referee is the most common avoidable delay. Start ATAS now if your subject needs it.",
     },
     {
       monthsBefore: [7, 5],
       title: "Offers, then the deposit decision",
       detail:
-        "Compare offers including the deposit terms and what is refundable. Accepting means paying, and the CAS follows the payment.",
+        "Compare offers, including the deposit terms and what is refundable. Accepting means paying, and the CAS follows the payment.",
     },
     {
       monthsBefore: [5, 4],
       title: "Start the 28 day funds clock",
       detail:
-        "This is the step people leave too late. The balance has to sit untouched for 28 consecutive days, and the closing balance has to be within 31 days of the application. Work backwards from the intended application date.",
+        "The step people leave too late: the balance must sit untouched for 28 consecutive days, and the closing balance must be within 31 days of applying. Work back from your planned application date.",
     },
     {
       monthsBefore: [4, 3],
       title: "CAS, TB test, then apply",
       detail:
-        "CAS issued, TB certificate obtained at an approved clinic, IHS paid, biometrics booked. Apply inside the CAS window.",
+        "Get the CAS, take the TB test at an approved clinic, pay the IHS and book biometrics. Apply within the CAS window.",
     },
     {
       monthsBefore: [3, 0],
       title: "Decision, accommodation, travel",
       detail:
-        "Standard processing is around three weeks from India and is not guaranteed. Accommodation applications for university halls usually close well before this point, so they run in parallel.",
+        "Standard processing from India is around three weeks, and not guaranteed. University hall applications usually close well before this point, so make them in parallel.",
     },
   ],
 
@@ -394,7 +398,7 @@ export const unitedKingdom: DestinationGuide = {
       id: "decision",
       title: "Decision",
       detail:
-        "Around three weeks is the standard service from India, and it is a target rather than a guarantee. A credibility interview, if called, happens in this window.",
+        "The standard service from India is around three weeks, a target rather than a guarantee. A credibility interview, if called, happens in this window.",
       source: "UKVI Student route guidance",
     },
   ],
@@ -436,7 +440,7 @@ export const unitedKingdom: DestinationGuide = {
       id: "brp",
       title: "Collect the BRP, or activate the eVisa",
       detail:
-        "The UK has been moving from physical biometric residence permits to digital eVisas. Which one applies depends on when you apply, and it is confirmed in your decision letter rather than assumed.",
+        "The UK has been moving from physical biometric residence permits to digital eVisas. Which one you get depends on when you apply, so go by your decision letter, not by assumption.",
       blocks: "Proving your status to a landlord, a bank or an employer.",
       source: "UK Home Office",
     },
@@ -444,7 +448,7 @@ export const unitedKingdom: DestinationGuide = {
       id: "enrol",
       title: "Enrol and complete right-to-study checks",
       detail:
-        "The university reports enrolment to the Home Office as a sponsor duty. Missing it is a compliance problem, not an administrative one.",
+        "Your university must report your enrolment to the Home Office. Missing it is a visa compliance problem, not just paperwork.",
       blocks: "Continued sponsorship.",
       source: "University international office",
     },
@@ -464,19 +468,25 @@ export const unitedKingdom: DestinationGuide = {
     {
       title: "20 hours a week in term time, for degree-level study",
       body:
-        "Students sponsored for a degree-level course at a higher education provider may work 20 hours a week during term time and full-time outside it. The 20 hours is a hard weekly cap, not an average across a month, and it is one of the conditions most often breached by accident.",
+        "On a sponsored degree-level course at a higher education provider, you may work 20 hours a week in term time and full-time outside it. The 20 hours is a hard weekly cap, not a monthly average, and is one of the rules most often broken by accident.",
       source: "UKVI Student route conditions",
     },
     {
       title: "What is prohibited outright",
       body:
-        "No self-employment, no business activity, no professional sportsperson or coach roles, and no permanent full-time post. Breaching a work condition puts your visa and any future application at risk.",
+        "None of these is allowed, and breaking a work condition puts your visa and any future application at risk.",
+      points: [
+        "Self-employment.",
+        "Business activity.",
+        "Work as a professional sportsperson or sports coach.",
+        "A permanent full-time job.",
+      ],
       source: "UKVI Student route conditions",
     },
     {
       title: "Placements and internships",
       body:
-        "A work placement that forms an assessed part of your course is treated differently and is capped as a proportion of the course. The university's international office confirms the position for your specific programme.",
+        "A placement that is an assessed part of your course is treated differently, and is capped as a share of the course. Your university's international office confirms the rules for your programme.",
       source: "UKVI Student route conditions",
     },
   ],
@@ -484,14 +494,18 @@ export const unitedKingdom: DestinationGuide = {
   postStudy: [
     {
       title: "Graduate Route, 18 months from 1 January 2027",
-      body:
-        "The Graduate Route allows you to stay and work without a sponsor. For applications made on or after 1 January 2027 the window is 18 months rather than 24. PhD graduates keep 36 months. If your course finishes near that date, which side of it your application falls on changes your plan by six months, so it is worth establishing early.",
+      body: "The Graduate Route lets you stay and work without a sponsor.",
+      points: [
+        "Applications made on or after 1 January 2027 get 18 months rather than 24.",
+        "PhD graduates keep 36 months.",
+        "If your course ends near that date, which side of it you apply on changes your plan by six months, so check it early.",
+      ],
       source: "UK Home Office immigration rules",
     },
     {
       title: "Skilled Worker, after or instead",
       body:
-        "The sponsored work route has a salary threshold and a shortage list, both of which have changed repeatedly. Recent graduates have historically had a lower threshold. Read the figures for the year you are applying in, not the year you arrived.",
+        "This sponsored work route has a salary threshold and a shortage list, both changed many times, and recent graduates have in the past had a lower threshold. Use the figures for the year you apply, not the year you arrived.",
       source: "UK Home Office immigration rules",
     },
   ],
@@ -505,8 +519,13 @@ export const unitedKingdom: DestinationGuide = {
     },
     {
       title: "What the NHS does not cover",
-      body:
-        "Most dental and optical care is charged, prescriptions are charged in England, and travel or contents cover is your own arrangement. Private top-up cover is optional and, for most students, not worth the premium.",
+      body: "The surcharge does not cover everything.",
+      points: [
+        "Most dental and optical care is charged.",
+        "Prescriptions are charged in England.",
+        "Travel and contents cover is your own arrangement.",
+        "Private top-up cover is optional and, for most students, not worth the premium.",
+      ],
       source: "NHS",
     },
   ],
@@ -515,7 +534,7 @@ export const unitedKingdom: DestinationGuide = {
     {
       title: "Treating maintenance as the whole funds requirement",
       body:
-        "Maintenance plus the unpaid tuition on the CAS is the requirement. Showing only the maintenance figure is the most common financial refusal on this route, and it happens to applicants who genuinely have the money.",
+        "The requirement is maintenance plus the unpaid tuition on the CAS. Showing only maintenance is the most common money refusal on this route, even for applicants who have the money.",
     },
     {
       title: "A dip in the balance during the 28 days",
@@ -530,17 +549,17 @@ export const unitedKingdom: DestinationGuide = {
     {
       title: "Leaving ATAS until after the CAS request",
       body:
-        "Where ATAS applies, the CAS waits for it. Several weeks of ATAS processing discovered late is an intake missed on a free certificate.",
+        "Where ATAS applies, the CAS waits for it. Leave it late and the several weeks it takes cost you the intake, for a certificate that is free.",
     },
     {
       title: "Forgetting the surcharge in the cash plan",
       body:
-        "£776 per year, paid in full at application, on top of the visa fee and independent of the maintenance funds. It is a real cash outflow at the tightest moment of the plan.",
+        "£776 per year, paid in full when you apply, on top of the visa fee and separate from the maintenance funds. It is real cash, due when money is tightest.",
     },
     {
       title: "Not declaring cleared backlogs",
       body:
-        "Universities publish what they will accept. An offer obtained by omission is withdrawn when the transcripts arrive, and by then the deposit is usually gone.",
+        "Universities publish what they will accept. An offer won by leaving backlogs out is withdrawn when the transcripts arrive, and by then the deposit is usually gone.",
     },
   ],
 
@@ -559,7 +578,7 @@ export const unitedKingdom: DestinationGuide = {
     },
     {
       q: "Do I need IELTS for UKVI or IELTS Academic?",
-      a: "It depends on whether your university requires a Secure English Language Test. That question is answered before you book, because the two are not interchangeable when a SELT is required.",
+      a: "It depends on whether your university requires a Secure English Language Test (SELT). Check before you book, because where a SELT is required the two are not interchangeable.",
     },
     {
       q: "Is the Graduate Route 24 months or 18?",

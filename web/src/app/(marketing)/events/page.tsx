@@ -7,7 +7,7 @@ import { ButtonLink } from "@/components/ui/button";
 export const metadata: Metadata = {
   title: "Events and webinars",
   description:
-    "Nothing invented while nothing is scheduled: a live registration count appears only once a real one exists to report.",
+    "Webinars and events. Nothing is scheduled today, and a registration count appears only once real registrations exist.",
   alternates: { canonical: "/events" },
 };
 
@@ -19,7 +19,7 @@ export default function EventsPage() {
     <>
       <PageHero
         title="Events and webinars"
-        lede="Nothing is scheduled today. When something is, it appears here with a real registration link and, once registrations exist, a real count rather than one that starts at a plausible-looking number and never moves."
+        lede="Nothing is scheduled today. When something is, it will appear here with a registration link and, once people sign up, the real count."
       />
 
       <section className="band">

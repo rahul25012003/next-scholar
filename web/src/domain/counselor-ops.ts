@@ -58,7 +58,7 @@ export function buildHandoverPacket(record: StudentCase): HandoverPacket {
       source: entry.source,
     })),
     acknowledgement:
-      "The incoming counselor confirms receipt, and the student is told who now holds their case. Neither step happens automatically.",
+      "The incoming counsellor confirms receipt, and the student is told who now holds their case. Neither step happens automatically.",
   };
 }
 
@@ -88,7 +88,7 @@ export function suggestAssignment(cases: StudentCase[]): AssignmentSuggestion {
     loads,
     note:
       loads.length === 0
-        ? "No counselor has a case yet, so there is nothing to balance against."
+        ? "No counsellor has a case yet, so there is nothing to balance against."
         : "Based on caseload size only. It does not account for how hard any individual case is, which is exactly why a manager decides.",
   };
 }

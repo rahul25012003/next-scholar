@@ -33,7 +33,7 @@ export function ManagerActions({
         description="The handover packet goes with it, and the student is told who holds their case now."
         submitLabel="Reassign"
       >
-        <select name="counselor" defaultValue="" className={fieldClass} aria-label="New counselor">
+        <select name="counselor" defaultValue="" className={fieldClass} aria-label="New counsellor">
           <option value="">Move it to</option>
           {counselors.map((counselor) => (
             <option key={counselor} value={counselor}>
@@ -54,7 +54,7 @@ export function ManagerActions({
         action={resolveEscalation}
         caseId={caseId}
         title="Review the escalation"
-        description="Records that you looked and what you decided. It does not silence the escalation: that clears when the condition behind it does."
+        description="Records that you looked and what you decided. The escalation stays until the problem behind it is fixed."
         submitLabel="Record the decision"
       >
         <input
@@ -70,7 +70,7 @@ export function ManagerActions({
         action={close}
         caseId={caseId}
         title="Close the case"
-        description="Starts the retention clock. Nothing here closes a quiet case on its own, because a case that goes quiet needs a phone call, not a status change."
+        description="Starts the retention clock. A quiet case never closes on its own: it needs a phone call, not a status change."
         submitLabel="Close it"
       >
         <select name="outcome" defaultValue="" className={fieldClass} aria-label="Closing outcome">

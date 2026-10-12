@@ -19,8 +19,10 @@ const field =
  * long single form it replaces asked for a phone number in its second field.
  *
  * Every step is skippable and nothing is required. An unanswered field produces
- * a "cannot tell" row on the checklist that follows, which is a true statement,
- * and that is a better outcome than a required field answered with a guess.
+ * a "needs checking" row on the checklist that follows, which is a true
+ * statement, and that is a better outcome than a required field answered with a
+ * guess. Only Master's admissions are handled, so that is recorded rather than
+ * asked.
  */
 export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
   const [state, formAction, pending] = useActionState<OnboardingResult, FormData>(
@@ -101,8 +103,8 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
               ))}
             </div>
             <p className="text-[0.8125rem] leading-relaxed text-grey">
-              Not sure yet is a legitimate answer. Read the guides first and come back:
-              nothing here is required and nothing is held back if you leave it blank.
+              Not sure yet is a fine answer: read the guides first and come back. Nothing
+              here is required, and leaving it blank holds nothing back.
             </p>
           </div>
 
@@ -112,8 +114,8 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
                 Which route
               </label>
               <p className="text-[0.8125rem] leading-relaxed text-grey">
-                {guide.country} splits into routes with different requirements and different
-                commission to us. If you do not know yet, leave it.
+                {guide.country} has routes with different requirements. If you do not know
+                yet, leave it.
               </p>
               <select id="route" name="route" defaultValue={profile.route ?? ""} className={field}>
                 <option value="">Not decided yet</option>
@@ -126,21 +128,11 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
             </div>
           )}
 
-          <div className="grid gap-2">
-            <label htmlFor="applyingFor" className="text-[0.875rem] font-medium text-blue-dark">
-              What you are applying for
-            </label>
-            <select
-              id="applyingFor"
-              name="applyingFor"
-              defaultValue={profile.applyingFor ?? ""}
-              className={field}
-            >
-              <option value="">Not decided yet</option>
-              <option value="masters">A Master&rsquo;s</option>
-              <option value="bachelors">A Bachelor&rsquo;s</option>
-            </select>
-          </div>
+          <input type="hidden" name="applyingFor" value="masters" />
+          <p className="text-[0.8125rem] leading-relaxed text-grey">
+            We help with Master&rsquo;s applications only. We do not handle undergraduate
+            admissions.
+          </p>
 
           <div className="grid gap-2">
             <label htmlFor="intake" className="text-[0.875rem] font-medium text-blue-dark">
@@ -156,8 +148,8 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
             </select>
             {guide && (
               <p className="text-[0.8125rem] leading-relaxed text-grey">
-                Dates rather than month names, because a month name has never told anyone
-                when to submit anything.
+                Shown as dates, because a month name does not tell you when to submit
+                anything.
               </p>
             )}
           </div>
@@ -180,7 +172,7 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
           </div>
 
           <div className="grid gap-2">
-            <span className="text-[0.875rem] font-medium text-blue-dark">Your result</span>
+            <span className="text-[0.875rem] font-medium text-blue-dark">Bachelor&rsquo;s CGPA</span>
             <div className="flex gap-2">
               <select
                 name="scale"
@@ -206,9 +198,9 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
               />
             </div>
             <p className="text-[0.8125rem] leading-relaxed text-grey">
-              A CGPA is converted at the CBSE 9.5 convention, which is a convention rather
-              than a standard. Your university&rsquo;s own conversion is the one that counts,
-              and we will use that instead once we have your transcript.
+              A CGPA is converted with the CBSE 9.5 convention, which is not a standard.
+              Once we have your transcript, we use your university&rsquo;s own conversion,
+              which is the one that counts.
             </p>
           </div>
 
@@ -228,8 +220,8 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
             </select>
             {destination === "germany" && (
               <p className="text-[0.8125rem] leading-relaxed text-grey">
-                For Germany this matters more than it does elsewhere, and it matters less
-                than the credits behind it.
+                This matters more for Germany than elsewhere, but your credits matter
+                more than the years.
               </p>
             )}
           </div>
@@ -276,8 +268,8 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
               />
             </div>
             <p className="text-[0.8125rem] leading-relaxed text-grey">
-              The lowest section score is the one that decides whether you meet a per-section
-              condition, and it is where a good overall band still fails.
+              Your lowest section score decides whether you meet a per-section minimum. A
+              good overall band can still fall short there.
             </p>
           </div>
         </fieldset>
@@ -290,8 +282,7 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
               What you can evidence, in lakh
             </label>
             <p className="text-[0.8125rem] leading-relaxed text-grey">
-              Savings, family funds you can document, or a sanctioned education loan. A
-              rough figure is useful; an exact one is not needed here.
+              Savings, family funds you can document, or a sanctioned education loan.
             </p>
             <input
               id="fundsLakh"
@@ -314,8 +305,8 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
               How long it has been in the account, in months
             </label>
             <p className="text-[0.8125rem] leading-relaxed text-grey">
-              The UK reads 28 consecutive days and Ireland reads six months of statements.
-              This is the answer that most often decides whether a visa application is ready.
+              The UK looks at 28 consecutive days of statements and Ireland at six months.
+              This answer most often decides whether a visa application is ready.
             </p>
             <input
               id="fundsHeldMonths"
@@ -331,9 +322,9 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
           </div>
 
           <p className="rounded-card bg-light px-4 py-3.5 text-[0.8125rem] leading-relaxed text-grey">
-            This is held on your account, not shared with any university, and used only to
-            run published requirements against what you told us. You can change or clear it
-            whenever you like, and the privacy policy sets out the rest.
+            This stays on your account, is not shared with any university, and is used only
+            to check your answers against published requirements. You can change or clear it
+            at any time, and the privacy policy covers the rest.
           </p>
         </fieldset>
       </div>
@@ -370,7 +361,7 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
               {state.message}
             </p>
           )}
-          <Button type="submit" disabled={pending}>
+          <Button type="submit" disabled={pending} aria-busy={pending}>
             {pending ? "Saving" : "Save what I have"}
           </Button>
         </div>

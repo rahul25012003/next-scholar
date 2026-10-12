@@ -15,7 +15,7 @@ import type { DegreeRecognition, StudentCase } from "./case";
  */
 
 export type RecognitionGate = {
-  id: "anabin" | "duration" | "credits" | "studienkolleg" | "dmat";
+  id: "anabin" | "duration" | "credits" | "dmat";
   title: string;
   state: "clear" | "attention" | "unchecked";
   detail: string;
@@ -31,14 +31,6 @@ export const anabinLabel: Record<DegreeRecognition["anabin"], string> = {
   "not-checked": "Not yet looked up",
 };
 
-export const studienkollegLabel: Record<DegreeRecognition["studienkolleg"], string> = {
-  "not-required": "Not required",
-  required: "Required",
-  "in-progress": "In progress",
-  completed: "Completed",
-  unknown: "Not yet established",
-};
-
 /** The subject groups the dMAT applies to, from the APS India announcement. */
 const DMAT_SUBJECTS = /engineer|commerce|business|finance|econom|management|mba|bcom|btech|b\.?e\b/i;
 
@@ -46,7 +38,7 @@ const DMAT_SUBJECTS = /engineer|commerce|business|finance|econom|management|mba|
  * The German gates for one case.
  *
  * Returns an empty list for a case that is not on a German route, because
- * anabin and the Studienkolleg mean nothing to a UK applicant and a checklist
+ * anabin and the dMAT mean nothing to a UK applicant and a checklist
  * of irrelevant gates is noise a counsellor learns to skip.
  */
 export function germanGates(record: StudentCase): RecognitionGate[] {
@@ -62,8 +54,8 @@ export function germanGates(record: StudentCase): RecognitionGate[] {
         title: "Degree recognition has not been started",
         state: "unchecked",
         detail:
-          "Nothing on this case records the anabin rating, the degree length or the credits. On the German route those decide eligibility before any document is worth collecting.",
-        blocks: "The shortlist. A shortlist of universities the applicant cannot apply to is worse than no shortlist.",
+          "This case has no anabin rating, degree length or credits recorded. On the German route these decide eligibility, before any document is worth collecting.",
+        blocks: "The shortlist. A shortlist the applicant cannot apply to is worse than none.",
         source: "anabin, Zentralstelle fur auslandisches Bildungswesen",
       },
     ];
@@ -80,12 +72,12 @@ export function germanGates(record: StudentCase): RecognitionGate[] {
           : "attention",
     detail:
       recognition.anabin === "h-plus"
-        ? "The awarding institution is rated H+, so the institution itself is not the obstacle. The degree still has to be checked separately, and the credits after that."
+        ? "The awarding institution is rated H+, so the institution is not the obstacle. The degree and then the credits still need checking separately."
         : recognition.anabin === "h-plus-minus"
-          ? "H+/- means the university decides case by case. Expect the question to be asked, and expect to have to answer it with the transcript rather than with the rating."
+          ? "H+/- means the university decides case by case. Expect to be asked, and to answer with the transcript, not the rating."
           : recognition.anabin === "h-minus"
-            ? "H- means the degree is not treated as equivalent. The route changes: a Studienkolleg or a different qualification comes before a direct application, and telling the applicant this early is the difference between a plan and a wasted year."
-            : "Nobody has looked the institution up. It takes minutes and it decides whether the rest of the plan is real.",
+            ? "H- means the degree is not treated as equivalent, so a direct Master's application is unlikely to succeed. Tell the applicant early, before any fee is paid."
+            : "Nobody has looked the institution up. It takes minutes and decides whether the rest of the plan can work.",
     blocks:
       recognition.anabin === "h-plus"
         ? null
@@ -97,7 +89,7 @@ export function germanGates(record: StudentCase): RecognitionGate[] {
     id: "duration",
     title:
       recognition.bachelorYears === null
-        ? "Bachelor's length not recorded"
+        ? "Bachelor's duration not recorded"
         : `${recognition.bachelorYears} year Bachelor's`,
     state:
       recognition.bachelorYears === null
@@ -107,10 +99,10 @@ export function germanGates(record: StudentCase): RecognitionGate[] {
           : "attention",
     detail:
       recognition.bachelorYears === 4
-        ? "A four year Bachelor's maps onto the 240 ECTS a German engineering Master's is usually built on, which removes the commonest duration objection."
+        ? "A four year Bachelor's matches the 240 ECTS a German engineering Master's is usually built on, which removes the most common objection on duration."
         : recognition.bachelorYears === 3
-          ? "A three year Bachelor's is accepted on duration by many Master's programmes and found short by others. The answer is per programme and it turns on credits rather than years, so the credits gate below is the one that matters."
-          : "Not recorded. It is one question to the applicant and it changes which programmes are worth an application fee.",
+          ? "Many Master's programmes accept a three year Bachelor's on duration and others find it short. Each programme decides on credits, not years, so the credits check below is the one that matters."
+          : "Not recorded. Ask the applicant: it changes which programmes are worth an application fee.",
     blocks: null,
     source: "Programme admission regulations, and anabin equivalence statements",
   });
@@ -125,40 +117,16 @@ export function germanGates(record: StudentCase): RecognitionGate[] {
     state: credited === null ? "unchecked" : credited >= 180 ? "clear" : "attention",
     detail:
       credited === null
-        ? "German Master's admission is largely arithmetic on the transcript: total credits, core subject credits, mathematics credits, and the named technical prerequisites. None of those are on this case, so no programme's requirements can be checked against it."
+        ? "German Master's admission mostly comes down to the transcript: total credits, core subject credits, mathematics credits and named technical prerequisites. None are on this case, so no programme's requirements can be checked."
         : credited >= 180
-          ? "The total clears the 180 ECTS a German Bachelor's carries. The total is the easy half: the subject-wise credits are what admission actually turns on, and they are checked per programme."
-          : `${credited} credits is below the 180 a German Bachelor's carries. That is a conversation to have before an application fee is paid, not after.`,
+          ? "The total clears the 180 ECTS of a German Bachelor's. Admission turns on the subject-wise credits, which are checked per programme."
+          : `${credited} credits is below the 180 of a German Bachelor's. Discuss this before an application fee is paid, not after.`,
     blocks:
       credited === null
-        ? "Checking any specific programme's prerequisites, which is the check that decides most German Master's outcomes."
+        ? "Checking any programme's prerequisites, the check that decides most German Master's outcomes."
         : null,
     source: "Programme admission regulations",
   });
-
-  if (recognition.studienkolleg !== "not-required") {
-    gates.push({
-      id: "studienkolleg",
-      title: `Studienkolleg: ${studienkollegLabel[recognition.studienkolleg]}`,
-      state:
-        recognition.studienkolleg === "completed"
-          ? "clear"
-          : recognition.studienkolleg === "unknown"
-            ? "unchecked"
-            : "attention",
-      detail:
-        recognition.studienkolleg === "unknown"
-          ? "Whether a Studienkolleg is needed follows from the recognition answer above. It is one or two semesters plus the Feststellungsprufung, so it belongs in the plan from the start rather than as a fallback discovered after a rejection."
-          : recognition.studienkolleg === "completed"
-            ? "The assessment is passed, so the applicant applies as a directly eligible candidate."
-            : "A real year and a real cost. Its dates drive the whole timeline, so the intake being planned for has to be the one after it, not the one during it.",
-      blocks:
-        recognition.studienkolleg === "required" || recognition.studienkolleg === "in-progress"
-          ? "The intake being planned for. The application follows the Feststellungsprufung, not the other way round."
-          : null,
-      source: "Studienkolleg admission offices",
-    });
-  }
 
   // The dMAT, for the population it applies to. Scoped from the degree text
   // because that is the only subject signal on the record today; a wrong guess
@@ -172,7 +140,7 @@ export function germanGates(record: StudentCase): RecognitionGate[] {
       id: "dmat",
       title: "dMAT may apply to this applicant",
       state: "unchecked",
-      detail: `The degree on file reads as one of the subject groups the dMAT covers, and the ${record.intake} intake falls on or after the summer semester 2027 start. Confirm the subject group with the applicant and check whether they registered with APS India before 29 June 2026, which is the transitional exemption. EUR 150, separate from the APS fee, and it is not pass or fail.`,
+      detail: `The degree on file looks like a dMAT subject group, and the ${record.intake} intake is on or after the summer semester 2027 start. Confirm the subject group with the applicant, and check whether they registered with APS India before 29 June 2026 (the transitional exemption). It costs EUR 150 on top of the APS fee and is not pass or fail.`,
       blocks: "The university application, for applicants in scope.",
       source: "APS India",
     });

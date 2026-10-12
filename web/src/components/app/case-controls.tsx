@@ -20,7 +20,7 @@ export function StageControl({ caseId, current }: { caseId: string; current: str
       action={setStage}
       caseId={caseId}
       title="Move the stage"
-      description="A person moves a case. Nothing here advances on a timer, and the stagnation clock restarts from the move."
+      description="Only a person moves a case, never a timer. The days-at-this-stage count restarts from the move."
       submitLabel="Move it"
     >
       <select name="stage" defaultValue={current} className={fieldClass} aria-label="Stage">
@@ -107,7 +107,7 @@ function CompleteTask({ caseId, taskId }: { caseId: string; taskId: string }) {
       <input type="hidden" name="taskId" value={taskId} />
       <button
         type="submit"
-        disabled={pending}
+        disabled={pending} aria-busy={pending}
         className="button button--light disabled:opacity-55"
       >
         {pending ? "Saving" : "Done"}
@@ -133,7 +133,7 @@ export function SummaryOverride({
       action={rewriteSummary}
       caseId={caseId}
       title="Rewrite it yourself"
-      description="An overridden summary stops being labelled machine written, because a person wrote it."
+      description="Your version is no longer labelled machine written, because a person wrote it."
       submitLabel="Save as mine"
     >
       <textarea
@@ -159,7 +159,7 @@ export function ResummariseButton({ caseId }: { caseId: string }) {
       action={resummarise}
       caseId={caseId}
       title="Read the case again"
-      description="Runs the Case Summary agent now, over the case as it stands, rather than waiting for the next note."
+      description="Runs the Case Summary agent now on the case as it stands, without waiting for the next note."
       submitLabel="Summarise now"
     >
       <></>

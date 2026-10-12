@@ -50,6 +50,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...guides.map((guide) =>
       at(`/destinations/${guide.slug}`, 0.9, new Date(guide.verification.statedOn)),
     ),
+    ...guides.map((guide) =>
+      at(`/destinations/${guide.slug}/costs`, 0.8, new Date(guide.verification.statedOn)),
+    ),
     ...guides.flatMap((guide) =>
       destinationTopics.map((topic) =>
         at(`/destinations/${guide.slug}/${topic}`, 0.6, new Date(guide.verification.statedOn)),
@@ -75,14 +78,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     at("/our-numbers", 0.9),
     at("/services", 0.9),
     at("/services/profile-evaluation", 0.7),
-    at("/guides", 0.8),
-    ...articles.map((article) => at(`/guides/${article.slug}`, 0.7, new Date(article.updatedOn))),
+    at("/about", 0.8),
+    at("/blog", 0.8),
+    ...articles.map((article) => at(`/blog/${article.slug}`, 0.7, new Date(article.updatedOn))),
     at("/tools", 0.8),
     ...tools.map((tool) => at(`/tools/${tool}`, 0.8)),
     at("/reviews", 0.5),
     at("/counsellors", 0.5),
     at("/events", 0.5),
-    at("/zero-commission", 0.8),
     at("/anti-fraud-policy", 0.7),
     ...legalDocuments.map((doc) =>
       at(`/${doc.slug}`, 0.5, new Date(doc.lastUpdated)),

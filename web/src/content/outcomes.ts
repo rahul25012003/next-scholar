@@ -10,14 +10,16 @@ export const dayOneFigures = [
   {
     value: "3",
     label: "Destinations covered end to end",
-    detail: "The United Kingdom, Germany and Ireland. A country is added only when we can answer it without looking it up.",
+    detail: "The United Kingdom, Germany and Ireland. We add a country only when we can answer questions on it without looking things up.",
     tone: "blue" as const,
   },
   {
     value: "11",
     label: "Stages from first call to arrival",
-    detail: "Every stage has a named deliverable you receive.",
+    detail: "Each stage ends with something you receive.",
     tone: "mint" as const,
+    /** Opens the full list of stages rather than sitting as a plain figure. */
+    opens: "stages" as const,
   },
   {
     value: "₹0",
@@ -28,13 +30,13 @@ export const dayOneFigures = [
   {
     value: "45 min",
     label: "Paid consultation before anything else",
-    detail: "₹1,500, credited in full against the service fee if you proceed.",
+    detail: "₹1,500, taken off your service fee in full if you go ahead.",
     tone: "rose" as const,
   },
   {
     value: "0",
     label: "Figures published here without a source",
-    detail: "Every number traces to a live source, a named person who entered it, or an empty state.",
+    detail: "Every number links to a source or to the named person who entered it. If there is neither, we leave it empty.",
     tone: "lilac" as const,
   },
 ];

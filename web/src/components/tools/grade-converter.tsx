@@ -20,6 +20,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { InputError, NumberField, ResultPanel } from "@/components/tools/working";
 import { cn } from "@/lib/cn";
+import { SubmitBar, useSubmitted } from "@/components/tools/submit";
 
 type VariantKey =
   | "cgpa-percentage"
@@ -164,35 +165,49 @@ export function GradeConverter() {
  * one number out, so they share a component rather than four copies.
  * ------------------------------------------------------------------ */
 
-function Shell({
+/**
+ * The form and the result side by side. The result is worked out from what
+ * was last submitted, never from what is being typed, so it changes only when
+ * Submit is pressed.
+ */
+function Shell<T>({
   form,
-  result,
+  inputs,
+  evaluate,
   resultLabel,
 }: {
   form: React.ReactNode;
-  result: Conversion | { error: string } | null;
-  resultLabel: string;
+  inputs: T;
+  evaluate: (submitted: T) => Conversion | { error: string } | null;
+  resultLabel: string | ((submitted: T) => string);
 }) {
+  const { submitted, dirty, round, onSubmit, resultsRef } = useSubmitted(inputs);
+  const result = submitted === null ? null : evaluate(submitted);
+  const label =
+    typeof resultLabel === "string"
+      ? resultLabel
+      : submitted === null
+        ? ""
+        : resultLabel(submitted);
   return (
     <div className="grid gap-8 lg:grid-cols-[22rem_minmax(0,1fr)] lg:items-start lg:gap-10">
-      <form
-        className="rounded-panel border border-line bg-white p-6 md:p-7"
-        onSubmit={(event) => event.preventDefault()}
-      >
+      <form className="rounded-panel border border-line bg-white p-6 md:p-7" onSubmit={onSubmit}>
         {form}
+        <SubmitBar round={round} dirty={dirty} />
       </form>
-      <div className="min-w-0">
+      <div key={round} ref={resultsRef} className="rise min-w-0 scroll-mt-24">
         {result === null ? (
           <div className="rounded-panel border border-dashed border-line-strong bg-light p-8 text-center">
             <p className="text-[0.9375rem] leading-relaxed text-grey">
-              Enter your figure and the result appears here with its full working.
+              Enter your figure and press Submit. The result appears here with its full
+              working.
             </p>
             <p className="mt-3 text-[0.875rem] text-grey">No signup. No email. Ever.</p>
           </div>
         ) : "error" in result ? (
           <InputError message={result.error} />
         ) : (
-          <ResultPanel conversion={result} label={resultLabel} />
+          <ResultPanel conversion={result} label={label} />
         )}
       </div>
     </div>
@@ -218,7 +233,8 @@ function SingleInput({
   return (
     <Shell
       resultLabel={resultLabel}
-      result={value.trim() === "" ? null : compute(Number(value))}
+      inputs={value}
+      evaluate={(entered) => (entered.trim() === "" ? null : compute(Number(entered)))}
       form={
         <NumberField
           label={label}
@@ -228,6 +244,7 @@ function SingleInput({
           onChange={setValue}
           min={0}
           max={max}
+          required
         />
       }
     />
@@ -250,7 +267,10 @@ function TwoInputs({
   return (
     <Shell
       resultLabel={resultLabel}
-      result={a.trim() === "" ? null : compute(Number(a), Number(b))}
+      inputs={{ a, b }}
+      evaluate={(entered) =>
+        entered.a.trim() === "" ? null : compute(Number(entered.a), Number(entered.b))
+      }
       form={
         <div className="space-y-5">
           <NumberField
@@ -261,6 +281,7 @@ function TwoInputs({
             onChange={setA}
             min={0}
             max={first.max}
+            required
           />
           <NumberField
             label={second.label}
@@ -270,6 +291,7 @@ function TwoInputs({
             onChange={setB}
             min={1}
             step={1}
+            required
           />
         </div>
       }
@@ -296,8 +318,11 @@ function ScaledInput({
   const [scale, setScale] = useState<GpaScale>(4);
   return (
     <Shell
-      resultLabel={`${resultLabel} on a ${scale} point scale`}
-      result={value.trim() === "" ? null : compute(Number(value), scale)}
+      resultLabel={(entered) => `${resultLabel} on a ${entered.scale} point scale`}
+      inputs={{ value, scale }}
+      evaluate={(entered) =>
+        entered.value.trim() === "" ? null : compute(Number(entered.value), entered.scale)
+      }
       form={
         <div className="space-y-6">
           <NumberField
@@ -308,6 +333,7 @@ function ScaledInput({
             onChange={setValue}
             min={0}
             max={max}
+            required
           />
           <fieldset>
             <legend className="text-[0.875rem] font-medium text-blue-dark">
@@ -348,9 +374,9 @@ function SgpaToCgpa() {
     { sgpa: "", credits: "" },
   ]);
 
-  const filled = rows.filter((row) => row.sgpa.trim() !== "");
-  const result =
-    filled.length === 0
+  const evaluate = (entered: typeof rows) => {
+    const filled = entered.filter((row) => row.sgpa.trim() !== "");
+    return filled.length === 0
       ? null
       : sgpaToCgpa(
           filled.map((row) => ({
@@ -358,11 +384,13 @@ function SgpaToCgpa() {
             credits: row.credits.trim() === "" ? undefined : Number(row.credits),
           })),
         );
+  };
 
   return (
     <Shell
       resultLabel="CGPA"
-      result={result}
+      inputs={rows}
+      evaluate={evaluate}
       form={
         <div>
           <p className="text-[0.875rem] font-medium text-blue-dark">Each semester</p>
@@ -426,6 +454,7 @@ function SgpaToCgpa() {
             ))}
           </div>
           <Button
+            type="button"
             variant="outline"
             className="mt-4"
             onClick={() => setRows((current) => [...current, { sgpa: "", credits: "" }])}
@@ -445,9 +474,9 @@ function GpaCalculator() {
     { name: "", credits: "3", points: "8" },
   ]);
 
-  const usable = rows.filter((row) => row.credits.trim() !== "" && Number(row.credits) > 0);
-  const result =
-    usable.length === 0
+  const evaluate = (entered: typeof rows) => {
+    const usable = entered.filter((row) => row.credits.trim() !== "" && Number(row.credits) > 0);
+    return usable.length === 0
       ? null
       : gpaFromSubjects(
           usable.map((row) => ({
@@ -456,11 +485,13 @@ function GpaCalculator() {
             points: Number(row.points),
           })),
         );
+  };
 
   return (
     <Shell
       resultLabel="Grade point average"
-      result={result}
+      inputs={rows}
+      evaluate={evaluate}
       form={
         <div>
           <p className="text-[0.875rem] font-medium text-blue-dark">Each subject</p>
@@ -542,6 +573,7 @@ function GpaCalculator() {
             ))}
           </div>
           <Button
+            type="button"
             variant="outline"
             className="mt-4"
             onClick={() =>

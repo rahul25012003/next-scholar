@@ -43,7 +43,7 @@ export async function generateMetadata(
   if (!row) return {};
   return {
     title: `${row.name}, ${row.university.name}`,
-    description: `${row.name} at ${row.university.name}: intakes, entry requirements, fee, and what we earn if you enrol.`,
+    description: `${row.name} at ${row.university.name}: intakes, entry requirements and fee.`,
     alternates: {
       canonical: `/universities/${row.university.slug}/${row.slug}`,
     },
@@ -131,9 +131,8 @@ export default async function ProgrammePage(
                 Intakes
               </h2>
               <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
-                Deadlines as dates. Where a status is stated, the date it was established is
-                stated with it, because an intake marked open six months ago is not evidence
-                that it is open now.
+                Each status shows the date we confirmed it. An intake marked open six months
+                ago may not be open now.
               </p>
               <div className="mt-4 overflow-x-auto rounded-panel border border-line bg-white">
                 <table className="w-full min-w-[38rem] border-collapse text-left">
@@ -231,10 +230,9 @@ export default async function ProgrammePage(
                   </div>
                   {row.university.destination === "germany" && (
                     <p className="mt-4 border-t border-line pt-4 text-[0.875rem] leading-relaxed text-grey">
-                      On the German route these are not advisory. Admission is decided
-                      largely on credit counts in exactly these areas, and a programme that
-                      asks for 30 ECTS in mathematics and finds 18 rejects on that whatever
-                      the overall grade was.{" "}
+                      In Germany these are strict. Admission depends mostly on your credits
+                      in these areas: a programme that asks for 30 ECTS in mathematics and
+                      finds 18 rejects you, whatever your overall grade.{" "}
                       <Link
                         href="/tools/ects-check"
                         className="font-medium text-pink hover:text-blue-dark"
@@ -302,7 +300,7 @@ export default async function ProgrammePage(
                 <ul className="mt-3 space-y-2.5 text-[0.875rem]">
                   <li>
                     <Link
-                      href={`/destinations/${guide.slug}#funds`}
+                      href={`/destinations/${guide.slug}/costs#funds`}
                       className="text-pink hover:text-blue-dark"
                     >
                       What the visa authority wants to see
@@ -341,8 +339,7 @@ export default async function ProgrammePage(
                 Comparing this with others
               </h2>
               <p className="mt-2 text-[0.875rem] leading-relaxed text-grey">
-                Save it and put it side by side with anything else on the catalogue, fee
-                against fee and commission against commission.
+                Save it to compare it side by side with other courses in the catalogue.
               </p>
               <Link
                 href="/shortlist"

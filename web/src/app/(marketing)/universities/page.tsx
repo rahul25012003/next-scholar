@@ -19,7 +19,7 @@ import { PageHero } from "@/components/marketing/page-hero";
 export const metadata: Metadata = {
   title: "Courses and universities",
   description:
-    "Fifty-two courses across forty-five universities in the UK, Germany and Ireland. Every row shows what we earn if you enrol there, including the fifteen institutions that pay us nothing.",
+    "Fifty-two Master's courses across forty-five universities in the UK, Germany and Ireland.",
   alternates: { canonical: "/universities" },
 };
 
@@ -43,8 +43,8 @@ export default async function UniversitiesPage(props: PageProps<"/universities">
   return (
     <>
       <PageHero
-        title="Every course here shows what we earn on it"
-        lede="Forty-five universities, fifty-two courses, three destinations. The number neither of the two largest platforms in this market prints anywhere is on every row of this list, next to the fee, because they are the same kind of fact and you are entitled to both."
+        title="Master's courses and universities"
+        lede="Fifty-two courses at forty-five universities, across three destinations."
         aside={
           <div className="rounded-panel border border-line bg-white p-6">
             <p className="text-[0.8125rem] font-semibold text-blue-dark">
@@ -99,10 +99,9 @@ export default async function UniversitiesPage(props: PageProps<"/universities">
                   Nothing matches those filters
                 </h3>
                 <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
-                  That is a fact about this catalogue rather than about the world. We cover
-                  forty-five institutions across three destinations, seeded by hand, so an empty
-                  result usually means the combination is outside what we have curated, not
-                  that no such course exists.
+                  We list forty-five institutions across three destinations, chosen by hand.
+                  An empty result usually means we have not added that combination, not that
+                  no such course exists.
                 </p>
                 <Link
                   href="/universities"
@@ -144,9 +143,9 @@ export default async function UniversitiesPage(props: PageProps<"/universities">
                 ))}
               </ul>
               <p className="mt-5 text-[0.875rem] leading-relaxed text-grey">
-                The commission bands here are market estimates rather than contract terms,
-                except the German public universities, where the figure is a confirmed zero.
-                The method, the seven verification states and the dispute route are on the{" "}
+                Our commission figures here are market estimates, not contract terms, except
+                at German public universities, where the figure is a confirmed zero. How we
+                check them, and how to dispute one, is on the{" "}
                 <Link
                   href="/open-ledger"
                   className="font-medium text-pink hover:text-blue-dark"

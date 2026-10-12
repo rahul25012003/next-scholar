@@ -42,7 +42,7 @@ export function WorkflowForm({
 
       <div className="mt-3 grid gap-2.5 sm:grid-cols-2">{children}</div>
 
-      <Button type="submit" className="mt-3" disabled={pending}>
+      <Button type="submit" className="mt-3" disabled={pending} aria-busy={pending}>
         {pending ? "Recording" : submitLabel}
       </Button>
 

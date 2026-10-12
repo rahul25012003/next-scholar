@@ -64,7 +64,7 @@ export function SaveToShortlist({
       <input type="hidden" name="programme" value={programmeSlug} />
       <button
         type="submit"
-        disabled={pending}
+        disabled={pending} aria-busy={pending}
         aria-pressed={isSaved}
         className={cn(
           "inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-[0.8125rem] font-medium transition-colors disabled:opacity-60",

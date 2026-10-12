@@ -18,7 +18,7 @@ export default function BookConsultationPage() {
     <>
       <PageHero
         title="Book a consultation"
-        lede="Forty five minutes, structured around six questions. Within 24 hours you get a written assessment with two or three ranked destinations, the reasoning, and the risks attached to each."
+        lede="Forty five minutes, built around six questions. Within 24 hours you get a written assessment: two or three ranked destinations, the reasons, and the risks of each."
         aside={
           <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-panel border border-line bg-line">
             <div className="bg-white p-5">
@@ -51,10 +51,10 @@ export default function BookConsultationPage() {
                     This form cannot book you a slot yet
                   </h2>
                   <p className="mt-2 text-[0.9375rem] leading-relaxed text-grey">
-                    Scheduling and payment are not connected, and no personal
-                    detail is stored anywhere until the data protection work is
-                    finished. Fill this in to see the questions the call will
-                    actually cover, and keep your answers.
+                    Scheduling and payment are not connected, and we store no
+                    personal details until our data protection work is finished.
+                    You can still fill this in to see the questions the call
+                    covers, and keep your answers.
                   </p>
                   <ul className="mt-4 space-y-1.5">
                     {bookingIntegration.needed.map((item) => (

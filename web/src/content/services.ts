@@ -48,27 +48,27 @@ export const services: Service[] = [
     slug: "profile-evaluation",
     name: "Free profile evaluation",
     summary:
-      "A written read of where you actually stand against the published requirements, before you pay anyone anything.",
+      "A written check of where you stand against the published entry requirements, before you pay anyone anything.",
     includes: [
-      "Your academic record checked against the published threshold for each of the three destinations",
-      "Your language result checked against the overall and the per-section condition, which is where most people find out they are short",
-      "For Germany, whether the dMAT applies to you and whether the transitional exemption does",
-      "A written answer within three working days, naming what you meet, what you do not, and what we could not tell",
+      "Your marks checked against the published minimum for each of the three countries",
+      "Your language test score checked against the overall and per-section minimums, which is where most people find they fall short",
+      "For Germany, whether you need the dMAT, and whether the transition rule exempts you",
+      "A written answer within three working days: what you meet, what you do not, and what we could not tell",
     ],
     excludes: [
-      "No shortlist of universities. That is the paid work and it takes hours per applicant.",
-      "No probability, score or chance of admission. We do not compute one anywhere.",
-      "No sales call attached. If the answer is that you are not ready, that is the answer.",
+      "No university shortlist. That is the paid work, and it takes hours for each person.",
+      "No score or chance of admission. We never calculate one.",
+      "No sales call. If you are not ready, we say so.",
     ],
     remuneration: {
       kind: "none",
       detail:
-        "Free, and it earns us nothing. It exists because the requirements checklist on this site already answers most of it in a browser, and a person reading your actual transcript answers the rest.",
+        "Free. The requirements checklist on this site answers most of it, and a person reading your transcript answers the rest.",
     },
     availability: {
       state: "live",
       detail:
-        "Run the checklist yourself in the browser first: it is ungated and it answers the same questions from the same figures. Ask for the written evaluation when you want a person to read your transcript.",
+        "Try the checklist yourself first: it is open to everyone and uses the same figures. Ask for the written version when you want a person to read your transcript.",
     },
     group: "Before you commit",
     cta: { href: "/services/profile-evaluation", label: "Run it, or ask for the written version" },
@@ -77,27 +77,27 @@ export const services: Service[] = [
     slug: "consultation",
     name: "Paid consultation",
     summary:
-      "Forty five minutes, structured around six questions, ending in a written assessment. It includes the answer nobody sells, which is that you should not go at all.",
+      "Forty five minutes, built around six questions, ending in a written assessment. Sometimes the honest answer is not to go at all.",
     includes: [
       "Forty five minutes with a counsellor, not a salesperson on commission",
-      "A written assessment within 24 hours, with two or three ranked destinations and the risks attached to each",
-      "An honest read on the funding, including whether the plan works at your actual budget",
+      "A written assessment within 24 hours, ranking two or three destinations, with the risks of each",
+      "An honest look at funding, including whether the plan works on your real budget",
       "The full fee back if the written assessment does not arrive within 24 hours",
     ],
     excludes: [
-      "It is not a free introductory call and it is not meant to be. A free call is priced into a commission you cannot see.",
-      "It is not a commitment to engage us afterwards, and the assessment is yours either way.",
+      "It is not a free call. A free call is paid for through a commission you cannot see.",
+      "You do not have to hire us afterwards, and the assessment is yours either way.",
     ],
     remuneration: {
       kind: "client-fee",
       price: "Priced in public on the booking page",
       detail:
-        "Paid by you, and it is the only thing we earn from this conversation. No university pays us for a consultation and no partner pays us for the recommendation that comes out of it.",
+        "You pay this, and it is all we earn from the call. No university or partner pays us for it, or for what we recommend.",
     },
     availability: {
       state: "not-yet",
       detail:
-        "The booking form takes an enquiry today. Scheduling and payment are not connected yet, so a session is arranged by reply rather than booked in a calendar. That is stated here rather than discovered at the payment step.",
+        "The booking form takes requests today. Scheduling and payment are not connected yet, so we arrange the session by reply.",
     },
     group: "Before you commit",
   },
@@ -105,16 +105,16 @@ export const services: Service[] = [
     slug: "advisory",
     name: "Full advisory engagement",
     summary:
-      "Shortlist to arrival, across eleven stages, on a signed agreement with the scope and the fee in writing.",
+      "From shortlist to arrival in eleven stages, with what we do and the fee set out in a signed agreement.",
     includes: [
-      "A shortlist of eight to ten universities with our commission printed next to each one",
-      "Document verification against originals or with the issuing institution",
-      "Applications submitted and tracked, with you holding every reference number and portal login",
-      "Funding plan, visa file preparation and interview rehearsal",
+      "A shortlist of eight to ten universities",
+      "Documents checked against the originals, or with whoever issued them",
+      "Applications submitted and tracked, with every reference number and portal login shared with you",
+      "A funding plan, visa file preparation and interview practice",
       "Pre-departure checklist, and check-ins at thirty, ninety and one hundred eighty days after you land",
     ],
     excludes: [
-      "We do not write your statement of purpose, and no automated system here is permitted to draft one.",
+      "We do not write your statement of purpose, and no automated tool here is allowed to draft one.",
       "We do not edit, retouch or alter a document, for any reason.",
       "We do not guarantee admission or a visa, because nobody can.",
     ],
@@ -122,12 +122,12 @@ export const services: Service[] = [
       kind: "client-fee",
       price: "₹25,000, or ₹45,000 on the German public university route",
       detail:
-        "The German public route costs more because no German public university pays us anything. On the other routes a commission from the institution offsets part of the work, and the figure is published on every page where that institution appears.",
+        "The German public route costs more because those universities pay us nothing. On other routes, a commission from the university covers part of our work.",
     },
     availability: {
       state: "not-yet",
       detail:
-        "The platform that runs this engagement is built and its data layer is not connected to a database yet, so an engagement cannot be opened today.",
+        "The system that runs this service is built but not yet connected to a database, so you cannot start one today.",
     },
     group: "The engagement",
   },
@@ -135,26 +135,26 @@ export const services: Service[] = [
     slug: "sop-coaching",
     name: "Statement of purpose coaching",
     summary:
-      "Structural feedback and line editing on something you wrote. Coached, never ghostwritten, and the platform enforces that in code rather than in policy.",
+      "Feedback on the structure and wording of something you wrote. We coach, we never write it for you, and the software itself enforces that.",
     includes: [
-      "A structural outline of what each section has to do, before you write anything",
-      "Annotated feedback on your draft: what is unsupported, what is generic, what the admissions reader will not believe",
-      "Line editing for clarity, and a check against the programme's own stated selection criteria",
-      "The same treatment for a German Letter of Motivation, which is a different document with a different job",
+      "An outline of what each section needs to do, before you start writing",
+      "Notes on your draft: what lacks evidence, what is generic, and what an admissions reader will not believe",
+      "Line by line edits for clarity, and a check against the course's own selection criteria",
+      "The same help with a German Letter of Motivation, which is a different document with a different purpose",
     ],
     excludes: [
-      "We will not write it. An SOP written by a consultant reads like one and is increasingly detected as one.",
-      "No automated system here can draft one either. That is a permission check in the software, not an instruction in a prompt.",
+      "We will not write it. A statement written by a consultant reads like one, and is more and more often caught.",
+      "No automated tool here can draft one either. The software blocks it outright.",
     ],
     remuneration: {
       kind: "client-fee",
       price: "Included in the advisory engagement",
-      detail: "Not sold separately, and nothing is earned from it beyond the advisory fee.",
+      detail: "Not sold separately, and we earn nothing from it beyond the advisory fee.",
     },
     availability: {
       state: "with-engagement",
       detail:
-        "The coaching tool is live inside the student portal for anyone with an open case, and it refuses to produce a draft.",
+        "The coaching tool is live in the student portal for anyone with an open case. It will not write a draft.",
     },
     group: "Specific help",
   },
@@ -162,15 +162,15 @@ export const services: Service[] = [
     slug: "mock-visa-interview",
     name: "Mock visa interview",
     summary:
-      "A rehearsed interview against the refusal patterns currently in circulation, not a list of sample questions.",
+      "A practice interview based on the most common reasons for refusal right now, not a list of sample questions.",
     includes: [
-      "A recorded practice interview against the questions your destination's officers actually ask",
-      "Written feedback on the answers that would raise a credibility question, and why",
-      "A second run after you have worked on the first, because the first one is rarely the useful one",
-      "For the UK, preparation for a credibility interview specifically: why this course, why this university, how it is funded",
+      "A recorded practice interview using the questions your destination's visa officers really ask",
+      "Written feedback on any answer that could make an officer doubt you, and why",
+      "A second practice run after you have worked on the first, because the first is rarely the useful one",
+      "For the UK, preparation for the credibility interview: why this course, why this university, and how it is paid for",
     ],
     excludes: [
-      "We do not script answers for you. A scripted answer is exactly what a credibility interview is designed to find.",
+      "We do not script your answers. A credibility interview is designed to catch scripted answers.",
       "We cannot influence the decision, and nobody who says they can is telling you the truth.",
     ],
     remuneration: {
@@ -188,15 +188,15 @@ export const services: Service[] = [
     slug: "pre-departure",
     name: "Pre-departure briefing",
     summary:
-      "A scoped session on the specific city you are moving to, ending in a checklist completed before you fly.",
+      "A session on the city you are moving to, ending in a checklist you complete before you fly.",
     includes: [
-      "The arrival sequence for your city, in order, with what each step blocks if it is late",
+      "What to do when you arrive in your city, in order, and what each step holds up if it is late",
       "City registration, insurance activation, bank account and residence permit for Germany; BRP or eVisa, GP registration and a travel card for the UK; IRP registration and a PPS number for Ireland",
       "What to carry in hand luggage, which is a short list and always includes the same four documents",
-      "The first month's realistic budget against the figures on this site",
+      "A realistic budget for your first month, using the figures on this site",
     ],
     excludes: [
-      "It is not a generic culture briefing. Every item is specific to the city and the permission you hold.",
+      "It is not a general culture briefing. Every item is specific to your city and your visa.",
     ],
     remuneration: {
       kind: "client-fee",
@@ -213,28 +213,28 @@ export const services: Service[] = [
     slug: "loan-guidance",
     name: "Education loan guidance",
     summary:
-      "How the lending actually works, what the categories of lender want, and what to compare. We are not a lender and we take no introduction fee.",
+      "How education loans work, what each type of lender wants, and what to compare.",
     includes: [
-      "The three lender categories and what each one actually asks for: public sector banks, private banks, and non-banking lenders",
-      "What a sanction letter has to say for a visa authority to accept it, which is not the same as what a lender is willing to write",
-      "The difference between a secured and an unsecured loan on the collateral you actually have",
-      "How to compare an offer on total cost rather than on the headline rate: processing fee, moratorium interest treatment, and prepayment terms",
-      "Where the timeline breaks: a sanction that arrives after the funds evidencing window has closed is worth nothing",
+      "The three types of lender and what each asks for: public sector banks, private banks and non-banking lenders",
+      "What a loan sanction letter must say for a visa office to accept it, which is not the same as what a lender is willing to write",
+      "Secured or unsecured, based on the collateral you actually have",
+      "How to compare offers on total cost, not the headline rate: processing fee, interest during the repayment holiday, and early repayment terms",
+      "Where the timing fails: a loan sanction that arrives after the deadline for showing funds is worth nothing",
     ],
     excludes: [
       "We are not a lender, a broker or a direct selling agent, and we hold no licence to be any of them.",
       "We do not arrange, negotiate or submit a loan application on your behalf.",
-      "We do not take a fee from any lender for an introduction, and if we ever do, it will be published here with the figure before the introduction is made.",
+      "No lender pays us for an introduction. If that ever changes, the figure goes on this page before any introduction is made.",
     ],
     remuneration: {
       kind: "none",
       detail:
-        "Nothing. No lender pays us, no lender has ever paid us, and there is no arrangement under which your details reach one without you asking for that specifically.",
+        "No lender has ever paid us, and your details never reach a lender unless you ask for that.",
     },
     availability: {
       state: "with-engagement",
       detail:
-        "Runs at the finance stage of an engagement, and the guidance itself is published on this site for anyone.",
+        "Part of the finance stage of an engagement. The guidance itself is on this site for anyone to read.",
     },
     group: "Introductions",
   },
@@ -242,11 +242,11 @@ export const services: Service[] = [
     slug: "accommodation",
     name: "Accommodation help",
     summary:
-      "Search strategy and a read of the contract, on the route where housing rather than visa policy is the binding constraint.",
+      "Help with the housing search and a check of your rental contract, on the route where housing, not the visa, is the hardest part.",
     includes: [
       "When to start, which for Dublin is before you accept the offer",
       "Where the listings actually are for your city, and which ones are worth the deposit",
-      "A read of the tenancy agreement before you sign it, including the notice and deposit terms",
+      "A check of the rental agreement before you sign it, including the notice and deposit terms",
     ],
     excludes: [
       "We do not hold your deposit or handle any payment to a landlord or provider.",
@@ -255,12 +255,12 @@ export const services: Service[] = [
     remuneration: {
       kind: "none",
       detail:
-        "Nothing today. No accommodation provider pays us. If a partnership ever exists it will appear on this page with its terms and its figure, and the disclosure will be on every page where the provider is named.",
+        "No accommodation provider pays us today.",
     },
     availability: {
       state: "not-yet",
       detail:
-        "The guidance runs inside an engagement. No provider partnership exists, which is why there is no figure to publish yet.",
+        "The guidance is part of an engagement. We have no partnership with any housing provider.",
     },
     group: "Introductions",
   },
@@ -268,24 +268,24 @@ export const services: Service[] = [
     slug: "insurance",
     name: "Health insurance guidance",
     summary:
-      "Which cover is a visa requirement, which is a statutory obligation, and which is optional. The three are different in each of our destinations.",
+      "Which cover the visa needs, which the law requires, and which is optional. This differs in each country.",
     includes: [
-      "For Germany, statutory versus private and why leaving the statutory system as a student is hard to reverse",
-      "For Ireland, the EUR 25,000 accident and EUR 25,000 disease minimum, which is a visa requirement rather than an optional extra",
+      "For Germany, public (statutory) versus private cover, and why leaving public cover as a student is hard to undo",
+      "For Ireland, the minimum of EUR 25,000 for accident and EUR 25,000 for illness, which the visa requires",
       "For the UK, what the Immigration Health Surcharge you already paid actually buys, and what it does not",
-      "How to compare policies on cover and excess rather than on premium",
+      "How to compare policies on cover and excess, not just on price",
     ],
     excludes: [
-      "We are not an insurance intermediary and we do not sell, arrange or advise on a specific policy.",
+      "We are not an insurance broker or agent, and we do not sell, arrange or advise on a specific policy.",
     ],
     remuneration: {
       kind: "none",
       detail:
-        "Nothing. No insurer pays us. The same publication rule applies if that ever changes.",
+        "No insurer pays us.",
     },
     availability: {
       state: "with-engagement",
-      detail: "Runs at the pre-departure stage, and the country-level detail is on each destination guide.",
+      detail: "Part of the pre-departure stage. The details for each country are in its destination guide.",
     },
     group: "Introductions",
   },
@@ -293,23 +293,23 @@ export const services: Service[] = [
     slug: "forex",
     name: "Forex and money transfer",
     summary:
-      "What the transfer actually costs once the spread is counted, and how the tax collected at source works on an education remittance.",
+      "What a money transfer really costs once the exchange rate margin is counted, and how tax collected at source works on money sent for education.",
     includes: [
-      "How to read a quoted rate against the mid-market rate, which is where the cost usually is",
-      "Tax collected at source on education remittances, and when a loan-funded remittance is treated differently",
-      "The paperwork a bank wants for an education remittance, assembled once rather than three times",
+      "How to compare a quoted rate with the mid-market rate, which is where most of the cost usually is",
+      "Tax collected at source on money sent for education, and when a loan-funded transfer is treated differently",
+      "The paperwork a bank needs for an education transfer, put together once rather than three times",
     ],
     excludes: [
-      "We are not an authorised dealer and we do not execute a transfer for you.",
+      "We are not an authorised foreign exchange dealer, and we do not make the transfer for you.",
     ],
     remuneration: {
       kind: "none",
       detail:
-        "Nothing. No transfer provider pays us. A referral arrangement would be published here with its figure before any introduction was made.",
+        "No transfer provider pays us.",
     },
     availability: {
       state: "not-yet",
-      detail: "Described here, not yet a scoped deliverable inside an engagement.",
+      detail: "Described here, but not yet part of an engagement.",
     },
     group: "Introductions",
   },
@@ -317,20 +317,20 @@ export const services: Service[] = [
     slug: "document-services",
     name: "Certification, translation and courier",
     summary:
-      "Getting documents into the form each body will accept, which is a surprisingly common reason a complete file is rejected.",
+      "Getting your documents into the format each office will accept. A wrong format is a common reason a complete file is rejected.",
     includes: [
-      "Which documents need certified translation for which body, and in what format",
+      "Which documents need a certified translation, for which office, and in what format",
       "Notarisation and attestation, where a destination requires it",
-      "Courier coordination for a physical visa file",
+      "Arranging the courier for a paper visa file",
     ],
     excludes: [
       "We do not translate, notarise or attest anything ourselves, and we never alter a document.",
-      "We do not mark up the cost of a third-party service.",
+      "We do not add anything to the cost of a third-party service.",
     ],
     remuneration: {
       kind: "none",
       detail:
-        "Nothing beyond the advisory fee. Third-party costs are paid by you, directly, at their price.",
+        "Nothing beyond the advisory fee. You pay third-party costs directly, at their price.",
     },
     availability: {
       state: "with-engagement",
@@ -342,10 +342,10 @@ export const services: Service[] = [
     slug: "video-counselling",
     name: "Video counselling sessions",
     summary:
-      "Every session runs by video and is bookable. The larger platforms in this market still have no online booking at all.",
+      "Every session runs by video and can be booked. The larger platforms in this market still have no online booking at all.",
     includes: [
       "Video sessions, recorded on request, so you can go back over what was said",
-      "Written follow-up after every session, because a decision made in conversation and never written down is not a decision",
+      "A written follow-up after every session, because a decision that is never written down is not a decision",
     ],
     excludes: [
       "We do not run walk-in offices, and there is no city office to visit.",
@@ -353,7 +353,7 @@ export const services: Service[] = [
     remuneration: {
       kind: "client-fee",
       price: "The consultation price, or included in an engagement",
-      detail: "Nothing is earned from the video platform itself.",
+      detail: "We earn nothing from the video platform itself.",
     },
     availability: {
       state: "not-yet",
@@ -367,11 +367,11 @@ export const services: Service[] = [
 export const servicesIntro = {
   headline: "What we do, and who pays us for it",
   lede:
-    "Every service on this page states what it costs you and what we earn on it, including the ones where the answer is nothing. A consultancy's service list is where referral money hides, and a page describing a loan introduction without saying who pays for it is the standard practice this business was built to correct.",
+    "Each service below shows what it costs you and what we earn from it, even when that is nothing.",
   rules: [
-    "Where a partner pays us for an introduction, the figure is published before the introduction is made. There is no arrangement today under which anyone pays us for one.",
-    "Where a service is described here but not yet running, it says so. Nothing on this page is presented as bookable today when it is not.",
-    "Nothing is charged that was not stated in writing before you agreed to it.",
-    "We decline work that requires falsifying or misrepresenting anything, and we end the engagement if we are asked.",
+    "If a partner ever pays us for an introduction, we publish the figure first. Nobody pays us for one today.",
+    "If a service is not running yet, it says so.",
+    "We charge nothing that was not set out in writing before you agreed to it.",
+    "We will not fake or misstate anything, and we end the engagement if we are asked to.",
   ],
 };

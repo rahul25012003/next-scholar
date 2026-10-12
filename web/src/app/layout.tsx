@@ -1,18 +1,22 @@
 import type { Metadata, Viewport } from "next";
-import { Montserrat, DM_Sans } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { BurstLayer } from "@/components/ui/burst-layer";
+import { site } from "@/content/site";
 
-const display = Montserrat({
-  variable: "--font-montserrat",
+// Headings in Plus Jakarta Sans, everything else in Inter: Inter's tall
+// x-height keeps small text and fee tables readable, and Jakarta keeps the
+// headings confident without Montserrat's width. Both are variable fonts, so
+// one file each covers every weight the stylesheet asks for.
+const display = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
   subsets: ["latin"],
-  weight: ["700", "900"],
   display: "swap",
 });
 
-const sans = DM_Sans({
-  variable: "--font-dm-sans",
+const sans = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -25,12 +29,10 @@ export const metadata: Metadata = {
     default: "Next Scholar",
     template: "%s | Next Scholar",
   },
-  description:
-    "A study abroad consultancy that publishes what it earns on every university it recommends, including the ones that pay nothing.",
+  description: `${site.pitch} ${site.description}`,
   openGraph: {
     title: "Next Scholar",
-    description:
-      "We publish what we earn on every university we recommend. Bengaluru based, three destinations covered in full depth.",
+    description: `${site.pitch} ${site.description}`,
     type: "website",
     locale: "en_IN",
   },
@@ -47,7 +49,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en-IN"
       className={`${display.variable} ${sans.variable} background h-full`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <BurstLayer />
+      </body>
     </html>
   );
 }

@@ -16,7 +16,7 @@ import { primaryCta } from "@/content/site";
 export const metadata: Metadata = {
   title: "Open Ledger",
   description:
-    "What Next Scholar earns from every university it recommends, with the source, the verification date and the status of each figure.",
+    "What Next Scholar earns from every university it recommends, with the source, the date it was checked and the status of each figure.",
 };
 
 const statusOrder: VerificationStatus[] = [
@@ -30,13 +30,13 @@ const statusOrder: VerificationStatus[] = [
 ];
 
 const statusExplainer: Record<VerificationStatus, string> = {
-  unverified: "A market typical estimate. Never shown as confirmed, never published as an exact figure.",
-  "outreach-sent": "A written permission request has gone to the university or aggregator.",
-  "permission-pending": "They have the request and have not answered yet.",
-  "permission-denied": "The figure is confirmed to us. They declined public disclosure of the amount.",
+  unverified: "A typical market estimate. Never shown as confirmed or as an exact figure.",
+  "outreach-sent": "We have asked the university or aggregator in writing for permission to publish.",
+  "permission-pending": "They have our request but have not replied yet.",
+  "permission-denied": "They confirmed the figure to us but did not allow us to publish the amount.",
   "verified-publishable": "Confirmed in writing and cleared to publish as an exact figure.",
   "verified-band-only": "Confirmed in writing. Only a range may be published, at their request.",
-  disputed: "A figure we believed correct is contested. Frozen from publication while it is resolved.",
+  disputed: "Someone has challenged a figure we believed was correct. We hold it back until it is resolved.",
 };
 
 export default function OpenLedgerPage() {
@@ -46,7 +46,7 @@ export default function OpenLedgerPage() {
     <>
       <PageHero
         title="The Open Ledger"
-        lede="Every commission Next Scholar earns, per university relationship, with the evidence behind it and the date it was last confirmed. Including the relationships that pay us nothing."
+        lede="What Next Scholar earns from each university relationship, with the evidence and the date it was last confirmed. Relationships that pay us nothing are included too."
         aside={
           <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-panel border border-line bg-line">
             <div className="bg-white p-5">
@@ -202,8 +202,8 @@ export default function OpenLedgerPage() {
               How a figure gets on this page
             </h2>
             <p className="mt-4 text-[0.9375rem] leading-relaxed text-grey">
-              Nothing skips straight to published. A row moves through these
-              states, and only two of them permit an exact number.
+              Every row goes through these stages, and only two of them allow an
+              exact number.
             </p>
             <dl className="mt-8 divide-y divide-line border-t border-line">
               {statusOrder.map((status) => (
@@ -224,9 +224,8 @@ export default function OpenLedgerPage() {
               What you see when a university says no
             </h2>
             <p className="mt-4 text-[0.9375rem] leading-relaxed text-grey">
-              Most partner agreements restrict disclosure by default. That
-              changes what we can print. It does not change whether the
-              relationship is disclosed at all.
+              Most partner agreements limit what we can publish. That changes
+              what we can print, not whether we disclose the relationship.
             </p>
             <dl className="mt-8 divide-y divide-line border-t border-line">
               {disclosureFallbacks.map((entry) => (
@@ -255,7 +254,7 @@ export default function OpenLedgerPage() {
                 {ledgerMethodology.flaggingRule}
               </p>
               <h2 className="mt-10 text-blue-dark">
-                Update cadence
+                How often we update
               </h2>
               <p className="mt-4 text-[0.9375rem] leading-relaxed text-grey">
                 {ledgerMethodology.cadence}
@@ -267,8 +266,8 @@ export default function OpenLedgerPage() {
                 What is recorded for every row
               </h2>
               <p className="mt-3 text-[0.875rem] leading-relaxed text-grey">
-                Nine fields per university relationship, held in the operations
-                console and projected onto this page.
+                Nine fields for each university relationship, kept in our internal
+                console and shown on this page.
               </p>
               <ul className="mt-6 grid gap-2.5 sm:grid-cols-2">
                 {ledgerMethodology.schemaFields.map((field) => (
@@ -287,7 +286,7 @@ export default function OpenLedgerPage() {
             <ButtonLink href={primaryCta.href} size="lg">
               {primaryCta.label}
             </ButtonLink>
-            <ButtonLink href="/zero-commission" variant="outline" size="lg">
+            <ButtonLink href="/universities?zeroCommission=1" variant="outline" size="lg">
               See who pays us nothing
             </ButtonLink>
           </div>

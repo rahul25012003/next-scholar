@@ -16,7 +16,7 @@ import { ButtonLink } from "@/components/ui/button";
 export const metadata: Metadata = {
   title: "Your shortlist",
   description:
-    "Courses you saved, side by side: fee against fee, deadline against deadline, and what we earn on each one against what we earn on the others.",
+    "The courses you saved, side by side: fee against fee and deadline against deadline.",
   alternates: { canonical: "/shortlist" },
   robots: { index: false, follow: true },
 };
@@ -45,7 +45,7 @@ export default async function ShortlistPage() {
     <>
       <PageHero
         title="Your shortlist, side by side"
-        lede="The comparison neither of the two largest platforms in this market offers, carrying the column neither of them publishes at all. Fee against fee, deadline against deadline, and what we earn on each one next to what we earn on the others."
+        lede="Every course you saved, side by side. Compare fees, deadlines and entry requirements in one table."
       />
 
       <section className="band">
@@ -56,10 +56,8 @@ export default async function ShortlistPage() {
                 A shortlist needs an account
               </h2>
               <p className="mt-3 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
-                It is the only thing on this site that does. Every fee, every requirement,
-                every calculator and every commission figure works signed out and will keep
-                working signed out. Saving a course to come back to needs somewhere to save
-                it, and that is all an account is doing here.
+                It is the only part of the site that needs one. Everything else works signed
+                out; the account just gives your saved courses somewhere to live.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <ButtonLink href="/signup?next=%2Fshortlist" size="lg">
@@ -81,9 +79,8 @@ export default async function ShortlistPage() {
                 Nothing saved yet
               </h2>
               <p className="mt-3 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
-                Save a course from the catalogue and it appears here, compared against
-                everything else you save. Nothing is recommended into this list by us: it
-                holds what you put in it, in the order you put it in.
+                Save a course from the catalogue and it appears here. We add nothing to this
+                list: it holds only what you save, in the order you save it.
               </p>
               <ButtonLink href="/universities" size="lg" className="mt-6">
                 Browse the catalogue
@@ -97,9 +94,9 @@ export default async function ShortlistPage() {
               <div className="overflow-x-auto rounded-panel border border-line bg-white">
                 <table className="w-full border-collapse text-left">
                   <caption className="sr-only">
-                    Your saved courses compared on fee, duration, deadline, language, the
-                    commission we earn, and, if you have filled in your profile, where you
-                    stand against each destination&rsquo;s own requirements.
+                    Your saved courses compared on fee, duration, deadline, language, entry
+                    requirement, what we earn and, if you have filled in your profile, where
+                    you stand against each destination&rsquo;s own requirements.
                   </caption>
                   <thead>
                     <tr className="border-b border-line bg-light">
@@ -199,7 +196,7 @@ export default async function ShortlistPage() {
                                 {", "}
                                 <span className="font-medium text-denied">{counts["not-met"]} not met</span>
                                 {", "}
-                                <span className="font-medium text-pending">{counts.unknown} we cannot tell</span>
+                                <span className="font-medium text-pending">{counts.unknown} need checking</span>
                               </p>
                               <Link
                                 href={`/tools/requirements-check?destination=${row.university.destination}`}
@@ -235,23 +232,24 @@ export default async function ShortlistPage() {
                     What this comparison is not
                   </h2>
                   <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-grey">
-                    It is not a ranking and there is no best row. Nothing here is ordered by
-                    a fit score, because a fit score computed from a fee and a deadline
-                    would be arithmetic dressed as judgement. The order is the order you
-                    saved them in, including the &ldquo;Where you stand&rdquo; row: it reads
-                    your own profile against each destination&rsquo;s own requirements and
-                    states the counts, and the counts do not reorder anything either.
+                    It is not a ranking.
                   </p>
+                  <ul className="mt-3 list-disc space-y-1.5 pl-5 text-[0.9375rem] leading-relaxed text-grey">
+                    <li>There is no best row and no fit score.</li>
+                    <li>Courses stay in the order you saved them.</li>
+                    <li>
+                      The &ldquo;Where you stand&rdquo; row counts your profile against each
+                      destination&rsquo;s requirements. The counts do not reorder anything.
+                    </li>
+                  </ul>
                 </div>
                 <div className="rounded-panel border border-line bg-light p-6">
                   <h2 className="text-blue-dark h--5">
-                    Read the commission row across
+                    Compare the &ldquo;What we earn&rdquo; row
                   </h2>
                   <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-grey">
-                    If one of these pays us several times what another does, that is
-                    visible here before anyone gives you advice about it. That is the entire
-                    reason the row exists, and it is why we publish it on a comparison page
-                    rather than only on a policy page nobody reads.
+                    If one course pays us several times what another does, you can see it
+                    here before anyone advises you.
                   </p>
                 </div>
               </div>

@@ -18,9 +18,9 @@ export function SopCoach() {
           Paste what you have written so far
         </label>
         <p className="mt-1 text-[0.8125rem] leading-relaxed text-grey">
-          You get questions and comments on structure. You will not get sentences
-          to paste, and asking for them will not produce them. The statement has
-          to be yours or it is worth nothing at the interview.
+          You get questions and comments on structure, never sentences to paste,
+          even if you ask. The statement has to be yours, or it is worth nothing
+          at the interview.
         </p>
         <textarea
           id="draft"
@@ -29,7 +29,7 @@ export function SopCoach() {
           placeholder="Your own draft, in your own words."
           className="mt-3 w-full rounded-card border border-line-strong bg-white px-3.5 py-2.5 text-[0.9375rem] leading-relaxed text-blue-dark placeholder:text-grey/70 focus:border-pink focus:outline-none focus:ring-2 focus:ring-pink/25"
         />
-        <Button type="submit" className="mt-3" disabled={pending}>
+        <Button type="submit" className="mt-3" disabled={pending} aria-busy={pending}>
           {pending ? "Reading" : "Get coaching questions"}
         </Button>
       </form>

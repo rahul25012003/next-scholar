@@ -344,6 +344,6 @@ export async function withdrawConsentAction(
   return {
     status: "withdrawn",
     message:
-      "Consent withdrawn and stamped with the time. Nothing new will be collected in that category, and your counselor has been notified.",
+      "Consent withdrawn and stamped with the time. Nothing new will be collected in that category, and your counsellor has been notified.",
   };
 }

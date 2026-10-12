@@ -40,7 +40,7 @@ export function DocumentIntelligence({
         <form action={formAction}>
           <input type="hidden" name="caseId" value={caseId} />
           <input type="hidden" name="documentId" value={documentId} />
-          <Button type="submit" variant="outline" disabled={pending}>
+          <Button type="submit" variant="outline" disabled={pending} aria-busy={pending}>
             {pending ? "Reading" : "Read the document"}
           </Button>
           <span className="sr-only">{documentName}</span>
@@ -71,11 +71,11 @@ export function DocumentIntelligence({
       {extraction && (
         <div className="mt-3 rounded-card border border-line bg-light p-4">
           <p className="text-[0.8125rem] font-medium text-blue-dark">
-            Proposed values, none of them authoritative yet
+            Proposed values, none of them confirmed yet
           </p>
           <p className="mt-1 text-[0.75rem] leading-relaxed text-grey">
-            {extraction.note} A confidence score describes the reading, not the
-            truth. A high confidence value still needs a person behind it.
+            {extraction.note} Confidence describes the reading, not the truth, so
+            even a high confidence value needs a person to confirm it.
           </p>
 
           <ul className="mt-3 divide-y divide-line">
@@ -144,7 +144,7 @@ function FieldDecision({
         <input type="hidden" name="caseId" value={caseId} />
         <input type="hidden" name="documentId" value={documentId} />
         <input type="hidden" name="fieldName" value={fieldName} />
-        <Button type="submit" name="decision" value="confirmed" disabled={pending}>
+        <Button type="submit" name="decision" value="confirmed" disabled={pending} aria-busy={pending}>
           Confirm
         </Button>
         <Button
@@ -152,7 +152,7 @@ function FieldDecision({
           name="decision"
           value="rejected"
           variant="outline"
-          disabled={pending}
+          disabled={pending} aria-busy={pending}
         >
           Reject
         </Button>

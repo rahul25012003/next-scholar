@@ -18,7 +18,7 @@ import { Accordion } from "@/components/ui/accordion";
 export const metadata: Metadata = {
   title: "Free tools",
   description:
-    "Seven calculators and checklists, every one ungated: cost of living, the German grade formula, eight grade converters, the IELTS band rule, an ECTS credit check, a requirements checklist and an English test comparison.",
+    "Seven free calculators and checklists, no signup needed: cost of living, the German grade formula, eight grade converters, the IELTS band rule, an ECTS credit check, a requirements checklist and an English test comparison.",
   alternates: { canonical: "/tools" },
 };
 
@@ -27,8 +27,8 @@ const tools = [
     href: "/tools/requirements-check",
     icon: ListChecks,
     title: "Requirements checklist",
-    lede: "Your profile against every published requirement for a destination. Met, not met, or cannot tell, with the source on each row.",
-    detail: "The honest version of the admission predictor everyone else ships. Three states, no score.",
+    lede: "Checks your profile against each published requirement for a destination. Each row says Met, Not met yet or Needs checking, with its source.",
+    detail: "Three plain states. No score and no prediction.",
     tone: "bg-blue-light",
   },
   {
@@ -52,15 +52,15 @@ const tools = [
     icon: Stack,
     title: "ECTS credit check",
     lede: "Total, core subject and mathematics credits against a programme's stated requirements, and each gap.",
-    detail: "This is how German Master's admission is actually decided, and it is almost never published.",
+    detail: "This is how German Master's admission is really decided, and it is almost never published.",
     tone: "bg-blue-light",
   },
   {
     href: "/tools/ielts-band-calculator",
     icon: Exam,
     title: "IELTS band calculator",
-    lede: "Four section scores to an overall band, with the half-band rounding rule shown, plus the per-section check.",
-    detail: "The per-section minimum is where a good overall band still fails a language condition.",
+    lede: "Turns your four section scores into an overall band, shows the rounding rule, and checks each section.",
+    detail: "A good overall band can still fail if one section is below its minimum.",
     tone: "bg-blue-light",
   },
   {
@@ -68,7 +68,7 @@ const tools = [
     icon: Percent,
     title: "Grade converters",
     lede: "CGPA to percentage, percentage to GPA on three scales, SGPA to CGPA credit weighted, and five more.",
-    detail: "Each one names the convention it rests on rather than presenting it as a standard.",
+    detail: "Each one names the method it uses instead of calling it a standard.",
     tone: "bg-blue-light",
   },
   {
@@ -76,7 +76,7 @@ const tools = [
     icon: Scales,
     title: "English test comparison",
     lede: "IELTS, TOEFL iBT, PTE Academic and the Duolingo English Test, side by side on scale, format and UK visa status.",
-    detail: "No score converts between them here. A concordance table looks precise and is not.",
+    detail: "We do not convert scores between them. Conversion tables look precise, but they are not.",
     tone: "bg-blue-light",
   },
 ];
@@ -84,23 +84,23 @@ const tools = [
 const faqs = [
   {
     q: "Why is none of this behind a signup?",
-    a: "Because withholding an arithmetic result until someone hands over a phone number is the sharpest conversion mechanic in this market, and it is the exact opposite of the position this business takes. If a calculator can answer your question, you should get the answer. If you then want someone to talk to, the consultation is there and it is priced in public.",
+    a: "Because a calculator's answer should not cost you your phone number. If you then want to talk to someone, the consultation is there and its price is public.",
   },
   {
     q: "Do you store what I type into these?",
-    a: "No. Every calculator on this site runs entirely in your browser. There is no form action behind any of them, no request is made when you type, and nothing is written to an account, because there is no account involved. Close the tab and the numbers are gone.",
+    a: "No. Every calculator runs entirely in your browser, so nothing you enter is sent or saved, and closing the tab clears it.",
   },
   {
     q: "Why do they all show their working?",
-    a: "A number you cannot check is a number you have to trust, and asking to be trusted is what this platform exists not to do. The formula, your own figures inside it, and each intermediate step are on the page so that you can verify the result by hand or hand it to someone who will.",
+    a: "So you do not have to take the result on trust. The formula, your figures in it and each step are on the page, so you or anyone else can check it by hand.",
   },
   {
     q: "Why is there no admission chance or probability anywhere?",
-    a: "Because we would have to invent it. Admission turns on programme-specific module requirements, the strength of a cohort we cannot see, and documents nobody has written yet. None of that is computable from a form, and every platform that prints a percentage on it is guessing. Our own guardrails forbid it in code, not just in policy.",
+    a: "Because we would have to make it up. Admission depends on each course's module requirements, the other applicants and documents not yet written, and none of that can be worked out from a form, so our code does not allow a percentage.",
   },
   {
     q: "Are these figures current?",
-    a: "Each one carries the date it was written into the site and the official body it came from. None of them has yet been re-checked at source by a named person, and every page says so where the figures appear rather than in a footnote. A confident date on a stale figure is worse than no date at all.",
+    a: "Each figure shows the date it was added and the official body it came from. None has yet been re-checked at source by a named person, and each page says so next to the figures.",
   },
 ];
 
@@ -109,7 +109,7 @@ export default function ToolsPage() {
     <>
       <PageHero
         title="Seven tools, none of them behind a form"
-        lede="These exist because the questions they answer are answerable, and because the industry standard is to answer them only after collecting a phone number. Every one shows its arithmetic, names its source, and states what it does not decide."
+        lede="No signup and no phone number needed. Each tool shows its working, names its source and says what it cannot decide."
         aside={
           <div className="rounded-panel border border-line bg-white p-6">
             <p className="text-[0.8125rem] font-semibold text-blue-dark">The rules they share</p>

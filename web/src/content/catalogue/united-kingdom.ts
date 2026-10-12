@@ -15,11 +15,11 @@ const RESEARCHED_ON = "2026-09-10";
 const ON_RECORD =
   "Institution's own published record, not re-read at source this pass";
 const FEE_QUALIFIER =
-  "Indicative annual tuition for an international student, rounded to the nearest thousand from the institution's published fee schedule. The programme's own fee page governs, and fees are set per intake.";
+  "Approximate yearly tuition for an international student, from the university's published fees. The programme's own fee page is final, and fees are set per intake.";
 
 /** Edinburgh's own fee tool would not render for this session's fetch; see the field's own source note. */
 const EDINBURGH_FEE_QUALIFIER =
-  "Indicative annual tuition for an international student, reported consistently across independent fee-comparison sources rather than read directly off the institution's own fee tool. The programme's own fee page governs, and fees are set per intake.";
+  "Approximate yearly tuition for an international student, from independent fee-comparison sources that agree, not the university's own fee tool. The programme's own fee page is final, and fees are set per intake.";
 
 const UK_COMMISSION = {
   display: "₹1.5L to ₹2.5L",
@@ -27,7 +27,7 @@ const UK_COMMISSION = {
   highInr: 250000,
   status: "unverified" as const,
   source: "market-estimate" as const,
-  note: "A market typical band for a UK institution, not a contract term and not confirmed by this university. It is published as an estimate because publishing nothing is how the industry hides it.",
+  note: "A typical market band for a UK university, not a contract term and not confirmed by this university.",
 };
 
 /**
@@ -50,7 +50,7 @@ export const ukUniversities: University[] = [
     flagCode: "gb",
     initials: "UoM",
     summary:
-      "A large Russell Group university outside London, which is the combination most Indian postgraduate applicants are looking for: the maintenance requirement is the lower non-London figure and the rent follows it.",
+      "A large Russell Group university outside London, which is what most Indian postgraduate applicants look for. The visa maintenance requirement is the lower non-London figure, and rent is lower too.",
     commission: UK_COMMISSION,
     highlights: {
       established: stated(1824, "Institution's own history page. The date of its earliest predecessor.", ON),
@@ -61,10 +61,10 @@ export const ukUniversities: University[] = [
         ON,
       ),
       staffRatio: unknown(
-        "Published per faculty rather than institution-wide, and averaging the faculties would be our arithmetic rather than their figure.",
+        "Published per faculty, not for the whole university, and we will not average the faculties ourselves.",
       ),
       acceptanceRate: unknown(
-        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+        "Not published for the whole university. It varies hugely by programme, so one overall rate would tell you nothing about your course.",
       ),
       accreditation: stated(
         "Recognised UK degree-awarding body, regulated by the Office for Students",
@@ -119,7 +119,7 @@ export const ukUniversities: University[] = [
       },
     ],
     tuitionNote: stated(
-      "Full international tuition, set per programme and per intake. A deposit is normally required to release the CAS, and the balance outstanding on the CAS is added to the maintenance funds you have to evidence.",
+      "Full international tuition, set per programme and per intake. You normally pay a deposit before the CAS is issued, and any unpaid balance on the CAS is added to the maintenance funds you must show.",
       "Institution's published fee schedule, and UKVI Appendix Finance",
       ON,
     ),
@@ -146,7 +146,7 @@ export const ukUniversities: University[] = [
           },
         ],
         entryRequirement: stated(
-          "An upper second class honours degree or its overseas equivalent in computer science. For Indian applicants this is commonly stated as 60 to 70 per cent depending on the institution's own recognition list.",
+          "An upper second class honours degree, or its overseas equivalent, in computer science. For Indian applicants this is commonly 60 to 70 per cent, depending on the university's own recognition list.",
           "Institution's admission pages",
           ON,
         ),
@@ -185,7 +185,7 @@ export const ukUniversities: University[] = [
           ON,
         ),
         prerequisites: unknown(
-          "The programme page states a degree discipline rather than a list of named prerequisite modules.",
+          "The programme page names a degree subject, not specific prerequisite modules.",
         ),
         languageOfInstruction: "English",
         placement: unknown("No placement term is stated."),
@@ -194,7 +194,7 @@ export const ukUniversities: University[] = [
     ],
     notChecked: [
       "The current fee for the coming intake, which is set annually and which we have rounded.",
-      "Whether either programme requires ATAS. It is subject-dependent and it has to be read on the programme page, because the CAS waits for it.",
+      "Whether either programme needs ATAS. It depends on the subject, so check the programme page, because the CAS waits for it.",
     ],
   },
 
@@ -220,7 +220,7 @@ export const ukUniversities: University[] = [
       ),
       staffRatio: unknown("Published per faculty rather than institution-wide."),
       acceptanceRate: unknown(
-        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+        "Not published for the whole university. It varies hugely by programme, so one overall rate would tell you nothing about your course.",
       ),
       accreditation: stated(
         "Recognised UK degree-awarding body, regulated by the Office for Students",
@@ -316,7 +316,7 @@ export const ukUniversities: University[] = [
           "Institution's admission pages",
           ON,
         ),
-        prerequisites: unknown("A degree discipline is stated rather than named prerequisite modules."),
+        prerequisites: unknown("A degree subject is named, not specific prerequisite modules."),
         languageOfInstruction: "English",
         placement: unknown("No placement term is stated."),
         campus: "Leeds",
@@ -338,7 +338,7 @@ export const ukUniversities: University[] = [
     flagCode: "gb",
     initials: "UoG",
     summary:
-      "An old Russell Group university in Scotland. The immigration rules are the same as the rest of the UK, the academic calendar and some course structures are not, and the rent is lower than either English city above.",
+      "An old Russell Group university in Scotland. Immigration rules match the rest of the UK, but the academic calendar and some course structures differ, and rent is lower than in Manchester or Leeds.",
     commission: UK_COMMISSION,
     highlights: {
       established: stated(1451, "Institution's own history page", ON),
@@ -350,7 +350,7 @@ export const ukUniversities: University[] = [
       ),
       staffRatio: unknown("Published per college rather than institution-wide."),
       acceptanceRate: unknown(
-        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+        "Not published for the whole university. It varies hugely by programme, so one overall rate would tell you nothing about your course.",
       ),
       accreditation: stated(
         "Recognised UK degree-awarding body, regulated by the Scottish Funding Council",
@@ -385,7 +385,7 @@ export const ukUniversities: University[] = [
       },
     ],
     tuitionNote: stated(
-      "Full international tuition, set per programme. Scotland's fee position for home students does not extend to international students, and the international fee here is comparable with England.",
+      "Full international tuition, set per programme. Scotland's fee arrangements for home students do not cover international students, and the fee here is similar to England.",
       "Institution's published fee schedule",
       ON,
     ),
@@ -420,7 +420,7 @@ export const ukUniversities: University[] = [
           },
         ],
         entryRequirement: stated(
-          "A 2:1 honours degree or overseas equivalent. A conversion route exists for applicants without a computing background and it is a different programme.",
+          "A 2:1 honours degree or overseas equivalent. Applicants without a computing background have a separate conversion programme.",
           "Institution's admission pages",
           ON,
         ),
@@ -445,7 +445,7 @@ export const ukUniversities: University[] = [
     flagCode: "gb",
     initials: "CU",
     summary:
-      "A post-92 university with a materially lower fee, multiple intakes a year and a strong placement culture. It is on this list precisely because a catalogue that only shows expensive institutions is not a catalogue, it is a sales sheet.",
+      "A post-92 university with a much lower fee, several intakes a year and a strong placement culture. It is listed so this catalogue is not only expensive universities.",
     commission: UK_COMMISSION,
     highlights: {
       established: stated(1992, "Institution's own history page. University status; its predecessor dates from 1843.", ON),
@@ -456,10 +456,10 @@ export const ukUniversities: University[] = [
         ON,
       ),
       staffRatio: unknown(
-        "Not published in a form comparable with the other institutions on this catalogue, so printing it next to them would invite a comparison the figures do not support.",
+        "Not published in a form that compares fairly with the other universities in this catalogue.",
       ),
       acceptanceRate: unknown(
-        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+        "Not published for the whole university. It varies hugely by programme, so one overall rate would tell you nothing about your course.",
       ),
       accreditation: stated(
         "Recognised UK degree-awarding body, regulated by the Office for Students",
@@ -494,7 +494,7 @@ export const ukUniversities: University[] = [
       },
     ],
     tuitionNote: stated(
-      "Full international tuition at a substantially lower level than the Russell Group institutions above, with more than one intake a year on many programmes.",
+      "Full international tuition, much lower than at the Russell Group universities in this list, with more than one intake a year on many programmes.",
       "Institution's published fee schedule",
       ON,
     ),
@@ -529,11 +529,11 @@ export const ukUniversities: University[] = [
           },
         ],
         entryRequirement: stated(
-          "A second class honours degree or overseas equivalent in a computing, engineering or quantitative subject. The published threshold is lower than the Russell Group institutions above.",
+          "A second class honours degree or overseas equivalent in a computing, engineering or quantitative subject. The published bar is lower than at the Russell Group universities in this list.",
           "Institution's admission pages",
           ON,
         ),
-        prerequisites: unknown("A degree discipline is stated rather than named prerequisite modules."),
+        prerequisites: unknown("A degree subject is named, not specific prerequisite modules."),
         languageOfInstruction: "English",
         placement: stated(
           "A professional placement variant of this programme exists and extends the course",
@@ -558,7 +558,7 @@ export const ukUniversities: University[] = [
     flagCode: "gb",
     initials: "QMUL",
     summary:
-      "A Russell Group university inside Greater London, which changes the maintenance requirement from GBP 1,171 to GBP 1,529 a month before a single rent figure is considered. That is a GBP 3,222 difference on a nine month calculation.",
+      "A Russell Group university in Greater London, so the visa maintenance requirement rises from GBP 1,171 to GBP 1,529 a month, before any rent. That is GBP 3,222 more over nine months.",
     commission: UK_COMMISSION,
     highlights: {
       established: stated(1885, "Institution's own history page. The date of its earliest constituent college.", ON),
@@ -570,7 +570,7 @@ export const ukUniversities: University[] = [
       ),
       staffRatio: unknown("Published per faculty rather than institution-wide."),
       acceptanceRate: unknown(
-        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+        "Not published for the whole university. It varies hugely by programme, so one overall rate would tell you nothing about your course.",
       ),
       accreditation: stated(
         "Recognised UK degree-awarding body, regulated by the Office for Students",
@@ -605,7 +605,7 @@ export const ukUniversities: University[] = [
       },
     ],
     tuitionNote: stated(
-      "Full international tuition, plus the London maintenance requirement on the visa side. Both figures move together and both belong in the same calculation.",
+      "Full international tuition, plus the London maintenance requirement for the visa. Both figures move together, so budget for them together.",
       "Institution's published fee schedule, and UKVI Appendix Finance",
       ON,
     ),
@@ -632,7 +632,7 @@ export const ukUniversities: University[] = [
           },
         ],
         entryRequirement: stated(
-          "A 2:1 honours degree or overseas equivalent. A conversion route exists for applicants from other disciplines and is a separate programme.",
+          "A 2:1 honours degree or overseas equivalent. Applicants from other subjects have a separate conversion programme.",
           "Institution's admission pages",
           ON,
         ),
@@ -702,7 +702,7 @@ export const ukUniversities: University[] = [
         RESEARCHED_ON,
       ),
       staffRatio: unknown(
-        "Published per school rather than institution-wide, and averaging the schools would be our arithmetic rather than their figure.",
+        "Published per school, not for the whole university, and we will not average the schools ourselves.",
       ),
       acceptanceRate: unknown("Not published at institution level."),
       accreditation: stated(
@@ -764,7 +764,7 @@ export const ukUniversities: University[] = [
           },
         ],
         entryRequirement: stated(
-          "A UK 2:1 honours degree or its international equivalent in informatics, artificial intelligence, cognitive science, computer science, electrical engineering, mathematics, physics, psychology or a closely related discipline. Typical offers made are for first class honours.",
+          "A UK 2:1 honours degree or its international equivalent in informatics, artificial intelligence, cognitive science, computer science, electrical engineering, mathematics, physics, psychology or a closely related subject. Typical offers ask for first class honours.",
           "Programme page, School of Informatics",
           RESEARCHED_ON,
         ),
@@ -782,11 +782,11 @@ export const ukUniversities: University[] = [
       },
     ],
     notChecked: [
-      "The exact tuition figure, since the institution's own fee page renders through a tool this session could not execute; corroborated across independent sources but not read directly off the primary page.",
-      "The 2027 intake deadline is this year's confirmed date (31 March 2026) projected forward by one cycle, marked not-yet-open rather than confirmed, the same convention the rest of this catalogue uses for a cycle the institution has not opened yet.",
-      "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
-      "Language tests beyond IELTS (TOEFL, GRE, GMAT) were not checked this pass and are left off the exams list rather than guessed.",
-      "Edinburgh has no city of its own in the cost of living calculator yet, so it is linked to the Manchester band, the same large-city-outside-London proxy Glasgow's entry already uses. Edinburgh rents typically run above that band, not within it, which the calculator page does not yet say.",
+      "The exact tuition fee. The university's fee tool would not load for us, so the figure comes from independent sources that agree, not the university's own page.",
+      "The 2027 deadline. It is this year's confirmed date (31 March 2026) moved forward a year, and is marked not yet open rather than confirmed.",
+      "Whether this programme needs ATAS. It depends on the subject, so check the programme page, because the CAS waits for it.",
+      "Tests other than IELTS (TOEFL, GRE, GMAT). We have not checked them, so they are left off rather than guessed.",
+      "Edinburgh is not yet in the cost of living calculator, so it links to the Manchester band, as Glasgow does. Edinburgh rents usually run above that band, which the calculator does not yet say.",
     ],
   },
 
@@ -800,7 +800,7 @@ export const ukUniversities: University[] = [
     flagCode: "gb",
     initials: "ICL",
     summary:
-      "A science, engineering, medicine and business specialist with no humanities faculty, consistently placed among the top handful of universities in the world. London tuition and the London maintenance requirement both apply, and both run above the rest of this catalogue.",
+      "A science, engineering, medicine and business specialist with no humanities faculty, regularly ranked among the world's top few universities. London tuition and the London maintenance requirement both apply, and both are higher than elsewhere in this catalogue.",
     commission: UK_COMMISSION,
     highlights: {
       established: stated(1907, ON_RECORD, RESEARCHED_ON),
@@ -810,7 +810,7 @@ export const ukUniversities: University[] = [
         RESEARCHED_ON,
       ),
       internationalStudents: unknown(
-        "Two figures for the international share turned up in this pass, 61 per cent and 52.9 per cent, from different counting methods (all non-UK domicile versus HESA's own definition) and this session could not adjudicate between them, so neither is stated as if it were the only one.",
+        "We found two figures, 61 per cent and 52.9 per cent, from different counting methods (all non-UK domicile versus HESA's own definition). We could not tell which is right, so we state neither as the only one.",
       ),
       staffRatio: unknown("Not published at institution level."),
       acceptanceRate: unknown("Not published at institution level."),
@@ -841,7 +841,7 @@ export const ukUniversities: University[] = [
       },
     ],
     tuitionNote: stated(
-      "Full international tuition, London weighted, among the highest in this catalogue. Published per department and per programme rather than one university-wide figure.",
+      "Full international tuition at London rates, among the highest in this catalogue. It is set per department and per programme, not as one university-wide figure.",
       "Institution's own postgraduate fees page confirms fees are set per department and per session, but this session's fetch of it could not reach the actual MSc Computing figure; the figure below is convergent-secondary, flagged the same way",
       RESEARCHED_ON,
     ),
@@ -877,7 +877,7 @@ export const ukUniversities: University[] = [
           RESEARCHED_ON,
         ),
         prerequisites: unknown(
-          "The specific prerequisite modules were not checked this pass; the general requirement is a technical degree with strong mathematics.",
+          "We have not checked the specific prerequisite modules. The general requirement is a technical degree with strong mathematics.",
         ),
         languageOfInstruction: "English",
         placement: unknown("No placement term is stated on this one year taught programme."),
@@ -885,9 +885,9 @@ export const ukUniversities: University[] = [
       },
     ],
     notChecked: [
-      "The exact tuition figure and the exact entry requirement wording: this session's fetch of the institution's own pages could not reach the department-level detail, so both are convergent-secondary, stated as such rather than presented as primary-confirmed.",
-      "Which of the two international-student percentages found this pass is the one the institution would stand behind; left unknown rather than picking one.",
-      "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
+      "The exact tuition fee and entry requirement wording. We could not reach the department's own pages, so both come from independent sources that agree, not the university itself.",
+      "Which of the two international-student percentages the university itself would stand behind. We left it unknown rather than pick one.",
+      "Whether this programme needs ATAS. It depends on the subject, so check the programme page, because the CAS waits for it.",
     ],
   },
 
@@ -933,14 +933,14 @@ export const ukUniversities: University[] = [
         exam: "IELTS Academic",
         undergraduate: unknown("Checked for the postgraduate route only this pass."),
         postgraduate: stated(
-          "7.0 overall is the commonly stated figure; one independent source reported 6.5 for this specific programme, and this session could not resolve the discrepancy against the department's own page",
+          "7.0 overall is the commonly stated figure; one independent source reported 6.5 for this programme, and we could not settle it against the department's own page",
           "Reported across independent admissions publications, with the discrepancy stated rather than resolved by picking one",
           RESEARCHED_ON,
         ),
       },
     ],
     tuitionNote: stated(
-      "Full international tuition, London weighted. A deposit of 10 per cent of the first year fee is charged for an overseas offer holder.",
+      "Full international tuition at London rates. Overseas offer holders pay a deposit of 10 per cent of the first-year fee.",
       "Reported consistently across independent fee-comparison publications; the institution's own department fee page was not directly read this pass",
       RESEARCHED_ON,
     ),
@@ -971,7 +971,7 @@ export const ukUniversities: University[] = [
           },
         ],
         entryRequirement: stated(
-          "This is a conversion programme, built for a degree in a subject other than computer science or information technology: an upper second class honours degree or overseas equivalent, with evidenced mathematical skills to at least A-level standard.",
+          "A conversion programme for graduates in subjects other than computer science or information technology. You need an upper second class honours degree or overseas equivalent, with proven maths skills to at least A-level standard.",
           "Institution's own programme page, fetched this pass",
           RESEARCHED_ON,
         ),
@@ -986,10 +986,10 @@ export const ukUniversities: University[] = [
       },
     ],
     notChecked: [
-      "The exact tuition figure: convergent-secondary, not read directly off the department's own fee page this pass.",
+      "The exact tuition fee. It comes from independent sources that agree, not the department's own fee page.",
       "The IELTS discrepancy (7.0 vs 6.5) between independent sources, stated rather than resolved.",
-      "This specific MSc is a conversion programme for non-CS graduates. UCL also runs a standard MSc Computer Science route for CS graduates, which this pass did not research separately; do not assume the entry requirement above applies to that other route.",
-      "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
+      "This MSc is a conversion programme for non-CS graduates. UCL also runs a standard MSc Computer Science route for CS graduates, which we have not researched; do not assume the entry requirement above applies to it.",
+      "Whether this programme needs ATAS. It depends on the subject, so check the programme page, because the CAS waits for it.",
     ],
   },
 
@@ -1003,12 +1003,12 @@ export const ukUniversities: University[] = [
     flagCode: "gb",
     initials: "KCL",
     summary:
-      "A central London research university with a large international student base, particularly strong in health, law and the social sciences alongside a growing data science offering.",
+      "A central London research university with many international students. It is especially strong in health, law and the social sciences, with a growing data science offer.",
     commission: UK_COMMISSION,
     highlights: {
       established: stated(1829, ON_RECORD, RESEARCHED_ON),
       totalStudents: unknown(
-        "This pass found international enrolment (23,000+) but not a total headcount figure from the institution itself.",
+        "We found international enrolment (23,000+), but not a total headcount from the university itself.",
       ),
       internationalStudents: stated(
         "More than 23,000 international students, from 185 countries",
@@ -1044,7 +1044,7 @@ export const ukUniversities: University[] = [
       },
     ],
     tuitionNote: stated(
-      "Full international tuition, published per programme rather than one university-wide figure, and stated to rise in later years of a multi-year programme.",
+      "Full international tuition, set per programme rather than one university-wide figure. The university says it rises in later years of a multi-year programme.",
       "Institution's own fees page, fetched directly this pass",
       RESEARCHED_ON,
     ),
@@ -1075,7 +1075,7 @@ export const ukUniversities: University[] = [
           },
         ],
         entryRequirement: stated(
-          "Designed for graduates and professionals with a background in a quantitative subject. The exact degree class was not stated on the page this session read; independent sources report roughly a first class or high upper second, 70 per cent or GPA 3.0 or higher.",
+          "Designed for graduates and professionals with a quantitative background. The page we read gave no degree class; independent sources report roughly a first or high upper second, 70 per cent or GPA 3.0 or higher.",
           "Institution's own programme page, fetched this pass, supplemented by independent sources for the specific class where the primary page did not state one",
           RESEARCHED_ON,
         ),
@@ -1086,9 +1086,9 @@ export const ukUniversities: University[] = [
       },
     ],
     notChecked: [
-      "The exact degree classification required: the institution's own page this session read described the audience rather than stating a class; independent sources fill the gap and are cited as such.",
+      "The exact degree class required. The university's page describes who the course is for but gives no class, so independent sources fill the gap.",
       "Total student headcount for the institution as a whole.",
-      "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
+      "Whether this programme needs ATAS. It depends on the subject, so check the programme page, because the CAS waits for it.",
     ],
   },
 
@@ -1108,7 +1108,7 @@ export const ukUniversities: University[] = [
       established: stated(1900, ON_RECORD, RESEARCHED_ON),
       totalStudents: stated(40000, "Institution's own reporting, found through search", RESEARCHED_ON),
       internationalStudents: stated(
-        "Students from over 150 countries; no institution-stated percentage found this pass",
+        "Students from over 150 countries; we found no percentage from the university itself",
         "Institution's own reporting, found through search",
         RESEARCHED_ON,
       ),
@@ -1142,7 +1142,7 @@ export const ukUniversities: University[] = [
       },
     ],
     tuitionNote: stated(
-      "Full international tuition, set per programme. Independent sources disagreed on the Computer Science figure this pass (£34,740 against £27,540, possibly two different programme variants); the higher figure is printed and the discrepancy is stated rather than hidden.",
+      "Full international tuition, set per programme. Independent sources disagree on the Computer Science fee (£34,740 or £27,540, possibly two programme versions), so we show the higher figure.",
       "Independent fee-comparison publications; the institution's own fee page was not directly read this pass",
       RESEARCHED_ON,
     ),
@@ -1173,20 +1173,20 @@ export const ukUniversities: University[] = [
           },
         ],
         entryRequirement: stated(
-          "A 2:1 honours degree or overseas equivalent, commonly stated as 60 per cent for Indian applicants depending on the institution's own recognition list.",
+          "A 2:1 honours degree or overseas equivalent, commonly 60 per cent for Indian applicants, depending on the university's own recognition list.",
           "Reported consistently across independent admissions publications; the institution's own programme page was not directly read this pass",
           RESEARCHED_ON,
         ),
-        prerequisites: unknown("Not checked this pass."),
+        prerequisites: unknown("We have not checked this yet."),
         languageOfInstruction: "English",
         placement: unknown("No placement term is stated on this one year taught programme."),
         campus: "Edgbaston, Birmingham",
       },
     ],
     notChecked: [
-      "The exact tuition fee: two different figures were found and neither was confirmed against the institution's own page this pass.",
-      "The exact QS rank: two different positions were found; the band both agree inside is printed instead.",
-      "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
+      "The exact tuition fee. We found two figures and confirmed neither on the university's own page.",
+      "The exact QS rank. We found two positions, so we show the band both fall inside.",
+      "Whether this programme needs ATAS. It depends on the subject, so check the programme page, because the CAS waits for it.",
     ],
   },
 
@@ -1200,7 +1200,7 @@ export const ukUniversities: University[] = [
     flagCode: "gb",
     initials: "WAR",
     summary:
-      "A campus outside Coventry with one of the strongest research reputations on this catalogue, and a fee that reflects it: this is the most expensive institution on the UK list.",
+      "A campus university outside Coventry with one of the strongest research reputations in this catalogue.",
     commission: UK_COMMISSION,
     highlights: {
       established: stated(1965, ON_RECORD, RESEARCHED_ON),
@@ -1210,9 +1210,9 @@ export const ukUniversities: University[] = [
         "Reported by independent ranking aggregators this pass; the institution's own statistics page was not directly read",
         RESEARCHED_ON,
       ),
-      staffRatio: unknown("Not published in a form comparable with the other institutions on this catalogue."),
+      staffRatio: unknown("Not published in a form that compares fairly with the other universities in this catalogue."),
       acceptanceRate: unknown(
-        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+        "Not published for the whole university. It varies hugely by programme, so one overall rate would tell you nothing about your course.",
       ),
       accreditation: stated(
         "UK degree-awarding body, recognised by the Office for Students",
@@ -1241,7 +1241,7 @@ export const ukUniversities: University[] = [
       },
     ],
     tuitionNote: stated(
-      "Full international tuition, at the higher of the institution's two fee bands, which applies to laboratory-based and most quantitative postgraduate courses including this one.",
+      "Full international tuition at the higher of Warwick's two fee bands. That band covers lab-based and most quantitative postgraduate courses, including this one.",
       "Reported consistently across independent fee-comparison publications for the 2026/27 entry year; the institution's own fee page was not directly read this pass",
       RESEARCHED_ON,
     ),
@@ -1276,15 +1276,15 @@ export const ukUniversities: University[] = [
           "Reported consistently across independent admissions publications; the institution's own programme page was not directly read this pass",
           RESEARCHED_ON,
         ),
-        prerequisites: unknown("Not checked this pass."),
+        prerequisites: unknown("We have not checked this yet."),
         languageOfInstruction: "English",
         placement: unknown("No placement term is stated on this one year taught programme."),
         campus: "Coventry",
       },
     ],
     notChecked: [
-      "The exact tuition fee, confirmed only against independent sources this pass; a similarly named but separate programme, MSc Economics and Data Science, carries a different IELTS requirement and was not checked.",
-      "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
+      "The exact tuition fee, confirmed only against independent sources. A separate, similarly named programme, MSc Economics and Data Science, has a different IELTS requirement and was not checked.",
+      "Whether this programme needs ATAS. It depends on the subject, so check the programme page, because the CAS waits for it.",
     ],
   },
 
@@ -1298,21 +1298,21 @@ export const ukUniversities: University[] = [
     flagCode: "gb",
     initials: "SOTON",
     summary:
-      "A south-coast port city, cheaper to live in than London and reachable from it by train, built around a strong engineering and electronics research base.",
+      "A university with a strong engineering and electronics research base, in a south-coast port city that is cheaper than London and reachable from it by train.",
     commission: UK_COMMISSION,
     highlights: {
       established: stated(1862, `${ON_RECORD}, as the date of the original Hartley Institution`, RESEARCHED_ON),
       totalStudents: unknown(
-        "Independent sources disagreed within this session's search results, reporting figures between about 22,000 and 26,500 for different years; the institution's own statistics page was not directly read to resolve which is current.",
+        "Independent sources disagree, giving between about 22,000 and 26,500 for different years. We have not read the university's own statistics page to settle it.",
       ),
       internationalStudents: stated(
         "More than 10,000 students from over 130 countries; independent sources disagreed on the proportion, reporting figures between about a third and 45 per cent of the student body",
         "Independent sources disagreed within this session's search results; the institution's own statistics page was not directly read to resolve it",
         RESEARCHED_ON,
       ),
-      staffRatio: unknown("Not published in a form comparable with the other institutions on this catalogue."),
+      staffRatio: unknown("Not published in a form that compares fairly with the other universities in this catalogue."),
       acceptanceRate: unknown(
-        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+        "Not published for the whole university. It varies hugely by programme, so one overall rate would tell you nothing about your course.",
       ),
       accreditation: stated(
         "UK degree-awarding body, recognised by the Office for Students",
@@ -1341,7 +1341,7 @@ export const ukUniversities: University[] = [
       },
     ],
     tuitionNote: stated(
-      "Full international tuition, confirmed on the institution's own page for this specific programme.",
+      "Full international tuition, confirmed on the university's own page for this programme.",
       "Institution's own programme page, fetched directly this pass",
       RESEARCHED_ON,
     ),
@@ -1372,7 +1372,7 @@ export const ukUniversities: University[] = [
           },
         ],
         entryRequirement: stated(
-          "An upper second class (2:1) honours degree, 65 per cent or above, in computer science, software engineering, artificial intelligence or a closely related subject, with linear algebra, advanced programming and AI or machine learning coursework named as prerequisites.",
+          "An upper second class (2:1) honours degree, 65 per cent or above, in computer science, software engineering, artificial intelligence or a closely related subject. Prerequisites: linear algebra, advanced programming, and AI or machine learning coursework.",
           "Institution's own programme page, fetched directly this pass",
           RESEARCHED_ON,
         ),
@@ -1383,9 +1383,9 @@ export const ukUniversities: University[] = [
       },
     ],
     notChecked: [
-      "Total and international student counts: independent sources disagreed and the institution's own statistics page was not directly read to resolve it this pass.",
-      "The institution's own stated QS World University Ranking (all subjects) position; only its Europe-scoped ranking was confirmed directly this pass.",
-      "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
+      "Total and international student counts. Independent sources disagree, and we have not read the university's own statistics page.",
+      "The university's own stated QS World University Ranking (all subjects) position. We confirmed only its Europe ranking.",
+      "Whether this programme needs ATAS. It depends on the subject, so check the programme page, because the CAS waits for it.",
     ],
   },
 
@@ -1399,7 +1399,7 @@ export const ukUniversities: University[] = [
     flagCode: "gb",
     initials: "BRIS",
     summary:
-      "A Russell Group university in a city that is expensive by regional standards but still well below London, with one of the highest published fees on this catalogue's UK list.",
+      "A Russell Group university with one of the highest published fees on our UK list. Bristol is expensive for its region but still well below London.",
     commission: UK_COMMISSION,
     highlights: {
       established: stated(1909, ON_RECORD, RESEARCHED_ON),
@@ -1409,9 +1409,9 @@ export const ukUniversities: University[] = [
         "Institution's own international pages, found through search; the exact percentage was reported between 28 and 35 per cent by different sources",
         RESEARCHED_ON,
       ),
-      staffRatio: unknown("Not published in a form comparable with the other institutions on this catalogue."),
+      staffRatio: unknown("Not published in a form that compares fairly with the other universities in this catalogue."),
       acceptanceRate: unknown(
-        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+        "Not published for the whole university. It varies hugely by programme, so one overall rate would tell you nothing about your course.",
       ),
       accreditation: stated(
         "UK degree-awarding body, recognised by the Office for Students",
@@ -1440,7 +1440,7 @@ export const ukUniversities: University[] = [
       },
     ],
     tuitionNote: stated(
-      "Full international tuition, confirmed on the institution's own programme page. The institution states fees are reviewed annually and may rise by up to 8 per cent a year on multi-year programmes.",
+      "Full international tuition, confirmed on the university's own programme page. The university says fees are reviewed each year and may rise by up to 8 per cent a year on multi-year programmes.",
       "Institution's own programme page, fetched directly this pass",
       RESEARCHED_ON,
     ),
@@ -1471,20 +1471,20 @@ export const ukUniversities: University[] = [
           },
         ],
         entryRequirement: stated(
-          "A strong upper second class (2:1) honours degree, 65 per cent or higher, or an international equivalent, in a numerate science, computer science or engineering discipline; the institution lists economics, finance, physics and psychology among accepted backgrounds.",
+          "A strong upper second class (2:1) honours degree, 65 per cent or higher, or an international equivalent, in a numerate science, computer science or engineering subject. Accepted backgrounds include economics, finance, physics and psychology.",
           "Institution's own programme page, fetched directly this pass",
           RESEARCHED_ON,
         ),
-        prerequisites: unknown("Not itemised on the programme page beyond the numerate-discipline requirement."),
+        prerequisites: unknown("Not listed on the programme page beyond needing a numerate subject."),
         languageOfInstruction: "English",
         placement: unknown("No placement term is stated on this one year taught programme."),
         campus: "Clifton, Bristol",
       },
     ],
     notChecked: [
-      "The exact international student percentage: independent sources disagreed (28 to 35 per cent) and the institution's own statistics page was not directly read to resolve it.",
-      "The 2027/28 fee: the figure shown is the institution's published 2026/27 rate, and it states fees are reviewed annually.",
-      "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
+      "The exact international student percentage. Independent sources disagree (28 to 35 per cent), and we have not read the university's own statistics page.",
+      "The 2027/28 fee. The figure shown is the university's published 2026/27 rate, and it says fees are reviewed each year.",
+      "Whether this programme needs ATAS. It depends on the subject, so check the programme page, because the CAS waits for it.",
     ],
   },
 
@@ -1508,9 +1508,9 @@ export const ukUniversities: University[] = [
         "Institution's own 2024/25 student population data, found through search",
         RESEARCHED_ON,
       ),
-      staffRatio: unknown("Not published in a form comparable with the other institutions on this catalogue."),
+      staffRatio: unknown("Not published in a form that compares fairly with the other universities in this catalogue."),
       acceptanceRate: unknown(
-        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+        "Not published for the whole university. It varies hugely by programme, so one overall rate would tell you nothing about your course.",
       ),
       accreditation: stated(
         "UK degree-awarding body, recognised by the Office for Students",
@@ -1539,7 +1539,7 @@ export const ukUniversities: University[] = [
       },
     ],
     tuitionNote: stated(
-      "Full international tuition, confirmed on the institution's own 2026/27 fee schedule. The institution also requires a GBP 4,500 CAS deposit from international postgraduate taught applicants before the visa process.",
+      "Full international tuition, confirmed on the university's own 2026/27 fee schedule. The university also asks international taught postgraduate applicants for a GBP 4,500 CAS deposit before the visa process.",
       "Institution's own 2026/27 postgraduate taught fee schedule, fetched directly this pass; the CAS deposit figure is reported by independent sources",
       RESEARCHED_ON,
     ),
@@ -1570,20 +1570,20 @@ export const ukUniversities: University[] = [
           },
         ],
         entryRequirement: stated(
-          "A 2:1 honours degree or international equivalent; this conversion-style programme is aimed at graduates from outside computer science.",
+          "A 2:1 honours degree or international equivalent. This conversion-style programme is for graduates from outside computer science.",
           "Reported consistently across independent admissions publications; the institution's own programme page was not directly read this pass",
           RESEARCHED_ON,
         ),
-        prerequisites: unknown("Not checked this pass."),
+        prerequisites: unknown("We have not checked this yet."),
         languageOfInstruction: "English",
         placement: unknown("No placement term is stated on this one year taught programme."),
         campus: "Jubilee Campus, Nottingham",
       },
     ],
     notChecked: [
-      "The IELTS component minimums and the degree requirement wording: read from independent sources, not the institution's own programme page, this pass.",
-      "Whether the sibling MSc Computer Science (Artificial Intelligence) pathway carries the same fee; only the plain Computer Science line was read off the fee schedule.",
-      "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
+      "The IELTS component minimums and the degree requirement wording. Both come from independent sources, not the university's own programme page.",
+      "Whether the related MSc Computer Science (Artificial Intelligence) pathway has the same fee. We read only the plain Computer Science line on the fee schedule.",
+      "Whether this programme needs ATAS. It depends on the subject, so check the programme page, because the CAS waits for it.",
     ],
   },
 
@@ -1597,7 +1597,7 @@ export const ukUniversities: University[] = [
     flagCode: "gb",
     initials: "SHEF",
     summary:
-      "A Russell Group university in South Yorkshire with one of the lowest published Russell Group fees on this catalogue, in a city that is among the cheapest large UK cities to rent in.",
+      "A Russell Group university in South Yorkshire, with one of the lowest published Russell Group fees in this catalogue. Sheffield is among the cheapest large UK cities to rent in.",
     commission: UK_COMMISSION,
     highlights: {
       established: stated(1905, ON_RECORD, RESEARCHED_ON),
@@ -1607,9 +1607,9 @@ export const ukUniversities: University[] = [
         "Institution's own international pages, found through search",
         RESEARCHED_ON,
       ),
-      staffRatio: unknown("Not published in a form comparable with the other institutions on this catalogue."),
+      staffRatio: unknown("Not published in a form that compares fairly with the other universities in this catalogue."),
       acceptanceRate: unknown(
-        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+        "Not published for the whole university. It varies hugely by programme, so one overall rate would tell you nothing about your course.",
       ),
       accreditation: stated(
         "UK degree-awarding body, recognised by the Office for Students",
@@ -1638,7 +1638,7 @@ export const ukUniversities: University[] = [
       },
     ],
     tuitionNote: stated(
-      "Full international tuition. The institution's own programme page routes fees to a lookup tool that this session's fetch could not render, so the figure is reported from independent sources.",
+      "Full international tuition. The university's fee lookup tool would not load for us, so the figure comes from independent sources.",
       "Reported consistently across independent fee-comparison publications for 2026/27 entry; the institution's own fee lookup tool was not directly read this pass",
       RESEARCHED_ON,
     ),
@@ -1673,16 +1673,16 @@ export const ukUniversities: University[] = [
           "Institution's own programme page, fetched directly this pass",
           RESEARCHED_ON,
         ),
-        prerequisites: unknown("Not itemised on the programme page beyond the related-subject requirement."),
+        prerequisites: unknown("Not listed on the programme page beyond needing a related subject."),
         languageOfInstruction: "English",
         placement: unknown("No placement term is stated on this one year taught programme."),
         campus: "Sheffield",
       },
     ],
     notChecked: [
-      "The exact tuition fee: the institution's own fee lookup tool did not render for this session's fetch, so the figure is convergent-secondary rather than read off the institution's own page.",
-      "The application deadline shown is projected from the institution's stated 2026 entry closing date; the 2027 date was not published at the time of this pass.",
-      "Whether this programme requires ATAS. It is subject-dependent and has to be read on the programme page, because the CAS waits for it.",
+      "The exact tuition fee. The university's fee lookup tool would not load for us, so the figure comes from independent sources that agree.",
+      "The application deadline. It is projected from the university's stated 2026 closing date, as the 2027 date was not yet published when we checked.",
+      "Whether this programme needs ATAS. It depends on the subject, so check the programme page, because the CAS waits for it.",
     ],
   },
 ];

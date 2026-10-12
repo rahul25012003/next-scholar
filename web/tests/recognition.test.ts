@@ -150,7 +150,7 @@ describe("onboarding", () => {
     expect(profile.percentage).toBeNull();
   });
 
-  it("feeds the checklist, which answers cannot tell for what was left blank", () => {
+  it("feeds the checklist, which answers needs checking for what was left blank", () => {
     const profile = parseOnboarding(
       form({ destination: "united-kingdom", scale: "percentage", result: "76" }),
       emptyOnboarding(),

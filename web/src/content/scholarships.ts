@@ -157,5 +157,5 @@ export function scholarshipsFor(destination: string): Scholarship[] {
 export const scholarshipScope = {
   statedOn: ON,
   checkedBy: null as string | null,
-  note: "Five national or cross-institutional schemes, chosen because each is well established and actually open to Indian students on our three routes. Deadlines move every year and are stated as historical cycles rather than a specific current date wherever the exact date is not already public for this year. This is not every scholarship that exists, and a university's own named awards are not yet on this list.",
+  note: "Five well-established national or multi-university schemes open to Indian students in our three countries. It is not a full list (universities' own awards are not on it yet), and deadlines show the usual yearly timing unless this year's date is already public.",
 };

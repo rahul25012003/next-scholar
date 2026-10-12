@@ -24,8 +24,8 @@ describe("the filter rail reflects the filters object it is given", () => {
     expect(screen.getByLabelText("Search")).toHaveValue("informatics");
     expect(screen.getByRole("checkbox", { name: "Germany" })).toBeChecked();
     expect(screen.getByRole("checkbox", { name: "United Kingdom" })).not.toBeChecked();
-    expect(screen.getByRole("checkbox", { name: "Master's" })).toBeChecked();
-    expect(screen.getByRole("checkbox", { name: "Bachelor's" })).not.toBeChecked();
+    // Only Master's admissions are handled, so the rail has no level choice.
+    expect(screen.queryByRole("checkbox", { name: "Bachelor's" })).toBeNull();
     expect(
       screen.getByRole("checkbox", { name: "Only institutions that pay us nothing" }),
     ).toBeChecked();

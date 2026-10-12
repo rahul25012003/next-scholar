@@ -12,7 +12,7 @@ import { cn } from "@/lib/cn";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Everything we do, what each costs you, and what we earn on it, including every service where the answer is nothing. No undisclosed referral fees, and no service presented as bookable when it is not.",
+    "Everything we do, what each service costs you and what we earn on it. No hidden referral fees, and nothing shown as bookable when it is not.",
   alternates: { canonical: "/services" },
 };
 
@@ -25,11 +25,11 @@ const groups = [
 
 const groupBlurb: Record<(typeof groups)[number], string> = {
   "Before you commit":
-    "Two of these, and one is free. Neither commits you to anything afterwards.",
-  "The engagement": "The full piece of work, on a signed agreement with the scope in writing.",
-  "Specific help": "Named deliverables inside an engagement, each with a defined output.",
+    "Two services, and one is free. Neither ties you to anything afterwards.",
+  "The engagement": "The full service, on a signed agreement that sets out the scope in writing.",
+  "Specific help": "Specific pieces of work inside an engagement, each with a clear result.",
   Introductions:
-    "The part of a consultancy's service list where referral money usually hides. Nobody pays us for any of these today, and if that changes the figure appears here before the introduction does.",
+    "Nobody pays us for any of these introductions today. If that changes, the figure will appear here before the introduction is made.",
 };
 
 export default function ServicesPage() {
@@ -159,16 +159,13 @@ export default function ServicesPage() {
             Why the loan section says we earn nothing
           </h2>
           <p className="mt-5 leading-relaxed text-grey">
-            Because an education loan introduction is one of the most reliably paid
-            referrals in this industry, and almost nobody publishes the figure. A
-            consultancy that recommends a lender it is paid by, without saying so, is not
-            giving you advice about lenders. It is selling you one.
+            Loan referrals are among the most reliably paid in this industry, and almost
+            nobody publishes the figure. A consultancy secretly paid by the lender it
+            recommends is selling you a loan, not advising you.
           </p>
           <p className="mt-4 leading-relaxed text-grey">
-            We take nothing from any lender today. If that ever changes, the figure appears
-            on this page and on every page where the lender is named, before any
-            introduction is made, in the same way that the commission we earn from a
-            university appears next to the university.
+            We take nothing from any lender today. If that changes, the figure will appear
+            here and wherever the lender is named, before any introduction is made.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <ButtonLink href={primaryCta.href} size="lg">

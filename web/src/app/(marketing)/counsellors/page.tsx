@@ -6,7 +6,7 @@ import { ButtonLink } from "@/components/ui/button";
 export const metadata: Metadata = {
   title: "Counsellors",
   description:
-    "A profile appears here once a named person has checked a counsellor's stated credential against the body that issued it. A job title is not a credential.",
+    "We publish a counsellor's profile only after a named person has checked their credential with the body that issued it. A job title is not a credential.",
   alternates: { canonical: "/counsellors" },
 };
 
@@ -17,7 +17,7 @@ export default function CounsellorsPage() {
     <>
       <PageHero
         title="Counsellors"
-        lede="A checkable credential, not a job title and a stock photo. This page publishes a profile only once a named person has confirmed the stated credential against the body that issued it."
+        lede="A credential you can check, not just a job title and a stock photo. We publish a profile only after a named person has confirmed the credential with the body that issued it."
       />
 
       <section className="band">
@@ -32,9 +32,9 @@ export default function CounsellorsPage() {
                 No counsellor profile published yet
               </h2>
               <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
-                Case work already runs through named counsellors, visible on the case log
-                whenever an account has access. What is missing here is a public profile with
-                a credential someone has actually checked, and that has not happened yet.
+                Named counsellors already handle cases, and they appear on the case log for
+                any account with access. No public profile with a checked credential is ready
+                yet.
               </p>
               <ButtonLink href="/book-consultation" className="mt-6">
                 Book a consultation instead

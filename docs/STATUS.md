@@ -40,7 +40,7 @@ Footer, Hero, Intro, Overview, Cta and Ticket-slat systems live in
 Deliberate deviations, kept on purpose: header container 1600px and desktop
 nav breakpoint 1300px rather than 1200px, because this nav carries nine items
 instead of seven; pill choice groups use `.button--selected` beside
-`.button--light`; body font DM Sans, since Apercu is commercial and absent.
+`.button--light`; body font DM Sans, since Apercu is commercial and absent (replaced 2026-10-12 by Plus Jakarta Sans headings and Inter body text, at the testers' request).
 Two previously done items did not survive it: D.16 and the D.14 exemptions,
 both noted in their rows below. D.16 has since been restored on 2026-09-17.
 The port also left three page templates unreadable, found on 2026-09-17 by
@@ -293,6 +293,62 @@ engineering default — and has since been decided: keep the published
 policy. Under-18 applicants stay declined, for the reason already stated
 on `/privacy`. No code or copy change follows, since the policy already
 said this plainly rather than tentatively.
+
+### Phase 11 — Motion, depth and a navigation pass (2026-10-01)
+
+Not backlog items. A design upgrade asked for across the public site and the
+three signed-in surfaces, kept inside the reference's palette, type and shapes.
+Verified by eye in Chrome at desktop and phone widths; `tsc`, lint, 398 tests,
+the production build and the 71-route smoke check all pass.
+
+| What | Where |
+|---|---|
+| A hydration error on every marketing page: `SmoothScroll` wrapped its children in a Lenis provider only once the motion preference was known, so server and client rendered different trees and every `useId()` beneath it mismatched. Lenis now runs from an effect and the children render untouched | `src/components/ui/smooth-scroll.tsx` |
+| One motion and depth layer for the whole site: panel shadows (the reference had none), arrival on load, scroll-driven reveals, a per-route fade, button, link and card feedback. CSS only; the reveals are declared solely for readers who have not asked for reduced motion | `src/app/globals.css` ("Motion and depth"), `src/app/(marketing)/template.tsx` |
+| Navbar: group menus ease in and out with staggered rows and a turning caret, the current section is underlined, the bar condenses to a blurred ground with a reading-progress line, the hamburger folds back on close, and the phone dialog opens from the toggle | `src/components/site/header.tsx`, `globals.css` |
+| The phone menu could not be scrolled: its inner box was `height: 100%` with `overflow: hidden`, so every link past the first screen, the booking action included, was unreachable | `globals.css` (`.Header__mobile-nav-inner`) |
+| Signed-in header: sticky from 768px, and its surface links are no longer hidden below that width, which had left a manager on a phone with no route between the console and operations | `src/components/app/shell.tsx` |
+| Dashboard counts moved to a `Stat` tile; as panel titles, a label long enough to wrap pushed its figure out of line with its neighbours | `shell.tsx`, `/console`, `/ops` |
+| Portal: the left column stretched to the right one's height and spread the difference between its panels as blank space; a stage bar and a pulse on the current stage | `/portal` |
+| Destination guide hero: no vertical padding, a dark blue primary button lost against the blue-washed photograph, and a second button whose outline never drew | `/destinations/[slug]` |
+| Smaller: the home headline no longer breaks "recommendation" mid-word on a phone; text links no longer grow 2px on hover; the contact pill is an icon on a phone; every pending submit shows a spinner; `<details>` animates open | `globals.css`, `talk-to-us.tsx`, the forms |
+
+### Phase 11b — Photography, the reference's animations, sign in (2026-10-02)
+
+Follow-up requests on the same pass. Same checks, all passing.
+
+| What | Where |
+|---|---|
+| Sign in broke in local development: the fallback session secret was random and kept on `globalThis`, and the dev server runs the route guard and the pages in separate contexts, so each had its own. The guard refused the session the sign in action had just set, which bounced a signed in visitor to the sign in page and made sign out look broken. The fallback is now a fixed development value; production still refuses to start without `SESSION_SECRET` | `src/domain/auth.ts` |
+| Sign out is a plain form post to `/sign-out` instead of a server action, whose id changes with every build and failed into the error page from any tab left open across one | `src/app/sign-out/route.ts`, `src/components/app/sign-out.tsx` |
+| The sign in and sign up pages no longer redirect someone already signed in: the header says who is signed in, with the way on and sign out, and the form stays for switching account. "Student login" opens `/login`, not `/portal`. Outside production the seeded accounts are one-press buttons | `src/proxy.ts`, `signed-in-notice.tsx`, `demo-accounts.tsx`, `content/site.ts` |
+| Photography: the new photographs chosen on contact sheets, every one measured at 3840px or more on its long edge, none repeated outside its destination, no one posed mid-laugh | `src/content/photos.ts` |
+| Home hero: one card filling the first screen, the full width and the window's height less the header, at every width from 360px phones up, its content centred. A pale hoop and hexagon at opposite corners, the reference's bar grid and a faint dot texture fill the white either side, and keep clear of the text at every size measured. A photograph beside the card was tried and removed | `hero.tsx`, `globals.css` |
+| Navigation menus show a photograph per link that swaps as the pointer moves, with the section's summary | `nav-menu.tsx`, `content/nav-media.ts` |
+| The reference's own animations, read from its `main.js`: the header shapes arriving kind by kind, the ground changing colour as the page is read, the overview stroke drawn by the scroll, the text ring turned by the scroll, and the "Get tickets" burst, now fired from every button through one layer, its abstract shapes replaced (2026-10-12) by the three destination flags and graduation caps, kept to two places: a button naming a destination raises that flag, and the home page's closing button tosses caps and flags; every other button is plain | `background-shapes.tsx`, `burst-layer.tsx`, `globals.css` |
+| Sign in fills exactly one screen with the form beside one photograph; the footer is short, on the ground's blue deepened, over a shaded photograph | `(auth)/layout.tsx`, `footer.tsx` |
+
+### Phase 12 — Testers' updates (2026-10-12)
+
+Every item in the testers' `Testing_updates.pdf`. Type check, lint, 399 tests, production build (181 pages) and the 74 route smoke test all pass.
+
+| What | Where |
+|---|---|
+| About us page, built only from facts the site already states, and in the nav in place of "How it works". The six written guides are now the blog at `/blog`; `/guides` and `/guides/*` redirect permanently | `(marketing)/about`, `(marketing)/blog`, `next.config.ts`, `content/site.ts`, `footer.tsx` |
+| Fonts: Plus Jakarta Sans for headings, Inter for everything else, replacing Montserrat and DM Sans | `app/layout.tsx`, `globals.css` |
+| Cursor sensitivity: the wheel is followed closely (lerp 0.2) instead of a 1.1s glide, button and menu hover responses are quicker, and the home destination cards are one link each | `smooth-scroll.tsx`, `globals.css`, `marketing/destinations.tsx` |
+| The headline and the line under it, word for word wherever either is stated, from one source | `content/site.ts`, `hero.tsx`, `app/layout.tsx` |
+| "Stages from first call to arrival" opens all eleven stages, numbered, in a native popover. The stages are one 1 to 11 line without the three group headings. The per-route revenue chart is removed | `day-one-figures.tsx`, `process.tsx` |
+| Three destinations: flags 48px, intakes large and bold, a flag wave and a small cap on hover | `marketing/destinations.tsx`, `globals.css` |
+| Destination pages: larger flag, a visible hover on "Work out the cost first", the Open Ledger link removed, and every money section moved to its own `/destinations/[slug]/costs` page, linked both ways | `destinations/[slug]/page.tsx`, `destinations/[slug]/costs/page.tsx` |
+| Free tools: a Submit button on all six, results only on submit with a status line and a replay, browser validation on every input. "Cannot tell" is "Needs checking"; "Bachelor's Duration" and "Bachelor's CGPA" | `components/tools/submit.tsx` and each tool |
+| No undergraduate admissions: the Bachelor's option is gone from the checklist, the onboarding form and the catalogue filter, and the undergraduate exam column from university pages | `requirements-check.tsx`, `onboarding.tsx`, `filters.tsx`, `universities/[slug]/page.tsx` |
+| Policies: the zero commission page removed (redirects to the Open Ledger; its facts kept in the guidance agent's digest), the data protection draft numbered 1 to 4, "Applicants under 18" removed from the privacy policy | `next.config.ts`, `policy-digest.ts`, `anti-fraud-policy/page.tsx`, `content/legal.ts` |
+| A plain-language pass across every marketing page and content module: repeated earnings lines removed, long paragraphs made into points, no figure, date or obligation changed | `content/*`, `(marketing)/*`, `components/marketing/*` |
+| The same pass over the blog posts, the three destination guides (guide requirements can now carry bullet `points`, which site search also reads), the course and university catalogue, and the signed-in app and sign-in screens | `content/articles.ts`, `content/guides/*`, `components/guides/blocks.tsx`, `content/catalogue/*`, `components/app/*`, `(app)/*`, `(auth)/*` |
+| Consistency fixes found during the pass: "free in 15 of 16 states" now agrees with TUM's fee; the ledger's "every figure is an estimate" excepts verified rows; the home page states the flagging rule as "more than double"; false superlatives about Warwick and Maynooth and a "rounded to the nearest thousand" claim removed; the ops page no longer claims manager actions sit on each case page; "the United Kingdom" mid-sentence throughout (`lib/country.ts`) | `content/*`, `the-problem.tsx`, `(app)/ops/page.tsx` |
+| Master's only: the Studienkolleg gate (an undergraduate foundation year) removed from the German recognition checks, and the H- note no longer points to one | `domain/recognition.ts`, `domain/case.ts` |
+| Checked at 390px wide (no sideways scroll) and with a real pointer on the production build: the cost button's white hover, the destination card's lift and cap | — |
 
 ---
 

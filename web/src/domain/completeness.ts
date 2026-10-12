@@ -78,7 +78,7 @@ export function checkCompleteness(record: StudentCase): CompletenessResult {
     steps: set.steps,
     missing,
     note: set.curatedOn
-      ? "Checked against the curated requirement list. A counselor confirms before a student is told anything is complete."
+      ? "Checked against the curated requirement list. A counsellor confirms before a student is told anything is complete."
       : "This requirement list has never been checked at source by a named person, so treat it as a draft rather than as the university's word.",
   };
 }

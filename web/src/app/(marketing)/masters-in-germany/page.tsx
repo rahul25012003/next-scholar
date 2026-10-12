@@ -5,7 +5,7 @@ import { MastersLanding } from "@/components/catalogue/masters-landing";
 export const metadata: Metadata = {
   title: "Masters in Germany",
   description:
-    "Taught Master's programmes in Germany, curated by hand, each with what we earn from the institution printed next to the fee. German public universities pay agents nothing.",
+    "Taught Master's programmes in Germany, chosen by hand, each with its fee.",
   alternates: { canonical: "/masters-in-germany" },
 };
 

@@ -108,9 +108,3 @@ export async function signUp(
   await startSession(result.user);
   redirect(landingFor[result.user.role]);
 }
-
-export async function signOut(): Promise<void> {
-  const store = await cookies();
-  store.delete(SESSION_COOKIE);
-  redirect("/login");
-}

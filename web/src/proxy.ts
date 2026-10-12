@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { readSession, SESSION_COOKIE, landingFor } from "@/domain/auth";
+import { readSession, SESSION_COOKIE } from "@/domain/auth";
 
 /**
  * The route guard. Next 16 calls this a proxy rather than middleware.
@@ -12,7 +12,6 @@ import { readSession, SESSION_COOKIE, landingFor } from "@/domain/auth";
  */
 
 const protectedPrefixes = ["/portal", "/console", "/ops"];
-const authPages = ["/login", "/signup"];
 
 export function proxy(request: NextRequest): NextResponse {
   const { pathname } = request.nextUrl;
@@ -29,17 +28,12 @@ export function proxy(request: NextRequest): NextResponse {
     return NextResponse.redirect(url);
   }
 
-  // Someone already signed in has no use for the sign in page.
-  if (session && authPages.includes(pathname)) {
-    const url = request.nextUrl.clone();
-    url.pathname = landingFor[session.role];
-    url.search = "";
-    return NextResponse.redirect(url);
-  }
+  // A visitor who is already signed in may still open the sign in page: it
+  // says who is signed in and lets them use another account.
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/portal/:path*", "/console/:path*", "/ops/:path*", "/login", "/signup"],
+  matcher: ["/portal/:path*", "/console/:path*", "/ops/:path*"],
 };

@@ -58,7 +58,6 @@ export type DegreeRecognition = {
   totalCredits: number | null;
   /** Subject-wise credits a programme's module handbook asks for. */
   subjectCredits: { area: string; held: number }[];
-  studienkolleg: "not-required" | "required" | "in-progress" | "completed" | "unknown";
   /** Only a named person may set this. No agent may write it. */
   checkedBy: string | null;
   checkedOn: string | null;

@@ -235,7 +235,7 @@ export function detectEvents(record: StudentCase, now = new Date()): LifecycleEv
       audience: overdueDays >= 3 ? "manager" : "counselor",
       title: `Student has been waiting ${Math.round(replyGapHours)} hours for a reply`,
       detail: `They wrote on ${record.lastStudentContactAt}. The response threshold is ${SLA_HOURS} hours.`,
-      basis: "Student contact and counselor reply timestamps",
+      basis: "Student contact and counsellor reply timestamps",
     });
   }
 

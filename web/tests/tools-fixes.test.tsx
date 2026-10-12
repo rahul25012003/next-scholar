@@ -60,6 +60,7 @@ describe("cost of living picker", () => {
 
   it("prints the annual rupee figure in Indian digit grouping", () => {
     render(<CostOfLivingPicker />);
+    fireEvent.click(screen.getByRole("button", { name: "Submit" }));
     const line = screen.getByText((_, element) =>
       Boolean(element?.tagName === "SPAN" && element.textContent?.startsWith("about ₹")),
     );
@@ -84,7 +85,11 @@ describe("German grade calculator", () => {
   it("asks for the pass mark instead of converting against an empty one", () => {
     render(<GermanGradeCalculator />);
     fireEvent.change(screen.getByLabelText("Your grade", { exact: false }), { target: { value: "8" } });
-    fireEvent.change(screen.getByLabelText("Minimum pass grade", { exact: false }), { target: { value: "" } });
+    const passMark = screen.getByLabelText("Minimum pass grade", { exact: false });
+    fireEvent.change(passMark, { target: { value: "" } });
+    // The browser refuses the empty field first; past that, the domain does.
+    expect(passMark).toBeInvalid();
+    fireEvent.submit(passMark.closest("form")!);
     expect(screen.getByText("Enter your mark, the maximum mark and the pass mark.")).toBeTruthy();
     expect(screen.queryByText(/German grade equivalent/)).toBeNull();
   });

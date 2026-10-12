@@ -40,7 +40,7 @@ export function ThreadSummary({
         <form action={formAction}>
           <input type="hidden" name="communicationId" value={communicationId} />
           <input type="hidden" name="caseId" value={caseId} />
-          <Button type="submit" variant="outline" disabled={pending}>
+          <Button type="submit" variant="outline" disabled={pending} aria-busy={pending}>
             {pending ? "Reading" : "Summarise this thread"}
           </Button>
         </form>

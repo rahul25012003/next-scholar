@@ -22,7 +22,7 @@ export function VerifyDocument({
     <form action={formAction} className="text-right">
       <input type="hidden" name="caseId" value={caseId} />
       <input type="hidden" name="documentId" value={documentId} />
-      <Button type="submit" variant="outline" disabled={pending}>
+      <Button type="submit" variant="outline" disabled={pending} aria-busy={pending}>
         {pending ? "Recording" : "Verify against original"}
       </Button>
       <span className="sr-only">{documentName}</span>

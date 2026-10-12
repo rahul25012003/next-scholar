@@ -65,9 +65,18 @@ export function verifyPassword(password: string, stored: string): boolean {
 }
 
 /**
- * The signing secret. A generated one is fine for local development, but it
- * changes on every restart, which logs everyone out. Production must set it.
+ * Used only when SESSION_SECRET is unset outside production. It is fixed, not
+ * generated, on purpose. The dev server runs the route guard (proxy.ts) and
+ * the pages in separate module contexts, so a secret generated at random and
+ * kept on globalThis came out different in each: a session the sign in action
+ * signed was refused by the guard on the very next request, which sent a
+ * signed in visitor back to the sign in page. A fixed value is the same
+ * everywhere and survives a restart. It is public, which is fine for a dev
+ * server whose seeded password is printed on its own sign in page.
  */
+const DEVELOPMENT_SECRET = "next-scholar-local-development-only-not-a-real-secret";
+
+/** The signing secret. Production must set it, and refuses to start without. */
 function sessionSecret(): string {
   const configured = process.env.SESSION_SECRET;
   if (configured && configured.length >= 32) return configured;
@@ -78,12 +87,7 @@ function sessionSecret(): string {
     );
   }
 
-  globalThis.__nextScholarDevSecret ??= randomBytes(32).toString("hex");
-  return globalThis.__nextScholarDevSecret;
-}
-
-declare global {
-  var __nextScholarDevSecret: string | undefined;
+  return DEVELOPMENT_SECRET;
 }
 
 export type SessionPayload = { sub: string; role: Role; exp: number };

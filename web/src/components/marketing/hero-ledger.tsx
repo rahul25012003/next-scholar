@@ -82,9 +82,8 @@ export function HeroLedger() {
           </ul>
 
           <p className="mt-5 border-t border-line pt-4 text-[0.8125rem] leading-relaxed text-grey">
-            Two of these three are market estimates, not confirmed contract terms.
-            They say so on the row, and they stay off the verified ledger until a
-            university confirms the number in writing.
+            Two of these three are market estimates, not agreed figures. They stay
+            marked unverified until a university confirms the number in writing.
           </p>
         </div>
 

@@ -42,7 +42,7 @@ export const ledgerRows: LedgerRow[] = [
     verificationDate: "2026-09-02",
     verifiedBy: "Founder",
     lastReviewDate: "2026-09-02",
-    note: "German public universities do not pay agents, without exception. Publishing a truthful zero needs no permission from anyone.",
+    note: "German public universities do not pay agents, without exception. A true zero needs no one's permission to publish.",
   },
   {
     id: "uk-taught-masters",
@@ -57,7 +57,7 @@ export const ledgerRows: LedgerRow[] = [
     verificationDate: null,
     verifiedBy: null,
     lastReviewDate: "2026-09-02",
-    note: "A market typical band, not a contract term. No aggregator has confirmed a figure to us in writing yet, so this band stays off the verified ledger.",
+    note: "A typical market range, not an agreed figure. No aggregator has confirmed a figure to us in writing yet, so it stays off the verified ledger.",
   },
   {
     id: "de-private",
@@ -73,7 +73,7 @@ export const ledgerRows: LedgerRow[] = [
     verifiedBy: null,
     lastReviewDate: "2026-09-02",
     aboveAverage: true,
-    note: "Runs above the category average. If a private university reaches your shortlist, this flag is in the written shortlist before the recommendation, not after it.",
+    note: "Above the category average. If a private university makes your shortlist, this flag is in the written shortlist before we recommend it.",
   },
   {
     id: "ie-taught-masters",
@@ -88,7 +88,7 @@ export const ledgerRows: LedgerRow[] = [
     verificationDate: null,
     verifiedBy: null,
     lastReviewDate: "2026-09-02",
-    note: "A market typical band, not a contract term. Outreach for written confirmation has not been sent yet.",
+    note: "A typical market range, not an agreed figure. We have not yet asked for written confirmation.",
   },
 ];
 
@@ -96,35 +96,35 @@ export const ledgerRows: LedgerRow[] = [
 export const disclosureFallbacks = [
   {
     response: "Confirms it pays zero commission",
-    shown: "The verified zero, always. Publishing a truthful zero needs nobody's permission.",
+    shown: "The confirmed zero, always. A true zero needs no one's permission to publish.",
   },
   {
     response: "Confirms a figure and permits publication",
-    shown: "The exact figure, with the verification date and who confirmed it.",
+    shown: "The exact figure, with the date it was checked and who confirmed it.",
   },
   {
     response: "Confirms a figure, permits a range only",
-    shown: "A published band, plus a note that the exact figure is confidential at the university's request.",
+    shown: "A range, with a note that the university asked us to keep the exact figure private.",
   },
   {
     response: "Confirms a figure, refuses any disclosure",
     shown:
-      "That Next Scholar receives a commission from this university and that the university has not authorised publishing an amount. The existence of the relationship is still disclosed. Silence about existence is the one thing this business cannot do.",
+      "That we receive a commission from this university, and that it has not allowed us to publish the amount. We always say the arrangement exists.",
   },
   {
     response: "Does not respond",
     shown:
-      "Nothing on the verified ledger. The row stays unverified on the client facing side and never defaults to showing the market estimate as if it were confirmed.",
+      "Nothing on the verified ledger. The row stays marked unverified, and the market estimate is never shown as if it were confirmed.",
   },
 ];
 
 export const ledgerMethodology = {
   cadence:
-    "Every row is re-verified and republished each quarter, whether or not the figure changed. A stale verification date is treated as worse than no date.",
+    "Every row is re-verified and republished each quarter, even if the figure has not changed. An out of date check is treated as worse than no date.",
   flaggingRule:
-    "If a university's commission runs more than double the category average for its tier, that is disclosed in writing on the shortlist before the recommendation, not after. It does not rule the university out. It removes any doubt about the incentive.",
+    "If a university pays us more than double the category average for its tier, the shortlist says so in writing before we recommend it. That does not rule the university out; it just makes our incentive clear.",
   blocker:
-    "Every figure below is a market typical estimate today, not a confirmed contract term. Before any real number is published here, each aggregator and university has to confirm in writing that public disclosure is permitted. Most partner agreements restrict this by default. That written permission is the gate on this page, and it has not been cleared yet.",
+    "Apart from rows marked verified, every figure below is a typical market estimate today, not an agreed contract figure. We can publish a real number only once each aggregator and university allows it in writing, which most partner agreements do not by default, and none has yet.",
   schemaFields: [
     "University or programme",
     "Commission figure or band",

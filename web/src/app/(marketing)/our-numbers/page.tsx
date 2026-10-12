@@ -9,7 +9,7 @@ import { JumpList } from "@/components/ui/jump-list";
 export const metadata: Metadata = {
   title: "Our numbers, one source",
   description:
-    "Every figure published anywhere on this site, with the body it came from, the date it was written down, and whether a named person has since re-checked it.",
+    "Every figure on this site, with the body it came from, the date we wrote it down, and whether a named person has re-checked it since.",
   alternates: { canonical: "/our-numbers" },
 };
 
@@ -21,7 +21,7 @@ export default function OurNumbersPage() {
     <>
       <PageHero
         title="Every number on this site, in one list"
-        lede="Not a summary of our sources. The actual list, built from the same modules the pages render from, so a figure cannot appear anywhere on this site without appearing here and it cannot be quietly dropped from here while still being published."
+        lede="Not a summary of our sources, but the full list. It is built from the same data the pages use, so every figure on the site appears here."
         aside={
           <div className="rounded-panel border border-line bg-white p-6">
             <dl className="grid grid-cols-2 gap-5">
@@ -39,10 +39,9 @@ export default function OurNumbersPage() {
               </div>
             </dl>
             <p className="mt-4 text-[0.8125rem] leading-relaxed text-grey">
-              The second number is the honest one, and it is zero. Every figure here was
-              written down from a named official source. None has since been re-read at
-              that source by a named person, and until one has, the count stays at zero
-              rather than being softened.
+              The second number is the honest one, and it is zero. Each figure came from a
+              named official source, but no named person has re-checked any of them there
+              yet.
             </p>
           </div>
         }
@@ -84,11 +83,9 @@ export default function OurNumbersPage() {
                   Nothing on this page has been re-verified this quarter
                 </h2>
                 <p className="mt-2 text-[0.9375rem] leading-relaxed text-grey">
-                  Every figure was taken from the official body named beside it, and each
-                  one carries the day it was written into this site. A named person
-                  re-reading the whole set at source is a real piece of work that has not
-                  happened yet, and this page reports that as a count rather than as a
-                  footnote. A confident date on a stale figure is worse than no date at all.
+                  Every figure comes from the official body named beside it and shows the
+                  day we added it. No named person has re-checked the full set at source
+                  yet, and we show that as a count, not a footnote.
                 </p>
               </div>
             </div>
@@ -200,11 +197,16 @@ export default function OurNumbersPage() {
                 Found one that is wrong?
               </h2>
               <p className="mt-3 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
-                Tell us and we will check it. If it is wrong we correct it, we say on the
-                page that it was wrong, and we leave that correction visible rather than
-                quietly editing the number. Two of the figures on this site have already
-                been corrected that way, and both corrections are still printed next to the
-                values that replaced them.
+                Tell us and we will check it. If it is wrong, we:
+              </p>
+              <ul className="mt-3 max-w-2xl list-disc space-y-1.5 pl-5 text-[0.9375rem] leading-relaxed text-grey">
+                <li>correct it</li>
+                <li>say on the page that it was wrong</li>
+                <li>leave the correction visible instead of quietly changing the number</li>
+              </ul>
+              <p className="mt-3 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
+                Two figures have already been corrected this way, and both corrections are
+                still shown next to the new values.
               </p>
               <div className="mt-6 flex flex-wrap gap-4 text-[0.9375rem]">
                 <Link

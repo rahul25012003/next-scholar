@@ -1,5 +1,5 @@
 import { ButtonLink } from "@/components/ui/button";
-import { ExplodeBurst } from "@/components/ui/explode-burst";
+import { BurstOnView } from "@/components/ui/burst-on-view";
 import { bookingIntegration, consultation } from "@/content/consultation";
 import { primaryCta } from "@/content/site";
 
@@ -17,16 +17,15 @@ export function ClosingCta() {
           {consultation.promise}
         </p>
         <p className="small">{consultation.includesUncomfortable}</p>
-        <div className="Ticket-slat__button tickets anim-explode-container">
-          <ButtonLink href={primaryCta.href} variant="pink">
+        <BurstOnView className="Ticket-slat__button tickets">
+          <ButtonLink href={primaryCta.href} variant="pink" size="lg">
             {primaryCta.label}
           </ButtonLink>
-          <ExplodeBurst />
-        </div>
+        </BurstOnView>
         {!bookingIntegration.live && (
           <p className="small u-center max-w-xs">
-            Scheduling and payment are not connected yet. The form records
-            your request and answers, and says so on the page.
+            Online booking and payment are not set up yet. The form keeps
+            your answers and tells you so on the page.
           </p>
         )}
       </div>

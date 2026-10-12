@@ -1,11 +1,16 @@
 import type { CSSProperties } from "react";
+import { PointerField } from "@/components/site/pointer-field";
 
 /**
  * The fixed field of shapes behind every page: circles, dashes, dots, a hoop,
  * a hash and a squiggle, ported from the reference header. They sit at
  * z-index -1, so the page ground shows through them and every panel sits on
- * top. Each shape scales in on load, staggered, then drifts slowly; the
- * strokes draw themselves. Reduced motion collapses all of it in globals.css.
+ * top. Each shape carries the reference's name for its kind (dot, hoop, hex,
+ * hash, semi, double, arrow, circle), because the reference brings each kind
+ * in its own way: the dots spin up from nothing, the large pieces drift in
+ * from off their marks over several seconds, the strokes draw themselves.
+ * After that they float, and they fade away as the page is scrolled. Reduced
+ * motion collapses all of it in globals.css.
  */
 const shape = (delay: number, opacity = 1, drift = -14): CSSProperties =>
   ({
@@ -17,13 +22,36 @@ const shape = (delay: number, opacity = 1, drift = -14): CSSProperties =>
 const stroke = (delay: number): CSSProperties =>
   ({ "--shape-delay": `${delay}s` }) as CSSProperties;
 
-export function BackgroundShapes({ still = false }: { still?: boolean }) {
+export function BackgroundShapes({
+  still = false,
+  quiet = false,
+}: {
+  /** No drift and no pointer: the signed-in pages, where people work for hours. */
+  still?: boolean;
+  /** Still moving, but set back, for a page that puts type straight on the ground. */
+  quiet?: boolean;
+}) {
   return (
+    <>
+      {/* The ground's glow, and what moves it. On the pages where the shapes
+          hold still the glow does too, so nothing is listening for the pointer. */}
+      {!still && <PointerField />}
+      {/* The two colours the ground passes through as the home page is read.
+          Each is a fixed sheet at full size; the stylesheet fades them in and
+          out against the sections that carry data-ground. */}
+      <div className="Ground Ground--blue" aria-hidden>
+        <span />
+      </div>
+      <div className="Ground Ground--light" aria-hidden>
+        <span />
+      </div>
+      <div className="Ground-glow" aria-hidden data-pointer />
     <svg
       role="presentation"
       aria-hidden
       focusable="false"
-      className={`anim-header anim-header--main${still ? " anim-header--still" : ""}`}
+      data-pointer
+      className={`anim-header anim-header--main${still ? " anim-header--still" : ""}${quiet ? " anim-header--quiet" : ""}`}
       preserveAspectRatio="xMidYMid slice"
       viewBox="0 -40 1440 900"
     >
@@ -36,14 +64,14 @@ export function BackgroundShapes({ still = false }: { still?: boolean }) {
         </clipPath>
       </defs>
       <g>
-        <circle className="shape fill-blue" style={shape(0.1, 0.3, -18)} cx="1389.5" cy="196.5" r="102.5" opacity=".3" />
+        <circle className="shape circle-2 fill-blue" style={shape(0.1, 0.3, -18)} cx="1389.5" cy="196.5" r="102.5" opacity=".3" />
         <path
-          className="shape fill-blue-light"
+          className="shape arrow fill-blue-light"
           style={shape(0.35)}
           fillRule="evenodd"
           d="M1344 203a7 7 0 01-10-4l-10-23a7 7 0 014-9 7 7 0 019 4l3 8 10-26a7 7 0 0113 5l-10 26 8-4a7 7 0 019 4 7 7 0 01-3 9z"
         />
-        <circle className="shape fill-teal-light" style={shape(0.5, 1, -10)} cx="1107" cy="557" r="10" />
+        <circle className="shape dot fill-teal-light" style={shape(0.5, 1, -10)} cx="1107" cy="557" r="10" />
         <line
           className="stroke stroke-teal-light"
           style={stroke(0.6)}
@@ -56,7 +84,7 @@ export function BackgroundShapes({ still = false }: { still?: boolean }) {
           strokeLinejoin="round"
           strokeWidth="20"
         />
-        <circle className="shape fill-blue" style={shape(0.2, 0.3, -12)} cx="931" cy="244" r="105" opacity=".3" />
+        <circle className="shape circle fill-blue" style={shape(0.2, 0.3, -12)} cx="931" cy="244" r="105" opacity=".3" />
         <line
           className="stroke stroke-blue-light"
           style={stroke(0.8)}
@@ -69,8 +97,8 @@ export function BackgroundShapes({ still = false }: { still?: boolean }) {
           strokeLinejoin="round"
           strokeWidth="20"
         />
-        <circle className="shape fill-blue-light" style={shape(0.45, 1, -8)} cx="1207" cy="303" r="10" />
-        <circle className="shape fill-blue" style={shape(0.55, 1, -8)} cx="41" cy="522" r="10" />
+        <circle className="shape dot fill-blue-light" style={shape(0.45, 1, -8)} cx="1207" cy="303" r="10" />
+        <circle className="shape dot fill-blue" style={shape(0.55, 1, -8)} cx="41" cy="522" r="10" />
         <line
           className="stroke stroke-blue"
           style={stroke(0.3)}
@@ -83,13 +111,13 @@ export function BackgroundShapes({ still = false }: { still?: boolean }) {
           strokeLinejoin="round"
           strokeWidth="20"
         />
-        <circle className="shape fill-blue" style={shape(0.65, 1, -8)} cx="491" cy="176" r="10" />
+        <circle className="shape dot fill-blue" style={shape(0.65, 1, -8)} cx="491" cy="176" r="10" />
         <path
-          className="shape fill-blue-light"
+          className="shape hex fill-blue-light"
           style={shape(0.4, 1, -16)}
           d="M295 226a6 6 0 017-2l37 13a6 6 0 015 6l-2 40a6 6 0 01-4 6l-38 11a6 6 0 01-7-3l-23-33a6 6 0 011-7z"
         />
-        <g className="shape fill-blue" style={shape(0.25, 0.3, -10)} opacity=".3">
+        <g className="shape hash fill-blue" style={shape(0.25, 0.3, -10)} opacity=".3">
           <path d="M54 600a11 11 0 017-13l49-16a11 11 0 016 20l-49 16a11 11 0 01-13-7z" />
           <path d="M21 655a11 11 0 017-14l140-44a11 11 0 017 20L34 662a11 11 0 01-13-7z" />
           <path d="M30 685a11 11 0 006 21l162-51a11 11 0 10-6-21z" />
@@ -97,7 +125,7 @@ export function BackgroundShapes({ still = false }: { still?: boolean }) {
           <path d="M112 749a11 11 0 006 20l49-15a11 11 0 00-6-21z" />
         </g>
         <path
-          className="shape fill-teal-light"
+          className="shape hoop fill-teal-light"
           style={shape(0.7, 1, -20)}
           fillRule="evenodd"
           d="M1038 226a20 20 0 10-20-20 20 20 0 0020 20zm0 30a50 50 0 10-50-50 50 50 0 0050 50z"
@@ -112,19 +140,19 @@ export function BackgroundShapes({ still = false }: { still?: boolean }) {
           d="M322 521L124 323"
         />
         <path
-          className="shape fill-teal-light"
+          className="shape dot fill-teal-light"
           style={shape(0.75, 1, -10)}
           fillRule="evenodd"
           d="M61 237a5 5 0 00-5 5v10H46a5 5 0 000 10h10v10a5 5 0 0010 0v-10h10a5 5 0 000-10H66v-10a5 5 0 00-5-5z"
         />
-        <g className="shape fill-blue" style={shape(0.15, 0.3, -12)} opacity=".3">
+        <g className="shape double fill-blue" style={shape(0.15, 0.3, -12)} opacity=".3">
           <path
             fillRule="evenodd"
             d="M1191 599a109 109 0 11185 116l30 19a145 145 0 00-246-154zm61 39a36 36 0 1162 38l31 20a73 73 0 00-123-77z"
           />
         </g>
         <path
-          className="shape fill-blue-light"
+          className="shape semi fill-blue-light"
           style={shape(0.3, 0.3, -14)}
           fillRule="evenodd"
           d="M492 539a62 62 0 00107 64l65 40a138 138 0 11-237-143z"
@@ -143,5 +171,6 @@ export function BackgroundShapes({ still = false }: { still?: boolean }) {
         />
       </g>
     </svg>
+    </>
   );
 }

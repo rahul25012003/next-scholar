@@ -4,17 +4,16 @@ import { staggerDelay } from "@/lib/stagger";
 
 export function Outcomes() {
   return (
-    <section id="outcomes" className="band scroll-mt-20">
+    <section id="outcomes" className="band scroll-mt-20" data-ground="out">
       <div className="shell">
         <div className="max-w-2xl">
           <h2 className="text-blue-dark">
             Outcomes, including the ones nobody publishes
           </h2>
           <p className="mt-5 leading-relaxed text-grey">
-            Every counter below is empty, and stays empty until there is a real
-            case behind it. The prototype this business replaces carried
-            invented figures here, which is the specific habit Next Scholar
-            exists to break.
+            Every counter below stays at zero until a real case is behind it.
+            An earlier version of this site showed made up figures here; we
+            will not.
           </p>
         </div>
 

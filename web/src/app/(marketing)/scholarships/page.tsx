@@ -9,7 +9,7 @@ import { cn } from "@/lib/cn";
 export const metadata: Metadata = {
   title: "Scholarships",
   description:
-    "National and cross-institutional scholarships actually open to Indian students going to the UK, Germany or Ireland, each with its funder, its coverage and its deadline cycle.",
+    "National and multi-university scholarships open to Indian students going to the UK, Germany or Ireland, each with its funder, what it covers and its deadline.",
   alternates: { canonical: "/scholarships" },
 };
 
@@ -24,7 +24,7 @@ export default async function ScholarshipsPage(props: PageProps<"/scholarships">
     <>
       <PageHero
         title="Scholarships"
-        lede="A short, hand-picked list of national or cross-institutional schemes, not a scrape of every university's marketing page. Every one names its funder, states its coverage, and is dated."
+        lede="A short, hand-picked list of national and multi-university schemes. Each one names its funder, says what it covers and is dated."
       />
 
       <section className="band">
@@ -64,8 +64,8 @@ export default async function ScholarshipsPage(props: PageProps<"/scholarships">
           {rows.length === 0 ? (
             <div className="mt-8 rounded-panel border border-dashed border-line-strong bg-light p-8">
               <p className="text-[0.9375rem] leading-relaxed text-grey">
-                Nothing on this short list matches that filter yet. That is a gap in what we
-                have curated, not a claim that no scholarship exists.
+                Nothing on this short list matches that filter yet. We have not added one,
+                but that does not mean none exists.
               </p>
             </div>
           ) : (
@@ -130,10 +130,9 @@ export default async function ScholarshipsPage(props: PageProps<"/scholarships">
           )}
 
           <p className="mt-8 rounded-card border border-line bg-light px-5 py-4 text-[0.8125rem] leading-relaxed text-grey">
-            No admission chance, match score or fit percentage appears here, and none of
-            these funders pay us anything for the listing. Read each scholarship&rsquo;s own
-            page before you apply: deadlines and amounts are set by the funder and change
-            every cycle.
+            There is no admission chance, match score or fit percentage here, and no funder
+            pays us to be listed. Read each scholarship&rsquo;s own page before you apply:
+            the funder sets the deadlines and amounts, and they change every cycle.
           </p>
         </div>
       </section>

@@ -31,8 +31,8 @@ export function UploadDocument({ caseId }: { caseId: string }) {
       <input type="hidden" name="caseId" value={caseId} />
       <h3 className="text-blue-dark h--6">Add a document</h3>
       <p className="mt-1 text-[0.8125rem] leading-relaxed text-grey">
-        Consent for the category, an allowlisted file type, a size ceiling and a
-        malware scan. All four, or it is not stored.
+        A file is stored only if it passes all four checks: consent for its
+        category, an allowed file type, a size limit and a malware scan.
       </p>
 
       <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
@@ -53,7 +53,7 @@ export function UploadDocument({ caseId }: { caseId: string }) {
         />
       </div>
 
-      <Button type="submit" className="mt-3" disabled={pending}>
+      <Button type="submit" className="mt-3" disabled={pending} aria-busy={pending}>
         <UploadSimple size={16} weight="bold" aria-hidden />
         {pending ? "Checking" : "Try to add it"}
       </Button>

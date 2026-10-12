@@ -50,7 +50,7 @@ export function ErrorState({
           <h1 className="h h--3 text-blue-dark">Something on this page failed</h1>
           <p>
             {scope === "app"
-              ? "The page did not finish loading. If you had just submitted something, we cannot tell you from here whether it was saved, so check the case record before repeating the action rather than sending it twice."
+              ? "The page did not finish loading. If you had just submitted something, we cannot tell whether it was saved, so check the case record before you try again."
               : "The page did not finish loading. Nothing you were reading was lost, because nothing on the public site is stored on your behalf."}
           </p>
 
@@ -59,8 +59,7 @@ export function ErrorState({
               <p className="small font-bold text-blue-dark">Reference for this error</p>
               <p className="figures">{error.digest}</p>
               <p className="small">
-                Quote this if you tell us about it. It is the only thing that links what you saw
-                to what our logs recorded.
+                Quote this if you tell us about it. It is how we find this error in our logs.
               </p>
             </div>
           )}

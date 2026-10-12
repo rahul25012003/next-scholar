@@ -15,17 +15,16 @@ import { staggerDelay } from "@/lib/stagger";
  */
 export function PolicyDesk() {
   return (
-    <section className="band">
+    <section className="band" data-ground="light">
       <div className="shell">
         <div className="max-w-2xl">
           <h2 className="text-blue-dark">
             Policy desk
           </h2>
           <p className="mt-5 leading-relaxed text-grey">
-            The rules that decide whether a plan works change more often than most sites
-            admit, and two of the notes below are corrections to figures we published
-            ourselves. Each one still needs re-checking at its official source, and it says
-            so, because a confident date on a stale figure is worse than no date at all.
+            Visa and admission rules change often, and two of these notes correct figures
+            we published ourselves. Check each one at its official source before you rely
+            on it.
           </p>
         </div>
 
@@ -53,14 +52,18 @@ export function PolicyDesk() {
                 <h3 className="mt-3 text-blue-dark h--5">
                   {note.title}
                 </h3>
-                <p className="mt-3.5 flex-1 text-[0.9375rem] leading-relaxed text-grey">
-                  {note.body}
-                </p>
+                {/* Each sentence of a note is one point, so it reads as a list.
+                    The body stays one string because the policy digest reads it. */}
+                <ul className="mt-3.5 flex-1 list-disc space-y-1.5 pl-5 text-[0.9375rem] leading-relaxed text-grey">
+                  {note.body.split(/(?<=\.) (?=[A-Z])/).map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
 
                 <div className="mt-6 border-t border-line pt-4">
                   <p className="text-[0.8125rem] text-grey">Source: {note.source}</p>
                   <p className="mt-1 text-[0.8125rem] font-medium text-pending">
-                    Not yet re-verified for this quarter
+                    Not yet re-checked this quarter
                   </p>
                   <Link
                     href={`/destinations/${note.guideSlug}`}

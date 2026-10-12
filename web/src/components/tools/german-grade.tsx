@@ -10,6 +10,7 @@ import {
   modifiedBavarian,
 } from "@/domain/calculators";
 import { InputError, NumberField, ResultPanel } from "@/components/tools/working";
+import { SubmitBar, useSubmitted } from "@/components/tools/submit";
 import { cn } from "@/lib/cn";
 
 /**
@@ -31,15 +32,23 @@ export function GermanGradeCalculator() {
 
   const active = gradeScalePresets.find((item) => item.key === preset)!;
 
+  const { submitted, dirty, round, onSubmit, resultsRef } = useSubmitted({
+    degree,
+    university,
+    obtained,
+    max,
+    passing,
+  });
+
   const outcome = useMemo(() => {
-    if (obtained.trim() === "") return null;
+    if (!submitted || submitted.obtained.trim() === "") return null;
     return modifiedBavarian({
-      obtained: Number(obtained),
+      obtained: Number(submitted.obtained),
       // An emptied field is missing, not zero.
-      max: max.trim() === "" ? Number.NaN : Number(max),
-      passing: passing.trim() === "" ? Number.NaN : Number(passing),
+      max: submitted.max.trim() === "" ? Number.NaN : Number(submitted.max),
+      passing: submitted.passing.trim() === "" ? Number.NaN : Number(submitted.passing),
     });
-  }, [obtained, max, passing]);
+  }, [submitted]);
 
   const applyPreset = (key: string) => {
     const next = gradeScalePresets.find((item) => item.key === key);
@@ -52,10 +61,7 @@ export function GermanGradeCalculator() {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[22rem_minmax(0,1fr)] lg:gap-10 lg:items-start">
-      <form
-        className="rounded-panel border border-line bg-white p-6 md:p-7"
-        onSubmit={(event) => event.preventDefault()}
-      >
+      <form className="rounded-panel border border-line bg-white p-6 md:p-7" onSubmit={onSubmit}>
         <fieldset>
           <legend className="text-[0.875rem] font-semibold text-blue-dark">
             What does your transcript print?
@@ -98,6 +104,7 @@ export function GermanGradeCalculator() {
             min={0}
             max={Number(max)}
             step={active.step}
+            required
           />
           <div className="grid gap-5 sm:grid-cols-2">
             <NumberField
@@ -107,6 +114,7 @@ export function GermanGradeCalculator() {
               onChange={setMax}
               min={0}
               step={active.step}
+              required
             />
             <NumberField
               label="Minimum pass grade"
@@ -115,6 +123,7 @@ export function GermanGradeCalculator() {
               onChange={setPassing}
               min={0}
               step={active.step}
+              required
             />
           </div>
         </div>
@@ -145,17 +154,19 @@ export function GermanGradeCalculator() {
           <p className="text-[0.8125rem] leading-relaxed text-grey">
             These two are printed back into the result so you can paste the whole thing
             into an email to a programme office. Nothing you type here is sent anywhere:
-            this calculator runs entirely in your browser and there is no form behind it.
+            this calculator runs entirely in your browser.
           </p>
         </div>
+
+        <SubmitBar round={round} dirty={dirty} />
       </form>
 
-      <div className="min-w-0 space-y-8">
+      <div key={round} ref={resultsRef} className="rise min-w-0 scroll-mt-24 space-y-8">
         {outcome === null && (
           <div className="rounded-panel border border-dashed border-line-strong bg-light p-8 text-center">
             <p className="text-[0.9375rem] leading-relaxed text-grey">
-              Enter your grade and the result appears here, with the formula, your own
-              numbers substituted into it, and every step of the arithmetic.
+              Enter your grade and press Submit. The result appears here, with the
+              formula and every step of the arithmetic on your own numbers.
             </p>
             <p className="mt-3 text-[0.875rem] text-grey">
               No signup, no email, no result held back.
@@ -173,12 +184,13 @@ export function GermanGradeCalculator() {
               headline={`${germanBandFor(outcome.value).german} — ${germanBandFor(outcome.value).english}`}
             />
 
-            {(degree || university) && (
+            {submitted && (submitted.degree || submitted.university) && (
               <p className="rounded-card border border-line bg-white px-5 py-4 text-[0.875rem] leading-relaxed text-grey">
                 <span className="font-medium text-blue-dark">For the record.</span>{" "}
-                {degree || "Degree not stated"}
-                {university ? `, ${university}` : ""}: {obtained} out of {max} with a pass
-                mark of {passing}, which converts to{" "}
+                {submitted.degree || "Degree not stated"}
+                {submitted.university ? `, ${submitted.university}` : ""}:{" "}
+                {submitted.obtained} out of {submitted.max} with a pass mark of{" "}
+                {submitted.passing}, which converts to{" "}
                 <span className="figures font-medium text-blue-dark">{outcome.display}</span> on
                 the German scale.
               </p>

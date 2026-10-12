@@ -7,13 +7,14 @@ import { articleFor, articles, destinationLabel, readMinutes } from "@/content/a
 import { guideFor } from "@/content/guides";
 import { ButtonLink } from "@/components/ui/button";
 import { primaryCta } from "@/content/site";
+import { countryInSentence } from "@/lib/country";
 
 export function generateStaticParams() {
   return articles.map((article) => ({ slug: article.slug }));
 }
 
 export async function generateMetadata(
-  props: PageProps<"/guides/[slug]">,
+  props: PageProps<"/blog/[slug]">,
 ): Promise<Metadata> {
   const { slug } = await props.params;
   const article = articleFor(slug);
@@ -21,7 +22,7 @@ export async function generateMetadata(
   return {
     title: article.title,
     description: article.standfirst.slice(0, 200),
-    alternates: { canonical: `/guides/${article.slug}` },
+    alternates: { canonical: `/blog/${article.slug}` },
     openGraph: {
       type: "article",
       publishedTime: article.publishedOn,
@@ -30,7 +31,7 @@ export async function generateMetadata(
   };
 }
 
-export default async function ArticlePage(props: PageProps<"/guides/[slug]">) {
+export default async function ArticlePage(props: PageProps<"/blog/[slug]">) {
   const { slug } = await props.params;
   const article = articleFor(slug);
   if (!article) notFound();
@@ -51,11 +52,11 @@ export default async function ArticlePage(props: PageProps<"/guides/[slug]">) {
         <header className="border-b border-line bg-light">
           <div className="shell max-w-3xl">
             <Link
-              href="/guides"
+              href="/blog"
               className="inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue-dark"
             >
               <ArrowLeft size={14} weight="bold" aria-hidden />
-              All guides
+              All blog posts
             </Link>
 
             <h1 className="mt-5 text-blue-dark">
@@ -141,7 +142,7 @@ export default async function ArticlePage(props: PageProps<"/guides/[slug]">) {
                         <div className="flex flex-wrap items-center justify-between gap-4 rounded-card border border-blue-dark/20 bg-light/60 p-5">
                           <p className="text-[0.9375rem] leading-relaxed text-blue-dark">
                             {guide
-                              ? `Check your own profile against ${guide.country}'s published requirements.`
+                              ? `Check your own profile against ${countryInSentence(guide.country)}'s published requirements.`
                               : "Check your own profile against a published requirement, in your browser."}
                           </p>
                           <ButtonLink
@@ -167,9 +168,9 @@ export default async function ArticlePage(props: PageProps<"/guides/[slug]">) {
                   Every figure in this piece is on one page
                 </h2>
                 <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-grey">
-                  With the official body it came from, the date it was written down, and
-                  whether a named person has since re-checked it. That count is currently zero
-                  and the page says so.
+                  Each one is listed with its official source, the date we wrote it down,
+                  and whether a named person has re-checked it since. So far none has, and
+                  the page says so.
                 </p>
                 <div className="mt-5 flex flex-wrap gap-4 text-[0.9375rem]">
                   <Link
@@ -190,7 +191,7 @@ export default async function ArticlePage(props: PageProps<"/guides/[slug]">) {
               </div>
 
               {related.length > 0 && (
-                <nav aria-label="Related guides" className="mt-12 border-t border-line pt-8">
+                <nav aria-label="Related posts" className="mt-12 border-t border-line pt-8">
                   <h2 className="eyebrow text-grey">
                     Related
                   </h2>
@@ -198,7 +199,7 @@ export default async function ArticlePage(props: PageProps<"/guides/[slug]">) {
                     {related.map((other) => (
                       <li key={other.slug}>
                         <Link
-                          href={`/guides/${other.slug}`}
+                          href={`/blog/${other.slug}`}
                           className="group flex items-start justify-between gap-5 rounded-card border border-line bg-white p-5 transition-[border-color,box-shadow] hover:border-pink"
                         >
                           <span>

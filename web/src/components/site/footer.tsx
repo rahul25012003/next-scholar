@@ -1,136 +1,71 @@
+import Image from "next/image";
 import Link from "next/link";
-import { contact, lastReviewed, legalIdentity, site } from "@/content/site";
-import { permanentDisclaimers } from "@/content/outcomes";
+import { ButtonLink } from "@/components/ui/button";
+import { lastReviewed, primaryCta, site } from "@/content/site";
+import { photos, photoUrl } from "@/content/photos";
 
-const columns = [
-  {
-    heading: "Destinations",
-    links: [
-      { label: "United Kingdom", href: "/destinations/united-kingdom" },
-      { label: "Germany", href: "/destinations/germany" },
-      { label: "Ireland", href: "/destinations/ireland" },
-      { label: "All three", href: "/destinations" },
-      { label: "Courses and universities", href: "/universities" },
-      { label: "Your shortlist", href: "/shortlist" },
-    ],
-  },
-  {
-    heading: "Free tools",
-    links: [
-      { label: "Requirements checklist", href: "/tools/requirements-check" },
-      { label: "Cost of living", href: "/tools/cost-of-living" },
-      { label: "German grade calculator", href: "/tools/german-grade-calculator" },
-      { label: "ECTS credit check", href: "/tools/ects-check" },
-      { label: "IELTS band calculator", href: "/tools/ielts-band-calculator" },
-      { label: "Grade converters", href: "/tools/grade-converter" },
-    ],
-  },
-  {
-    heading: "What we publish",
-    links: [
-      { label: "Open Ledger", href: "/open-ledger" },
-      { label: "Our numbers, one source", href: "/our-numbers" },
-      { label: "Written guides", href: "/guides" },
-      { label: "Services and what we earn", href: "/services" },
-      { label: "Zero commission list", href: "/zero-commission" },
-      { label: "Anti fraud and documents", href: "/anti-fraud-policy" },
-      { label: "How it works", href: "/#process" },
-      { label: "Search this site", href: "/search" },
-      { label: "Student login", href: "/portal" },
-    ],
-  },
+/** The handful a visitor at the foot of a page actually goes looking for. */
+const links = [
+  { label: "Destinations", href: "/destinations" },
+  { label: "Courses", href: "/universities" },
+  { label: "Free tools", href: "/tools" },
+  { label: "About us", href: "/about" },
+  { label: "Blog", href: "/blog" },
+  { label: "Student login", href: "/login" },
 ];
 
 /**
- * Kept apart from the columns above because these five are the ones a reader
- * goes looking for when something has gone wrong, and burying them among the
+ * Kept apart from the links above because these are the ones a reader goes
+ * looking for when something has gone wrong, and burying them among the
  * marketing links is how sites make them hard to find on purpose.
  */
-const legalLinks = [
-  { label: "Privacy policy", href: "/privacy" },
-  { label: "Terms of use", href: "/terms" },
-  { label: "Cookie policy", href: "/cookies" },
-  { label: "Refunds and cancellation", href: "/refund-policy" },
+const legal = [
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
+  { label: "Cookies", href: "/cookies" },
+  { label: "Refunds", href: "/refund-policy" },
   { label: "Non affiliation", href: "/non-affiliation" },
+  { label: "What we never promise", href: "/anti-fraud-policy" },
 ];
 
 /**
- * The reference footer: charcoal, light type, the logo and its paragraphs in
- * a wide left column, the link lists in a narrow right one.
+ * The footer, kept short: the name, six links, the booking action, the legal
+ * row, and three plain points, over a shaded photograph along the bottom.
+ * Its colour is the ground's own blue taken deeper, so the page ends in the
+ * palette it has been in all the way down.
+ *
+ * The long link lists that used to be here are the navigation's job, and the
+ * full text of what is never promised is on the anti fraud page the legal row
+ * links to. The three points that stay are the ones that must be on every
+ * page: nothing is guaranteed, the entity is not registered yet, and how to
+ * reach us today.
  */
 export function SiteFooter() {
   return (
-    <footer className="Footer pad-around-lg mt-auto">
-      <div className="Footer__container constrain">
-        <div className="Footer__intro flow">
+    <footer className="Footer mt-auto">
+      <div className="Footer__photo" aria-hidden>
+        <Image
+          src={photoUrl(photos.footer, 2400, 900)}
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover"
+        />
+      </div>
+
+      <div className="Footer__inner constrain">
+        <div className="Footer__top">
           <Link className="Footer__logo" href="/">
             <span className="Header__logo-mark" aria-hidden>
               N
             </span>
-            <span>
-              <span aria-hidden>Next Scholar</span>
-              <span className="sr-only">{site.name}</span>
-              <span className="underline" aria-hidden />
-            </span>
+            <span aria-hidden>Next Scholar</span>
+            <span className="sr-only">{site.name} home</span>
           </Link>
 
-          <p>{site.pitch}</p>
-          <p>
-            {site.base}. {site.serves}.
-          </p>
-
-          <div className="flow">
-            <h2 className="h--6">Registration details</h2>
-            <p className="small">{legalIdentity.note}</p>
-            <dl className="small flow" style={{ ["--flow" as string]: "0.4rem" }}>
-              {legalIdentity.fields.map((field) => (
-                <div key={field.label} className="flex items-baseline gap-3">
-                  <dt className="w-40 shrink-0">{field.label}</dt>
-                  <dd className="figures">Not yet issued</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-
-          <div className="flow">
-            <h2 className="h--6">What we never promise</h2>
-            <ul role="list" className="small flow" style={{ ["--flow" as string]: "0.6rem" }}>
-              {permanentDisclaimers.map((line) => (
-                <li key={line}>{line}</li>
-              ))}
-            </ul>
-            <p className="small">{contact.note}</p>
-          </div>
-
-          <p className="small">
-            {site.name}. Page content last reviewed{" "}
-            <span className="figures">{lastReviewed}</span>.
-          </p>
-          <p className="small">
-            Every figure on this site names its source and says whether a person has
-            re-checked it. None of them has been re-checked this quarter.
-          </p>
-        </div>
-
-        <div>
-          {columns.map((column) => (
-            <nav key={column.heading} className="Footer__nav" aria-label={column.heading}>
-              <h2 className="Footer__nav-heading">{column.heading}</h2>
-              <ul role="list" className="flow">
-                {column.links.map((link) => (
-                  <li key={link.label}>
-                    <Link href={link.href} className="Footer__nav-link">
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          ))}
-
-          <nav aria-label="Legal" className="Footer__nav">
-            <ul role="list" className="flow">
-              {legalLinks.map((link) => (
+          <nav aria-label="Footer">
+            <ul role="list" className="Footer__links">
+              {links.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="Footer__nav-link">
                     {link.label}
@@ -139,6 +74,39 @@ export function SiteFooter() {
               ))}
             </ul>
           </nav>
+
+          <div className="Footer__action tickets">
+            <ButtonLink href={primaryCta.href} variant="pink">
+              {primaryCta.label}
+            </ButtonLink>
+          </div>
+        </div>
+
+        <div className="Footer__base">
+          <nav aria-label="Legal">
+            <ul role="list" className="Footer__legal">
+              {legal.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="Footer__nav-link">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <ul className="small max-w-[62ch] list-disc space-y-1 pl-5">
+            <li>No guarantee of admission or of a visa.</li>
+            <li>
+              {site.name} is not a registered company yet, so there are no
+              registration details to show. They appear the day it is registered.
+            </li>
+            <li>Until then, the consultation booking form is the only way to reach us.</li>
+          </ul>
+          <p className="small">
+            {site.base}. Page content last reviewed{" "}
+            <span className="figures">{lastReviewed}</span>.
+          </p>
         </div>
       </div>
     </footer>

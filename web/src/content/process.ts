@@ -11,83 +11,64 @@ export type Stage = {
   deliverable: string;
 };
 
-/** Plain groupings, so eleven stages read as three moments instead of a list. */
-export const stageGroups: { title: string; blurb: string; keys: string[] }[] = [
-  {
-    title: "Before you commit",
-    blurb: "Everything here happens before you have paid a service fee.",
-    keys: ["consultation", "shortlist", "agreement"],
-  },
-  {
-    title: "While applying",
-    blurb: "You hold every credential and reference number we use on your behalf.",
-    keys: ["documents", "applications", "offers"],
-  },
-  {
-    title: "After the offer",
-    blurb: "The part most agencies stop at the airport. We do not.",
-    keys: ["finance", "visa", "pre-departure", "arrival", "outcome"],
-  },
-];
-
 export const stages: Stage[] = [
   {
     key: "consultation",
     name: "Consultation",
     summary:
-      "Forty five paid minutes, structured around six questions. It includes the answer nobody sells, which is that you should not go at all.",
-    deliverable: "Written assessment within 24 hours, with two or three ranked destinations and the risks for each.",
+      "Forty five paid minutes, built around six questions. Sometimes the honest answer is not to go at all.",
+    deliverable: "A written assessment within 24 hours, ranking two or three destinations, with the risks of each.",
   },
   {
     key: "shortlist",
     name: "Shortlist",
     summary:
-      "Eight to ten universities across ambitious, target and safe. The commission we earn is printed next to each one.",
-    deliverable: "Shortlist document with commission figures and any above average flags stated up front.",
+      "Eight to ten universities, split into ambitious, target and safe choices.",
+    deliverable: "A written shortlist with our commission on each university, and any above average figure flagged.",
   },
   {
     key: "agreement",
     name: "Agreement",
-    summary: "Scope, fee and timeline in writing. Nothing about the engagement is verbal.",
-    deliverable: "Signed service agreement.",
+    summary: "What we will do, the fee and the timeline, all in writing. Nothing is agreed only by word of mouth.",
+    deliverable: "A signed service agreement.",
   },
   {
     key: "documents",
     name: "Documents",
     summary:
-      "Verified against originals or with the issuing institution. Never created, never edited, never retouched.",
-    deliverable: "Document checklist with each file marked uploaded, in review, verified or issue found.",
+      "Checked against the originals, or with whoever issued them. We never create, edit or retouch a document.",
+    deliverable: "A document checklist, with each file marked uploaded, in review, verified or issue found.",
   },
   {
     key: "applications",
     name: "Applications",
-    summary: "Submitted and tracked. You hold every reference number and portal login we use on your behalf.",
-    deliverable: "Application record with reference numbers and university portal credentials.",
+    summary: "We submit and track each application. You keep every reference number and portal login we use for you.",
+    deliverable: "A record of each application, with reference numbers and university portal logins.",
   },
   {
     key: "offers",
     name: "Offers",
     summary:
-      "Compared side by side, including the ones we would advise you to decline and the reasons why.",
-    deliverable: "Offer comparison with a stated recommendation for each.",
+      "Compared side by side, including any we would advise you to turn down, and why.",
+    deliverable: "A comparison of your offers, with our advice on each.",
   },
   {
     key: "finance",
     name: "Finance",
-    summary: "Education loan, blocked account, forex and TCS planning against your actual year one budget.",
-    deliverable: "Funding plan mapped to deposit and visa deadlines.",
+    summary: "Planning your education loan, blocked account, currency exchange and TCS (tax collected at source) against your real first year budget.",
+    deliverable: "A funding plan matched to your deposit and visa deadlines.",
   },
   {
     key: "visa",
     name: "Visa",
-    summary: "File preparation and interview rehearsal against the refusal patterns currently in circulation.",
-    deliverable: "Prepared visa file and a rehearsed interview.",
+    summary: "We prepare your visa file and practise the interview, based on the most common reasons for refusal right now.",
+    deliverable: "A ready visa file and a practised interview.",
   },
   {
     key: "pre-departure",
     name: "Pre departure",
-    summary: "Accommodation, insurance, flights, banking and an arrival briefing for your specific city.",
-    deliverable: "Pre departure checklist, completed before you fly.",
+    summary: "Housing, insurance, flights, banking and an arrival briefing for your city.",
+    deliverable: "A pre departure checklist, completed before you fly.",
   },
   {
     key: "arrival",
@@ -99,7 +80,7 @@ export const stages: Stage[] = [
     key: "outcome",
     name: "Outcome published",
     summary:
-      "Your result enters the quarterly report, anonymised, whether it was an approval or a refusal.",
+      "Your result goes into our quarterly report without your name, whether it was an approval or a refusal.",
     deliverable: "An entry in the public quarterly outcomes report.",
   },
 ];

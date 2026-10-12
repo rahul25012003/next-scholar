@@ -1,12 +1,19 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { MagnifyingGlass } from "@phosphor-icons/react";
+import { CaretDown, MagnifyingGlass } from "@phosphor-icons/react";
 import { nav, primaryCta, secondaryCta, site } from "@/content/site";
 import { BackgroundShapes } from "@/components/site/background-shapes";
-import { ExplodeBurst } from "@/components/ui/explode-burst";
+import { NavMenu } from "@/components/site/nav-menu";
 import { cn } from "@/lib/cn";
+
+/** A link is current on its own page and on every page beneath it. */
+const isCurrent = (pathname: string, href?: string) =>
+  Boolean(href) &&
+  !href!.includes("#") &&
+  (pathname === href || pathname.startsWith(`${href}/`));
 
 /**
  * The reference header: transparent over the blue ground, a white wordmark,
@@ -22,9 +29,26 @@ import { cn } from "@/lib/cn";
  * Unlike the reference, the header stays on screen and condenses once the
  * page moves (D.16). The sticky side rails and the university tab strip were
  * built to sit under it, so a header that scrolled away left them floating.
+ *
+ * Every group menu is always rendered and hidden with visibility, not mounted
+ * on open. That is what lets it ease out as well as in from the stylesheet
+ * alone, and it puts every destination in the page's HTML for a crawler.
  */
 export function SiteHeader() {
+  const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  // True once the pointer or the keyboard first reaches the nav. Until then
+  // the menus hold no photographs, so a page load does not fetch them.
+  const [armed, setArmed] = useState(false);
+
+  // Where the desktop nav is showing, fetch the menu photographs once the
+  // page has gone quiet, so the first menu opens with its picture already
+  // there. Narrower screens never show these menus and never fetch them.
+  useEffect(() => {
+    if (!window.matchMedia("(min-width: 1300px)").matches) return;
+    const timer = window.setTimeout(() => setArmed(true), 2500);
+    return () => window.clearTimeout(timer);
+  }, []);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [condensed, setCondensed] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -73,6 +97,9 @@ export function SiteHeader() {
         hidden={!mobileOpen}
         tabIndex={-1}
         aria-labelledby="mobile-nav_heading"
+        // The list is longer than a phone screen. Without this the smooth
+        // scroller takes the wheel and moves the page behind the dialog.
+        data-lenis-prevent
       >
         <div className="Header__mobile-nav-inner" role="document">
           <h2 className="sr-only" id="mobile-nav_heading">
@@ -120,11 +147,10 @@ export function SiteHeader() {
                   {secondaryCta.label}
                 </Link>
               </li>
-              <li className="Nav__listItem anim-explode-container">
+              <li className="Nav__listItem tickets">
                 <Link className="Nav__link Nav__link--cta" href={primaryCta.href} onClick={close}>
                   {primaryCta.label}
                 </Link>
-                <ExplodeBurst />
               </li>
             </ul>
           </nav>
@@ -148,13 +174,19 @@ export function SiteHeader() {
           </Link>
 
           <div className="Header__desktop-nav">
-            <nav className="Nav" aria-label="primary nav" onMouseLeave={() => setOpenMenu(null)}>
+            <nav
+              className="Nav"
+              aria-label="primary nav"
+              onMouseEnter={() => setArmed(true)}
+              onFocus={() => setArmed(true)}
+              onMouseLeave={() => setOpenMenu(null)}
+            >
               <ul className="Nav__list" role="list">
                 {nav.map((item) =>
                   item.children ? (
                     <li
                       key={item.label}
-                      className="Nav__listItem"
+                      className="Nav__listItem Nav__listItem--group"
                       onMouseEnter={() => setOpenMenu(item.label)}
                       onBlur={(event) => {
                         if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
@@ -164,7 +196,11 @@ export function SiteHeader() {
                     >
                       <button
                         type="button"
-                        className="Nav__link"
+                        className={cn(
+                          "Nav__link",
+                          item.children.some((child) => isCurrent(pathname, child.href)) &&
+                            "Nav__link--active",
+                        )}
                         aria-expanded={openMenu === item.label}
                         aria-haspopup="true"
                         onClick={() =>
@@ -172,27 +208,15 @@ export function SiteHeader() {
                         }
                       >
                         {item.label}
+                        <CaretDown className="Nav__caret" size={11} weight="bold" aria-hidden />
                       </button>
 
-                      {openMenu === item.label && (
-                        <div className="Nav__menu">
-                          <div className="Nav__menu-inner">
-                            {item.children.map((child) => (
-                              <Link
-                                key={child.label}
-                                href={child.href}
-                                onClick={() => setOpenMenu(null)}
-                                className="Nav__menu-link"
-                              >
-                                <span className="Nav__menu-label">{child.label}</span>
-                                {child.note && (
-                                  <span className="Nav__menu-note">{child.note}</span>
-                                )}
-                              </Link>
-                            ))}
-                          </div>
-                        </div>
-                      )}
+                      <NavMenu
+                        item={item}
+                        armed={armed}
+                        isCurrent={(href) => isCurrent(pathname, href)}
+                        onNavigate={() => setOpenMenu(null)}
+                      />
                     </li>
                   ) : (
                     <li key={item.label} className="Nav__listItem">
@@ -207,6 +231,7 @@ export function SiteHeader() {
                   <Link
                     href="/search"
                     aria-label="Search this site"
+                    aria-current={isCurrent(pathname, "/search") ? "page" : undefined}
                     className="Nav__link Nav__link--icon"
                   >
                     <MagnifyingGlass size={20} weight="bold" aria-hidden />
@@ -217,11 +242,10 @@ export function SiteHeader() {
                     {secondaryCta.label}
                   </Link>
                 </li>
-                <li className="Nav__listItem anim-explode-container">
+                <li className="Nav__listItem tickets">
                   <Link className="Nav__link Nav__link--cta" href={primaryCta.href}>
                     {primaryCta.label}
                   </Link>
-                  <ExplodeBurst />
                 </li>
               </ul>
             </nav>

@@ -7,7 +7,7 @@ import { PageHero } from "@/components/marketing/page-hero";
 export const metadata: Metadata = {
   title: "Search",
   description:
-    "Search every guide, course, university, tool and policy on this site. Results that carry a commission figure carry it here too.",
+    "Search every guide, course, university, tool and policy on this site.",
   alternates: { canonical: "/search" },
   robots: { index: false, follow: true },
 };
@@ -23,7 +23,7 @@ export default async function SearchPage(props: PageProps<"/search">) {
     <>
       <PageHero
         title="Search"
-        lede={`Everything on this site, in one place: ${total} records across guides, courses, universities, written pieces, tools and policies. A result that carries a commission figure carries it here too, because a course found through a search box is the same course.`}
+        lede={`Search ${total} records across guides, courses, universities, articles, tools and policies.`}
       />
 
       <section className="band">
@@ -74,12 +74,15 @@ export default async function SearchPage(props: PageProps<"/search">) {
                 ))}
               </dl>
               <p className="mt-5 text-[0.875rem] leading-relaxed text-grey">
-                The search is a plain scan over the site&rsquo;s own content, scored by where
-                the match landed: a title beats a summary, which beats the body. There is no
-                relevance tuning, no click signal and no personalisation, because each of
-                those would be a place to quietly promote a result on a site that also
-                publishes what it earns from each one.
+                The search simply scans the site&rsquo;s own content.
               </p>
+              <ul className="mt-2 list-disc space-y-1 pl-5 text-[0.875rem] leading-relaxed text-grey">
+                <li>A match in a title ranks above one in a summary, then one in the body.</li>
+                <li>
+                  Nothing is tuned, ranked by clicks or personalised, so no result can be
+                  quietly pushed up.
+                </li>
+              </ul>
             </div>
           )}
 
@@ -96,10 +99,9 @@ export default async function SearchPage(props: PageProps<"/search">) {
                     Nothing on this site matches that
                   </h2>
                   <p className="mt-2 text-[0.9375rem] leading-relaxed text-grey">
-                    This searches {total} records across three destinations. If you were
-                    looking for a fourth country, we do not cover one: a destination goes on
-                    this site when its whole guide can be filled in, and that takes weeks per
-                    country rather than an afternoon.
+                    This searches {total} records across three destinations. We do not cover
+                    a fourth country: we add one only when we can fill in its whole guide,
+                    which takes weeks.
                   </p>
                   <div className="mt-5 flex flex-wrap gap-4 text-[0.9375rem]">
                     <Link
@@ -111,8 +113,8 @@ export default async function SearchPage(props: PageProps<"/search">) {
                     <Link href="/tools" className="font-medium text-pink hover:text-blue-dark">
                       The free tools
                     </Link>
-                    <Link href="/guides" className="font-medium text-pink hover:text-blue-dark">
-                      The written guides
+                    <Link href="/blog" className="font-medium text-pink hover:text-blue-dark">
+                      The blog
                     </Link>
                   </div>
                 </div>

@@ -429,6 +429,11 @@ export async function toActor(user: AuthUser): Promise<Actor> {
   };
 }
 
+/** The seeded accounts' password, for the sign in page outside production. */
+export function devSeedPassword(): string | undefined {
+  return process.env.NODE_ENV !== "production" ? seedPassword : undefined;
+}
+
 /** Shown on the sign in page so a reviewer can get in. Never real people. */
 export async function seedAccountHint(): Promise<{ email: string; role: string }[]> {
   if (supabaseConfigured()) {

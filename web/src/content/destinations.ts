@@ -49,7 +49,7 @@ export const destinations: DestinationRow[] = [
     tuitionNote: "First year tuition, taught masters",
     postStudy: "18 months",
     postStudyNote:
-      "The Graduate Route shortens from 24 months to 18 for applications made on or after 1 January 2027. PhD graduates keep 36 months. Re-check against the current Home Office guidance before you rely on this.",
+      "For applications from 1 January 2027, the Graduate Route drops from 24 months to 18 (PhD graduates keep 36). Check the current Home Office guidance before you rely on this.",
     commission: {
       display: "₹1.5L to ₹2.5L",
       lowInr: 150000,
@@ -60,7 +60,7 @@ export const destinations: DestinationRow[] = [
     clientFee: "₹25,000",
     clientFeeInr: 25000,
     planningNote:
-      "Deposit deadlines move faster than most applicants expect once an offer lands, so the finance conversation starts at shortlist, not at offer.",
+      "Deposit deadlines come fast once an offer arrives, so we plan the money at the shortlist stage, not after the offer.",
   },
   {
     slug: "germany-public",
@@ -68,9 +68,9 @@ export const destinations: DestinationRow[] = [
     route: "Public universities",
     flagCode: "de",
     intakes: "October, April",
-    tuition: "No fee, except Baden-Wurttemberg",
+    tuition: "No fee in most states",
     tuitionNote:
-      "Fifteen of the sixteen federal states charge no tuition. Baden-Wurttemberg charges non-EU students EUR 1,500 per semester, which is EUR 6,000 across a four semester Master's, and Stuttgart, KIT, Heidelberg, Freiburg, Tubingen and Mannheim are all in that state. Everyone also pays a semester contribution of EUR 100 to EUR 400, which usually includes a transport ticket.",
+      "Most states charge no tuition, but Baden-Wurttemberg (Stuttgart, KIT, Heidelberg, Freiburg, Tubingen, Mannheim) charges non-EU students EUR 1,500 a semester, or EUR 6,000 for a four semester Master's, and in Bavaria TUM has charged non-EU students since the 2024/25 winter semester. Everyone also pays a semester fee of EUR 100 to EUR 400, which usually includes a transport ticket.",
     postStudy: "18 months",
     commission: {
       display: "₹0",
@@ -78,14 +78,14 @@ export const destinations: DestinationRow[] = [
       highInr: 0,
       status: "verified-publishable",
       source: "direct-written-confirmation",
-      note: "German public universities do not pay agents. There is no permission to seek for publishing a zero, so this one is confirmed.",
+      note: "German public universities do not pay agents, and a zero needs no one's permission to publish, so this figure is confirmed.",
     },
     clientFee: "₹45,000",
     clientFeeInr: 45000,
     clientFeeNote:
-      "Flat advisory fee. We earn nothing from the university on this route, which is the entire reason the fee exists.",
+      "A flat advisory fee, because the university pays us nothing.",
     planningNote:
-      "APS certification and the blocked account run on their own clocks. Both need to start months before the application itself.",
+      "APS certification and the blocked account each take months. Start both well before you apply.",
   },
   {
     slug: "germany-private",
@@ -102,12 +102,12 @@ export const destinations: DestinationRow[] = [
       status: "unverified",
       source: "market-estimate",
       aboveAverage: true,
-      note: "This band runs above the category average. That does not rule a private university out of a shortlist, but you will see the flag in writing before it is recommended, not after.",
+      note: "This range is above the category average. A private university can still make your shortlist, but you will see this flag in writing before we recommend it.",
     },
     clientFee: "₹25,000",
     clientFeeInr: 25000,
     planningNote:
-      "The public route is free and pays us nothing. If a private university is on your shortlist, the reason will be a specific programme fit, stated in writing.",
+      "The public route is free. If a private university is on your shortlist, it is because a specific course fits you, and we say why in writing.",
   },
   {
     slug: "ireland",
@@ -118,7 +118,7 @@ export const destinations: DestinationRow[] = [
     tuitionNote: "First year tuition, taught masters",
     postStudy: "12 + 12 months",
     postStudyNote:
-      "Third Level Graduate Programme. A Level 9 or higher graduate gets 12 months, renewable once for a further 12, so 24 at most rather than 24 up front. A Level 8 honours bachelor graduate gets 12 months with no renewal. We previously published a flat 24 here, which was wrong on both counts.",
+      "Under the Third Level Graduate Programme, a Level 9 or higher graduate gets 12 months, renewable once for 12 more: 24 at most, not 24 up front. We used to show a flat 24 here, which was wrong.",
     commission: {
       display: "₹90k to ₹1.6L",
       lowInr: 90000,
@@ -129,7 +129,7 @@ export const destinations: DestinationRow[] = [
     clientFee: "₹25,000",
     clientFeeInr: 25000,
     planningNote:
-      "Accommodation availability, not visa policy, is the practical bottleneck. Housing search starts before the offer is accepted.",
+      "Finding housing, not the visa, is the hard part here. Start looking before you accept the offer.",
   },
 ];
 
@@ -166,7 +166,7 @@ export const policyDesk: PolicyNote[] = [
     destination: "Germany",
     guideSlug: "germany",
     title: "dMAT becomes mandatory for the summer semester 2027 intake",
-    body: "APS India is introducing a Digital Master Test. From the summer semester 2027 intake it is required of Indian Bachelor's holders applying for a Master's in Engineering, Commerce, Business, Finance or Economics. It costs EUR 150 on top of the APS fee, and it is not pass or fail: it produces a score report universities read alongside your transcript. Anyone who registered with or submitted documents to APS India before 29 June 2026 is exempt under the transitional rule.",
+    body: "APS India is bringing in a new Digital Master Test (dMAT). From the summer semester 2027 intake, Indian Bachelor's holders applying for a Master's in Engineering, Commerce, Business, Finance or Economics must take it. It costs EUR 150 on top of the APS fee. There is no pass or fail: universities read your score alongside your transcript. If you registered with or sent documents to APS India before 29 June 2026, you are exempt.",
     verified: false,
     source: "APS India",
     effectiveFrom: "Summer semester 2027 intake",
@@ -176,7 +176,7 @@ export const policyDesk: PolicyNote[] = [
     destination: "United Kingdom",
     guideSlug: "united-kingdom",
     title: "Graduate Route shortens to 18 months in 2027",
-    body: "For applications made on or after 1 January 2027 the post study window drops from 24 months to 18. PhD graduates keep 36 months. If your intake straddles that date, it changes the arithmetic on the whole plan.",
+    body: "For applications made on or after 1 January 2027, you can stay 18 months after your course, down from 24. PhD graduates keep 36 months. If your timeline crosses that date, it changes your whole plan.",
     verified: false,
     source: "UK Home Office immigration rules",
     effectiveFrom: "1 January 2027",
@@ -185,7 +185,7 @@ export const policyDesk: PolicyNote[] = [
     destination: "Germany",
     guideSlug: "germany",
     title: "Blocked account: EUR 11,904 for the year, EUR 992 a month",
-    body: "This figure was previously listed here as unknown, and it is not: it is the statutory minimum a student visa applicant must deposit for the first year, tied to the maximum BAfoG grant. The monthly release is a ceiling on withdrawals rather than a budget, and in Munich the rent alone can exceed it. APS certification remains mandatory for every Indian applicant and remains the first clock to start.",
+    body: "We used to list this figure as unknown, but it is the legal minimum a student visa applicant must deposit for the first year, linked to the maximum BAfoG grant. The monthly amount is the most you can withdraw, not a budget, and in Munich rent alone can be more. APS certification is still required for every Indian applicant, and it is the first thing to start.",
     verified: false,
     source: "German Federal Foreign Office, APS India",
   },
@@ -193,7 +193,7 @@ export const policyDesk: PolicyNote[] = [
     destination: "Ireland",
     guideSlug: "ireland",
     title: "Post study is 12 months renewable once, not a flat 24",
-    body: "A Level 9 or higher graduate gets 12 months of Stamp 1G, renewable once for a further 12. A Level 8 honours bachelor graduate gets 12 months with no renewal. We published a flat 24 months, which was wrong on both counts. The practical constraint on this route remains housing supply in Dublin, Cork and Galway rather than visa policy.",
+    body: "A Level 9 or higher graduate gets 12 months of Stamp 1G, renewable once for another 12. We published a flat 24 months before, which was wrong. On this route, the real problem is finding housing in Dublin, Cork and Galway, not the visa.",
     verified: false,
     source: "Irish Immigration Service Delivery, university housing offices",
   },

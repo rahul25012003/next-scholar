@@ -5,7 +5,6 @@ import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ChatCircleDots, WhatsappLogo, X } from "@phosphor-icons/react";
 import { channels } from "@/content/site";
-import { ExplodeBurst } from "@/components/ui/explode-burst";
 
 /**
  * The persistent contact control.
@@ -99,9 +98,8 @@ export function TalkToUs() {
               </div>
 
               <p className="small">
-                The consultation is paid, priced in public, and ends in a written assessment
-                within 24 hours. It includes the answer nobody sells, which is that you
-                should not go at all.
+                The consultation is paid, and you get a written assessment within 24 hours.
+                It may tell you not to go at all.
               </p>
 
               <div className="grid gap-2">
@@ -124,8 +122,8 @@ export function TalkToUs() {
               </div>
 
               <p className="small border-t-2 border-light pt-3">
-                Nothing on this site is behind this button. Every guide, every calculator
-                and every commission figure works without talking to anyone.
+                You do not need to talk to us to use this site. Every guide and calculator
+                works without it.
               </p>
 
               <button
@@ -138,18 +136,19 @@ export function TalkToUs() {
             </motion.div>
           )}
 
-          <div className="anim-explode-container">
+          <div>
             <button
               ref={toggleRef}
               type="button"
               onClick={() => setOpen((value) => !value)}
               aria-expanded={open}
-              className="button button--pink inline-flex items-center gap-2"
+              // On a phone the full pill covered the bottom of whatever was
+              // being read. There it is the icon alone, with the same name.
+              className="button button--pink inline-flex items-center gap-2 max-sm:h-14 max-sm:w-14 max-sm:justify-center max-sm:px-0"
             >
-              <ChatCircleDots size={20} weight="fill" aria-hidden />
-              Talk to a counsellor
+              <ChatCircleDots size={20} weight="fill" aria-hidden className="max-sm:size-6" />
+              <span className="max-sm:sr-only">Talk to a counsellor</span>
             </button>
-            <ExplodeBurst />
           </div>
         </motion.div>
       )}

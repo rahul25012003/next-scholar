@@ -12,7 +12,7 @@ import { round } from "./calculators";
  * the day someone signs up, without a counsellor having touched it.
  *
  * Every field is nullable and null means unanswered. The requirements checklist
- * this feeds already treats an absent value as "cannot tell" rather than as
+ * this feeds already treats an absent value as "needs checking" rather than as
  * zero, so a half-finished profile degrades into honest uncertainty instead of
  * a wrong answer.
  */
@@ -50,17 +50,17 @@ export const onboardingSteps = [
   {
     id: "where",
     title: "Where",
-    blurb: "Country first. It changes every other answer, so nothing personal is asked before it.",
+    blurb: "Country first. It changes every other answer, so we ask nothing personal before it.",
   },
   {
     id: "you",
     title: "Your record",
-    blurb: "Enough to check you against a published requirement, and nothing beyond that.",
+    blurb: "Only what we need to check you against published requirements.",
   },
   {
     id: "money",
     title: "Money",
-    blurb: "A range is fine. This is the question that decides which routes are real.",
+    blurb: "A rough figure is fine. This answer decides which routes are realistic for you.",
   },
 ] as const;
 
@@ -124,7 +124,7 @@ export function nextSteps(profile: OnboardingProfile): NextStep[] {
   if (!profile.destination) {
     steps.push({
       title: "Pick a destination, or read the three guides first",
-      body: "Each guide runs to sixteen sections with every figure sourced. Reading one is a better use of an hour than any form on any consultancy site.",
+      body: "Each guide has sixteen sections, with a source for every figure.",
       href: "/destinations",
       hrefLabel: "Read the guides",
     });
@@ -137,14 +137,14 @@ export function nextSteps(profile: OnboardingProfile): NextStep[] {
   if (profile.percentage === null) {
     steps.push({
       title: "Add your result",
-      body: "Without it we cannot check you against a single published academic threshold, and every academic row on your checklist says we cannot tell.",
+      body: "Without it we cannot check you against any published academic requirement, so every academic row on your checklist says needs checking.",
     });
   }
 
   if (profile.englishTest === null) {
     steps.push({
       title: "Book the language test, if you have not sat one",
-      body: "It is the longest lead time in the whole plan and nothing else waits for it politely. Work out what band you need before you book.",
+      body: "It takes longer to arrange than anything else in the plan. Work out the band you need before you book.",
       href: "/tools/ielts-band-calculator",
       hrefLabel: "IELTS band calculator",
     });
@@ -153,16 +153,16 @@ export function nextSteps(profile: OnboardingProfile): NextStep[] {
   if (profile.destination === "germany") {
     steps.push({
       title: "Start APS, and look your institution up on anabin",
-      body: "APS takes weeks, it is mandatory for every Indian applicant, and both the university application and the visa application stop without it. anabin takes minutes and decides whether the rest of the plan is real.",
+      body: "APS is mandatory for every Indian applicant and takes weeks; without it, neither the university nor the visa application can go ahead. anabin takes minutes and shows whether the rest of the plan can work.",
       href: "/destinations/germany#academic",
-      hrefLabel: "What APS and anabin actually check",
+      hrefLabel: "What APS and anabin check",
     });
   }
 
   if (profile.fundsInr === null) {
     steps.push({
-      title: "Work out what the year costs before anyone quotes you a fee",
-      body: `The ${country} funding threshold is a published figure and the cost of living is a separate one. Both are on the site, ungated, with the arithmetic shown.`,
+      title: "Work out what the year will cost",
+      body: `The ${country} funding requirement and the cost of living are two separate published figures. Both are on this site, free to use without signing in, with the working shown.`,
       href: `/tools/cost-of-living?destination=${profile.destination}`,
       hrefLabel: "Cost of living calculator",
     });
@@ -170,7 +170,7 @@ export function nextSteps(profile: OnboardingProfile): NextStep[] {
 
   steps.push({
     title: "Book the consultation when you want a person on it",
-    body: "Forty five paid minutes and a written assessment within 24 hours, including the answer nobody sells, which is that you should not go at all. Nothing on this account is gated behind it.",
+    body: "A paid 45-minute session and a written assessment within 24 hours, even if the honest answer is not to go at all. Nothing on this account is gated behind it.",
     href: "/book-consultation",
     hrefLabel: "Book a consultation",
   });

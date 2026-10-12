@@ -79,7 +79,7 @@ export function securityPosture(): PostureItem[] {
       requirement: "Multi factor authentication for staff",
       state: "needs-provider",
       detail:
-        "Required for counselor, manager and founder logins from the first day there are logins. There is no authentication connected yet, so there is nothing to protect with a second factor.",
+        "Required for counsellor, manager and founder logins from the first day there are logins. There is no authentication connected yet, so there is nothing to protect with a second factor.",
     },
     {
       requirement: "Backups and tested restore",

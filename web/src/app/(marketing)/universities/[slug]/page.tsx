@@ -185,8 +185,7 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                     What we have not checked
                   </h2>
                   <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
-                    Listed rather than left as a gap for you to discover. A catalogue that
-                    only prints what it knows looks more complete than it is.
+                    We list these so you do not have to find the gaps yourself.
                   </p>
                   <ul className="mt-4 space-y-2.5">
                     {university.notChecked.map((line) => (
@@ -213,14 +212,13 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                     Exam requirements
                   </h2>
                   <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
-                    Split by level, because they differ and a single figure hides that.
-                    &ldquo;Not required&rdquo; is an explicit answer here, and it is
-                    different from an answer we do not have.
+                    For Master&rsquo;s study. &ldquo;Not required&rdquo; is a clear answer; it
+                    is not the same as an answer we do not have.
                   </p>
                   <div className="mt-4 overflow-x-auto rounded-panel border border-line bg-white">
-                    <table className="w-full min-w-[42rem] border-collapse text-left">
+                    <table className="w-full min-w-[28rem] border-collapse text-left">
                       <caption className="sr-only">
-                        Exam requirements at {university.name}, split by study level.
+                        Exam requirements for Master&rsquo;s study at {university.name}.
                       </caption>
                       <thead>
                         <tr className="border-b border-line bg-light">
@@ -234,13 +232,7 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                             scope="col"
                             className="px-5 py-3 text-[0.75rem] font-semibold text-blue-dark"
                           >
-                            Undergraduate
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-5 py-3 text-[0.75rem] font-semibold text-blue-dark"
-                          >
-                            Postgraduate
+                            Master&rsquo;s
                           </th>
                         </tr>
                       </thead>
@@ -253,9 +245,6 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                             >
                               {exam.exam}
                             </th>
-                            <td className="px-5 py-4">
-                              <FieldValue field={exam.undergraduate} />
-                            </td>
                             <td className="px-5 py-4">
                               <FieldValue field={exam.postgraduate} />
                             </td>
@@ -272,9 +261,9 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                       The rest of the {guide.country} route
                     </h2>
                     <p className="mt-2 text-[0.9375rem] leading-relaxed text-grey">
-                      An offer is one gate. The funding threshold, the visa document file,
-                      the language certificate and the timeline are the others, and they are
-                      set by the country rather than by this institution.
+                      An offer is only one step. The country, not this university, sets the
+                      rest: the funding amount, visa documents, language certificate and
+                      timeline.
                     </p>
                     <Link
                       href={`/destinations/${guide.slug}`}
@@ -299,16 +288,14 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                   Rankings
                 </h2>
                 <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
-                  Each one names the body that published it, the year, and what the rank is
-                  within. None of these is ours, and none of them is a measure of whether a
-                  programme is right for you.
+                  Each one names who published it, the year and what it ranks within. None is
+                  ours, and none tells you whether a programme is right for you.
                 </p>
                 {university.rankings.length === 0 ? (
                   <div className="mt-4 rounded-panel border border-dashed border-line-strong bg-light p-6">
                     <p className="text-[0.9375rem] leading-relaxed text-grey">
-                      No ranking is published here for this institution. It does not appear
-                      in the world tables we would cite, and constructing a position from
-                      something else would be inventing one.
+                      We show no ranking for this institution. It is not in the world tables
+                      we cite, and we will not make one up.
                     </p>
                   </div>
                 ) : (
@@ -328,10 +315,9 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                   </ul>
                 )}
                 <p className="mt-5 max-w-2xl text-[0.875rem] leading-relaxed text-grey">
-                  Rankings are stated as bands wherever the published sources disagreed, and
-                  as an exact position only where the institution itself published one,
-                  because a position moves every year and a stale one printed to the digit
-                  is more misleading than a band that is still true.
+                  We give a band where published sources disagree, and an exact position only
+                  where the institution published one. Positions move every year, and an
+                  out-of-date exact number misleads more than a band.
                 </p>
               </div>
             )}
@@ -342,9 +328,8 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                   Courses in this catalogue
                 </h2>
                 <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
-                  Not every course this university runs. These are the ones we have read the
-                  pages for, and a course being absent means we have not curated it rather
-                  than that it does not exist.
+                  Not every course this university runs, only the ones we have read up on.
+                  If a course is missing, we have not added it; it may still exist.
                 </p>
                 <div className="mt-5 grid gap-5">
                   {university.programmes.map((programme) => (
@@ -432,8 +417,8 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                   Cost of living, {university.city}
                 </h2>
                 <p className="mt-2 text-[0.875rem] leading-relaxed text-grey">
-                  Line-itemised and editable, with every range attributed to the body that
-                  publishes it. Ungated, like every tool here.
+                  Line by line and editable, with a source for every range. No signup, like
+                  every tool here.
                 </p>
                 <Link
                   href={`/tools/cost-of-living?destination=${guide.slug}`}
@@ -449,8 +434,8 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                 Check yourself against the route
               </h2>
               <p className="mt-2 text-[0.875rem] leading-relaxed text-grey">
-                Met, not met, or cannot tell, against every published requirement. No score
-                and no probability of admission.
+                Each published requirement shows as Met, Not met yet or Needs checking. No
+                score and no chance of admission.
               </p>
               <Link
                 href={`/tools/requirements-check?destination=${university.destination}`}

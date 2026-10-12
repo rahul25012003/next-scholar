@@ -35,6 +35,8 @@ export type Figure = {
 export type Requirement = {
   title: string;
   body: string;
+  /** Separate points, rendered as a bullet list under the body. */
+  points?: string[];
   source: string;
   /** Set when the rule only applies to some applicants. */
   appliesTo?: string;

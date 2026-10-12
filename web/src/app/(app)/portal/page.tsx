@@ -1,12 +1,27 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import {
+  ArrowSquareOut,
+  Bell,
+  CalendarBlank,
+  ChatCircleDots,
+  ChatsCircle,
   CheckCircle,
   Circle,
   Clock,
+  ClockCounterClockwise,
+  Envelope,
+  Files,
+  GraduationCap,
+  ListChecks,
+  Path,
+  PencilLine,
+  ShieldCheck,
+  Stamp,
+  UserCircle,
   WarningCircle,
-  ArrowSquareOut,
 } from "@phosphor-icons/react/ssr";
-import { AppShell, EmptyState, Panel } from "@/components/app/shell";
+import { AppShell, EmptyState, PageHead, Panel, Stat } from "@/components/app/shell";
 import { NewAccountState } from "@/components/app/new-account";
 import { emptyOnboarding } from "@/domain/onboarding";
 import { findById } from "@/data/users";
@@ -56,11 +71,13 @@ export default async function PortalPage() {
 
   const record = actor.caseId ? await getCase(actor.caseId, actor) : null;
 
+  const firstName = actor.name.split(" ")[0];
+
   if (!record || !can(actor, "case.read", record)) {
     const user = await findById(actor.id);
     return (
       <AppShell actor={actor} current="/portal">
-      <h1 className="sr-only">Student portal</h1>
+        <PageHead eyebrow="Student portal" title={`Hello, ${firstName}`} />
         <div className="shell">
           <NewAccountState
             name={actor.name}
@@ -82,16 +99,81 @@ export default async function PortalPage() {
   const channelConsents = await listChannelConsents(record.id, actor);
   const threads = studentVisible(await listCommunications(record.id, actor));
 
+  // The four things a student opens this page to find out, read off the same
+  // record the panels below show in full. Nothing here is estimated.
+  const verified = record.documents.filter((document) => document.status === "Verified").length;
+  const nextDeadline = [...record.deadlines]
+    .map((deadline) => ({ ...deadline, days: daysUntil(deadline.date) }))
+    .filter((deadline) => deadline.days >= 0)
+    .sort((a, b) => a.days - b.days)[0];
+
   return (
     <AppShell actor={actor} current="/portal">
-      <h1 className="sr-only">Student portal</h1>
+      <PageHead
+        eyebrow="Student portal"
+        title={`Hello, ${firstName}`}
+        lede="Everything we hold on your case is on this page, and so is everything that is waiting on you."
+      />
+      <div className="shell mb-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <Stat
+          label="Your stage"
+          icon={<Path size={22} weight="duotone" />}
+          value={`${currentIndex + 1} of ${stages.length}`}
+          note={currentStage.name}
+        />
+        <Stat
+          label="Waiting on you"
+          icon={<ListChecks size={22} weight="duotone" />}
+          value={forStudent.length}
+          note={forStudent.length === 0 ? "Your counsellor has the next move" : "Listed under what needs doing next"}
+        />
+        <Stat
+          label="Next deadline"
+          icon={<CalendarBlank size={22} weight="duotone" />}
+          value={nextDeadline ? `${nextDeadline.days} ${nextDeadline.days === 1 ? "day" : "days"}` : "None"}
+          note={nextDeadline ? `${nextDeadline.label}, ${nextDeadline.date}` : "No deadline has been entered"}
+        />
+        <Stat
+          label="Documents verified"
+          icon={<Files size={22} weight="duotone" />}
+          value={`${verified} of ${record.documents.length}`}
+          note="Each checked by a named person"
+        />
+      </div>
+
       <div className="shell grid gap-6 lg:grid-cols-[1.6fr_1fr]">
-        <div className="grid gap-6">
+        {/* content-start, like the column beside it. Without it this column
+            stretched to the taller one's height and shared the difference
+            between its panels as blank white space. */}
+        <div className="grid content-start gap-6">
           <Panel
+            icon={<Path size={22} weight="duotone" />}
             title="Where your application is"
             description={`${currentStage.name}. ${currentStage.summary}`}
           >
             <div className="px-6 py-6">
+              <div className="mb-6">
+                <p className="small figures mb-2 font-bold text-blue-dark">
+                  Stage {currentIndex + 1} of {stages.length}
+                </p>
+                {/* One segment per stage; the list below names them. */}
+                <ol className="Stage-track" aria-hidden>
+                  {stages.map((stage, index) => (
+                    <li
+                      key={stage.key}
+                      className={
+                        index < currentIndex
+                          ? "Stage-track__seg is-done"
+                          : index === currentIndex
+                            ? "Stage-track__seg is-current"
+                            : "Stage-track__seg"
+                      }
+                      style={{ "--i": index } as CSSProperties}
+                    />
+                  ))}
+                </ol>
+              </div>
+
               <ol className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                 {stages.map((stage, index) => {
                   const done = index < currentIndex;
@@ -99,6 +181,7 @@ export default async function PortalPage() {
                   return (
                     <li
                       key={stage.key}
+                      aria-current={active ? "step" : undefined}
                       className={
                         active
                           ? "flex items-center gap-2 rounded-input bg-light px-3 py-2"
@@ -107,13 +190,12 @@ export default async function PortalPage() {
                     >
                       {done ? (
                         <CheckCircle size={16} weight="fill" className="shrink-0 text-verified" aria-hidden />
+                      ) : active ? (
+                        <span className="Stage-pulse">
+                          <Circle size={16} weight="fill" className="text-pink" aria-hidden />
+                        </span>
                       ) : (
-                        <Circle
-                          size={16}
-                          weight={active ? "fill" : "regular"}
-                          className={active ? "shrink-0 text-pink" : "shrink-0 text-line-strong"}
-                          aria-hidden
-                        />
+                        <Circle size={16} weight="regular" className="shrink-0 text-line-strong" aria-hidden />
                       )}
                       <span
                         className={
@@ -143,13 +225,14 @@ export default async function PortalPage() {
           </Panel>
 
           <Panel
+            icon={<ListChecks size={22} weight="duotone" />}
             title="What needs doing next"
-            description="Only the items that need something from you. Everything else sits with your counselor."
+            description="Only the items that need something from you. Everything else sits with your counsellor."
           >
             {forStudent.length === 0 ? (
               <EmptyState
                 headline="Nothing is waiting on you"
-                body="Your counselor has the next move. You will see it here when that changes."
+                body="Your counsellor has the next move. You will see it here when that changes."
               />
             ) : (
               <ul className="divide-y divide-line">
@@ -182,13 +265,14 @@ export default async function PortalPage() {
           </Panel>
 
           <Panel
+            icon={<Files size={22} weight="duotone" />}
             title="Your documents"
             description="A document is verified only when a named person at Next Scholar has checked it against the original. No automated system can set that."
           >
             {record.documents.length === 0 ? (
               <EmptyState
                 headline="No documents uploaded yet"
-                body="Your counselor will tell you which ones to send, and in what order."
+                body="Your counsellor will tell you which ones to send, and in what order."
               />
             ) : (
               <ul className="divide-y divide-line">
@@ -243,39 +327,54 @@ export default async function PortalPage() {
           <Offers record={record} />
 
           <Panel
+            icon={<ChatCircleDots size={22} weight="duotone" />}
             title="Questions"
-            description="The one place a machine answers you here, and only from your own record."
+            description="The only place here where a machine answers you, and only from your own record."
           >
             <AskGuidance counselor={record.counselor} />
           </Panel>
 
           <Panel
+            icon={<PencilLine size={22} weight="duotone" />}
             title="Your statement of purpose"
-            description="Coaching only. Nothing here writes it for you, by design and by permission."
+            description="Coaching only. Nothing here writes it for you."
           >
             <SopCoach />
           </Panel>
         </div>
 
         <div className="grid content-start gap-6">
-          <Panel title="Deadlines">
+          <Panel icon={<CalendarBlank size={22} weight="duotone" />} title="Deadlines">
             {record.deadlines.length === 0 ? (
               <EmptyState
                 headline="No deadlines on file"
-                body="Nothing has been entered. That means nothing is known, not that nothing exists."
+                body="None has been entered yet. That does not mean there are none."
               />
             ) : (
               <ul className="divide-y divide-line">
                 {record.deadlines.map((deadline) => {
                   const days = daysUntil(deadline.date);
                   return (
-                    <li key={deadline.label} className="px-6 py-4">
-                      <p className="text-[0.9375rem] font-medium text-blue-dark">
-                        {deadline.label}
-                      </p>
-                      <p className="figures mt-1 text-[0.8125rem] text-grey">
-                        {deadline.date}, {days} {days === 1 ? "day" : "days"} away
-                      </p>
+                    <li
+                      key={deadline.label}
+                      className="flex items-center justify-between gap-4 px-6 py-4"
+                    >
+                      <div>
+                        <p className="text-[0.9375rem] font-medium text-blue-dark">
+                          {deadline.label}
+                        </p>
+                        <p className="figures mt-1 text-[0.8125rem] text-grey">{deadline.date}</p>
+                      </div>
+                      {/* How close it is, readable without doing the subtraction. */}
+                      <span
+                        className={
+                          days <= 21
+                            ? "figures shrink-0 rounded-input bg-denied-bg px-3 py-1 text-[0.8125rem] font-bold text-denied"
+                            : "figures shrink-0 rounded-input bg-light px-3 py-1 text-[0.8125rem] font-bold text-blue-dark"
+                        }
+                      >
+                        {days} {days === 1 ? "day" : "days"}
+                      </span>
                     </li>
                   );
                 })}
@@ -284,6 +383,7 @@ export default async function PortalPage() {
           </Panel>
 
           <Panel
+            icon={<Stamp size={22} weight="duotone" />}
             title="Visa"
             description="Recorded by a person when it happens. Nothing here is predicted."
           >
@@ -303,26 +403,34 @@ export default async function PortalPage() {
             </div>
           </Panel>
 
-          <Panel title="Your counselor">
+          <Panel icon={<UserCircle size={22} weight="duotone" />} title="Your counsellor">
             <div className="px-6 py-5">
-              <p className="text-[0.9375rem] font-medium text-blue-dark">
+              <p className="flex items-center gap-3 text-[0.9375rem] font-medium text-blue-dark">
+                <span className="Avatar" aria-hidden>
+                  {record.counselor
+                    .split(" ")
+                    .map((part) => part[0])
+                    .slice(0, 2)
+                    .join("")}
+                </span>
                 {record.counselor}
               </p>
-              <p className="mt-1 text-[0.8125rem] leading-relaxed text-grey">
-                Messages sent through the portal reach them directly. A published
-                phone line and email arrive with the registered entity.
+              <p className="mt-3 text-[0.8125rem] leading-relaxed text-grey">
+                Messages sent through the portal reach them directly. A public phone
+                line and email will follow once the company is registered.
               </p>
             </div>
           </Panel>
 
           <Panel
+            icon={<Bell size={22} weight="duotone" />}
             title="Notifications"
             description="Raised from dates and timestamps already on your file."
           >
             {notifications.length === 0 ? (
               <EmptyState
                 headline="Nothing outstanding"
-                body="No threshold on your case has been crossed."
+                body="Nothing on your case has reached a reminder point."
               />
             ) : (
               <ul className="divide-y divide-line">
@@ -343,13 +451,14 @@ export default async function PortalPage() {
           </Panel>
 
           <Panel
+            icon={<ShieldCheck size={22} weight="duotone" />}
             title="What you have agreed to share"
-            description="Per document category, naming who it goes to. Withdrawable at any time."
+            description="For each type of document, with who it goes to. You can withdraw at any time."
           >
             {consents.length === 0 ? (
               <EmptyState
                 headline="No consent on file"
-                body="Nothing has been collected, because nothing may be collected without your written consent first."
+                body="Nothing has been collected. Nothing can be, without your written consent first."
               />
             ) : (
               <ConsentList consents={consents} />
@@ -357,20 +466,22 @@ export default async function PortalPage() {
           </Panel>
 
           <Panel
+            icon={<Envelope size={22} weight="duotone" />}
             title="How we may contact you"
-            description="The permission, recorded per channel. The notification planner refuses to queue a message on a channel with no live opt in, so turning one off actually stops messages rather than filtering them."
+            description="Your permission for each channel. Turning one off stops messages on it completely."
           >
             <ChannelPreferences caseId={record.id} consents={channelConsents} />
           </Panel>
 
           <Panel
-            title="What you and your counselor have said"
-            description="Your correspondence with us. Internal notes about your case are not shown here, because they are not addressed to you."
+            icon={<ChatsCircle size={22} weight="duotone" />}
+            title="What you and your counsellor have said"
+            description="Your messages with us. Internal notes about your case are not shown, as they are not addressed to you."
           >
             {threads.length === 0 ? (
               <EmptyState
                 headline="Nothing yet"
-                body="Messages between you and your counselor appear here."
+                body="Messages between you and your counsellor appear here."
               />
             ) : (
               <ul className="divide-y divide-line">
@@ -395,8 +506,9 @@ export default async function PortalPage() {
           </Panel>
 
           <Panel
+            icon={<ClockCounterClockwise size={22} weight="duotone" />}
             title="What has happened"
-            description="Written by people. Machine written entries are labelled as such."
+            description="Written by people. Anything machine written is labelled."
           >
             <ol className="divide-y divide-line">
               {[...record.log].reverse().map((entry) => (
@@ -423,8 +535,9 @@ function Offers({ record }: { record: StudentCase }) {
 
   return (
     <Panel
+      icon={<GraduationCap size={22} weight="duotone" />}
       title="Applications and offers"
-      description="Every reference number and portal login we hold on your behalf. No admission or visa likelihood is shown here, or anywhere else."
+      description="Every reference number and portal login we hold for you. We never show a chance of admission or a visa, here or anywhere else."
     >
       {decided.length === 0 ? (
         <EmptyState

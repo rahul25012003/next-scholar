@@ -42,7 +42,7 @@ export function ConsentList({ consents }: { consents: ConsentRecord[] }) {
               ) : (
                 <form action={formAction}>
                   <input type="hidden" name="consentId" value={consent.id} />
-                  <Button type="submit" variant="outline" disabled={pending}>
+                  <Button type="submit" variant="outline" disabled={pending} aria-busy={pending}>
                     Withdraw
                   </Button>
                 </form>

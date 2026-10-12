@@ -8,7 +8,7 @@ import { cn } from "@/lib/cn";
 export const metadata: Metadata = {
   title: "Rankings",
   description:
-    "Every ranking published for the forty-five institutions in our catalogue, each naming its own body and year. Sorted alphabetically, never by rank, because comparing a rank from one body against a rank from another would be inventing a number nobody published.",
+    "Every published ranking for the forty-five institutions in our catalogue, each with its source and year. Listed A to Z, not by rank.",
   alternates: { canonical: "/universities/rankings" },
 };
 
@@ -44,7 +44,7 @@ export default async function RankingsPage(props: PageProps<"/universities/ranki
     <>
       <PageHero
         title="Rankings, as published"
-        lede="Alphabetical by institution, not by rank. A QS band and a Times Higher band are not the same scale, and averaging or reordering by them would be a number we invented rather than one anybody published."
+        lede="Listed A to Z, not by rank. QS and Times Higher use different scales, so we do not average them or sort by them."
       />
 
       <section className="band">
@@ -173,11 +173,11 @@ export default async function RankingsPage(props: PageProps<"/universities/ranki
           </div>
 
           <p className="mt-6 max-w-2xl text-[0.875rem] leading-relaxed text-grey">
-            Forty-five institutions, seeded by hand. See{" "}
+            Forty-five institutions, chosen by hand. See{" "}
             <Link href="/universities" className="font-medium text-pink hover:text-blue-dark">
               the full catalogue
             </Link>{" "}
-            for fees, commission and courses.
+            for fees and courses.
           </p>
         </div>
       </section>

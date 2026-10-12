@@ -5,6 +5,8 @@ import { ArrowCounterClockwise } from "@phosphor-icons/react";
 import type { DestinationGuide, IndicativeRate } from "@/content/guides";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
+import { SubmitBar, useSubmitted } from "@/components/tools/submit";
+import { countryInSentence } from "@/lib/country";
 
 type Level = "low" | "mid" | "high";
 
@@ -69,25 +71,52 @@ export function CostOfLivingCalculator({
     [city, level, overrides, excluded],
   );
 
-  const monthly = rows
-    .filter((row) => row.included)
-    .reduce((total, row) => total + row.value, 0);
-
   const reset = () => {
     setOverrides({});
     setLevel("mid");
     setExcluded(city.lines.filter((line) => line.optional).map((line) => line.id));
   };
 
-  const livingInr = Math.round(monthly * 12 * rate.inrPerUnit);
   const [tuitionInr, setTuitionInr] = useState(0);
   const [fundsInr, setFundsInr] = useState(0);
-  const firstYearInr = livingInr + tuitionInr;
-  const gapInr = Math.max(0, firstYearInr - fundsInr);
-  const surplusInr = Math.max(0, fundsInr - firstYearInr);
+
+  // The lines stay editable as you type; the totals are worked out from what
+  // was last submitted, so they change only when Submit is pressed.
+  const { submitted, dirty, round, onSubmit, resultsRef } = useSubmitted({
+    citySlug,
+    level,
+    excluded,
+    overrides,
+    tuitionInr,
+    fundsInr,
+  });
+  const totals = useMemo(() => {
+    if (submitted === null) return null;
+    const chosen = guide.living.cities.find((item) => item.slug === submitted.citySlug)!;
+    const monthly = chosen.lines
+      .filter((line) => !submitted.excluded.includes(line.id))
+      .reduce(
+        (total, line) =>
+          total +
+          (submitted.overrides[`${chosen.slug}:${line.id}`] ??
+            pick(line.low, line.high, submitted.level)),
+        0,
+      );
+    const livingInr = Math.round(monthly * 12 * rate.inrPerUnit);
+    const firstYearInr = livingInr + submitted.tuitionInr;
+    return {
+      monthly,
+      livingInr,
+      tuitionInr: submitted.tuitionInr,
+      fundsInr: submitted.fundsInr,
+      firstYearInr,
+      gapInr: Math.max(0, firstYearInr - submitted.fundsInr),
+      surplusInr: Math.max(0, submitted.fundsInr - firstYearInr),
+    };
+  }, [submitted, guide, rate]);
 
   return (
-    <div className="rounded-panel border border-line bg-white">
+    <form className="rounded-panel border border-line bg-white" onSubmit={onSubmit}>
       <div className="border-b border-line p-6 md:p-7">
         <fieldset>
           <legend className="text-[0.8125rem] font-semibold text-blue-dark">City</legend>
@@ -251,8 +280,7 @@ export function CostOfLivingCalculator({
               </th>
               <td />
               <td className="figures px-6 py-5 text-right text-[1.25rem] font-bold text-blue-dark">
-                {symbol}
-                {monthly.toLocaleString("en-IN")}
+                {totals ? `${symbol}${totals.monthly.toLocaleString("en-IN")}` : <Pending />}
               </td>
             </tr>
             <tr className="border-t border-line">
@@ -264,23 +292,29 @@ export function CostOfLivingCalculator({
               </th>
               <td />
               <td className="px-6 py-5 text-right">
-                <span className="figures block text-[1.25rem] font-bold text-blue-dark">
-                  {symbol}
-                  {(monthly * 12).toLocaleString("en-IN")}
-                </span>
-                <span className="figures mt-1 block text-[0.875rem] text-grey">
-                  about ₹
-                  {(
-                    Math.round((monthly * 12 * rate.inrPerUnit) / 1000) * 1000
-                  ).toLocaleString("en-IN")}
-                </span>
+                {totals ? (
+                  <>
+                    <span className="figures block text-[1.25rem] font-bold text-blue-dark">
+                      {symbol}
+                      {(totals.monthly * 12).toLocaleString("en-IN")}
+                    </span>
+                    <span className="figures mt-1 block text-[0.875rem] text-grey">
+                      about ₹
+                      {(
+                        Math.round((totals.monthly * 12 * rate.inrPerUnit) / 1000) * 1000
+                      ).toLocaleString("en-IN")}
+                    </span>
+                  </>
+                ) : (
+                  <Pending />
+                )}
               </td>
             </tr>
           </tfoot>
         </table>
       </div>
 
-      <div className="border-t border-line p-6 md:p-7">
+      <div ref={resultsRef} className="scroll-mt-24 border-t border-line p-6 md:p-7">
         <h3 className="text-blue-dark h--6">
           Add tuition and funds to see the first year whole
         </h3>
@@ -331,22 +365,34 @@ export function CostOfLivingCalculator({
             </span>
           </label>
         </div>
-        <p className="figures mt-4 text-[0.9375rem] text-blue-dark">
-          First year, living plus tuition: <span className="font-bold">₹{firstYearInr.toLocaleString("en-IN")}</span>
-          {" "}(₹{livingInr.toLocaleString("en-IN")} living + ₹{tuitionInr.toLocaleString("en-IN")} tuition).
-        </p>
-        {fundsInr > 0 && (
-          <p className={cn("figures mt-1.5 text-[0.9375rem] font-medium", gapInr > 0 ? "text-denied" : "text-verified")}>
-            {gapInr > 0
-              ? `Shortfall of ₹${gapInr.toLocaleString("en-IN")} against the funds shown so far.`
-              : `Covered, with ₹${surplusInr.toLocaleString("en-IN")} to spare against this estimate.`}
-          </p>
+        <SubmitBar round={round} dirty={dirty} />
+        {totals && (
+          <div key={round} className="rise">
+            <p className="figures mt-4 text-[0.9375rem] text-blue-dark">
+              First year, living plus tuition:{" "}
+              <span className="font-bold">₹{totals.firstYearInr.toLocaleString("en-IN")}</span>{" "}
+              (₹{totals.livingInr.toLocaleString("en-IN")} living + ₹
+              {totals.tuitionInr.toLocaleString("en-IN")} tuition).
+            </p>
+            {totals.fundsInr > 0 && (
+              <p
+                className={cn(
+                  "figures mt-1.5 text-[0.9375rem] font-medium",
+                  totals.gapInr > 0 ? "text-denied" : "text-verified",
+                )}
+              >
+                {totals.gapInr > 0
+                  ? `Shortfall of ₹${totals.gapInr.toLocaleString("en-IN")} against the funds shown so far.`
+                  : `Covered, with ₹${totals.surplusInr.toLocaleString("en-IN")} to spare against this estimate.`}
+              </p>
+            )}
+          </div>
         )}
         <p className="mt-2 text-[0.8125rem] text-grey">
           This is not the visa authority&rsquo;s blocked-account or funds requirement, which is a
           separate, stricter figure on the destination guide. Scholarships for{" "}
           <a href={`/scholarships?destination=${guide.slug}`} className="text-pink underline">
-            {guide.country}
+            {countryInSentence(guide.country)}
           </a>{" "}
           are not included here either.
         </p>
@@ -372,11 +418,16 @@ export function CostOfLivingCalculator({
             connected to this site, so the rupee column moves only when someone edits it.
           </p>
         </div>
-        <Button variant="outline" onClick={reset} className="shrink-0">
+        <Button type="button" variant="outline" onClick={reset} className="shrink-0">
           <ArrowCounterClockwise size={15} weight="bold" aria-hidden />
           Reset to our figures
         </Button>
       </div>
-    </div>
+    </form>
   );
+}
+
+/** Where a total will appear once the figures are submitted. */
+function Pending() {
+  return <span className="text-[0.8125rem] font-normal text-grey">Press Submit to calculate</span>;
 }

@@ -1,21 +1,20 @@
 import { Check, Minus } from "@phosphor-icons/react/ssr";
 import { Reveal } from "@/components/ui/reveal";
 import { ImageSwipe } from "@/components/marketing/image-swipe";
-import { heroPortraitImage, photos, photoUrl } from "@/content/photos";
+import { photos, photoUrl } from "@/content/photos";
 import { site } from "@/content/site";
 
 const usual = [
-  "The commission is real, and it is never disclosed to you.",
-  "Universities that pay nothing quietly stop appearing on shortlists.",
-  "You pay a service fee on top, without knowing about the second income.",
-  "The shortlist cannot be audited, so it cannot be argued with.",
+  "They are paid a commission, and you are never told about it.",
+  "Universities that pay nothing quietly drop off the shortlist.",
+  "You pay them a fee as well, without knowing they are paid twice.",
+  "You cannot check the shortlist, so you cannot question it.",
 ];
 
 const ours = [
-  "Every figure is published before you pay us anything.",
-  "The routes that pay us nothing get their own page, with instructions to apply without us.",
-  "A commission above the category average is flagged in writing on the shortlist, before the recommendation.",
-  "Every row is re-verified and republished quarterly, with the date attached.",
+  "You see every figure before you pay us anything.",
+  "If a university pays us more than double the average for its category, the shortlist says so in writing before we recommend it.",
+  "We re-check every figure each quarter and show the date.",
 ];
 
 /**
@@ -24,7 +23,6 @@ const ours = [
  * two comparison lists sit under the copy in the same half.
  */
 export function TheProblem() {
-  const landmark = photos.destinations["united-kingdom"];
 
   return (
     <section className="Intro constrain anim-home--intro">
@@ -35,11 +33,9 @@ export function TheProblem() {
 
         <div className="Intro__copy flow">
           <p>
-            Most consultancies are paid by the universities they place you at,
-            commonly ten to twenty percent of your first year tuition. None of
-            that is illegal. It just means the universities that pay nothing
-            stop appearing on shortlists, and you never find out which ones
-            they were.
+            Most consultancies are paid by the universities they send you to,
+            often ten to twenty percent of your first year tuition. That is
+            legal, but it changes which universities you hear about.
           </p>
 
           <Reveal>
@@ -72,8 +68,8 @@ export function TheProblem() {
         </div>
 
         <ImageSwipe
-          top={{ src: heroPortraitImage.src, alt: photos.heroPortrait.alt }}
-          bottom={{ src: photoUrl(landmark, 600, 600), alt: landmark.alt }}
+          top={{ src: photoUrl(photos.collagePerson, 600, 600), alt: photos.collagePerson.alt }}
+          bottom={{ src: photoUrl(photos.collagePlace, 800, 800), alt: photos.collagePlace.alt }}
           ring={site.pitch}
         />
       </div>

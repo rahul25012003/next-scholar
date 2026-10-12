@@ -14,7 +14,7 @@ import { lastReviewed } from "@/content/site";
 export const metadata: Metadata = {
   title: "Anti fraud and data protection",
   description:
-    "Document integrity commitments, the safeguards enforced in the platform itself, and an honest account of what our data protection policy still does not cover.",
+    "Our document integrity rules, the safeguards built into the platform, and what our data protection policy does not cover yet.",
 };
 
 export default function AntiFraudPolicyPage() {
@@ -22,7 +22,7 @@ export default function AntiFraudPolicyPage() {
     <>
       <PageHero
         title="Anti fraud and data protection"
-        lede="Two policies on one page. The first is finished and non negotiable. The second is an unfinished draft, published in that state rather than dressed up as complete."
+        lede="Two policies on one page. The first is final and not negotiable. The second is an unfinished draft, and we publish it as one."
         aside={
           <div className="rounded-panel border border-line bg-white p-6">
             <p className="text-[0.8125rem] text-grey">Page last reviewed</p>
@@ -30,8 +30,8 @@ export default function AntiFraudPolicyPage() {
               {lastReviewed}
             </p>
             <p className="mt-3 text-[0.8125rem] leading-relaxed text-grey">
-              The data protection half has not been through legal review. The
-              open items below are listed as gaps, not as features.
+              A lawyer has not yet reviewed the data protection half. The open
+              items below are gaps, not features.
             </p>
           </div>
         }
@@ -124,7 +124,7 @@ export default function AntiFraudPolicyPage() {
           <div className="mt-12 grid gap-12 lg:grid-cols-2 lg:gap-16">
             <div>
               <h3 className="text-blue-dark h--5">
-                What we collect
+                1. What we collect
               </h3>
               <p className="mt-3 text-[0.9375rem] leading-relaxed text-grey">
                 {dataProtection.collected.intro}
@@ -141,14 +141,14 @@ export default function AntiFraudPolicyPage() {
               </ul>
 
               <h3 className="mt-10 text-blue-dark h--5">
-                Consent
+                2. Consent
               </h3>
               <p className="mt-3 text-[0.9375rem] leading-relaxed text-grey">
                 {dataProtection.consent}
               </p>
 
               <h3 className="mt-10 text-blue-dark h--5">
-                Under the DPDP Act 2023
+                3. Under the DPDP Act 2023
               </h3>
               <ul className="mt-4 divide-y divide-line border-t border-line">
                 {dataProtection.dpdpItems.map((item) => (
@@ -161,11 +161,11 @@ export default function AntiFraudPolicyPage() {
 
             <div>
               <h3 className="text-blue-dark h--5">
-                What this policy still does not answer
+                4. What this policy still does not answer
               </h3>
               <p className="mt-3 text-[0.9375rem] leading-relaxed text-grey">
-                Four gaps. Each one needs a real answer, and a lawyer, before
-                the first student document is accepted.
+                Four gaps. Each needs a real answer, and a lawyer, before we
+                accept the first student document.
               </p>
               <dl className="mt-6 space-y-5">
                 {dataProtection.openItems.map((item) => (

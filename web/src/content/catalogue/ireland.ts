@@ -15,7 +15,7 @@ const RESEARCHED_ON = "2026-09-10";
 const ON_RECORD =
   "Institution's own published record, not re-read at source this pass";
 const FEE_QUALIFIER =
-  "Indicative annual tuition for a non-EU student, rounded to the nearest thousand from the institution's published fee schedule. The programme's own fee page governs, and at least EUR 6,000 of it is paid before the visa application rather than after.";
+  "Approximate yearly tuition for a non-EU student, from the published fee schedule. The programme's own fee page is final, and at least EUR 6,000 is paid before the visa application, not after.";
 
 const IE_COMMISSION = {
   display: "₹90k to ₹1.6L",
@@ -23,7 +23,7 @@ const IE_COMMISSION = {
   highInr: 160000,
   status: "unverified" as const,
   source: "market-estimate" as const,
-  note: "A market typical band for an Irish institution, not a contract term and not confirmed by this university.",
+  note: "A typical market band for an Irish institution, not a contract term and not confirmed by this institution.",
 };
 
 /**
@@ -46,7 +46,7 @@ export const irishUniversities: University[] = [
     flagCode: "ie",
     initials: "UCD",
     summary:
-      "Ireland's largest university, on a campus south of the city centre. The academic case is straightforward and the accommodation case is the hardest of any institution on this catalogue.",
+      "Ireland's largest university, on a campus south of the city centre. The academic side is straightforward; finding accommodation is harder than at any other institution in this catalogue.",
     commission: IE_COMMISSION,
     highlights: {
       established: stated(1854, "Institution's own history page", ON),
@@ -58,7 +58,7 @@ export const irishUniversities: University[] = [
       ),
       staffRatio: unknown("Not published in a form comparable with other institutions here."),
       acceptanceRate: unknown(
-        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+        "Not published for the whole university. It varies hugely by programme, so one overall rate would tell you nothing about your course.",
       ),
       accreditation: stated(
         "Recognised Irish degree-awarding body, programmes on the National Framework of Qualifications",
@@ -93,7 +93,7 @@ export const irishUniversities: University[] = [
       },
     ],
     tuitionNote: stated(
-      "Full non-EU tuition. At least EUR 6,000 of it, or the whole fee where the fee is lower, is paid and receipted before the visa application is submitted, which makes the Irish route the most front-loaded of our three.",
+      "Full non-EU tuition. You must pay at least EUR 6,000 (or the whole fee, if lower) and get a receipt before applying for the visa, so Ireland asks for the most money up front of our three countries.",
       "Institution's published fee schedule, and Irish Immigration Service Delivery",
       ON,
     ),
@@ -120,7 +120,7 @@ export const irishUniversities: University[] = [
           },
         ],
         entryRequirement: stated(
-          "An honours degree in computer science or a closely related subject, commonly stated as 55 to 60 per cent for an Indian applicant depending on the institution.",
+          "An honours degree in computer science or a closely related subject. For an Indian applicant this is commonly 55 to 60 per cent, depending on the institution.",
           "Institution's admission pages",
           ON,
         ),
@@ -161,8 +161,8 @@ export const irishUniversities: University[] = [
       },
     ],
     notChecked: [
-      "Whether either programme is Level 9 on the National Framework of Qualifications for the coming intake. It almost certainly is, and it decides whether post-study permission is 12 months or up to 24, so it is confirmed rather than assumed.",
-      "Campus accommodation availability, which on this route is the binding constraint rather than the fee.",
+      "Whether either programme is Level 9 on the National Framework of Qualifications for the coming intake. It almost certainly is, but it decides whether you get 12 or up to 24 months of post-study permission, so we confirm it rather than assume.",
+      "Campus accommodation availability. On this route it is the real limit, more than the fee.",
     ],
   },
 
@@ -176,7 +176,7 @@ export const irishUniversities: University[] = [
     flagCode: "ie",
     initials: "TCD",
     summary:
-      "Ireland's oldest university, in the centre of Dublin. The highest-ranked institution on this catalogue's Irish list, on the tightest housing market of any city here.",
+      "Ireland's oldest university, in the centre of Dublin. It is the highest-ranked on our Irish list, in the tightest housing market of any city here.",
     commission: IE_COMMISSION,
     highlights: {
       established: stated(1592, "Institution's own history page", ON),
@@ -187,10 +187,10 @@ export const irishUniversities: University[] = [
         ON,
       ),
       staffRatio: unknown(
-        "Not published in a form comparable with the other institutions on this catalogue, so printing it next to them would invite a comparison the figures do not support.",
+        "Not published in a form that compares fairly with the other universities in this catalogue.",
       ),
       acceptanceRate: unknown(
-        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+        "Not published for the whole university. It varies hugely by programme, so one overall rate would tell you nothing about your course.",
       ),
       accreditation: stated(
         "Recognised Irish degree-awarding body, programmes on the National Framework of Qualifications",
@@ -263,7 +263,7 @@ export const irishUniversities: University[] = [
       },
     ],
     notChecked: [
-      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. It almost certainly is, and it decides whether post-study permission is 12 months or up to 24, so it is confirmed rather than assumed.",
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. It almost certainly is, but it decides whether you get 12 or up to 24 months of post-study permission, so we confirm it rather than assume.",
       "The programme's own application closing date, which on competitive Trinity programmes can be earlier than the general one.",
     ],
   },
@@ -278,7 +278,7 @@ export const irishUniversities: University[] = [
     flagCode: "ie",
     initials: "UG",
     summary:
-      "A smaller city on the west coast, with a medical technology and analytics cluster around it, and rents materially below Dublin. Accommodation is still tight and still cycles hard with the academic year.",
+      "A university in a smaller west-coast city with a medical technology and analytics cluster, and rents well below Dublin. Accommodation is still tight and swings sharply with the academic year.",
     commission: IE_COMMISSION,
     highlights: {
       established: stated(1845, "Institution's own history page", ON),
@@ -289,10 +289,10 @@ export const irishUniversities: University[] = [
         ON,
       ),
       staffRatio: unknown(
-        "Not published in a form comparable with the other institutions on this catalogue, so printing it next to them would invite a comparison the figures do not support.",
+        "Not published in a form that compares fairly with the other universities in this catalogue.",
       ),
       acceptanceRate: unknown(
-        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+        "Not published for the whole university. It varies hugely by programme, so one overall rate would tell you nothing about your course.",
       ),
       accreditation: stated(
         "Recognised Irish degree-awarding body, programmes on the National Framework of Qualifications",
@@ -365,7 +365,7 @@ export const irishUniversities: University[] = [
       },
     ],
     notChecked: [
-      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. It almost certainly is, and it decides whether post-study permission is 12 months or up to 24, so it is confirmed rather than assumed.",
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. It almost certainly is, but it decides whether you get 12 or up to 24 months of post-study permission, so we confirm it rather than assume.",
       "Accommodation availability for the coming September, which in Galway runs out earlier than in Dublin relative to demand.",
     ],
   },
@@ -380,7 +380,7 @@ export const irishUniversities: University[] = [
     flagCode: "ie",
     initials: "UL",
     summary:
-      "Built around a cooperative education model, so its programmes are more likely than most Irish ones to include a structured work placement. Whether a given placement is compatible with a Stamp 2 permission is a question to ask before applying, not after.",
+      "Built around cooperative education, so its programmes are more likely than most in Ireland to include a structured work placement. Ask whether a placement fits a Stamp 2 permission before you apply, not after.",
     commission: IE_COMMISSION,
     highlights: {
       established: stated(1972, "Institution's own history page", ON),
@@ -391,10 +391,10 @@ export const irishUniversities: University[] = [
         ON,
       ),
       staffRatio: unknown(
-        "Not published in a form comparable with the other institutions on this catalogue, so printing it next to them would invite a comparison the figures do not support.",
+        "Not published in a form that compares fairly with the other universities in this catalogue.",
       ),
       acceptanceRate: unknown(
-        "Not published at institution level. It varies enormously by programme, and a single institutional rate would say nothing useful about the course you are applying to.",
+        "Not published for the whole university. It varies hugely by programme, so one overall rate would tell you nothing about your course.",
       ),
       accreditation: stated(
         "Recognised Irish degree-awarding body, programmes on the National Framework of Qualifications",
@@ -463,13 +463,13 @@ export const irishUniversities: University[] = [
         prerequisites: stated(["Programming", "Mathematics", "Statistics"], "Programme page", ON),
         languageOfInstruction: "English",
         placement: unknown(
-          "This institution's cooperative education model means a placement may be available, and whether it is open to a student on a Stamp 2 permission is a question for the international office rather than an assumption.",
+          "A placement may be available through the university's cooperative education model. Ask the international office whether it is open to a student on a Stamp 2 permission.",
         ),
         campus: "Limerick",
       },
     ],
     notChecked: [
-      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. It almost certainly is, and it decides whether post-study permission is 12 months or up to 24, so it is confirmed rather than assumed.",
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. It almost certainly is, but it decides whether you get 12 or up to 24 months of post-study permission, so we confirm it rather than assume.",
       "Whether the cooperative placement is available to non-EU students, and under which immigration permission.",
     ],
   },
@@ -484,7 +484,7 @@ export const irishUniversities: University[] = [
     flagCode: "ie",
     initials: "DCU",
     summary:
-      "A newer, technology-focused Dublin university with strong industry links, and a January intake this catalogue's other Dublin institutions do not offer.",
+      "A newer, technology-focused Dublin university with strong industry links. It offers a January intake, which the other Dublin institutions in this catalogue do not.",
     commission: IE_COMMISSION,
     highlights: {
       established: stated(1980, ON_RECORD, RESEARCHED_ON),
@@ -523,7 +523,7 @@ export const irishUniversities: University[] = [
       },
     ],
     tuitionNote: stated(
-      "Full international tuition, payable in two instalments. At least EUR 6,000 of it has to be shown as paid before the visa application, the same rule the rest of this Irish catalogue states.",
+      "Full international tuition, payable in two instalments. As across Ireland, you must show at least EUR 6,000 paid before the visa application.",
       "Reported consistently across independent fee-comparison publications; the institution's own fee page was not directly read this pass",
       RESEARCHED_ON,
     ),
@@ -554,20 +554,20 @@ export const irishUniversities: University[] = [
           },
         ],
         entryRequirement: stated(
-          "An honours degree equivalent to at least a Second Class Honours, Lower Division (2:2); some programme options ask for Upper Division (2:1).",
+          "An honours degree equivalent to at least a Second Class Honours, Lower Division (2:2). Some programme options ask for Upper Division (2:1).",
           "Reported consistently across independent admissions publications; the institution's own programme page was not directly read this pass",
           RESEARCHED_ON,
         ),
-        prerequisites: unknown("Not checked this pass."),
+        prerequisites: unknown("We have not checked this yet."),
         languageOfInstruction: "English",
-        placement: unknown("Not checked this pass."),
+        placement: unknown("We have not checked this yet."),
         campus: "Glasnevin, Dublin",
       },
     ],
     notChecked: [
-      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. It almost certainly is, and it decides whether post-study permission is 12 months or up to 24, so it is confirmed rather than assumed.",
-      "The exact tuition figure and entry requirement wording: convergent-secondary this pass, not read directly off the institution's own pages.",
-      "This January intake date is close; a September intake may also exist for this programme and was not checked this pass.",
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. It almost certainly is, but it decides whether you get 12 or up to 24 months of post-study permission, so we confirm it rather than assume.",
+      "The exact tuition fee and entry requirement wording. Both come from independent sources that agree, not the university's own pages.",
+      "The January intake deadline is close. A September intake may also exist for this programme; we have not checked.",
     ],
   },
 
@@ -581,7 +581,7 @@ export const irishUniversities: University[] = [
     flagCode: "ie",
     initials: "UCC",
     summary:
-      "Ireland's second city, outside Dublin, which this catalogue's Galway and Limerick entries already show tends to mean lower rent for the same taught masters route.",
+      "A university in Cork, Ireland's second city. As the Galway and Limerick entries show, being outside Dublin usually means lower rent for the same taught Master's route.",
     commission: IE_COMMISSION,
     highlights: {
       established: stated(1845, ON_RECORD, RESEARCHED_ON),
@@ -613,14 +613,14 @@ export const irishUniversities: University[] = [
         exam: "IELTS Academic",
         undergraduate: unknown("Checked for the postgraduate route only this pass."),
         postgraduate: stated(
-          "6.5 overall is the commonly stated general figure; this session did not confirm the exact per-component minimum for this specific programme",
+          "6.5 overall is the commonly stated general figure; we have not confirmed the per-component minimum for this programme",
           "Reported across independent admissions publications; the institution's own programme page was not directly read for the exact score this pass",
           RESEARCHED_ON,
         ),
       },
     ],
     tuitionNote: stated(
-      "Full international tuition, excluding the separate mandatory capitation fee (EUR 210). At least EUR 6,000 of the tuition has to be shown as paid before the visa application, the same rule the rest of this Irish catalogue states.",
+      "Full international tuition, not including the separate compulsory capitation fee (EUR 210). As across Ireland, you must show at least EUR 6,000 of tuition paid before the visa application.",
       "Institution's own postgraduate fee schedule, fetched directly this pass",
       RESEARCHED_ON,
     ),
@@ -651,20 +651,20 @@ export const irishUniversities: University[] = [
           },
         ],
         entryRequirement: stated(
-          "A Bachelor's degree or its equivalent to an Irish honours degree, in a discipline with quantitative content.",
+          "A Bachelor's degree equivalent to an Irish honours degree, in a subject with quantitative content.",
           "Reported consistently across independent admissions publications; the institution's own programme page was not directly read for the exact class this pass",
           RESEARCHED_ON,
         ),
-        prerequisites: unknown("Not checked this pass."),
+        prerequisites: unknown("We have not checked this yet."),
         languageOfInstruction: "English",
-        placement: unknown("Not checked this pass."),
+        placement: unknown("We have not checked this yet."),
         campus: "Cork",
       },
     ],
     notChecked: [
-      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. It almost certainly is, and it decides whether post-study permission is 12 months or up to 24, so it is confirmed rather than assumed.",
-      "The exact degree class and IELTS component minimums: general figures reported here, not read off the programme's own admissions page this pass.",
-      "The exact QS rank: two different positions were found for two rankings editions; the band both agree inside is printed instead.",
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. It almost certainly is, but it decides whether you get 12 or up to 24 months of post-study permission, so we confirm it rather than assume.",
+      "The exact degree class and IELTS component minimums. The figures here are general ones, not read off the programme's own admissions page.",
+      "The exact QS rank. We found two positions from two editions, so we show the band both fall inside.",
     ],
   },
 
@@ -678,7 +678,7 @@ export const irishUniversities: University[] = [
     flagCode: "ie",
     initials: "MU",
     summary:
-      "A smaller campus town half an hour from Dublin by train, so rent runs below the city while a Dublin commute stays realistic. The smallest institution on this catalogue's Irish list by student numbers.",
+      "A university in a smaller campus town half an hour from Dublin by train, so rent is lower but commuting to Dublin is realistic.",
     commission: IE_COMMISSION,
     highlights: {
       established: stated(1795, `${ON_RECORD}, as the date of the original college; the university itself was established in 1997`, RESEARCHED_ON),
@@ -710,12 +710,12 @@ export const irishUniversities: University[] = [
         exam: "IELTS Academic",
         undergraduate: unknown("Checked for the postgraduate route only this pass."),
         postgraduate: unknown(
-          "This session's search results gave the general international-fee band but not a confirmed IELTS figure for this specific programme. Left unknown rather than guessed from a neighbouring institution's requirement.",
+          "Our search found the general international fee band but no confirmed IELTS figure for this programme. We left it unknown rather than borrow another institution's requirement.",
         ),
       },
     ],
     tuitionNote: stated(
-      "Full non-EU tuition, reported by independent sources at EUR 15,000 or EUR 18,000 for the computing programme. The two did not agree and the institution's own fee schedule was not opened to settle it, so no single fee is printed below.",
+      "Full non-EU tuition, reported by independent sources at EUR 15,000 or EUR 18,000 for the computing programme. We have not opened the university's own fee schedule to settle it, so no single fee is shown.",
       "Reported across independent fee-comparison publications; the institution's own fee schedule PDF was found but not directly opened this pass",
       RESEARCHED_ON,
     ),
@@ -729,7 +729,7 @@ export const irishUniversities: University[] = [
         disciplines: ["Computer Science"],
         durationMonths: 24,
         feePerYear: unknown(
-          "Two independent sources disagreed on the year-one fee for this programme, EUR 15,000 against EUR 18,000, and the institution's own fee schedule was not opened to settle it. Printing either number as the fee would be choosing one of two reports, so no figure is shown until the institution's own schedule confirms it.",
+          "Two independent sources disagree on the year-one fee, EUR 15,000 or EUR 18,000, and we have not opened the university's own fee schedule. No figure is shown until that schedule confirms one.",
         ),
         currency: "EUR",
         feeQualifier: FEE_QUALIFIER,
@@ -748,15 +748,15 @@ export const irishUniversities: University[] = [
           "Reported consistently across independent admissions publications; the institution's own programme page was not directly read this pass",
           RESEARCHED_ON,
         ),
-        prerequisites: unknown("Not checked this pass."),
+        prerequisites: unknown("We have not checked this yet."),
         languageOfInstruction: "English",
-        placement: unknown("Not checked this pass."),
+        placement: unknown("We have not checked this yet."),
         campus: "Maynooth",
       },
     ],
     notChecked: [
-      "The exact year-one tuition fee: two independent sources disagreed (EUR 15,000 against EUR 18,000) and the institution's own fee schedule was not directly opened to resolve it this pass.",
-      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake, which decides 12 versus up to 24 months of post-study permission.",
+      "The exact year-one tuition fee. Two independent sources disagree (EUR 15,000 or EUR 18,000), and we have not opened the university's own fee schedule.",
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. That decides whether you get 12 or up to 24 months of post-study permission.",
       "The exact IELTS component minimums for this specific programme.",
     ],
   },
@@ -771,7 +771,7 @@ export const irishUniversities: University[] = [
     flagCode: "ie",
     initials: "TUD",
     summary:
-      "Ireland's first technological university, formed from a 2019 merger, with a practical and industry-linked style rather than the older research-university tradition of this catalogue's other Dublin entries.",
+      "Ireland's first technological university, formed by a 2019 merger. Its style is practical and industry-linked, unlike the older research-university tradition of our other Dublin entries.",
     commission: IE_COMMISSION,
     highlights: {
       established: stated(2019, `${ON_RECORD}, as the date of the university's formation by merger`, RESEARCHED_ON),
@@ -803,7 +803,7 @@ export const irishUniversities: University[] = [
         exam: "IELTS Academic",
         undergraduate: unknown("Checked for the postgraduate route only this pass."),
         postgraduate: unknown(
-          "Not confirmed for this specific programme this pass. Left unknown rather than guessed from a neighbouring institution's requirement.",
+          "Not yet confirmed for this programme. We left it unknown rather than borrow another institution's requirement.",
         ),
       },
     ],
@@ -843,15 +843,15 @@ export const irishUniversities: University[] = [
           "Reported consistently across independent admissions publications; the institution's own programme page was not directly read this pass",
           RESEARCHED_ON,
         ),
-        prerequisites: unknown("Not checked this pass."),
+        prerequisites: unknown("We have not checked this yet."),
         languageOfInstruction: "English",
-        placement: unknown("Not checked this pass."),
+        placement: unknown("We have not checked this yet."),
         campus: "Grangegorman, Dublin",
       },
     ],
     notChecked: [
-      "The exact year-one tuition fee, reported by one independent source only and not confirmed against the institution's own fee schedule this pass.",
-      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake, which decides 12 versus up to 24 months of post-study permission.",
+      "The exact year-one tuition fee. It comes from one independent source only, not confirmed on the university's own fee schedule.",
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. That decides whether you get 12 or up to 24 months of post-study permission.",
       "The exact IELTS requirement for this specific programme.",
     ],
   },
@@ -866,12 +866,12 @@ export const irishUniversities: University[] = [
     flagCode: "ie",
     initials: "NCI",
     summary:
-      "A smaller, private Dublin college with degree-awarding powers, on the docklands campus, and one of the most commonly shortlisted routes into a data analytics masters from India specifically because of its size and fee.",
+      "A smaller, private Dublin college with degree-awarding powers, on a docklands campus. Its size and fee make it one of the most shortlisted routes from India into a data analytics Master's.",
     commission: IE_COMMISSION,
     highlights: {
-      established: unknown("Not confirmed on the institution's own page this pass; reported variously as a 1951 or 1972 founding by different independent sources, and the discrepancy was not resolved."),
+      established: unknown("Different independent sources give 1951 or 1972. We have not confirmed either on the college's own page."),
       totalStudents: stated(6000, "Reported by an independent source this pass; the institution's own statistics page was not directly read", RESEARCHED_ON),
-      internationalStudents: unknown("Not confirmed by any source read this pass."),
+      internationalStudents: unknown("Not confirmed by any source we have read."),
       staffRatio: unknown("Not published at institution level."),
       acceptanceRate: unknown("Not published at institution level."),
       accreditation: stated(
@@ -893,7 +893,7 @@ export const irishUniversities: University[] = [
       },
     ],
     tuitionNote: stated(
-      "Full international tuition, at the lower end of this catalogue's Irish range, with the same pre-visa payment requirement as the rest of this Irish catalogue.",
+      "Full international tuition, at the lower end of our Irish range. The same pre-visa payment rule applies as across Ireland.",
       "Reported across independent fee-comparison publications for September 2026 entry; the institution's own fee page was attempted this pass and did not return the programme-specific figure",
       RESEARCHED_ON,
     ),
@@ -924,21 +924,21 @@ export const irishUniversities: University[] = [
           },
         ],
         entryRequirement: stated(
-          "A Level 8 honours degree (Second Class Honours, Grade 2, or equivalent) in a cognate discipline, with technical or mathematical problem-solving evidenced in prior study.",
+          "A Level 8 honours degree (Second Class Honours, Grade 2, or equivalent) in a related subject. Your previous study must show technical or mathematical problem-solving.",
           "Reported consistently across independent admissions publications; the institution's own programme page was not directly read this pass",
           RESEARCHED_ON,
         ),
-        prerequisites: unknown("Not checked this pass."),
+        prerequisites: unknown("We have not checked this yet."),
         languageOfInstruction: "English",
-        placement: unknown("Not checked this pass."),
+        placement: unknown("We have not checked this yet."),
         campus: "IFSC, Dublin",
       },
     ],
     notChecked: [
-      "This institution has no independently published international ranking that this session found; the field is left empty rather than filled with an unrelated one.",
-      "The founding date: two different years were reported by different independent sources and neither was confirmed against the institution's own page.",
-      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake, which decides 12 versus up to 24 months of post-study permission.",
-      "The exact tuition fee and IELTS component minimums: the institution's own fee and programme pages did not return this detail to this session's fetch.",
+      "We found no published international ranking for this institution, so the field is left empty rather than filled with an unrelated one.",
+      "The founding date. Independent sources give two different years, and we have confirmed neither on the college's own page.",
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. That decides whether you get 12 or up to 24 months of post-study permission.",
+      "The exact tuition fee and IELTS component minimums. The college's own fee and programme pages did not show this detail when we checked.",
     ],
   },
 
@@ -952,7 +952,7 @@ export const irishUniversities: University[] = [
     flagCode: "ie",
     initials: "MTU",
     summary:
-      "Formed by a 2021 merger of Cork and Tralee's institutes of technology, and this catalogue's second Cork institution alongside UCC, with a scholarship that brings its own fee below UCC's for the same subject area.",
+      "Formed by a 2021 merger of Cork and Tralee's institutes of technology. Our second Cork entry alongside UCC, with a scholarship that brings its fee below UCC's for the same subject area.",
     commission: IE_COMMISSION,
     highlights: {
       established: stated(2021, `${ON_RECORD}, as the date of the university's formation by merger`, RESEARCHED_ON),
@@ -983,7 +983,7 @@ export const irishUniversities: University[] = [
       },
     ],
     tuitionNote: stated(
-      "Full international tuition, confirmed on the institution's own fee page for this specific programme, before a stated EUR 3,000 institutional scholarship that some applicants may be eligible for.",
+      "Full international tuition, confirmed on the university's own fee page for this programme. This is before a EUR 3,000 university scholarship that some applicants may qualify for.",
       "Institution's own fee page, fetched directly this pass",
       RESEARCHED_ON,
     ),
@@ -1018,16 +1018,16 @@ export const irishUniversities: University[] = [
           "Reported consistently across independent admissions publications; the institution's own programme page was not directly read for this specific wording this pass",
           RESEARCHED_ON,
         ),
-        prerequisites: unknown("Not checked this pass."),
+        prerequisites: unknown("We have not checked this yet."),
         languageOfInstruction: "English",
-        placement: unknown("Not checked this pass."),
+        placement: unknown("We have not checked this yet."),
         campus: "Bishopstown, Cork",
       },
     ],
     notChecked: [
-      "This institution has no independently published international ranking that this session found; the field is left empty rather than filled with an unrelated one.",
-      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake, which decides 12 versus up to 24 months of post-study permission.",
-      "The exact eligibility criteria for the EUR 3,000 scholarship named on the institution's own fee page.",
+      "We found no published international ranking for this institution, so the field is left empty rather than filled with an unrelated one.",
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. That decides whether you get 12 or up to 24 months of post-study permission.",
+      "The exact eligibility rules for the EUR 3,000 scholarship named on the university's own fee page.",
     ],
   },
 
@@ -1041,7 +1041,7 @@ export const irishUniversities: University[] = [
     flagCode: "ie",
     initials: "DBS",
     summary:
-      "Ireland's largest private college, in the city centre, with a fee band that sits between this catalogue's Dublin universities and its other private entries.",
+      "Ireland's largest private college, in Dublin city centre. Its fees sit between our Dublin universities and our other private entries.",
     commission: IE_COMMISSION,
     highlights: {
       established: stated(
@@ -1080,7 +1080,7 @@ export const irishUniversities: University[] = [
       },
     ],
     tuitionNote: stated(
-      "Full international tuition, with the same pre-visa payment requirement as the rest of this Irish catalogue.",
+      "Full international tuition, with the same pre-visa payment rule as every Irish entry here.",
       "Reported across independent fee-comparison publications for 2026/27 entry; the institution's own fee sheet and programme page both returned an access error to this session's fetch",
       RESEARCHED_ON,
     ),
@@ -1111,20 +1111,20 @@ export const irishUniversities: University[] = [
           },
         ],
         entryRequirement: stated(
-          "A Level 8 honours degree with at least a Second Class Honours, Grade 2 (2:2), in a cognate area.",
+          "A Level 8 honours degree with at least a Second Class Honours, Grade 2 (2:2), in a related area.",
           "Reported consistently across independent admissions publications; the institution's own programme page returned an access error to this session's fetch",
           RESEARCHED_ON,
         ),
-        prerequisites: unknown("Not checked this pass."),
+        prerequisites: unknown("We have not checked this yet."),
         languageOfInstruction: "English",
-        placement: unknown("Not checked this pass."),
+        placement: unknown("We have not checked this yet."),
         campus: "Dublin city centre",
       },
     ],
     notChecked: [
-      "This institution has no independently published international ranking that this session found; the field is left empty rather than filled with an unrelated one.",
-      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake, which decides 12 versus up to 24 months of post-study permission.",
-      "Every figure above is convergent-secondary: the institution's own fee sheet and programme page both refused this session's fetch, so nothing here was read directly off dbs.ie.",
+      "We found no published international ranking for this institution, so the field is left empty rather than filled with an unrelated one.",
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. That decides whether you get 12 or up to 24 months of post-study permission.",
+      "Every figure above comes from independent sources that agree. The college's own fee sheet and programme page would not load for us, so nothing here was read off dbs.ie.",
     ],
   },
 
@@ -1138,7 +1138,7 @@ export const irishUniversities: University[] = [
     flagCode: "ie",
     initials: "GCD",
     summary:
-      "A private Dublin college on a single south-city campus, with the lowest headline fee on this catalogue's Irish list, and a set of separate administrative charges on top of it that the headline does not show.",
+      "A private Dublin college on one south-city campus, with the lowest headline fee on our Irish list. Separate admin charges come on top, and the headline fee does not show them.",
     commission: IE_COMMISSION,
     highlights: {
       established: stated(
@@ -1173,12 +1173,12 @@ export const irishUniversities: University[] = [
           "6.5 overall with no band below 6.0",
           "Reported by independent admissions publications; the institution's own programme page, fetched directly this pass, names the Duolingo test as accepted but does not print an IELTS figure",
           RESEARCHED_ON,
-          "One independent source reported 6.0 overall instead; the higher, more commonly repeated figure is shown and the discrepancy is not resolved this pass.",
+          "One independent source reported 6.0 overall instead. We show the higher, more common figure; the difference is not resolved.",
         ),
       },
     ],
     tuitionNote: stated(
-      "Full international tuition, reported by independent sources at EUR 13,000 or EUR 14,000, plus separate charges neither figure includes: a EUR 200 student services fee each year, a EUR 250 academic administration fee each September, and a 2 per cent learner protection charge. The same pre-visa payment requirement applies as across this Irish catalogue.",
+      "Full international tuition, reported by independent sources at EUR 13,000 or EUR 14,000, plus a EUR 200 student services fee each year, a EUR 250 academic administration fee each September and a 2 per cent learner protection charge. The same pre-visa payment rule applies as across Ireland.",
       "Reported across independent fee-comparison publications; the institution's own programme page, fetched directly this pass, defers to a separate non-EU fees section that was not read",
       RESEARCHED_ON,
     ),
@@ -1192,7 +1192,7 @@ export const irishUniversities: University[] = [
         disciplines: ["Data Science", "Computer Science"],
         durationMonths: 12,
         feePerYear: unknown(
-          "Two independent sources disagreed on the year-one fee for this programme, EUR 13,000 against EUR 14,000, and the institution's own non-EU fees section was not read to settle it. Printing either number as the fee would be choosing one of two reports, so no figure is shown until the institution's own schedule confirms it.",
+          "Two independent sources disagree on the year-one fee, EUR 13,000 or EUR 14,000, and we have not read the college's own non-EU fees section. No figure is shown until the college's own schedule confirms one.",
         ),
         currency: "EUR",
         feeQualifier: FEE_QUALIFIER,
@@ -1211,17 +1211,17 @@ export const irishUniversities: University[] = [
           "Institution's own programme page, fetched directly this pass",
           RESEARCHED_ON,
         ),
-        prerequisites: unknown("Not checked this pass."),
+        prerequisites: unknown("We have not checked this yet."),
         languageOfInstruction: "English",
-        placement: unknown("Not checked this pass."),
+        placement: unknown("We have not checked this yet."),
         campus: "Dublin",
       },
     ],
     notChecked: [
-      "This institution has no independently published international ranking that this session found; the field is left empty rather than filled with an unrelated one.",
-      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake, which decides 12 versus up to 24 months of post-study permission.",
-      "The exact tuition fee: two independent sources disagreed (EUR 13,000 against EUR 14,000) and the institution's own non-EU fees section was not read to resolve it this pass.",
-      "The exact IELTS figure: the institution's own programme page does not print one, and independent sources disagreed between 6.0 and 6.5.",
+      "We found no published international ranking for this institution, so the field is left empty rather than filled with an unrelated one.",
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. That decides whether you get 12 or up to 24 months of post-study permission.",
+      "The exact tuition fee. Two independent sources disagree (EUR 13,000 or EUR 14,000), and we have not read the college's own non-EU fees section.",
+      "The exact IELTS figure. The college's own programme page does not give one, and independent sources disagree between 6.0 and 6.5.",
     ],
   },
 
@@ -1235,12 +1235,12 @@ export const irishUniversities: University[] = [
     flagCode: "ie",
     initials: "ATU",
     summary:
-      "A multi-campus technological university across Ireland's west and north-west, formed by a 2022 merger of the Galway-Mayo, Sligo and Letterkenny institutes of technology, with rents well below Dublin on every campus.",
+      "A multi-campus technological university across Ireland's west and north-west, formed by a 2022 merger of the Galway-Mayo, Sligo and Letterkenny institutes of technology. Rents are well below Dublin on every campus.",
     commission: IE_COMMISSION,
     highlights: {
       established: stated(2022, `${ON_RECORD}, as the date of the university's formation by merger`, RESEARCHED_ON),
       totalStudents: unknown(
-        "Independent sources disagreed within this session's search results, reporting figures between about 20,000 and 30,000; the institution's own statistics page was not directly read to resolve which is current.",
+        "Independent sources disagree, giving between about 20,000 and 30,000. We have not read the university's own statistics page to settle it.",
       ),
       internationalStudents: stated(
         "More than 3,000 students, from over 115 countries",
@@ -1276,7 +1276,7 @@ export const irishUniversities: University[] = [
       },
     ],
     tuitionNote: stated(
-      "Full international tuition, confirmed on the institution's own fee page as the standard non-EU full-time postgraduate rate for 2026/27, with the same pre-visa payment requirement as the rest of this Irish catalogue.",
+      "Full international tuition, confirmed on the university's own fee page as the standard non-EU full-time postgraduate rate for 2026/27. The same pre-visa payment rule applies as across Ireland.",
       "Institution's own postgraduate fee page, fetched directly this pass",
       RESEARCHED_ON,
     ),
@@ -1307,21 +1307,21 @@ export const irishUniversities: University[] = [
           },
         ],
         entryRequirement: stated(
-          "An honours degree with first or second class honours, or an equivalent qualification; relevant experience may be considered through Recognition of Prior Learning.",
+          "An honours degree with first or second class honours, or an equivalent qualification. Relevant experience may be considered through Recognition of Prior Learning.",
           "Institution's own programme page, fetched directly this pass",
           RESEARCHED_ON,
         ),
-        prerequisites: unknown("Not checked this pass."),
+        prerequisites: unknown("We have not checked this yet."),
         languageOfInstruction: "English",
-        placement: unknown("Not checked this pass."),
+        placement: unknown("We have not checked this yet."),
         campus: "Letterkenny, Donegal",
       },
     ],
     notChecked: [
-      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake, which decides 12 versus up to 24 months of post-study permission.",
-      "Total student count: independent sources disagreed by a wide margin and the institution's own statistics page was not directly read to resolve it this pass.",
-      "The QS position shown is from the 2024 edition; no placing in a more recent edition was found this pass.",
-      "Cost of living: Letterkenny is not one of the cities modelled in the cost of living calculator; the Cork figure is linked as the nearest outside-Dublin proxy, and Letterkenny rents run below it.",
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. That decides whether you get 12 or up to 24 months of post-study permission.",
+      "Total student count. Independent sources disagree widely, and we have not read the university's own statistics page.",
+      "The QS position shown is from the 2024 edition. We found no placing in a more recent edition.",
+      "Cost of living: Letterkenny is not in our cost of living calculator, so we link the Cork figure as the nearest outside-Dublin stand-in. Letterkenny rents run below it.",
     ],
   },
 
@@ -1335,12 +1335,12 @@ export const irishUniversities: University[] = [
     flagCode: "ie",
     initials: "SETU",
     summary:
-      "A technological university across Ireland's south-east, formed by a 2022 merger of the Waterford and Carlow institutes of technology, on campuses where rent runs well below Dublin.",
+      "A technological university across Ireland's south-east, formed by a 2022 merger of the Waterford and Carlow institutes of technology. Rent on its campuses is well below Dublin.",
     commission: IE_COMMISSION,
     highlights: {
       established: stated(2022, `${ON_RECORD}, as the date of the university's formation by merger`, RESEARCHED_ON),
       totalStudents: unknown(
-        "Independent sources disagreed within this session's search results, reporting figures between about 18,500 and 21,000 for different years; the institution's own statistics page was not directly read to resolve which is current.",
+        "Independent sources disagree, giving between about 18,500 and 21,000 for different years. We have not read the university's own statistics page to settle it.",
       ),
       internationalStudents: stated(
         "Reported as more than 560 students, from over 120 countries",
@@ -1376,7 +1376,7 @@ export const irishUniversities: University[] = [
       },
     ],
     tuitionNote: stated(
-      "Full international tuition, with the same pre-visa payment requirement as the rest of this Irish catalogue.",
+      "Full international tuition, with the same pre-visa payment rule as every Irish entry here.",
       "Reported consistently across independent fee-comparison publications; the institution's own programme page returned an access error to this session's fetch",
       RESEARCHED_ON,
     ),
@@ -1411,17 +1411,17 @@ export const irishUniversities: University[] = [
           "Reported consistently across independent admissions publications; the institution's own programme page returned an access error to this session's fetch",
           RESEARCHED_ON,
         ),
-        prerequisites: unknown("Not checked this pass."),
+        prerequisites: unknown("We have not checked this yet."),
         languageOfInstruction: "English",
-        placement: unknown("Not checked this pass."),
+        placement: unknown("We have not checked this yet."),
         campus: "Carlow",
       },
     ],
     notChecked: [
-      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake, which decides 12 versus up to 24 months of post-study permission.",
-      "Every figure above is convergent-secondary: the institution's own programme page refused this session's fetch, so nothing here was read directly off setu.ie.",
-      "The application deadline: one independent source gave 1 June for non-EU applicants and another gave late August; the earlier date is shown so nobody plans around the later one.",
-      "Cost of living: Carlow is not one of the cities modelled in the cost of living calculator; the Cork figure is linked as the nearest outside-Dublin proxy, and Carlow rents run below it.",
+      "Whether this programme is Level 9 on the National Framework of Qualifications for the coming intake. That decides whether you get 12 or up to 24 months of post-study permission.",
+      "Every figure above comes from independent sources that agree. The university's own programme page would not load for us, so nothing here was read off setu.ie.",
+      "The application deadline. One independent source gives 1 June for non-EU applicants and another late August; we show the earlier date so nobody plans around the later one.",
+      "Cost of living: Carlow is not in our cost of living calculator, so we link the Cork figure as the nearest outside-Dublin stand-in. Carlow rents run below it.",
     ],
   },
 ];

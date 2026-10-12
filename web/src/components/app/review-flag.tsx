@@ -48,7 +48,7 @@ export function ReviewFlag({
 
           <form action={formAction} className="mt-3">
             <input type="hidden" name="caseId" value={caseId} />
-            <Button type="submit" variant="outline" disabled={pending}>
+            <Button type="submit" variant="outline" disabled={pending} aria-busy={pending}>
               {pending ? "Clearing" : "I have read it"}
             </Button>
           </form>

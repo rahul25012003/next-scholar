@@ -170,6 +170,7 @@ export function NumberField({
   max,
   step = 0.01,
   suffix,
+  required,
 }: {
   label: string;
   hint?: string;
@@ -179,6 +180,7 @@ export function NumberField({
   max?: number;
   step?: number;
   suffix?: string;
+  required?: boolean;
 }) {
   return (
     <label className="block">
@@ -192,6 +194,7 @@ export function NumberField({
           min={min}
           max={max}
           step={step}
+          required={required}
           onChange={(event) => onChange(event.target.value)}
           className="figures w-full rounded-card border border-line-strong bg-white px-3.5 py-2.5 text-blue-dark placeholder:text-grey"
         />

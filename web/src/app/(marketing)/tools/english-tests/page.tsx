@@ -6,7 +6,7 @@ import { ToolPage } from "@/components/tools/shell";
 export const metadata: Metadata = {
   title: "English test comparison",
   description:
-    "IELTS, TOEFL iBT, PTE Academic and the Duolingo English Test compared on scale, sections, format and whether it is typically accepted for a UK student visa application. No score converts between them here.",
+    "IELTS, TOEFL iBT, PTE Academic and the Duolingo English Test compared on scale, sections, format and whether it is typically accepted for a UK student visa application. We do not convert scores between them.",
   alternates: { canonical: "/tools/english-tests" },
 };
 
@@ -68,24 +68,27 @@ export default function EnglishTestsPage() {
   return (
     <ToolPage
       title="Which English test, and what it actually measures"
-      lede="Scale, format and whether it has historically counted for a UK student visa application, side by side. No table here converts a score from one test into a score on another: publishers occasionally offer their own concordance tables, and a university's own stated minimum on its own test governs, not this page."
+      lede="The four tests side by side: scale, format and whether each has counted for a UK student visa. We do not convert scores between tests; the minimum your university sets on its own test is what counts."
       foot={
         <div className="max-w-3xl">
           <h2 className="text-blue-dark">
             Why there is no conversion table here
           </h2>
           <p className="mt-3 text-[0.9375rem] leading-relaxed text-grey">
-            A &ldquo;PTE 62 equals IELTS 6.5&rdquo; table looks precise and is not: the tests measure
-            different things in different proportions, publishers revise their own
-            concordance guidance periodically, and an admissions office reads the score your
-            offer letter names, not an equivalence somebody else computed. Book the test your
-            target programme actually names.
+            A &ldquo;PTE 62 equals IELTS 6.5&rdquo; table looks precise, but it is not.
           </p>
+          <ul className="mt-3 list-disc space-y-1.5 pl-5 text-[0.9375rem] leading-relaxed text-grey">
+            <li>The tests measure different things in different amounts.</li>
+            <li>Publishers change their own conversion guidance from time to time.</li>
+            <li>
+              An admissions office reads the score your offer letter names, not a conversion
+              someone else worked out.
+            </li>
+          </ul>
           <p className="mt-4 text-[0.9375rem] leading-relaxed text-grey">
-            The Secure English Language Test column is the single most consequential fact
-            on this page and the one most likely to be out of date by the time you read it.
-            Confirm the current approved list before booking anything for a UK Student visa
-            application.
+            Book the test your target programme names. For a UK Student visa, check the
+            current Secure English Language Test list before booking: that column matters
+            most here and is the one most likely to be out of date.
           </p>
           <Link
             href="/tools/ielts-band-calculator"

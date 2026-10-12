@@ -1,11 +1,11 @@
 export const consultation = {
   duration: "45 minutes",
   price: "₹1,500",
-  creditNote: "Credited in full against the service fee if you go ahead with us.",
+  creditNote: "Taken off your service fee in full if you go ahead with us.",
   promise:
-    "Within 24 hours of the call you receive a written assessment with two or three ranked destinations, the reasoning behind the ranking, and the risks attached to each.",
+    "Within 24 hours of the call, you get a written assessment ranking two or three destinations, with the reasons and the risks for each.",
   includesUncomfortable:
-    "That assessment includes the recommendation nobody sells, which is that some applicants should not go abroad at all, or not this year.",
+    "Sometimes the honest advice is not to go abroad at all, or not this year. If so, the assessment says it.",
 };
 
 /**
@@ -21,19 +21,19 @@ export const intakeSteps = [
     id: "where",
     title: "Where",
     blurb:
-      "A choice, not a disclosure. Nothing personal is asked on this step, and every country here has a full guide on this site you are welcome to read instead.",
+      "Nothing personal is asked on this step. Each country has a full guide on this site, with fees and funding rules, if you would rather read that first.",
   },
   {
     id: "record",
     title: "Your record",
     blurb:
-      "Enough to rank destinations honestly. A gap or an arrear is workable when disclosed and fatal when discovered, so both are asked about directly.",
+      "Enough to rank destinations honestly. A gap or a backlog can be worked with if you tell us, and is fatal if it is found out later, so we ask about both.",
   },
   {
     id: "money",
     title: "Money and history",
     blurb:
-      "The question that decides which routes are real, and the one about a previous consultant, which matters more than it sounds.",
+      "Your budget decides which routes are realistic. We also ask about any previous consultant, which matters more than it sounds.",
   },
 ] as const;
 
@@ -55,7 +55,7 @@ export const intakeQuestions: IntakeQuestion[] = [
     id: "academicBackground",
     step: 1,
     label: "Academic background, with your percentage or CGPA",
-    help: "Degree, discipline and institution, plus the number as it appears on your transcript.",
+    help: "Degree, subject and college, plus the number as it appears on your transcript.",
     type: "textarea",
     required: true,
     placeholder: "BE Mechanical, VTU, 7.4 CGPA",
@@ -73,7 +73,7 @@ export const intakeQuestions: IntakeQuestion[] = [
     id: "englishTest",
     step: 1,
     label: "English test status",
-    help: "IELTS, PTE, TOEFL or Duolingo. Include the score and test date if you have taken it.",
+    help: "IELTS, PTE, TOEFL or Duolingo. If you have taken it, add the score and test date.",
     type: "textarea",
     required: true,
     placeholder: "IELTS 7.0 overall, taken March 2026. Or: not booked yet.",
@@ -82,7 +82,7 @@ export const intakeQuestions: IntakeQuestion[] = [
     id: "budget",
     step: 2,
     label: "Total year one budget, tuition and living combined",
-    help: "The real number, including what family can contribute and what a loan would need to cover.",
+    help: "The real number, including what your family can give and what a loan would need to cover.",
     type: "text",
     required: true,
     placeholder: "₹28,00,000",
@@ -122,11 +122,11 @@ export const intakeQuestions: IntakeQuestion[] = [
 export const bookingIntegration = {
   live: false,
   pendingNote:
-    "No slot was booked, no payment was taken, and nothing you typed was sent or stored on our side. Your answers stay in this browser so you can copy them.",
+    "No slot was booked, no payment was taken, and nothing you typed was sent to us or stored by us. Your answers stay in this browser so you can copy them.",
   needed: [
-    "A scheduling provider, Cal.com or Zoho Bookings, holding the real 45 minute calendar",
-    "Razorpay keys for the ₹1,500 payment, with the credit against fee rule encoded",
-    "The security and DPDP foundation, before any personal detail is stored",
-    "A published confirmation address on the registered entity",
+    "A booking calendar, Cal.com or Zoho Bookings, with the real 45 minute slots",
+    "Razorpay set up for the ₹1,500 payment, with the fee credit rule built in",
+    "Data security and DPDP (India's data protection law) compliance, before any personal detail is stored",
+    "A published address for confirmations, once the company is registered",
   ],
 };

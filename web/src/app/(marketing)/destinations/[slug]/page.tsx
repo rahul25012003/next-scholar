@@ -3,13 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight } from "@phosphor-icons/react/ssr";
-import { guideFor, guides, rateFor } from "@/content/guides";
-import { destinations } from "@/content/destinations";
+import { guideFor, guides } from "@/content/guides";
 import { photos, photoUrl } from "@/content/photos";
-import { CostOfLivingCalculator } from "@/components/tools/cost-of-living";
 import {
   Checklist,
-  FigureList,
   GuideSection,
   IntakeTable,
   LanguageTable,
@@ -21,9 +18,9 @@ import {
 } from "@/components/guides/blocks";
 import { Accordion } from "@/components/ui/accordion";
 import { JumpList } from "@/components/ui/jump-list";
-import { StatusChip } from "@/components/ui/chip";
 import { ButtonLink } from "@/components/ui/button";
 import { primaryCta } from "@/content/site";
+import { countryInSentence } from "@/lib/country";
 
 /** One landmark photograph per guide, reusing the checked-by-eye set. */
 const guidePhoto: Record<string, string> = {
@@ -39,17 +36,12 @@ const guidePhoto: Record<string, string> = {
  */
 const sections = [
   { id: "routes", title: "Routes" },
-  { id: "tuition", title: "Tuition" },
-  { id: "living", title: "Cost of living" },
-  { id: "funds", title: "Money for the visa" },
   { id: "academic", title: "Academic requirements" },
   { id: "language", title: "Language" },
   { id: "intakes", title: "Intakes and deadlines" },
   { id: "timeline", title: "Timeline" },
   { id: "visa", title: "Visa steps" },
   { id: "documents", title: "Visa documents" },
-  { id: "fees", title: "Fees and charges" },
-  { id: "insurance", title: "Health insurance" },
   { id: "arrival", title: "After you arrive" },
   { id: "work", title: "Work rights" },
   { id: "post-study", title: "After you graduate" },
@@ -68,7 +60,7 @@ export async function generateMetadata(
   const guide = guideFor(slug);
   if (!guide) return {};
   return {
-    title: `Studying in ${guide.country}`,
+    title: `Studying in ${countryInSentence(guide.country)}`,
     description: guide.lede.slice(0, 200),
     alternates: { canonical: `/destinations/${guide.slug}` },
   };
@@ -82,10 +74,6 @@ export default async function DestinationGuidePage(
   if (!guide) notFound();
 
   const photo = photos.destinations[guidePhoto[guide.slug]];
-  const rate = rateFor(guide.currency);
-  const rows = destinations.filter((row) =>
-    guide.routes.some((route) => route.destinationSlug === row.slug),
-  );
 
   return (
     <>
@@ -103,16 +91,18 @@ export default async function DestinationGuidePage(
           aria-hidden
           className="absolute inset-0 bg-[linear-gradient(180deg,rgba(32,91,173,0.55)_0%,rgba(32,91,173,0.88)_100%)]"
         />
-        <div className="shell relative">
+        {/* pad-around: the copy used to start flush under the header and the
+            buttons ended a few pixels above the section's bottom edge. */}
+        <div className="shell rise relative pad-around">
           <div className="flex items-center gap-3">
             <Image
-              src={`https://flagcdn.com/w80/${guide.flagCode}.png`}
+              src={`https://flagcdn.com/w160/${guide.flagCode}.png`}
               alt=""
-              width={40}
-              height={30}
-              className="h-6 w-auto rounded-xs ring-1 ring-white/40"
+              width={96}
+              height={72}
+              className="h-12 w-auto rounded-sm ring-2 ring-white/50 md:h-14"
             />
-            <p className="text-[0.875rem] font-medium text-white/90">{guide.country}</p>
+            <p className="text-[1.0625rem] font-semibold text-white">{guide.country}</p>
           </div>
           <h1 className="mt-5 max-w-3xl text-white">
             {guide.headline}
@@ -121,14 +111,21 @@ export default async function DestinationGuidePage(
             {guide.lede}
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
-            <ButtonLink href={primaryCta.href} size="lg">
+            {/* Pink, because the default dark blue pill disappeared into the
+                blue-washed photograph behind it. The second button's outline
+                needs border-2: `.button` sets border to none, so a border
+                colour on its own drew nothing. */}
+            <ButtonLink href={primaryCta.href} size="lg" variant="pink">
               {primaryCta.label}
             </ButtonLink>
+            {/* The outline variant's own hover fill is overridden by
+                bg-transparent, so this states its hover in full: it fills
+                white and the label turns blue. */}
             <ButtonLink
-              href="#living"
+              href={`/destinations/${guide.slug}/costs`}
               size="lg"
               variant="outline"
-              className="border-white/30 bg-transparent text-white hover:border-white hover:text-white"
+              className="border-2 border-white/60 bg-transparent text-white hover:border-white hover:bg-white hover:text-blue-dark focus-visible:bg-white focus-visible:text-blue-dark"
             >
               Work out the cost first
             </ButtonLink>
@@ -165,8 +162,7 @@ export default async function DestinationGuidePage(
             <nav aria-label="Read one topic on its own page" className="mt-6">
               <ul className="flex flex-wrap gap-2.5">
                 {[
-                  { href: `/destinations/${guide.slug}/cost-of-studying`, label: "Cost of studying" },
-                  { href: `/destinations/${guide.slug}/cost-of-living`, label: "Cost of living" },
+                  { href: `/destinations/${guide.slug}/costs`, label: "Costs and funding" },
                   { href: `/destinations/${guide.slug}/scholarships`, label: "Scholarships" },
                   { href: `/destinations/${guide.slug}/jobs`, label: "Working while you study" },
                   { href: `/destinations/${guide.slug}/post-study-work`, label: "Working after you graduate" },
@@ -188,11 +184,14 @@ export default async function DestinationGuidePage(
                 id="routes"
                 eyebrow="Routes"
                 title={`How ${guide.country} splits`}
-                lede="Where a country pays us differently on different routes, it is two rows on our ledger and two sets of advice, not one."
+                lede={
+                  guide.routes.length === 1
+                    ? "One route, with one set of rules and advice."
+                    : "Each route has its own rules, so each gets its own advice."
+                }
               >
                 <div className="grid gap-5 md:grid-cols-2">
                   {guide.routes.map((route) => {
-                    const row = rows.find((item) => item.slug === route.destinationSlug);
                     return (
                       <article
                         key={route.slug}
@@ -204,74 +203,39 @@ export default async function DestinationGuidePage(
                         <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-grey">
                           {route.summary}
                         </p>
-                        {row && (
-                          <dl className="mt-5 divide-y divide-line border-t border-line pt-4">
-                            <div className="flex items-start justify-between gap-4 pb-3">
-                              <dt className="text-[0.875rem] text-grey">We earn</dt>
-                              <dd className="flex flex-col items-end gap-1.5">
-                                <span className="figures text-[0.9375rem] font-semibold text-blue-dark">
-                                  {row.commission.display}
-                                </span>
-                                <StatusChip status={row.commission.status} />
-                              </dd>
-                            </div>
-                            <div className="flex items-baseline justify-between gap-4 pt-3">
-                              <dt className="text-[0.875rem] text-grey">You pay us</dt>
-                              <dd className="figures text-[0.9375rem] font-semibold text-blue-dark">
-                                {row.clientFee}
-                              </dd>
-                            </div>
-                          </dl>
-                        )}
                       </article>
                     );
                   })}
                 </div>
-                <p className="mt-5 text-[0.875rem] leading-relaxed text-grey">
-                  Every commission figure on this site is published with its verification
-                  state attached, and the full method is on the{" "}
-                  <Link
-                    href="/open-ledger"
-                    className="font-medium text-pink hover:text-blue-dark"
-                  >
-                    Open Ledger
-                  </Link>
-                  .
-                </p>
               </GuideSection>
 
-              <GuideSection
-                id="tuition"
-                eyebrow="Money"
-                title="Tuition"
-                lede="Each figure below carries a qualifier saying what it is, because a range read as a quote is how a budget goes wrong before it starts."
+              <Link
+                href={`/destinations/${guide.slug}/costs`}
+                className="group my-10 flex items-center justify-between gap-6 rounded-panel bg-blue-dark p-7 text-white shadow-card transition-[translate,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-lift md:p-9"
               >
-                <FigureList figures={guide.tuition} />
-              </GuideSection>
-
-              <GuideSection
-                id="living"
-                eyebrow="Money"
-                title="Cost of living, line by line"
-                lede="Ungated on purpose. There is no form in front of this result and there is not going to be one. Every line is editable, so our published range and your actual rent can sit next to each other."
-              >
-                <CostOfLivingCalculator guide={guide} rate={rate} />
-              </GuideSection>
-
-              <GuideSection
-                id="funds"
-                eyebrow="Money"
-                title="What the visa authority wants to see"
-                lede="This is the section people underestimate. It is not the same question as what living there costs, and the two figures are not interchangeable."
-              >
-                <FigureList figures={guide.funds} />
-              </GuideSection>
+                <span>
+                  <span className="eyebrow text-blue-light">Money</span>
+                  <span className="mt-2 block font-display text-step-1 font-extrabold text-white">
+                    Costs and funding in {countryInSentence(guide.country)}
+                  </span>
+                  <span className="mt-2 block max-w-xl text-[0.9375rem] leading-relaxed text-white/85">
+                    Tuition, living costs, the money the visa needs to see, fees, health
+                    insurance and our fee, on their own page.
+                  </span>
+                </span>
+                <ArrowRight
+                  size={22}
+                  weight="bold"
+                  aria-hidden
+                  className="shrink-0 transition-transform duration-200 group-hover:translate-x-1"
+                />
+              </Link>
 
               <GuideSection
                 id="academic"
                 eyebrow="Eligibility"
                 title="Academic requirements"
-                lede="What decides whether you are eligible at all, ahead of any question about which university."
+                lede="What decides whether you can apply at all, before you choose a university."
               >
                 <RequirementList items={guide.academic} />
                 {guide.slug === "germany" && (
@@ -294,7 +258,7 @@ export default async function DestinationGuidePage(
                 id="language"
                 eyebrow="Eligibility"
                 title="Language qualifications"
-                lede="Which test, at which level, and how long it lasts. Booking the wrong one is a common and expensive mistake."
+                lede="Which test, what score, and how long it stays valid. Booking the wrong one is a common, costly mistake."
               >
                 <LanguageTable items={guide.language} />
                 <div className="mt-6">
@@ -310,7 +274,7 @@ export default async function DestinationGuidePage(
                 id="intakes"
                 eyebrow="Timing"
                 title="Intakes and deadlines"
-                lede="Dates, not month names. A month name has never told anyone when to submit anything."
+                lede="Real dates, not month names, so you know exactly when to apply."
               >
                 <IntakeTable intakes={guide.intakes} />
               </GuideSection>
@@ -319,7 +283,7 @@ export default async function DestinationGuidePage(
                 id="timeline"
                 eyebrow="Timing"
                 title="Working backwards from the flight"
-                lede="Built backwards on purpose. Every one of these routes has one step that decides whether the intake is reachable, and it is named in the row it belongs to."
+                lede="Planned backwards from your flight. Each route has one step that decides whether you can make the intake, and its row says so."
               >
                 <Timeline steps={guide.timeline} />
               </GuideSection>
@@ -328,7 +292,7 @@ export default async function DestinationGuidePage(
                 id="visa"
                 eyebrow="Visa"
                 title="The steps, in order"
-                lede="Each step says what stops if it is late, because that is the part a list of requirements never tells you."
+                lede="Each step says what is held up if it is late."
               >
                 <Checklist items={guide.visaSteps} />
               </GuideSection>
@@ -337,34 +301,16 @@ export default async function DestinationGuidePage(
                 id="documents"
                 eyebrow="Visa"
                 title="The document file"
-                lede="Assembled once, checked twice. We verify each of these against your original or with the issuing institution, and we never edit one."
+                lede="We check each of these against your original or with the institution that issued it. We never edit a document."
               >
                 <Checklist items={guide.visaDocuments} ordered={false} />
-              </GuideSection>
-
-              <GuideSection
-                id="fees"
-                eyebrow="Money"
-                title="Fees and charges"
-                lede="Government fees, test fees and provider fees, separated, because only some of them are refundable and none of them are optional."
-              >
-                <FigureList figures={guide.visaFees} />
-              </GuideSection>
-
-              <GuideSection
-                id="insurance"
-                eyebrow="Practicalities"
-                title="Health insurance"
-                lede="A visa requirement in two of our three destinations and an included benefit in the third. It is not the same question anywhere."
-              >
-                <RequirementList items={guide.insurance} />
               </GuideSection>
 
               <GuideSection
                 id="arrival"
                 eyebrow="Practicalities"
                 title="After you arrive"
-                lede="The first three weeks have a sequence, and getting it out of order costs time you do not have while a course is starting."
+                lede="The first three weeks follow an order. Getting it wrong costs time you will not have once your course starts."
               >
                 <Checklist items={guide.postArrival} />
               </GuideSection>
@@ -373,7 +319,7 @@ export default async function DestinationGuidePage(
                 id="work"
                 eyebrow="Practicalities"
                 title="Work rights"
-                lede="Stated as hours and days, not as reassurance. Breaching a work condition is an immigration problem rather than an employment one."
+                lede="Set out in hours and days. Breaking a work condition is an immigration problem, not an employment one."
               >
                 <RequirementList items={guide.workRights} />
               </GuideSection>
@@ -382,7 +328,7 @@ export default async function DestinationGuidePage(
                 id="post-study"
                 eyebrow="After"
                 title="After you graduate"
-                lede="The number most sites publish here is the one most often out of date. Ours carries the date it changes on."
+                lede="Other sites often have this figure out of date. Ours shows the date it changes on."
               >
                 <RequirementList items={guide.postStudy} />
               </GuideSection>
@@ -391,7 +337,7 @@ export default async function DestinationGuidePage(
                 id="pitfalls"
                 eyebrow="Honesty"
                 title="What actually goes wrong"
-                lede="Named failures, including two we published incorrectly ourselves and have corrected on this page."
+                lede="Real mistakes, including two we published wrongly ourselves and have corrected on this page."
               >
                 <Pitfalls items={guide.pitfalls} />
               </GuideSection>
@@ -406,10 +352,9 @@ export default async function DestinationGuidePage(
                 Check yourself against this list before you pay anyone
               </h2>
               <p className="mt-3 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
-                The requirements checklist runs your own profile against everything on this
-                page and tells you which items you meet, which you do not, and which we
-                cannot answer without a document. It states facts and never a probability,
-                and it does not ask you to sign up.
+                The requirements checklist compares your profile with everything on this
+                page. Each item shows as Met, Not met yet or Needs checking, with no
+                probability and no signup.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <ButtonLink href={`/tools/requirements-check?destination=${guide.slug}`}>

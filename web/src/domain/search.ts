@@ -6,6 +6,7 @@ import { services } from "@/content/services";
 import { destinations } from "@/content/destinations";
 import { scholarships } from "@/content/scholarships";
 import { fold } from "@/lib/fold";
+import { countryInSentence } from "@/lib/country";
 
 /**
  * Site search.
@@ -27,7 +28,7 @@ export type SearchKind =
   | "Destination guide"
   | "Course"
   | "University"
-  | "Written guide"
+  | "Blog post"
   | "Tool"
   | "Policy"
   | "Service"
@@ -61,6 +62,13 @@ type Record_ = {
 const pages: Record_[] = [
   {
     kind: "Page",
+    title: "About us",
+    detail: "Who we are, what we do, and how we work, in eleven stages.",
+    href: "/about",
+    body: "about us who we are team company bengaluru master's masters consultancy how it works stages",
+  },
+  {
+    kind: "Page",
     title: "Open Ledger",
     detail: "Every commission we earn, per university relationship, with its verification state.",
     href: "/open-ledger",
@@ -72,13 +80,6 @@ const pages: Record_[] = [
     detail: "Every figure on this site, its source, and the date it was written down.",
     href: "/our-numbers",
     body: "sources verification figures dates checked audit provenance",
-  },
-  {
-    kind: "Page",
-    title: "Zero commission list",
-    detail: "The universities that pay us nothing, and why we still recommend them.",
-    href: "/zero-commission",
-    body: "zero commission german public universities free pays nothing",
   },
   {
     kind: "Page",
@@ -156,7 +157,7 @@ const tools: Record_[] = [
   {
     kind: "Tool",
     title: "Requirements checklist",
-    detail: "Met, not met, or cannot tell, against every published requirement. No score.",
+    detail: "Met, not met yet, or needs checking, against every published requirement. No score.",
     href: "/tools/requirements-check",
     body: "eligibility requirements checklist met admission predictor probability chance",
   },
@@ -213,7 +214,7 @@ function corpus(): Record_[] {
     );
     records.push({
       kind: "Destination guide",
-      title: `Studying in ${guide.country}`,
+      title: `Studying in ${countryInSentence(guide.country)}`,
       detail: guide.headline,
       href: `/destinations/${guide.slug}`,
       commission: rows.map((row) => row.commission.display).join(" / "),
@@ -222,7 +223,7 @@ function corpus(): Record_[] {
         ...guide.tuition.map((figure) => `${figure.label} ${figure.value} ${figure.qualifier}`),
         ...guide.funds.map((figure) => `${figure.label} ${figure.value} ${figure.qualifier}`),
         ...guide.visaFees.map((figure) => `${figure.label} ${figure.value}`),
-        ...guide.academic.map((item) => `${item.title} ${item.body}`),
+        ...guide.academic.map((item) => `${item.title} ${item.body} ${(item.points ?? []).join(" ")}`),
         ...guide.language.map((item) => `${item.name} ${item.accepted}`),
         ...guide.pitfalls.map((item) => `${item.title} ${item.body}`),
         ...guide.faqs.map((item) => `${item.q} ${item.a}`),
@@ -272,10 +273,10 @@ function corpus(): Record_[] {
 
   for (const article of articles) {
     records.push({
-      kind: "Written guide",
+      kind: "Blog post",
       title: article.title,
       detail: article.standfirst,
-      href: `/guides/${article.slug}`,
+      href: `/blog/${article.slug}`,
       minutes: readMinutes(article),
       body: [
         article.standfirst,

@@ -87,7 +87,7 @@ export function assessRisk(record: StudentCase, now = new Date()): {
       band: "Needs attention",
       evidence:
         flaggedIssue.issue ??
-        `${flaggedIssue.name} is marked issue found by a counselor.`,
+        `${flaggedIssue.name} is marked issue found by a counsellor.`,
     });
   }
 

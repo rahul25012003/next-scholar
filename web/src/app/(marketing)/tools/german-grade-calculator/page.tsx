@@ -14,31 +14,37 @@ export default function GermanGradePage() {
   return (
     <ToolPage
       title="Your grade on the German 1.0 to 4.0 scale"
-      lede="The Modified Bavarian Formula is what uni-assist and most German universities start from. It is arithmetic rather than judgement, which is exactly why we can publish it and show you every step of it on your own numbers."
+      lede="uni-assist and most German universities start from the Modified Bavarian Formula. It is plain arithmetic, so we show every step using your own numbers."
       foot={
         <div className="max-w-3xl">
           <h2 className="text-blue-dark">
             Why we show the working
           </h2>
           <p className="mt-3 text-[0.9375rem] leading-relaxed text-grey">
-            Because a converted grade decides which programmes are worth an application fee,
-            and a number you cannot check is a number you have to trust. The formula, your
-            own figures substituted into it, and each intermediate step are all on the page,
-            so you can verify the result by hand or hand it to someone else to verify.
+            A converted grade decides which programmes are worth an application fee, so you
+            should be able to check it. The formula, your figures in it and each step are on
+            the page, so you or someone else can check it by hand.
           </p>
           <p className="mt-4 text-[0.9375rem] leading-relaxed text-grey">
-            What the calculator cannot do is decide the result. The university&rsquo;s
-            admissions office or uni-assist performs the official conversion and some of them
-            use a different method. Nor is a grade the gate that most often stops an Indian
-            applicant to Germany: that is{" "}
-            <Link
-              href="/destinations/germany#academic"
-              className="font-medium text-pink hover:text-blue-dark"
-            >
-              anabin recognition and subject credits
-            </Link>
-            , and from the summer semester 2027 intake, the dMAT.
+            The calculator does not decide your official grade.
           </p>
+          <ul className="mt-3 list-disc space-y-1.5 pl-5 text-[0.9375rem] leading-relaxed text-grey">
+            <li>
+              The university&rsquo;s admissions office or uni-assist does the official
+              conversion, and some use a different method.
+            </li>
+            <li>
+              The grade is not what most often stops an Indian applicant to Germany. That
+              is{" "}
+              <Link
+                href="/destinations/germany#academic"
+                className="font-medium text-pink hover:text-blue-dark"
+              >
+                anabin recognition and subject credits
+              </Link>
+              , and from the summer semester 2027 intake, the dMAT.
+            </li>
+          </ul>
         </div>
       }
     >

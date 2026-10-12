@@ -91,7 +91,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
             <p className="mt-2 inline-flex items-center gap-1.5 rounded-card bg-pending-bg px-2.5 py-1.5 text-[0.8125rem] font-medium text-pending">
               No route recorded. {record.destination} has{" "}
               {routesFor(record.destination).length} routes with different requirements, so
-              the completeness check has nothing to run against.
+              completeness cannot be checked.
             </p>
           )}
         </div>
@@ -138,7 +138,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
             {record.needsManualReview && (
               <Panel
                 title="Needs a person"
-                description="Nothing falls through quietly. A note an agent could not read stays flagged here until someone says they have read it."
+                description="A note an agent could not read stays flagged here until someone confirms they have read it."
               >
                 <ReviewFlag caseId={record.id} flag={record.needsManualReview} />
               </Panel>
@@ -152,21 +152,21 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
 
             <Panel
               title="Follow ups"
-              description="Things you decided to do later. An event is what the system noticed; this is what you chose."
+              description="Tasks you set for later. Open items are what the system noticed; these are what you chose."
             >
               <TaskControl caseId={record.id} tasks={record.tasks} />
             </Panel>
 
             <Panel
               title="Draft a message"
-              description="The copilot writes. You send. It holds no send capability at all."
+              description="The copilot drafts; you send. It cannot send anything."
             >
               <Copilot caseId={record.id} />
             </Panel>
 
             <Panel
               title="Service level"
-              description="Subtraction over timestamps already on the record. A clock that is not running says so rather than counting against anyone."
+              description="Worked out from dates already on the record. A clock that is not running says so, rather than counting against anyone."
             >
               <ul className="divide-y divide-line">
                 {sla.map((check) => (
@@ -205,7 +205,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
             {gates.length > 0 && (
               <Panel
                 title="Degree recognition"
-                description="The German gates that decide eligibility before a document is worth collecting. Only a named person can record an answer here."
+                description="The German checks that decide eligibility, before any document is worth collecting. Only a named person can record an answer here."
               >
                 <ul className="divide-y divide-line">
                   {gates.map((gate) => (
@@ -250,7 +250,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                 ) : (
                   <p className="border-t border-line px-6 py-4 text-[0.8125rem] leading-relaxed text-pending">
                     Nobody has recorded a recognition check on this case. Until someone
-                    does, every answer above is an absence rather than a finding.
+                    does, everything above is missing information, not a finding.
                   </p>
                 )}
               </Panel>
@@ -258,7 +258,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
 
             <Panel
               title="Completeness"
-              description="Checked against the human curated requirement list, and nothing else."
+              description="Checked only against the requirement list our team maintains by hand."
             >
               {completeness.state === "unknown" ? (
                 <EmptyState headline="Requirements not verified" body={completeness.reason} />
@@ -300,7 +300,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
                     Remaining process steps: {completeness.steps.join(". ")}.
                   </p>
                   <p className="mt-3 border-t border-line pt-3 text-[0.8125rem] leading-relaxed text-grey">
-                    {record.destination}, {completeness.route}. Written down{" "}
+                    {record.destination}, {completeness.route}. Recorded{" "}
                     <span className="figures">{completeness.statedOn}</span> from{" "}
                     {completeness.sources.join(", ")}.
                   </p>
@@ -310,7 +310,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
 
             <Panel
               title="Documents"
-              description="Reading a document proposes values. Confirming one is a person putting their name to it. No agent has a capability that reaches either the document status or the case record."
+              description="Reading a document only proposes values; a person confirms each one under their own name. No agent can change a document's status or the case record."
             >
               {record.documents.length === 0 ? (
                 <EmptyState
@@ -360,7 +360,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
 
             <Panel
               title="Communication history"
-              description="The raw thread, kept as received. The summary line beside it is written by an agent that cannot edit what it summarises."
+              description="Each thread is kept exactly as received. Its summary line is machine written, and the agent cannot edit the thread."
             >
               {threads.length === 0 ? (
                 <EmptyState
@@ -398,7 +398,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
 
             <Panel
               title="Case operations"
-              description="Every one of these is a person taking an action. None of them run on a timer, and each writes its reason into the log before the state changes."
+              description="Each of these is a person's action, never a timer's. Each writes its reason to the log before anything changes."
             >
               <StageControl caseId={record.id} current={record.stage} />
               <CaseWorkflows caseId={record.id} applications={record.applications} />
@@ -406,7 +406,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
 
             <Panel
               title="Case log"
-              description="Every entry carries whether a person or a machine wrote it."
+              description="Each entry shows whether a person or a machine wrote it."
             >
               <ol className="divide-y divide-line">
                 {[...record.log].reverse().map((entry) => (
@@ -466,7 +466,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
               {events.length === 0 ? (
                 <EmptyState
                   headline="Nothing open"
-                  body="No stored date or timestamp on this case has crossed a threshold."
+                  body="No date on this case has passed a threshold."
                 />
               ) : (
                 <ul className="divide-y divide-line">
@@ -490,7 +490,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
             {(
               <Panel
                 title="Shortlist proposal"
-                description="Every entry states its reason and carries the commission we would earn. A counselor reviews before the student sees it."
+                description="Each entry states its reason. A counsellor reviews it before the student sees it."
               >
                 <ul className="divide-y divide-line">
                   {shortlist.proposals.map((proposal) => (
@@ -569,7 +569,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
 
             <Panel
               title="Handover packet"
-              description="Generated from stored state, so a case changing hands does not depend on anyone remembering."
+              description="Built from the record, so a handover does not depend on anyone's memory."
             >
               <div className="px-6 py-5">
                 <p className="text-[0.875rem] leading-relaxed text-grey">
@@ -639,7 +639,7 @@ export default async function CaseDetailPage(props: PageProps<"/console/[caseId]
             {record.applications.filter((item) => item.offer).length > 1 && (
               <Panel
                 title="Offers, side by side"
-                description="Every offer on this case in one place, so a choice does not depend on reading back through the log."
+                description="Every offer on this case in one place, so choosing does not mean reading back through the log."
               >
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-[0.8125rem]">

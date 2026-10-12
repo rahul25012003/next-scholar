@@ -9,15 +9,17 @@ import { credentials } from "@/content/outcomes";
 export function CredentialsBanner() {
   return (
     <section className="Cta Cta--flat constrain">
-      <div className="Cta__inner pad-before-lg pad-x-lg bg-blue-dark flow">
+      {/* No fill of its own. The panel was the ground's colour and so
+          invisible; once the ground gained its glow, the fill showed up as a
+          faint dark rectangle wherever the glow passed behind it. */}
+      <div className="Cta__inner pad-before-lg pad-x-lg flow">
         <h2 className="Cta__heading h h--3 text-light">
           There are no partner logos on this page
         </h2>
         <div className="Cta__copy text-light flow">
           <p>
-            No university agreement has been signed yet, so there is nothing to
-            display. When one exists, the commission attached to it appears in
-            the Open Ledger the same week.
+            We have not signed an agreement with any university yet, so there
+            are no logos to show.
           </p>
         </div>
 
@@ -27,7 +29,7 @@ export function CredentialsBanner() {
             {credentials.map((credential) => (
               <li
                 key={credential.name}
-                className="flex items-baseline justify-between gap-6 py-3 first:pt-0 last:pb-0"
+                className="flex flex-col gap-1 py-3 first:pt-0 last:pb-0 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
               >
                 <div>
                   <p className="font-bold text-white">{credential.name}</p>

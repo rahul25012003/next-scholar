@@ -24,7 +24,7 @@ export const germany: DestinationGuide = {
   symbol: "€",
   headline: "Germany, without the sentence everyone repeats",
   lede:
-    "Germany is described everywhere as free. For most of the country that is true of tuition and nothing else, and for one federal state it is not true of tuition either. This page states the exception, the money the consulate wants to see, and the recognition question that decides more Indian applications than the language test does.",
+    "Germany is often called free. For most of the country that is true of tuition only, and Baden-Wurttemberg and TUM charge non-EU students tuition too. This guide covers the recognition question that decides more Indian applications than the language test, and the visa steps. Every cost, including the money the consulate wants to see, is on the costs page.",
   verification: {
     statedOn: "2026-09-03",
     checkedBy: null,
@@ -39,14 +39,14 @@ export const germany: DestinationGuide = {
       name: "Public universities",
       destinationSlug: "germany-public",
       summary:
-        "No tuition fee outside Baden-Wurttemberg, a semester contribution everywhere, and no commission to us from any of them. The advisory fee on this route exists because the university pays us nothing.",
+        "No tuition fee outside Baden-Wurttemberg, and a semester contribution everywhere.",
     },
     {
       slug: "germany-private",
       name: "Private universities",
       destinationSlug: "germany-private",
       summary:
-        "Tuition charged, English-taught programmes more common, admission usually faster and less document-bound. These institutions pay agents, and our band on them runs above the category average, so the flag appears in writing before a shortlist, not after.",
+        "Tuition is charged, more programmes are taught in English, and admission is usually faster with less paperwork. These universities pay agents, and our commission on them is above the category average, which we tell you in writing before any shortlist.",
     },
   ],
 
@@ -55,7 +55,7 @@ export const germany: DestinationGuide = {
       label: "Public university, most federal states",
       value: "No tuition fee",
       qualifier:
-        "Applies to state universities in 15 of the 16 federal states. Does not include the semester contribution, which every student pays.",
+        "Applies to state universities in most federal states. Baden-Wurttemberg charges non-EU students, and Bavarian law lets TUM do the same, which it has since the 2024/25 winter semester. Does not include the semester contribution, which every student pays.",
       source: "Federal state higher education acts, per state",
     },
     {
@@ -65,22 +65,22 @@ export const germany: DestinationGuide = {
         "Statutory fee for non-EU students, in force since the 2017/18 winter semester. €3,000 a year, €6,000 across a four semester Master's.",
       source: "Landeshochschulgebuhrengesetz, Baden-Wurttemberg",
       note:
-        "Universities in this state include Stuttgart, Karlsruhe (KIT), Heidelberg, Freiburg, Tubingen, Konstanz and Mannheim. A second degree is charged at €650 per semester rather than €1,500. Some universities waive the fee for specific scholarship holders, which has to be checked at the university, not assumed.",
+        "Universities in this state include Stuttgart, Karlsruhe (KIT), Heidelberg, Freiburg, Tubingen, Konstanz and Mannheim. A second degree costs €650 per semester instead of €1,500. Some universities waive the fee for certain scholarship holders; check with the university, do not assume.",
     },
     {
       label: "Semester contribution",
       value: "€100 to €400 per semester",
       qualifier:
-        "Typical range across public universities. Not a tuition fee. It funds the student union and administration, and at most universities it includes a regional public transport ticket.",
+        "Typical range at public universities, and not a tuition fee. It funds the student union and administration, and at most universities includes a regional public transport ticket.",
       source: "University student administration offices, per institution",
       note:
-        "The transport ticket is often worth more than the contribution itself, which is why the figure is not a fee to avoid.",
+        "The transport ticket is often worth more than the whole contribution, so this is not a fee to avoid.",
     },
     {
       label: "Private university",
       value: "€10,000 to €25,000 per year",
       qualifier:
-        "Indicative range across English-taught Master's programmes. Not a quoted price. The programme's own fee schedule governs.",
+        "Indicative range for English-taught Master's programmes, not a quoted price. The programme's own fee schedule decides.",
       source: "Institution fee schedules",
     },
   ],
@@ -89,7 +89,7 @@ export const germany: DestinationGuide = {
     currency: "EUR",
     symbol: "€",
     qualifier:
-      "Monthly ranges for one student sharing accommodation. Rent dominates and varies more by city than every other line combined, so the city is chosen first.",
+      "Monthly ranges for one student in shared housing. Rent is the biggest cost and varies more by city than everything else combined, so choose the city first.",
     source:
       "Deutsches Studentenwerk social survey, city Studentenwerk rent reports, and published statutory rates for insurance and the broadcast levy",
     cities: [
@@ -126,7 +126,7 @@ export const germany: DestinationGuide = {
         slug: "berlin",
         name: "Berlin",
         note:
-          "Cheaper than Munich on paper. The constraint is availability rather than price: the search starts months before arrival.",
+          "Cheaper than Munich on paper, but rooms are hard to find. Start the search months before you arrive.",
         lines: [
           { id: "rent", label: "Rent, shared flat or hall", low: 450, high: 750 },
           { id: "food", label: "Groceries", low: 180, high: 260 },
@@ -164,7 +164,7 @@ export const germany: DestinationGuide = {
       label: "Blocked account, annual",
       value: "€11,904",
       qualifier:
-        "The statutory minimum a student visa applicant must show for the first year. Tied to the BAfoG maximum grant, so it changes when that changes.",
+        "The legal minimum a student visa applicant must show for the first year. It is tied to the BAfoG maximum grant and changes when that does.",
       source: "German Federal Foreign Office, Auswartiges Amt",
       note:
         "The full amount is deposited before the visa appointment and released to you monthly after arrival.",
@@ -180,7 +180,7 @@ export const germany: DestinationGuide = {
       label: "Blocked account opening and handling",
       value: "€50 to €150 once, plus a monthly fee at some providers",
       qualifier:
-        "Provider pricing, not a statutory figure. Compare on total cost across the full stay rather than on the opening fee.",
+        "Provider pricing, not a legal figure. Compare the total cost over your whole stay, not just the opening fee.",
       source: "Blocked account provider published pricing",
     },
     {
@@ -243,7 +243,7 @@ export const germany: DestinationGuide = {
         "DSH-2 is the normal requirement. DSH-3 for a few programmes, DSH-1 is not usually sufficient.",
       validity: "No expiry. Taken in Germany, usually at the admitting university.",
       note:
-        "Because it is normally sat in Germany, DSH suits an applicant arriving on a language-course route rather than one applying from India.",
+        "DSH is normally taken in Germany, so it suits someone arriving on a language course rather than applying from India.",
       source: "University language centres",
     },
     {
@@ -265,7 +265,7 @@ export const germany: DestinationGuide = {
         "IELTS 6.5 overall is the common threshold, TOEFL iBT 88 to 90. Individual programmes set their own and some are higher.",
       validity: "Two years from the test date.",
       note:
-        "An English-taught Master's still leaves you living in German. A2 to B1 is what makes a part-time job, a lease and a doctor's appointment possible, and no university requires it.",
+        "An English-taught Master's still means daily life in German. A2 to B1 makes a part-time job, a lease and a doctor's appointment possible, though no university requires it.",
       source: "Programme admission regulations",
     },
   ],
@@ -274,64 +274,96 @@ export const germany: DestinationGuide = {
     {
       title: "APS certificate is mandatory, and it is the first clock to start",
       body:
-        "Every Indian applicant needs an APS certificate before a university application or a visa application will be processed. It certifies that your documents are genuine and your degree is what it says it is. Processing takes weeks, and the certificate is issued once and reused across applications, so it is started before a shortlist is finished rather than after.",
+        "Every Indian applicant needs an APS certificate before a university or visa application is processed.",
+      points: [
+        "It certifies that your documents are genuine and your degree is what it says it is.",
+        "Processing takes weeks.",
+        "It is issued once and reused for every application, so start it before your shortlist is finished.",
+      ],
       source: "APS India",
       appliesTo: "All applicants holding Indian qualifications",
     },
     {
       title: "dMAT is mandatory from the summer semester 2027 intake",
-      body:
-        "The APS India Digital Master Test is a new, separate, standardised test required from the summer semester 2027 intake for Indian Bachelor's degree holders applying to a Master's in Engineering, Commerce, Business, Finance or Economics. It costs €150 on top of the APS fee. It is not pass or fail: it produces a score report that universities read alongside your transcript. Our stated audience is almost exactly the population this triggers, so it is published here rather than left to be discovered late.",
+      body: "The APS India Digital Master Test is a new, separate, standardised test.",
+      points: [
+        "Required from the summer semester 2027 intake for Indian Bachelor's degree holders applying for a Master's in Engineering, Commerce, Business, Finance or Economics.",
+        "It costs €150 on top of the APS fee.",
+        "It is not pass or fail: universities read your score report alongside your transcript.",
+      ],
       source: "APS India",
       appliesTo:
         "Indian Bachelor's holders applying for a Master's in Engineering, Commerce, Business, Finance or Economics, from summer semester 2027",
     },
     {
       title: "dMAT exemptions, including the transitional one",
-      body:
-        "You do not sit the dMAT if you already hold a Master's degree, if you are applying to a subject outside the listed groups, if your Bachelor's is from outside India, or if you are applying for a Bachelor's rather than a Master's. There is also a transitional exemption: anyone who registered with or submitted documents to APS India before 29 June 2026 is outside the requirement. That date has passed, so the exemption now only covers someone who had already registered or submitted documents by then; check the date on your own APS record before you plan around it.",
+      body: "You do not sit the dMAT if any of these apply.",
+      points: [
+        "You already hold a Master's degree.",
+        "Your subject is outside the listed groups.",
+        "Your Bachelor's is from outside India.",
+        "Transitional exemption: you registered with or submitted documents to APS India before 29 June 2026. That date has passed, so check the date on your own APS record before you plan around it.",
+      ],
       source: "APS India",
       appliesTo: "Applicants who would otherwise be in scope",
     },
     {
       title: "anabin recognition decides whether your degree counts at all",
       body:
-        "Germany does not treat all foreign degrees as equivalent. The anabin database rates your institution H+, H+/- or H-, and rates your degree separately. An H+ institution with a recognised degree means direct eligibility. H+/- means the university decides case by case. H- means the degree is not recognised as equivalent and the pathway is different. This is checked before a shortlist is built, because a shortlist of universities you cannot apply to is worse than no shortlist.",
+        "Germany does not treat all foreign degrees as equivalent, so check anabin before building a shortlist.",
+      points: [
+        "anabin rates your institution H+, H+/- or H-, and rates your degree separately.",
+        "H+ institution with a recognised degree: you are directly eligible.",
+        "H+/-: the university decides case by case.",
+        "H-: the degree is not recognised as equivalent, and the route is different.",
+      ],
       source: "anabin, Zentralstelle fur auslandisches Bildungswesen",
       appliesTo: "All applicants holding Indian qualifications",
     },
     {
       title: "Three year versus four year Bachelor's",
       body:
-        "A German Bachelor's is 180 ECTS over three years, and many Indian three year Bachelor's degrees do map onto it. The friction is subject-specific: engineering Master's programmes are usually built on a four year, 240 ECTS engineering Bachelor's, and a three year BSc or BCA can be found short of the technical and mathematics credits even where the overall duration is accepted. The answer is per programme, not per country, and the honest version of this advice is that it has to be checked against the specific programme's module requirements.",
+        "A German Bachelor's is 180 ECTS over three years, and many Indian three year Bachelor's degrees match it.",
+      points: [
+        "Engineering Master's programmes are usually built on a four year, 240 ECTS engineering Bachelor's.",
+        "A three year BSc or BCA can fall short on technical and mathematics credits, even where the overall length is accepted.",
+        "So the answer is per programme, not per country, checked against that programme's module requirements.",
+      ],
       source: "Programme admission regulations, and anabin equivalence statements",
       appliesTo: "Master's applicants",
     },
     {
       title: "ECTS and subject credits are how Master's admission is actually decided",
-      body:
-        "German Master's admission is largely arithmetic on your transcript: total credits, credits in the core subject, credits in mathematics, and credits in the named technical modules the programme lists as prerequisites. A programme that asks for 30 ECTS in mathematics and finds 18 on your transcript rejects on that, whatever your overall grade was. Missing prerequisites can sometimes be made up as conditional modules after admission, which is a question to ask the programme rather than assume.",
+      body: "German Master's admission is largely arithmetic on your transcript.",
+      points: [
+        "It counts total credits, core subject credits, mathematics credits, and credits in the technical modules the programme lists as prerequisites.",
+        "A programme that asks for 30 ECTS in mathematics and finds 18 rejects you on that, whatever your overall grade.",
+        "Missing prerequisites can sometimes be made up as conditional modules after admission. Ask the programme rather than assume.",
+      ],
       source: "Programme admission regulations",
       appliesTo: "Master's applicants",
     },
     {
       title: "Grade conversion, and who actually decides it",
       body:
-        "Your Indian percentage or CGPA is converted to the German 1.0 to 4.0 scale, most commonly with the Modified Bavarian Formula. We publish that calculator so you can see the arithmetic on your own numbers. What we cannot do is decide the result: the university's admissions office or uni-assist performs the official conversion, and some universities use a different method or apply a subject-specific correction.",
+        "Your Indian percentage or CGPA is converted to the German 1.0 to 4.0 scale, most commonly with the Modified Bavarian Formula.",
+      points: [
+        "Our calculator shows you the arithmetic on your own numbers, but we cannot decide the result.",
+        "The university's admissions office or uni-assist does the official conversion.",
+        "Some universities use a different method or apply a subject-specific correction.",
+      ],
       source: "Kultusministerkonferenz, Modified Bavarian Formula",
       appliesTo: "All applicants",
     },
     {
-      title: "Studienkolleg, when the qualification is not directly eligible",
-      body:
-        "If your school-leaving qualification does not carry direct university entrance for Germany, the Studienkolleg is the bridge: one or two semesters of subject-specific preparation, ending in the Feststellungsprufung assessment, after which you apply as a directly eligible candidate. It is a real year of your life and a real cost, so it belongs in the plan from the start rather than as a fallback discovered after a rejection.",
-      source: "Studienkolleg admission offices",
-      appliesTo: "Applicants without a direct higher education entrance qualification",
-    },
-    {
       title: "uni-assist or direct: a real choice, not a formality",
       body:
-        "Some universities take applications only through uni-assist, some only directly, and some accept both. uni-assist pre-checks your documents and charges per application, which is useful if your file is unusual and an avoidable cost and delay if it is not. Where both routes are open, the direct route is usually faster. Which route applies is a per-university fact, checked before the application window rather than during it.",
+        "Some universities take applications only through uni-assist, some only directly, and some accept both, so check each one before its application window opens.",
+      points: [
+        "uni-assist pre-checks your documents and charges per application.",
+        "That helps if your file is unusual, and is an avoidable cost and delay if it is not.",
+        "Where both routes are open, applying directly is usually faster.",
+      ],
       source: "uni-assist e.V., and university application pages",
       appliesTo: "All applicants",
     },
@@ -342,7 +374,7 @@ export const germany: DestinationGuide = {
       name: "Winter semester",
       applicationDeadline: "2027-07-15",
       deadlineNote:
-        "15 July is the common deadline for the winter semester, and a large minority of programmes close earlier, some as early as 31 May. The deadline that matters is the programme's own.",
+        "15 July is the common winter deadline, but a large minority of programmes close earlier, some as early as 31 May. The programme's own deadline is the one that counts.",
       teachingStarts: "2027-10-01",
       status: "not-yet-open",
       statusAsOf: "2026-09-03",
@@ -352,7 +384,7 @@ export const germany: DestinationGuide = {
       name: "Summer semester",
       applicationDeadline: "2027-01-15",
       deadlineNote:
-        "15 January is the common deadline. Fewer programmes admit in the summer semester than in the winter one, and engineering Master's intakes in particular are often winter-only.",
+        "15 January is the common deadline. Fewer programmes admit in summer than in winter, and engineering Master's intakes in particular are often winter-only.",
       teachingStarts: "2027-04-01",
       status: "not-yet-open",
       statusAsOf: "2026-09-03",
@@ -365,7 +397,7 @@ export const germany: DestinationGuide = {
       monthsBefore: [18, 14],
       title: "APS, and the recognition check",
       detail:
-        "Start APS. Check your institution and degree on anabin. If the dMAT applies to you, note whether the transitional exemption date falls before or after your APS registration.",
+        "Start APS and check your institution and degree on anabin. If the dMAT applies to you, note whether your APS registration was before or after the transitional exemption date.",
     },
     {
       monthsBefore: [14, 11],
@@ -377,19 +409,19 @@ export const germany: DestinationGuide = {
       monthsBefore: [11, 8],
       title: "Applications",
       detail:
-        "Submit through uni-assist or directly, whichever the university requires. A letter of motivation per programme, not one reused across nine.",
+        "Apply through uni-assist or directly, as each university requires. Write a letter of motivation for each programme, not one reused across nine.",
     },
     {
       monthsBefore: [8, 6],
       title: "Admission, then the blocked account",
       detail:
-        "Admission letter arrives. Open and fund the blocked account. Arrange the health insurance confirmation.",
+        "Once the admission letter arrives, open and fund the blocked account and arrange the health insurance confirmation.",
     },
     {
       monthsBefore: [6, 3],
       title: "The visa appointment is the binding constraint",
       detail:
-        "Appointment slots at the German missions in India are the single most common reason a confirmed admission does not turn into an October start. Book the moment the admission letter allows it, before the rest of the file is finished.",
+        "Appointment slots at the German missions in India are the most common reason a confirmed admission does not become an October start. Book as soon as the admission letter allows, before the rest of your file is finished.",
     },
     {
       monthsBefore: [3, 0],
@@ -420,7 +452,7 @@ export const germany: DestinationGuide = {
       id: "admission",
       title: "Admission letter received",
       detail:
-        "A conditional admission is not always sufficient for the visa. Check which one your mission accepts.",
+        "A conditional admission is not always enough for the visa. Check which one your mission accepts.",
       blocks: "The visa appointment cannot usually be attended without it.",
       source: "German missions in India",
     },
@@ -443,7 +475,7 @@ export const germany: DestinationGuide = {
       id: "appointment",
       title: "Visa appointment booked",
       detail:
-        "Lead times at the German missions in India run from weeks to several months depending on the city and the season. This is the step that decides whether an October start is realistic.",
+        "Waiting times at the German missions in India run from weeks to several months, depending on the city and the season. This step decides whether an October start is realistic.",
       blocks: "Everything after it.",
       source: "German missions in India",
     },
@@ -451,7 +483,7 @@ export const germany: DestinationGuide = {
       id: "decision",
       title: "Decision, then travel",
       detail:
-        "Processing after the appointment is commonly six to twelve weeks and is not guaranteed within any window. No flight is booked against an undecided application.",
+        "Processing after the appointment is commonly six to twelve weeks, with no guaranteed window. Do not book a flight before the decision.",
       source: "German missions in India",
     },
   ],
@@ -506,7 +538,7 @@ export const germany: DestinationGuide = {
       id: "cv",
       title: "CV, Europass format preferred",
       detail:
-        "German admissions offices and employers read the Europass structure by default: reverse-chronological, explicit dates, no photograph unless asked.",
+        "German admissions offices and employers expect the Europass layout: newest first, clear dates, no photograph unless asked.",
       source: "Europass, European Commission",
     },
     {
@@ -558,7 +590,7 @@ export const germany: DestinationGuide = {
       id: "permit",
       title: "Apply for the residence permit",
       detail:
-        "The entry visa is temporary. Apply at the Auslanderbehorde before it expires; in busy cities the appointment itself has a lead time of weeks.",
+        "The entry visa is temporary. Apply at the Auslanderbehorde before it expires; in busy cities, just getting the appointment takes weeks.",
       blocks: "Legal residence after the entry visa expires.",
       source: "Local Auslanderbehorde",
     },
@@ -573,14 +605,18 @@ export const germany: DestinationGuide = {
   workRights: [
     {
       title: "140 full days or 280 half days per year",
-      body:
-        "Non-EU students may work 140 full days or 280 half days in a calendar year, raised from 120 and 240 in March 2024. A half day is up to four hours. The two are interchangeable within the annual allowance, and exceeding it is a residence permit problem, not a payroll one.",
+      body: "Non-EU students may work 140 full days or 280 half days in a calendar year.",
+      points: [
+        "Raised from 120 and 240 in March 2024.",
+        "A half day is up to four hours, and full and half days can be mixed within the yearly allowance.",
+        "Going over it is a residence permit problem, not a payroll one.",
+      ],
       source: "German Residence Act, Aufenthaltsgesetz",
     },
     {
       title: "Student assistant work is counted separately",
       body:
-        "Academic assistant roles at your own university are generally outside the 140 day allowance, but this has to be confirmed with the foreigners' office rather than assumed from a forum post.",
+        "Academic assistant jobs at your own university generally do not count towards the 140 days. Confirm this with the foreigners' office, not a forum post.",
       source: "Local Auslanderbehorde",
     },
     {
@@ -595,13 +631,13 @@ export const germany: DestinationGuide = {
     {
       title: "18 month residence permit to look for work",
       body:
-        "After graduating you may apply for an 18 month residence permit to seek employment related to your qualification, and you may work without restriction during it. It runs from the date your result is confirmed, not from the date you apply.",
+        "After graduating you may apply for an 18 month residence permit to look for work related to your qualification, and you may work without restriction while on it. It runs from the date your result is confirmed, not the date you apply.",
       source: "German Residence Act, section 20",
     },
     {
       title: "Then the EU Blue Card, or a work permit",
       body:
-        "Once employed, the usual route is the EU Blue Card, which has a salary threshold that is lower for shortage occupations and lower again for recent graduates. The threshold changes annually and has to be read for the year you are applying in.",
+        "Once employed, the usual route is the EU Blue Card. Its salary threshold is lower for shortage occupations and lower again for recent graduates, and it changes every year, so use the figure for the year you apply.",
       source: "Federal Office for Migration and Refugees, BAMF",
     },
   ],
@@ -609,14 +645,18 @@ export const germany: DestinationGuide = {
   insurance: [
     {
       title: "Statutory versus private, and who may choose",
-      body:
-        "Enrolment requires German health insurance. Most students under 30 take statutory cover at the student rate, roughly €130 to €145 a month including the long-term care contribution. Private cover is cheaper for some applicants, but leaving the statutory system as a student is difficult to reverse, which matters if you intend to stay and work in Germany afterwards.",
+      body: "You need German health insurance to enrol.",
+      points: [
+        "Most students under 30 take statutory cover at the student rate, roughly €130 to €145 a month including the long-term care contribution.",
+        "Private cover is cheaper for some applicants.",
+        "Leaving the statutory system as a student is hard to reverse, which matters if you plan to stay and work in Germany afterwards.",
+      ],
       source: "Statutory health insurers, and SGB V",
     },
     {
       title: "Over 30, or on a preparatory course",
       body:
-        "The student rate generally ends at 30, or after the 14th semester. Beyond that, statutory cover is charged at the voluntary member rate, which is substantially higher, and private cover becomes the usual route. Language course and Studienkolleg students are often outside the student rate too.",
+        "The student rate generally ends at 30, or after the 14th semester. After that, statutory cover costs the much higher voluntary member rate, and private cover becomes the usual route. Language course and Studienkolleg students are often outside the student rate too.",
       source: "Statutory health insurers",
       appliesTo: "Applicants aged 30 or over, and preparatory course students",
     },
@@ -632,43 +672,43 @@ export const germany: DestinationGuide = {
     {
       title: "Assuming Germany is free, then finding Baden-Wurttemberg",
       body:
-        "€1,500 per semester across a two year Master's is €6,000, and it lands on precisely the shortlist an engineering applicant builds first. The state is not a reason to avoid those universities. Discovering the fee after accepting the offer is a reason to be annoyed with your consultant.",
+        "€1,500 per semester is €6,000 across a two year Master's, and it hits the universities an engineering applicant shortlists first. That is no reason to avoid them, but you should know about the fee before you accept an offer, not after.",
     },
     {
       title: "Names that do not match across documents",
       body:
-        "APS rejects on inconsistency. A passport that expands an initial, a transcript that does not, a middle name on one and not the other: fix the mismatch before submitting, because fixing it afterwards costs a full processing cycle.",
+        "APS rejects mismatches, such as an initial spelt out on the passport but not on the transcript, or a middle name on one and not the other. Fix them before you submit, because fixing them afterwards costs a full processing cycle.",
     },
     {
       title: "A missing semester transcript",
       body:
-        "Every semester, individually, not a consolidated statement. This is among the most frequent APS document failures and it is entirely avoidable.",
+        "Submit every semester's transcript separately, not a consolidated statement. This is one of the most common APS document failures, and it is entirely avoidable.",
     },
     {
       title: "Starting the visa appointment search late",
       body:
-        "Admission in June and an appointment in November means the intake is missed with every document in perfect order. Book on the day the admission letter permits it.",
+        "Admission in June and an appointment in November means a missed intake, even with every document in order. Book on the day the admission letter allows it.",
     },
     {
       title: "One letter of motivation, sent to nine programmes",
       body:
-        "A German letter of motivation argues fit against the programme's own modules. A reusable one reads as reusable, and the module argument is the part actually being assessed.",
+        "A German letter of motivation argues your fit with the programme's own modules, and that is the part being assessed. A reused letter reads as reused.",
     },
     {
       title: "Counting the blocked account monthly release as a budget",
       body:
-        "€992 a month is a ceiling on withdrawals, not a cost of living estimate. In Munich the rent alone can consume most of it, which is a planning fact rather than a reason to pick a cheaper city if the programme is right.",
+        "€992 a month is a limit on withdrawals, not an estimate of living costs. In Munich the rent alone can take most of it: plan for that, rather than picking a cheaper city if the programme is right.",
     },
   ],
 
   faqs: [
     {
       q: "Is Germany actually free?",
-      a: "Tuition at public universities is free in 15 of the 16 federal states. Baden-Wurttemberg charges non-EU students €1,500 per semester. Everyone pays a semester contribution of roughly €100 to €400, which usually includes a transport ticket. Private universities charge full tuition.",
+      a: "Tuition at public universities is free in most federal states. Baden-Wurttemberg charges non-EU students €1,500 per semester, and TUM in Bavaria has charged non-EU students since the 2024/25 winter semester. Everyone pays a semester contribution of roughly €100 to €400, which usually includes a transport ticket. Private universities charge full tuition.",
     },
     {
       q: "Do I need German if my programme is taught in English?",
-      a: "Not for admission. For a part-time job, a lease, a doctor's appointment and a residence permit appointment, A2 to B1 changes your life considerably. No university will require it and we will still recommend it.",
+      a: "Not for admission. But A2 to B1 German makes a part-time job, a lease, a doctor's appointment and a residence permit appointment much easier, so we recommend it even though no university requires it.",
     },
     {
       q: "Does the dMAT apply to me?",
@@ -676,7 +716,7 @@ export const germany: DestinationGuide = {
     },
     {
       q: "Will my three year Bachelor's be accepted?",
-      a: "Often yes on duration, and the real question is subject credits rather than years. Engineering Master's programmes built on a four year, 240 ECTS Bachelor's frequently find a three year degree short on technical and mathematics credits. It is decided per programme, and we check it per programme.",
+      a: "Often yes on length; the real question is subject credits, not years. Engineering Master's programmes built on a four year, 240 ECTS Bachelor's often find a three year degree short on technical and mathematics credits, so we check it per programme.",
     },
     {
       q: "How much commission do you earn on a German public university?",

@@ -17,8 +17,8 @@ export function NoteForm({ caseId }: { caseId: string }) {
         Add a note
       </label>
       <p className="mt-1 text-[0.8125rem] leading-relaxed text-grey">
-        Describe the situation, not the contents of a document. No passport
-        number, no bank figure, no transcript text leaves this box.
+        Describe the situation, not what a document says. No passport number,
+        bank figure or transcript text leaves this box.
       </p>
       <textarea
         id="note"
@@ -28,7 +28,7 @@ export function NoteForm({ caseId }: { caseId: string }) {
         className="mt-3 w-full rounded-card border border-line-strong bg-white px-3.5 py-2.5 text-[0.9375rem] text-blue-dark placeholder:text-grey/70 focus:border-pink focus:outline-none focus:ring-2 focus:ring-pink/25"
       />
       <div className="mt-3 flex flex-wrap items-center gap-3">
-        <Button type="submit" disabled={pending}>
+        <Button type="submit" disabled={pending} aria-busy={pending}>
           {pending ? "Saving" : "Save note"}
         </Button>
         <p className="text-[0.8125rem] text-grey">

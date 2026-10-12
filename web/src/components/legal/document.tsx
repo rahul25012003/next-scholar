@@ -135,7 +135,7 @@ function ReviewBanner({ doc }: { doc: LegalDocument }) {
           <p className="mt-2 text-[0.9375rem] leading-relaxed text-grey">
             {reviewed
               ? "This document has been read by a qualified person and is published as settled."
-              : "This document is written, complete enough to be relied on for what it describes, and has not been read by a qualified person. It is published in that state rather than dressed up as settled, and the gaps below are real gaps listed as gaps."}
+              : "This document is complete enough to rely on for what it covers, but no qualified person has read it. We publish it as it stands, not as settled, and the gaps listed below are real."}
           </p>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { AppShell, EmptyState, Panel } from "@/components/app/shell";
+import { FolderOpen, ListChecks, PaperPlaneTilt, SealCheck } from "@phosphor-icons/react/ssr";
+import { AppShell, EmptyState, PageHead, Panel, Stat } from "@/components/app/shell";
 import { currentSignOff, listCases, syncNotifications } from "@/data/store";
 import { securityPosture, postureLabel, postureSummary } from "@/domain/security-posture";
 import { recentAudit } from "@/domain/audit";
@@ -80,29 +81,26 @@ export default async function OpsPage() {
 
   return (
     <AppShell actor={actor} current="/ops">
-      <h1 className="sr-only">Operations</h1>
+      <PageHead
+        eyebrow="Operations"
+        title="The whole practice"
+        lede="Security posture, pipeline, workload and the audit trail, in one place."
+      />
       <div className="shell grid gap-6">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            { label: "Active cases", value: all.length, note: "Across every counselor" },
-            { label: "Open items", value: events.length, note: "Raised from stored values" },
-            { label: "Ledger rows verified", value: `${verified} of ${ledgerRows.length}`, note: "Cleared for publication" },
-            { label: "Awaiting outreach", value: unverified, note: "Still market estimates" },
+            { label: "Active cases", value: all.length, note: "Across every counsellor", icon: <FolderOpen size={22} weight="duotone" /> },
+            { label: "Open items", value: events.length, note: "Raised from stored values", icon: <ListChecks size={22} weight="duotone" /> },
+            { label: "Ledger rows verified", value: `${verified} of ${ledgerRows.length}`, note: "Cleared for publication", icon: <SealCheck size={22} weight="duotone" /> },
+            { label: "Awaiting outreach", value: unverified, note: "Still market estimates", icon: <PaperPlaneTilt size={22} weight="duotone" /> },
           ].map((tile) => (
-            <Panel key={tile.label} title={tile.label}>
-              <div className="px-6 py-5">
-                <p className="figures text-[1.75rem] font-semibold text-blue-dark">
-                  {tile.value}
-                </p>
-                <p className="mt-1 text-[0.8125rem] text-grey">{tile.note}</p>
-              </div>
-            </Panel>
+            <Stat key={tile.label} {...tile} />
           ))}
         </div>
 
         <Panel
           title="Security and data protection"
-          description={`${postureCounts["in-code"]} implemented, ${postureCounts["needs-provider"]} waiting on infrastructure, ${postureCounts["needs-a-person"]} waiting on a person. No student document is accepted until this reads differently.`}
+          description={`${postureCounts["in-code"]} implemented, ${postureCounts["needs-provider"]} waiting on infrastructure, ${postureCounts["needs-a-person"]} waiting on a person. No student document is accepted until this changes.`}
         >
           <ul className="divide-y divide-line">
             {posture.map((item) => (
@@ -141,7 +139,7 @@ export default async function OpsPage() {
           {all.length === 0 ? (
             <EmptyState
               headline="No cases"
-              body="Nothing is loaded, and nothing has been generated to fill the pipeline."
+              body="No cases are loaded."
             />
           ) : (
             <div className="grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-4">
@@ -170,8 +168,8 @@ export default async function OpsPage() {
 
         <div className="grid gap-6 lg:grid-cols-2">
           <Panel
-            title="Counselor workload"
-            description="Assignment suggestions follow caseload size. A manager can always override, and the override is logged."
+            title="Counsellor workload"
+            description="How many cases each counsellor holds."
           >
             {workload.length === 0 ? (
               <EmptyState headline="No assignments" body="No case is assigned to anyone." />
@@ -194,12 +192,12 @@ export default async function OpsPage() {
 
           <Panel
             title="Not moving"
-            description="Cases with no stage change for five days or more. Closure is always a person's decision, never an automatic one."
+            description="Cases with no stage change for five days or more. Only a person can close a case."
           >
             {stagnant.length === 0 ? (
               <EmptyState
                 headline="Everything is moving"
-                body="No case has sat at the same stage past the threshold."
+                body="No case has been at the same stage for five days or more."
               />
             ) : (
               <ul className="divide-y divide-line">
@@ -257,7 +255,7 @@ export default async function OpsPage() {
 
         <Panel
           title="Commission verification"
-          description="The quarterly Open Ledger update, kept as a running status check instead of a scramble at the end of the quarter."
+          description="Progress on the quarterly Open Ledger update, tracked as we go rather than at the end of the quarter."
         >
           <div className="grid gap-px bg-line sm:grid-cols-3">
             {[
@@ -286,7 +284,7 @@ export default async function OpsPage() {
                   </p>
                   {isStale(row.lastReviewDate) && (
                     <p className="mt-0.5 text-[0.75rem] font-medium text-denied">
-                      Overdue for re-verification. The methodology treats a stale date as worse than no date.
+                      Overdue for re-verification. A stale date counts as worse than no date.
                     </p>
                   )}
                 </div>
@@ -294,18 +292,25 @@ export default async function OpsPage() {
               </li>
             ))}
           </ul>
-          <p className="border-t border-line px-6 py-3 text-[0.75rem] leading-relaxed text-grey">
-            No agent has a capability that reaches this table. Neither does any
-            screen: the ledger is published content today, and moving a row to
-            verified is an edit to the repository under review, not a button.
-            The founder-only write path arrives with the database, and the
-            permission that will gate it already exists and is already tested.
-          </p>
+          <div className="border-t border-line px-6 py-3 text-[0.75rem] leading-relaxed text-grey">
+            <p>This table cannot be changed from here.</p>
+            <ul className="mt-2 list-disc space-y-1 pl-5">
+              <li>No agent and no screen can reach it.</li>
+              <li>
+                The ledger is published content today. Marking a row verified is a
+                reviewed edit to the repository, not a button.
+              </li>
+              <li>
+                A founder-only way to edit it comes with the database. The permission
+                that will control it already exists and is tested.
+              </li>
+            </ul>
+          </div>
         </Panel>
 
         <Panel
           title="Quarterly outcomes"
-          description="Generated from records with a final, human confirmed outcome. Categories stay separate, permanently."
+          description="Built from records whose final outcome a person has confirmed. Categories are never merged."
         >
           <div className="grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-3">
             {report.categories.map((category) => (
@@ -340,7 +345,7 @@ export default async function OpsPage() {
             <p className="mt-2 text-[0.8125rem] leading-relaxed text-grey">
               {report.signedOffBy
                 ? `Signed off by ${report.signedOffBy} on ${report.signedOffAt}.`
-                : "Not signed off. Every figure above carries the record ids it was computed from, so a disputed number can be traced back rather than defended from memory."}
+                : "Not signed off. Every figure above lists the record ids it came from, so a disputed number can be traced back."}
             </p>
           </div>
         </Panel>
@@ -433,7 +438,7 @@ export default async function OpsPage() {
         <div className="grid gap-6 lg:grid-cols-2">
           <Panel
             title="Assignment suggestion"
-            description="Caseload size only. A manager makes the call, and the override is logged like any other write."
+            description="Based on caseload size only. A manager makes the call, and any override is logged."
           >
             <div className="px-6 py-5">
               <p className="text-[0.9375rem] text-blue-dark">
@@ -489,12 +494,12 @@ export default async function OpsPage() {
 
         <Panel
           title="Escalations and manager actions"
-          description="Reassignment and closure are the two decisions a counselor cannot make alone. Both need a reason, and neither happens on a timer."
+          description="Reassignment and closure are the two decisions a counsellor cannot make alone. Both need a reason, and neither happens on a timer."
         >
           {escalated.length === 0 ? (
             <EmptyState
               headline="Nothing escalated"
-              body="No case has passed the second stagnation threshold. Manager actions stay available on any case from its own page."
+              body="No case has passed the second threshold for being stuck."
             />
           ) : (
             <div className="divide-y divide-line">
@@ -517,7 +522,7 @@ export default async function OpsPage() {
 
         <Panel
           title="Audit trail"
-          description="Every read and write of a case, with who did it. Rendering this page wrote the first few entries."
+          description="Every read and write of a case, and who did it. Opening this page added the first few entries."
         >
           <ul className="divide-y divide-line">
             {audit.map((entry) => (
@@ -542,7 +547,7 @@ export default async function OpsPage() {
 
         <Panel
           title="Notification channels"
-          description={`Last sweep queued ${sweep.queued} and left ${sweep.open} open. A repeat sweep on unchanged state queues nothing.`}
+          description={`The last sweep queued ${sweep.queued} and left ${sweep.open} open. Sweeping again with nothing changed queues nothing.`}
         >
           <ul className="divide-y divide-line">
             {providers.map((provider) => (

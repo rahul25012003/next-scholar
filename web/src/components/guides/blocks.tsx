@@ -152,7 +152,16 @@ export function RequirementList({ items }: { items: Requirement[] }) {
               Applies to: {item.appliesTo}
             </p>
           )}
-          <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-grey">{item.body}</p>
+          <div className="mt-3 flex-1">
+            <p className="text-[0.9375rem] leading-relaxed text-grey">{item.body}</p>
+            {item.points && (
+              <ul className="mt-2 list-disc space-y-1 pl-5 text-[0.9375rem] leading-relaxed text-grey">
+                {item.points.map((point) => (
+                  <li key={point}>{point}</li>
+                ))}
+              </ul>
+            )}
+          </div>
           <p className="mt-4 border-t border-line pt-3 text-[0.8125rem] text-grey">
             Source: {item.source}
           </p>

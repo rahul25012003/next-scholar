@@ -171,9 +171,7 @@ export function IntakeForm() {
             Which of these are you considering?
           </span>
           <p className="mt-1 text-[0.8125rem] leading-relaxed text-grey">
-            Pick as many as apply, or none. Every one of them has a full guide on this site
-            with the fees, the funding thresholds and what we earn on it, and you are welcome
-            to read those instead of filling this in.
+            Pick as many as you like, or none.
           </p>
           <div className="mt-3.5 grid gap-3 sm:grid-cols-3">
             {guides.map((guide) => {
@@ -264,7 +262,7 @@ export function IntakeForm() {
               <ArrowRight size={15} weight="bold" aria-hidden />
             </Button>
           ) : (
-            <Button key="submit" type="submit" disabled={pending}>
+            <Button key="submit" type="submit" disabled={pending} aria-busy={pending}>
               {pending ? "Checking your answers" : "Check and continue"}
             </Button>
           )}

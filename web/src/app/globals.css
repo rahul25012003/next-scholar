@@ -19,6 +19,9 @@
      the reference's own teal or pink. ----------------------------------- */
   --color-*: initial;
   --color-blue-dark: #205bad;
+  /* The ground's blue taken down, for the footer. Not in the reference, which
+     ended on charcoal; this keeps the page in one family to its last line. */
+  --color-blue-deep: #102f63;
   --color-blue: #4899df;
   --color-blue-tint: #62a8e5;
   --color-blue-light: #c7dbf4;
@@ -47,9 +50,9 @@
   --color-neutral-chip-bg: var(--color-light);
 
   /* --- Type ----------------------------------------------------------- */
-  --font-display: var(--font-montserrat), Avenir, "Century Gothic", -apple-system,
+  --font-display: var(--font-jakarta), -apple-system,
     BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-sans: var(--font-dm-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Helvetica, Arial, sans-serif;
 
   --text-step-xs: var(--step--2);
@@ -66,15 +69,21 @@
   --radius-panel: 0px;
   --radius-input: 99px;
 
-  /* --- Elevation: the reference has none ------------------------------ */
-  --shadow-card: 0 0 #0000;
-  --shadow-lift: 0 0 #0000;
+  /* --- Elevation. The reference has none; these lift the white panels off
+     the blue ground. The shadow is the ground's own blue taken darker, never
+     a grey, so a panel reads as raised rather than smudged. -------------- */
+  --shadow-card: 0 1px 2px rgb(13 36 78 / 0.1), 0 28px 56px -30px rgb(13 36 78 / 0.55);
+  --shadow-lift: 0 2px 4px rgb(13 36 78 / 0.12), 0 36px 64px -26px rgb(13 36 78 / 0.7);
   --shadow-inset-line: 0 0 #0000;
 
   /* --- Easing --------------------------------------------------------- */
   --ease-confident: cubic-bezier(0.39, 0.575, 0.565, 1);
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-smooth: cubic-bezier(0.61, 1, 0.88, 1);
+  /* Entrances and anything that settles: fast out of the gate, long tail. */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  /* The reference's power2.out, for the shapes' long drift into place. */
+  --ease-drift: cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 /* Utopia fluid type. @link https://utopia.fyi/generator-mk-ii?c=320,18,1.25,1248,18,1.5,5,2 */
@@ -137,6 +146,14 @@
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
+    scrollbar-color: var(--color-blue) var(--color-blue-dark);
+    /* Lets a closed <details> animate open to its natural height. */
+    interpolate-size: allow-keywords;
+  }
+
+  ::selection {
+    background-color: var(--color-pink);
+    color: var(--color-white);
   }
 
   body {
@@ -182,6 +199,29 @@
     font: inherit;
   }
 
+  input,
+  textarea,
+  select {
+    transition:
+      border-color 0.2s var(--ease-smooth),
+      box-shadow 0.2s var(--ease-smooth),
+      background-color 0.2s var(--ease-smooth);
+  }
+
+  /* A disclosure opens and closes instead of snapping, where the browser can
+     animate to an intrinsic height. Elsewhere it behaves as it always did. */
+  details::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition:
+      block-size 0.4s var(--ease-out-expo),
+      content-visibility 0.4s allow-discrete;
+  }
+
+  details[open]::details-content {
+    block-size: auto;
+  }
+
   /* Text inputs are pills, like the reference's newsletter field. */
   input:where(:not([type="checkbox"], [type="radio"], [type="range"], [type="file"], [type="color"])),
   select {
@@ -216,7 +256,9 @@
     color: inherit;
     font-family: var(--font-display);
     margin-top: 0;
-    font-weight: 900;
+    font-weight: 800;
+    /* Jakarta at 800 reads best a touch tighter than its default. */
+    letter-spacing: -0.015em;
     -webkit-font-smoothing: antialiased;
     text-wrap: balance;
   }
@@ -298,15 +340,22 @@
     color: inherit;
   }
 
+  /* The underline is always there and only its colour changes. The hover used
+     to add a 2px border, which made the line of text it sat in 2px taller and
+     nudged everything below it. */
   a:not([class]) {
     color: var(--color-pink);
-    text-decoration: none;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.18em;
     text-decoration-skip-ink: auto;
+    transition: text-decoration-color 0.2s var(--ease-smooth);
   }
 
   a:not([class]):hover,
   a:not([class]):focus {
-    border-bottom: var(--color-pink) 2px solid;
+    text-decoration-color: currentColor;
   }
 
   *:focus {
@@ -447,12 +496,14 @@
     max-width: none;
     background-color: var(--color-white);
     padding: calc(2rem + 2 * ((100vw - 20rem) / 80));
+    box-shadow: var(--shadow-card);
   }
 
   /* A band that stays on the ground: white type, no box. */
   .band--ground > .shell {
     background-color: transparent;
     color: var(--color-light);
+    box-shadow: none;
   }
 
   .band--ground :is(h1, h2, h3, h4) {
@@ -546,6 +597,26 @@
        pills alone, because light, dark and pink buttons share rows. */
     font-size: 1.1875rem;
     text-align: center;
+    /* On the button itself, not only on :hover, so the colour eases back out
+       as well as in. Kept short so the button answers the pointer at once. */
+    transition:
+      background-color 0.2s var(--ease-smooth),
+      color 0.2s var(--ease-smooth),
+      box-shadow 0.25s var(--ease-out-expo),
+      translate 0.25s var(--ease-out-expo),
+      scale 0.15s var(--ease-out-expo),
+      background-position 0s;
+    /* A band of light parked off the left edge. On hover it crosses the
+       button once; on leaving it is put back unseen, with no transition. */
+    background-image: linear-gradient(
+      110deg,
+      transparent 35%,
+      rgb(255 255 255 / 0.3) 50%,
+      transparent 65%
+    );
+    background-size: 250% 100%;
+    background-position: 120% 0;
+    background-repeat: no-repeat;
   }
 
   .button--light {
@@ -567,8 +638,17 @@
 
   @media (hover: hover) {
     .button:hover {
-      transition: background-color 0.5s var(--ease-smooth);
       background-color: var(--color-pink);
+      background-position: -40% 0;
+      translate: 0 -2px;
+      box-shadow: 0 12px 20px -12px rgb(13 36 78 / 0.7);
+      transition:
+        background-color 0.2s var(--ease-smooth),
+        color 0.2s var(--ease-smooth),
+        box-shadow 0.25s var(--ease-out-expo),
+        translate 0.25s var(--ease-out-expo),
+        scale 0.15s var(--ease-out-expo),
+        background-position 0.7s var(--ease-out-expo);
     }
 
     .button--pink:hover {
@@ -584,9 +664,29 @@
     background-color: var(--color-blue);
   }
 
+  .button:active {
+    translate: 0 0;
+    scale: 0.97;
+    box-shadow: none;
+  }
+
+  /* A submit that is waiting on the server says so with more than its label. */
+  .button[aria-busy="true"]::before {
+    content: "";
+    flex-shrink: 0;
+    width: 1em;
+    height: 1em;
+    border-radius: 99px;
+    display: inline-block;
+    border: 0.15em solid currentColor;
+    border-right-color: transparent;
+    animation: spin 0.7s linear infinite;
+  }
+
   /* A text-only action in the button face: no fill, pink on hover. */
   .button--quiet {
     background-color: transparent;
+    background-image: none;
     color: var(--color-blue-dark);
     padding-left: 0;
     padding-right: 0;
@@ -596,6 +696,8 @@
     .button--quiet:hover {
       background-color: transparent;
       color: var(--color-pink);
+      translate: none;
+      box-shadow: none;
     }
   }
 
@@ -604,54 +706,196 @@
     color: var(--color-pink);
   }
 
-  /* The burst the reference fires from the Tickets button. */
-  .anim-explode-container {
-    position: relative;
-    display: inline-block;
-  }
-
-  .anim-explode-container .anim-explode {
-    position: absolute;
-    width: 150%;
-    height: 150%;
+  /* The flags and caps that rise from behind a few buttons. One fixed layer
+     over the page holds them; BurstLayer decides which buttons fire, plays
+     each burst and clips it around its own button. Every
+     piece turns about its own 0,0, the SVG default, which BurstLayer places
+     at the piece's pivot: a cap's centre, the foot of a flag's staff. */
+  .Burst-layer {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 70;
     overflow: visible;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: -1;
     pointer-events: none;
+  }
+
+  /* A figure that opens something: the whole figure is the target, and it
+     says so on hover and focus without changing shape. */
+  .Figure-button {
+    border-radius: 1rem;
+    padding: 0.75rem 0.5rem 1rem;
+    transition: background-color 0.2s var(--ease-smooth);
+  }
+
+  .Figure-button:hover,
+  .Figure-button:focus-visible {
+    background-color: rgb(255 255 255 / 0.6);
+  }
+
+  /* The eleven stages, opened from that figure: a white panel over a dimmed
+     page, rising into place. */
+  .Stages-popover {
+    /* The UA centres a popover with margin: auto, which the reset removes. */
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    height: fit-content;
+    width: min(40rem, calc(100vw - 2rem));
+    max-height: min(85vh, 52rem);
+    padding: clamp(1.25rem, 4vw, 2.25rem);
+    border: 0;
+    background-color: var(--color-white);
+    color: var(--color-grey);
+    box-shadow: var(--shadow-lift);
+    overflow-y: auto;
+    overscroll-behavior: contain;
     opacity: 1;
+    translate: 0 0;
+    transition:
+      opacity 0.25s var(--ease-smooth),
+      translate 0.35s var(--ease-out-expo),
+      overlay 0.25s allow-discrete,
+      display 0.25s allow-discrete;
   }
 
-  .anim-explode circle,
-  .anim-explode path {
-    transform-box: fill-box;
-    transform-origin: center;
+  .Stages-popover:not(:popover-open) {
     opacity: 0;
+    translate: 0 1.5rem;
   }
 
-  @media (hover: hover) {
-    .anim-explode-container:hover .anim-explode circle,
-    .anim-explode-container:hover .anim-explode path,
-    .anim-explode-container:focus-within .anim-explode circle,
-    .anim-explode-container:focus-within .anim-explode path {
-      animation: explode 0.9s var(--ease-smooth) both;
+  @starting-style {
+    .Stages-popover:popover-open {
+      opacity: 0;
+      translate: 0 1.5rem;
     }
   }
 
-  /* The burst is absolutely positioned decoration, so it must never take a
-     margin. Spacing rules like the mobile menu's `.Nav__list * + *` give the
-     next sibling margin-top: 1rem, which pushed the burst 16px below its
-     button. svg.anim-explode outranks those rules on specificity. */
-  .anim-explode-container svg.anim-explode {
-    margin: 0;
+  .Stages-popover::backdrop {
+    background-color: rgb(16 47 99 / 0.55);
   }
 
-  /* A phone has no hover, so without this the burst would never play on a
-     pink button there. It fires on the press instead. */
-  .anim-explode-container:active .anim-explode circle,
-  .anim-explode-container:active .anim-explode path {
-    animation: explode 0.9s var(--ease-smooth) both;
+  /* The eleven stages as one numbered line: a filled number for each stage,
+     joined to the next by a pale rule. */
+  .Stages__item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 2.75rem 1fr;
+    column-gap: 1.25rem;
+  }
+
+  .Stages__item > div {
+    padding-top: 0.55rem;
+  }
+
+  .Stages__item:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    top: 3.25rem;
+    bottom: 0.5rem;
+    left: calc(1.375rem - 1px);
+    width: 2px;
+    background-color: var(--color-blue-light);
+  }
+
+  .Stages__number {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 999px;
+    background-color: var(--color-blue-dark);
+    color: var(--color-white);
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 800;
+  }
+
+  /* A destination card on the home page is one link: the country name's link
+     is stretched over the card. On hover the card lifts, its flag waves once
+     and a small graduation cap settles on the flag's corner. */
+  .Dest-card {
+    transition:
+      translate 0.25s var(--ease-out-expo),
+      box-shadow 0.25s var(--ease-out-expo);
+  }
+
+  .Dest-card__link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .Dest-card__link:focus-visible {
+    outline: none;
+  }
+
+  .Dest-card:has(.Dest-card__link:focus-visible) {
+    outline: 3px solid var(--color-pink);
+    outline-offset: 4px;
+  }
+
+  .Dest-card__flag {
+    position: relative;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .Dest-card__flag img {
+    transform-origin: 0 50%;
+  }
+
+  .Dest-card__cap {
+    position: absolute;
+    top: -15px;
+    right: -14px;
+    width: 30px;
+    opacity: 0;
+    translate: 0 -8px;
+    rotate: -20deg;
+    transition:
+      opacity 0.2s var(--ease-smooth),
+      translate 0.45s var(--ease-bounce),
+      rotate 0.45s var(--ease-bounce);
+  }
+
+  @media (hover: hover) {
+    .Dest-card:hover {
+      translate: 0 -4px;
+      box-shadow: var(--shadow-lift);
+    }
+
+    .Dest-card:hover .Dest-card__flag img {
+      animation: flag-wave 0.9s var(--ease-smooth);
+    }
+
+    .Dest-card:hover .Dest-card__cap {
+      opacity: 1;
+      translate: 0 0;
+      rotate: 14deg;
+    }
+  }
+
+  @keyframes flag-wave {
+    30% {
+      transform: perspective(240px) rotateY(-16deg) skewY(-3deg);
+    }
+    65% {
+      transform: perspective(240px) rotateY(9deg) skewY(2deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .Dest-card,
+    .Dest-card__cap {
+      transition: none;
+    }
+
+    .Dest-card:hover .Dest-card__flag img {
+      animation: none;
+    }
   }
 
   /* ----------------------------------------------------------------------
@@ -669,34 +913,69 @@
     pointer-events: none;
   }
 
+  /* Each kind of shape arrives the way the reference brings it in: slowly,
+     from well off its mark, turning as it comes, on a long ease-out. --in is
+     the kind's keyframe, --in-time and --in-wait its duration and start. The
+     float that follows waits for the arrival to finish, since both move the
+     shape through `translate`. */
   .anim-header .shape {
+    --in: shape-in-circle;
+    --in-time: 8s;
+    --in-wait: 0s;
     transform-box: fill-box;
     transform-origin: center;
     animation:
-      shape-in 0.9s var(--ease-bounce) both,
-      shape-float 9s ease-in-out calc(0.9s + var(--shape-delay, 0s)) infinite alternate;
-    animation-delay: var(--shape-delay, 0s), calc(0.9s + var(--shape-delay, 0s));
+      var(--in) var(--in-time) var(--ease-drift) var(--in-wait) backwards,
+      shape-float 9s ease-in-out calc(var(--in-time) + var(--in-wait)) infinite alternate;
   }
 
+  .anim-header .dot {
+    --in: shape-in-dot;
+    --in-time: 4s;
+    animation-timing-function: var(--ease-bounce), ease-in-out;
+  }
+
+  .anim-header .semi { --in: shape-in-semi; }
+  .anim-header .double { --in: shape-in-double; --in-wait: 1s; }
+  .anim-header .hex { --in: shape-in-hex; --in-time: 6s; --in-wait: 1s; }
+  .anim-header .hash { --in: shape-in-hash; }
+  .anim-header :is(.circle-2, .arrow) { --in: shape-in-arrow; }
+
+  /* The strokes draw over six seconds from a second in, and brighten as
+     they go; the squiggle takes eight. */
   .anim-header .stroke {
     stroke-dasharray: 400;
-    stroke-dashoffset: 400;
-    animation: stroke-in 1.2s var(--ease-smooth) forwards;
-    animation-delay: var(--shape-delay, 0s);
+    animation: stroke-draw 6s var(--ease-drift) 1s backwards;
   }
 
   .anim-header .squiggle {
     stroke-dasharray: 1400;
-    stroke-dashoffset: 1400;
-    animation: stroke-in 2s var(--ease-smooth) 0.4s forwards;
+    animation: squiggle-draw 8s var(--ease-drift) backwards;
   }
 
   /* Staff sit on the console and operations pages for hours. There the shapes
      play their entrance and settle, instead of repainting the whole field on
      an infinite drift that costs CPU and battery for no information. */
   .anim-header--still .shape {
-    animation: shape-in 0.9s var(--ease-bounce) both;
-    animation-delay: var(--shape-delay, 0s);
+    animation: var(--in) var(--in-time) var(--ease-drift) var(--in-wait) backwards;
+  }
+
+  .anim-header--still .dot {
+    animation-timing-function: var(--ease-bounce);
+  }
+
+  /* There the shapes also sit back. A case page sets its title and summary
+     straight on the ground, and a pale shape at full strength behind a line
+     of light type made part of that line unreadable. */
+  .anim-header--still {
+    opacity: 0.35;
+  }
+
+  /* The sign-in pages keep the movement but set the field back for the same
+     reason: their pitch is light type on the ground, and the teal hoop sat
+     directly behind its second line. */
+  .anim-header--quiet {
+    opacity: 0.45;
   }
 
   .Header {
@@ -730,7 +1009,7 @@
     text-decoration: none;
     border-bottom: none;
     font-family: var(--font-display);
-    font-weight: 900;
+    font-weight: 800;
     font-size: 1.25rem;
     line-height: 1;
     letter-spacing: -0.01em;
@@ -747,6 +1026,21 @@
     color: var(--color-blue-dark);
     font-size: 1.125rem;
     flex-shrink: 0;
+    transition:
+      width 0.45s var(--ease-out-expo),
+      height 0.45s var(--ease-out-expo),
+      font-size 0.45s var(--ease-out-expo),
+      rotate 0.6s var(--ease-out-expo),
+      background-color 0.3s var(--ease-smooth),
+      color 0.3s var(--ease-smooth);
+  }
+
+  @media (hover: hover) {
+    .Header__logo:hover .Header__logo-mark {
+      rotate: -12deg;
+      background-color: var(--color-pink);
+      color: var(--color-white);
+    }
   }
 
   .Header__toggle {
@@ -756,7 +1050,7 @@
     display: flex;
     align-items: center;
     color: var(--color-white);
-    font-weight: 900;
+    font-weight: 800;
     font-size: var(--step--1);
     font-family: var(--font-display);
     transform: translateX(5px); /* optical adjustment */
@@ -770,11 +1064,21 @@
     transform: translateY(0.5px); /* optical adjustment */
   }
 
+  /* The dialog opens as a circle growing out of the toggle that opened it, and
+     closes back into it. The centre sits above the inner box because the box
+     starts below the header. */
   .Header__mobile-nav-inner {
     background-color: var(--color-blue-dark);
-    height: 100%;
+    min-height: 100%;
     width: 100%;
     overflow: hidden;
+    clip-path: circle(150% at calc(100% - 2.2rem) -1rem);
+    transition: clip-path 0.7s var(--ease-out-expo);
+  }
+
+  .a11y-modal[hidden] .Header__mobile-nav-inner {
+    clip-path: circle(0% at calc(100% - 2.2rem) -1rem);
+    transition-duration: 0.35s;
   }
 
   .Header__desktop-nav {
@@ -820,24 +1124,42 @@
     top: 0;
     z-index: 30;
     transition:
-      background-color 200ms var(--ease-smooth),
-      box-shadow 200ms var(--ease-smooth);
+      background-color 0.35s var(--ease-smooth),
+      box-shadow 0.35s var(--ease-smooth),
+      backdrop-filter 0.35s var(--ease-smooth);
   }
 
+  /* Both states have a stated height, so the header eases between them rather
+     than easing its padding and then jumping to a fixed height. */
   .Header--sticky .Header__container {
-    transition: padding 200ms var(--ease-smooth);
-  }
-
-  .Header--condensed {
-    background-color: var(--color-blue-dark);
-    box-shadow: 0 1px 0 color-mix(in srgb, var(--color-white) 15%, transparent);
-  }
-
-  .Header--condensed .Header__container {
-    height: 4.5rem;
+    height: 5rem;
     padding-top: 0;
     padding-bottom: 0;
     align-items: center;
+    transition: height 0.45s var(--ease-out-expo);
+  }
+
+  @media screen and (min-width: 1300px) {
+    .Header--sticky .Header__container {
+      height: 6.75rem;
+    }
+  }
+
+  /* The ground colour at nine tenths, with what scrolls under it blurred: the
+     white nav stays at 5:1 over a white panel, and the page is still felt
+     moving behind the bar. */
+  .Header--condensed,
+  .Header--app {
+    background-color: color-mix(in srgb, var(--color-blue-dark) 90%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(1.5);
+    backdrop-filter: blur(14px) saturate(1.5);
+    box-shadow:
+      0 1px 0 color-mix(in srgb, var(--color-white) 15%, transparent),
+      0 18px 32px -24px rgb(13 36 78 / 0.9);
+  }
+
+  .Header--sticky.Header--condensed .Header__container {
+    height: 4.5rem;
   }
 
   .Header--condensed .Header__logo-mark {
@@ -849,6 +1171,77 @@
   .modal-open .Header {
     background-color: var(--color-blue-dark);
   }
+
+  /* How far down the page the reader is, drawn along the bottom of the bar.
+     Driven by the scroll position itself, so it costs no script. */
+  @supports (animation-timeline: scroll()) {
+    .Header--sticky::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 3px;
+      background-color: var(--color-teal-light);
+      transform-origin: left;
+      transform: scaleX(0);
+      animation: scroll-progress linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+
+  /* The signed-in header. Staff keep these pages open for hours and scroll
+     long tables, so from 768px the way to the other surfaces and the way out
+     stay on screen. On a phone the surface links drop to a row of their own
+     and the bar scrolls away with the page: two rows pinned to a small
+     screen would cost more than they give. */
+  .Header--app .Header__container {
+    flex-wrap: wrap;
+    align-items: center;
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+    row-gap: 0.5rem;
+  }
+
+  .Header--app .Nav {
+    order: 3;
+    width: 100%;
+  }
+
+  .Header--app .Nav__link::after {
+    top: 1.75rem;
+  }
+
+  @media screen and (min-width: 768px) {
+    .Header--app {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+
+    .Header--app .Nav {
+      order: 0;
+      width: auto;
+    }
+  }
+
+  /* First load: the wordmark, then each link, drops into place. The header
+     lives in the layout, so this plays once and not on every navigation. */
+  .Header--sticky .Header__logo,
+  .Header--sticky .Header__mobile-nav,
+  .Header--sticky .Nav__list > li {
+    animation: drop-in 0.7s var(--ease-out-expo) backwards;
+  }
+
+  .Header--sticky .Nav__list > li:nth-child(1) { animation-delay: 0.06s; }
+  .Header--sticky .Nav__list > li:nth-child(2) { animation-delay: 0.1s; }
+  .Header--sticky .Nav__list > li:nth-child(3) { animation-delay: 0.14s; }
+  .Header--sticky .Nav__list > li:nth-child(4) { animation-delay: 0.18s; }
+  .Header--sticky .Nav__list > li:nth-child(5) { animation-delay: 0.22s; }
+  .Header--sticky .Nav__list > li:nth-child(6) { animation-delay: 0.26s; }
+  .Header--sticky .Nav__list > li:nth-child(7) { animation-delay: 0.3s; }
+  .Header--sticky .Nav__list > li:nth-child(8) { animation-delay: 0.34s; }
+  .Header--sticky .Nav__list > li:nth-child(n + 9) { animation-delay: 0.38s; }
 
   /* The mobile navigation dialog */
   .a11y-modal {
@@ -866,13 +1259,23 @@
     top: 0;
     visibility: visible;
     z-index: 10;
+    /* The dialog scrolls on its own; the page behind it must not. */
+    overscroll-behavior: contain;
+    transition:
+      opacity 0.3s var(--ease-smooth),
+      visibility 0s;
   }
 
+  /* Visibility waits for the fade and the closing circle, then drops out, so
+     the links inside leave the tab order only once they are gone from view. */
   .a11y-modal[hidden] {
     display: block;
     opacity: 0;
     pointer-events: none;
     visibility: hidden;
+    transition:
+      opacity 0.3s var(--ease-smooth) 0.1s,
+      visibility 0s 0.4s;
   }
 
   .Header__mobile-nav-modal {
@@ -883,26 +1286,27 @@
     overflow: hidden;
   }
 
+  /* The hamburger. Transitions rather than keyframes, so the cross folds back
+     into three lines on close instead of snapping to them. */
   .Header__toggle-line {
     transform-box: fill-box;
     transform-origin: center;
-  }
-
-  /* hamburger animation */
-  .Header__toggle[aria-expanded="false"] .Header__toggle-line {
-    transform: translateY(0px) rotate(0deg) scaleX(1);
+    transition:
+      transform 0.5s var(--ease-out-expo),
+      opacity 0.2s var(--ease-smooth);
   }
 
   .Header__toggle[aria-expanded="true"] .Header__toggle-line--top {
-    animation: down-rotate 0.5s ease-out -0.1s forwards;
+    transform: translateY(10px) rotate(-45deg) scaleX(0.95);
   }
 
   .Header__toggle[aria-expanded="true"] .Header__toggle-line--bottom {
-    animation: up-rotate 0.5s ease-out -0.1s forwards;
+    transform: translateY(-10px) rotate(45deg) scaleX(0.95);
   }
 
   .Header__toggle[aria-expanded="true"] .Header__toggle-line--middle {
-    animation: hide 0.5s ease-out -0.1s forwards;
+    transform: scaleX(0);
+    opacity: 0;
   }
 
   /* ----------------------------------------------------------------------
@@ -919,32 +1323,37 @@
   /* The reference spaces seven links at 2rem. This nav carries nine items
      inside the same 1272px container, so the gap closes up to keep one line. */
   .Nav__list > * + * {
-    margin-left: 1.6rem;
+    margin-left: 1.5rem;
   }
 
-  @media screen and (min-width: 1300px) and (max-width: 1439px) {
+  /* The five carets cost 80px the row did not have at laptop widths, so
+     between the breakpoint and 1500px the type drops a pixel and the gaps
+     and the booking pill tighten to pay for them. Measured with a classic
+     scrollbar: the row needs 991px here and has 1015px at 1300px; at full
+     size it needs 1165px, which 1500px clears by 49px and 1440px by only 5. */
+  @media screen and (min-width: 1300px) and (max-width: 1499px) {
     .Nav__list > * + * {
-      margin-left: 1.1rem;
+      margin-left: 0.8rem;
     }
 
-    .Nav__link--cta {
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
+    .Header__desktop-nav .Nav__link {
+      font-size: 15px;
+    }
+
+    .Header__desktop-nav .Nav__caret {
+      margin-left: 0.2rem;
+    }
+
+    /* Scoped, so it outranks the pill's own padding declared further down.
+       Unscoped, this override never applied. */
+    .Header__desktop-nav .Nav__link--cta {
+      padding-left: 1.15rem;
+      padding-right: 1.15rem;
     }
   }
 
   .Nav__listItem {
     position: relative;
-  }
-
-  .Nav__listItem.anim-explode-container svg {
-    position: absolute;
-    width: 150%;
-    overflow: visible;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: -1;
   }
 
   /* hover effect */
@@ -965,10 +1374,13 @@
     transition: color 0.1s var(--ease-confident);
   }
 
+  /* The underline wipes in from the left and leaves to the right: the origin
+     flips with the state, so it never retraces the way it came. */
   @media (hover: hover) {
     .Nav__link:hover::after,
     .Nav__link:active::after {
       transform: scaleX(1);
+      transform-origin: left;
     }
   }
 
@@ -980,14 +1392,27 @@
     top: 2rem;
     content: "";
     transform: scaleX(0);
-    transform-origin: center;
+    transform-origin: right;
     background-color: var(--color-white);
-    transition: 0.2s var(--ease-confident);
+    transition: transform 0.45s var(--ease-out-expo);
   }
 
   .Nav__link--active::after,
   .Nav__link[aria-expanded="true"]::after {
     transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* A group's caret, which turns over while its menu is open. */
+  .Nav__caret {
+    display: inline-block;
+    margin-left: 0.3rem;
+    vertical-align: 0.05em;
+    transition: rotate 0.45s var(--ease-out-expo);
+  }
+
+  .Nav__link[aria-expanded="true"] .Nav__caret {
+    rotate: 180deg;
   }
 
   .Nav__link--cta {
@@ -996,7 +1421,11 @@
     padding: 0.5rem 2rem;
     margin-top: auto;
     border-radius: 99px;
-    transition: background-color 0.2s var(--ease-smooth);
+    transition:
+      background-color 0.3s var(--ease-smooth),
+      color 0.3s var(--ease-smooth),
+      translate 0.4s var(--ease-out-expo),
+      scale 0.2s var(--ease-out-expo);
   }
 
   .Nav__link--cta:after {
@@ -1007,7 +1436,13 @@
     .Nav__link--cta:hover {
       color: var(--color-pink);
       background-color: var(--color-white);
+      translate: 0 -2px;
     }
+  }
+
+  .Nav__link--cta:active {
+    translate: 0 0;
+    scale: 0.97;
   }
 
   .Nav__link--icon {
@@ -1016,37 +1451,192 @@
     width: 2.5rem;
     height: 2.5rem;
     padding: 0;
+    border-radius: 99px;
+    transition: background-color 0.3s var(--ease-smooth);
   }
 
   .Nav__link--icon:after {
     content: none;
   }
 
-  /* The group menus. Not in the reference, styled in its idiom. */
+  .Nav__link--icon[aria-current="page"] {
+    background-color: color-mix(in srgb, var(--color-white) 18%, transparent);
+  }
+
+  @media (hover: hover) {
+    .Nav__link--icon:hover {
+      background-color: color-mix(in srgb, var(--color-white) 18%, transparent);
+    }
+  }
+
+  /* The group menus. Not in the reference, styled in its idiom. Each is a
+     wide panel: a photograph and a sentence saying what the section holds on
+     the left, the links on the right. Pointing at a link swaps the photograph
+     and the caption to that link's own.
+
+     Each one is always in the page and only hidden, so it can ease out as
+     well as in; visibility takes its links out of the tab order while it is
+     closed. They all open from the same place, the left edge of the nav, so
+     moving along the row swaps what the panel holds rather than chasing it. */
+  .Header__desktop-nav .Nav {
+    position: relative;
+  }
+
+  .Header__desktop-nav .Nav__listItem--group {
+    position: static;
+  }
+
   .Nav__menu {
     position: absolute;
-    left: 0;
+    left: -1rem;
     top: 100%;
-    width: 19rem;
+    width: 39rem;
     padding-top: 1rem;
     z-index: 30;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-0.75rem);
+    transition:
+      opacity 0.18s var(--ease-smooth),
+      transform 0.18s var(--ease-smooth),
+      visibility 0s 0.18s;
   }
 
+  .Nav__menu--wide {
+    width: 56rem;
+  }
+
+  .Nav__link[aria-expanded="true"] + .Nav__menu {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.25s var(--ease-smooth),
+      transform 0.55s var(--ease-out-expo),
+      visibility 0s;
+  }
+
+  /* The panel unrolls downward. The insets are negative on three sides so the
+     clip never cuts the shadow off. */
   .Nav__menu-inner {
+    display: grid;
+    grid-template-columns: 17rem 1fr;
+    gap: 1rem;
     background-color: var(--color-white);
     color: var(--color-grey);
-    padding: 0.75rem;
+    padding: 1rem;
+    box-shadow: var(--shadow-lift);
+    clip-path: inset(-1rem -4rem 100% -4rem);
+    transition: clip-path 0.18s var(--ease-smooth);
   }
 
+  .Nav__link[aria-expanded="true"] + .Nav__menu .Nav__menu-inner {
+    clip-path: inset(-1rem -4rem -5rem -4rem);
+    transition: clip-path 0.35s var(--ease-out-expo);
+  }
+
+  /* The picture side. */
+  .Nav__feature {
+    position: relative;
+    min-height: 17.5rem;
+    overflow: hidden;
+    background-color: var(--color-blue-dark);
+    color: var(--color-white);
+  }
+
+  .Nav__feature-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    scale: 1.12;
+    transition:
+      opacity 0.45s var(--ease-smooth),
+      scale 1.4s var(--ease-out-expo);
+  }
+
+  /* The photograph settles as the panel opens, and again on each swap. */
+  .Nav__link[aria-expanded="true"] + .Nav__menu .Nav__feature-image.is-active {
+    opacity: 1;
+    scale: 1;
+  }
+
+  /* The ground colour rising from the foot of the picture, so the caption on
+     it is white on blue whatever the photograph is. */
+  .Nav__feature::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(
+      to top,
+      var(--color-blue-dark) 0%,
+      color-mix(in srgb, var(--color-blue-dark) 78%, transparent) 26%,
+      transparent 56%
+    );
+  }
+
+  .Nav__feature-caption {
+    position: absolute;
+    left: 1.25rem;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 1;
+    animation: rise-in 0.5s var(--ease-out-expo) backwards;
+  }
+
+  .Nav__feature-title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.4rem;
+    line-height: 1.15;
+    color: var(--color-white);
+  }
+
+  .Nav__feature-text {
+    margin-top: 0.35rem;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--color-white);
+  }
+
+  .Nav__menu-links {
+    display: grid;
+    align-content: start;
+  }
+
+  .Nav__menu--wide .Nav__menu-links {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 0.25rem;
+  }
+
+  /* Each row follows the one before it in. --i is the row's index. */
   .Nav__menu-link {
+    position: relative;
     display: block;
-    padding: 0.6rem 0.75rem;
+    padding: 0.8rem 2.25rem 0.8rem 1rem;
     text-decoration: none;
-    transition: background-color 0.15s var(--ease-smooth);
+    opacity: 0;
+    translate: 0 -0.4rem;
+    transition:
+      background-color 0.2s var(--ease-smooth),
+      opacity 0.15s var(--ease-smooth),
+      translate 0.15s var(--ease-smooth);
+  }
+
+  .Nav__link[aria-expanded="true"] + .Nav__menu .Nav__menu-link {
+    opacity: 1;
+    translate: none;
+    transition:
+      background-color 0.2s var(--ease-smooth),
+      opacity 0.3s var(--ease-smooth) calc(0.1s + var(--i, 0) * 0.035s),
+      translate 0.6s var(--ease-out-expo) calc(0.1s + var(--i, 0) * 0.035s);
   }
 
   .Nav__menu-link:hover,
-  .Nav__menu-link:focus {
+  .Nav__menu-link:focus,
+  .Nav__menu-link[aria-current="page"] {
     background-color: var(--color-light);
   }
 
@@ -1056,11 +1646,13 @@
     color: var(--color-blue-dark);
     font-size: 17px;
     line-height: 1.3;
+    transition: color 0.15s var(--ease-smooth);
   }
 
   .Nav__menu-link:hover .Nav__menu-label,
-  .Nav__menu-link:focus .Nav__menu-label {
-    color: var(--color-pink);
+  .Nav__menu-link:focus .Nav__menu-label,
+  .Nav__menu-link[aria-current="page"] .Nav__menu-label {
+    color: var(--color-pink-dark);
   }
 
   .Nav__menu-note {
@@ -1069,6 +1661,25 @@
     font-size: var(--step--1);
     line-height: 1.3;
     color: var(--color-grey);
+  }
+
+  /* The arrow that slides in on the row being pointed at. */
+  .Nav__menu-arrow {
+    position: absolute;
+    right: 0.9rem;
+    top: 1.05rem;
+    color: var(--color-pink-dark);
+    opacity: 0;
+    translate: -0.4rem 0;
+    transition:
+      opacity 0.2s var(--ease-smooth),
+      translate 0.4s var(--ease-out-expo);
+  }
+
+  .Nav__menu-link:hover .Nav__menu-arrow,
+  .Nav__menu-link:focus .Nav__menu-arrow {
+    opacity: 1;
+    translate: none;
   }
 
   /* mobile nav */
@@ -1131,8 +1742,18 @@
   /* ----------------------------------------------------------------------
      Footer
      ------------------------------------------------------------------- */
+  /* Short on purpose: the name, six links, one action, the legal row and
+     three sentences, on the ground's blue deepened toward the foot, with one
+     photograph shaded into the bottom edge. */
   .Footer {
-    background-color: var(--color-dark);
+    position: relative;
+    overflow: clip;
+    isolation: isolate;
+    background-image: linear-gradient(
+      to bottom,
+      var(--color-blue-dark),
+      var(--color-blue-deep) 55%
+    );
     color: var(--color-light);
   }
 
@@ -1140,100 +1761,106 @@
     color: var(--color-light);
   }
 
-  .Footer__intro {
-    --flow: 2rem;
+  .Footer ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  .Footer p {
+    max-width: 62ch;
+  }
+
+  /* The photograph: the lower part of the footer, behind everything, and
+     washed so far into the footer's own blue that it is a texture and a
+     place rather than a picture competing with the text over it. */
+  .Footer__photo {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: min(100%, 26rem);
+    z-index: -1;
+    opacity: 0.34;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 70%);
+    mask-image: linear-gradient(to bottom, transparent, #000 70%);
+  }
+
+  .Footer__photo img {
+    filter: saturate(0.55);
+    mix-blend-mode: luminosity;
+  }
+
+  .Footer__inner {
+    padding-top: calc(3rem + 2 * ((100vw - 20rem) / 80));
+    padding-bottom: calc(2rem + 2 * ((100vw - 20rem) / 80));
+  }
+
+  /* --- The name, the links, the action --------------------------------- */
+  .Footer__top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid color-mix(in srgb, var(--color-white) 14%, transparent);
   }
 
   .Footer__logo {
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
+    color: var(--color-white);
     text-decoration: none;
     font-family: var(--font-display);
-    font-weight: 900;
+    font-weight: 800;
     font-size: 1.5rem;
     line-height: 1;
     white-space: nowrap;
   }
 
-  .Footer__logo .Header__logo-mark {
-    background-color: var(--color-light);
-    color: var(--color-dark);
+  .Footer__links,
+  .Footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.4rem;
+    list-style: none;
   }
 
-  .Footer__logo .underline {
-    display: block;
-    height: 4px;
-    width: 100%;
-    margin-top: 0.4rem;
-    background-color: var(--color-blue);
-    transition: 0.2s var(--ease-smooth);
+  .Footer__links {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-white);
   }
 
-  .Footer ul {
-    padding: 0;
-  }
-
-  .Footer p {
-    max-width: 600px;
-  }
-
-  .Footer__nav,
-  .Footer__social {
-    margin-top: 1rem;
-  }
-
-  .Footer__nav {
-    --flow: 0.8rem;
-  }
-
-  .Footer__nav + .Footer__nav {
-    margin-top: 2rem;
-  }
-
-  .Footer__nav-heading {
+  .Footer__legal {
     font-size: var(--step--1);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin-bottom: 0.8rem;
+    gap: 0.5rem 1.5rem;
   }
 
   .Footer__nav-link {
-    text-decoration: none;
+    display: inline-block;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.3em;
+    transition:
+      text-decoration-color 0.25s var(--ease-smooth),
+      color 0.25s var(--ease-smooth);
   }
 
-  @media (hover: hover) {
-    .Footer__nav-link:hover {
-      text-decoration: underline;
-    }
-
-    .Footer__logo:hover .underline {
-      background-color: var(--color-pink);
-    }
+  .Footer__nav-link:hover,
+  .Footer__nav-link:focus {
+    color: var(--color-white);
+    text-decoration-color: var(--color-teal-light);
   }
 
-  .Footer__social {
-    display: flex;
-  }
-
-  .Footer__social > * + * {
-    margin-left: 2rem;
-  }
-
-  @media screen and (min-width: 800px) {
-    .Footer__container {
-      display: flex;
-    }
-
-    .Footer__intro {
-      width: calc(74% - 2rem);
-      margin-right: 2rem;
-      margin-bottom: 3rem;
-    }
-
-    .Footer__social {
-      margin-top: 0;
-    }
+  /* --- The legal row and the three sentences --------------------------- */
+  .Footer__base {
+    display: grid;
+    gap: 0.9rem;
+    padding-top: 1.75rem;
+    color: color-mix(in srgb, var(--color-light) 88%, transparent);
   }
 
   /* ----------------------------------------------------------------------
@@ -1269,6 +1896,20 @@
       padding-left: 1.25rem;
       padding-right: 1.25rem;
     }
+
+  }
+
+  /* "recommendation" is the longest word in the headline, measured at 9.4
+     times the font size wide. The card is a container and the headline is sized from
+     the card's own width, so the word fits on one line whether the card is a
+     phone's width or half a desktop's, and never breaks mid-word. */
+  .Hero__inner--wide {
+    container-type: inline-size;
+  }
+
+  .Hero__inner--wide h1 {
+    font-size: min(var(--step-4), 10.4cqi, 7.4vh);
+    line-height: 1.06;
   }
 
   .Hero__links {
@@ -1367,11 +2008,31 @@
     }
   }
 
+  /* The ring of text. Where the browser can tie an animation to the scroll,
+     the ring turns half a revolution as its picture crosses the screen and
+     back again on the way up, which is how the reference moves it. Elsewhere
+     it keeps turning slowly on a clock, as it did. */
   .anim-image-swipe .anim-spin,
   .Overview__circle .anim-spin {
     transform-box: fill-box;
     transform-origin: center;
     animation: spin 24s linear infinite;
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .anim-image-swipe,
+      .Overview__circle {
+        view-timeline-name: --ring;
+      }
+
+      .anim-image-swipe .anim-spin,
+      .Overview__circle .anim-spin {
+        animation: ring-turn linear both;
+        animation-timeline: --ring;
+        animation-range: cover;
+      }
+    }
   }
 
   /* Paused rather than removed, so the ring resumes from where it stopped. */
@@ -1382,9 +2043,14 @@
   /* ----------------------------------------------------------------------
      Overview: white boxes staggered on the ground, images between them
      ------------------------------------------------------------------- */
+  /* clip, not hidden: hidden would make this a scroll container, and the
+     photographs inside could then only measure their progress against a box
+     that never scrolls. flow-root keeps the block formatting context that
+     hidden used to give, so the heading margin stays inside. */
   .Overview {
     position: relative;
-    overflow: hidden;
+    display: flow-root;
+    overflow: clip;
   }
 
   .Overview__heading {
@@ -1668,15 +2334,842 @@
     z-index: 1;
   }
 
-  .Ticket-slat svg.anim-explode {
+  /* ----------------------------------------------------------------------
+     Motion and depth.
+
+     One layer for the whole site, so a page gets its arrival, its lift and
+     its feedback from the classes it already carries instead of from motion
+     code written page by page. Three kinds of movement, each with one job:
+
+       arrival   what is on screen at load rises into place, in reading order
+       reveal    a panel further down rises as it scrolls into view
+       feedback  a control answers the pointer and the press
+
+     Everything here is transform and opacity. Reduced motion collapses the
+     timed animations through the rule at the foot of this file, and the
+     scroll-driven ones are only declared for readers who have not asked for
+     less motion.
+     ------------------------------------------------------------------- */
+
+  /* --- Depth ---------------------------------------------------------- */
+  .Hero__inner,
+  .Intro__inner,
+  .Overview__box,
+  .Panel,
+  .Auth__panel {
+    box-shadow: var(--shadow-card);
+  }
+
+  /* --- Arrival -------------------------------------------------------- */
+  /* A generic riser. --i staggers siblings without a rule per child. */
+  .rise {
+    animation: rise-in 0.8s var(--ease-out-expo) backwards;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+
+  /* Each route change mounts a fresh template, which fades the page in. */
+  .page-enter {
+    animation: page-in 0.5s var(--ease-smooth) backwards;
+  }
+
+  /* The home hero: the box lands, then what is in it follows line by line. */
+  .Hero__inner {
+    animation: hero-in 0.9s var(--ease-out-expo) backwards;
+  }
+
+  .Hero__inner > *,
+  .Hero__links > li,
+  .Hero-sub__inner h1,
+  .Hero-sub__inner h1 ~ * {
+    animation: rise-in 0.8s var(--ease-out-expo) backwards;
+  }
+
+  .Hero__inner > :nth-child(1) { animation-delay: 0.1s; }
+  .Hero__inner > :nth-child(2) { animation-delay: 0.16s; }
+  .Hero__inner > :nth-child(3) { animation-delay: 0.22s; }
+  .Hero__inner > :nth-child(4) { animation-delay: 0.28s; }
+  .Hero__inner > :nth-child(n + 5) { animation-delay: 0.34s; }
+
+  .Hero__links > li:nth-child(1) { animation-delay: 0.5s; }
+  .Hero__links > li:nth-child(2) { animation-delay: 0.55s; }
+  .Hero__links > li:nth-child(3) { animation-delay: 0.6s; }
+  .Hero__links > li:nth-child(4) { animation-delay: 0.65s; }
+  .Hero__links > li:nth-child(5) { animation-delay: 0.7s; }
+  .Hero__links > li:nth-child(n + 6) { animation-delay: 0.75s; }
+
+  /* An interior page head: the panel, its title, then the lede. */
+  .Hero-sub > .shell {
+    animation: hero-in 0.8s var(--ease-out-expo) backwards;
+  }
+
+  .Hero-sub__inner h1 { animation-delay: 0.12s; }
+  .Hero-sub__inner h1 ~ * { animation-delay: 0.2s; }
+
+  /* Signed-in screens. People are here to do a job, so the panels arrive
+     quickly and close together, and nothing replays as they work. */
+  .Panel {
+    animation: rise-in 0.55s var(--ease-out-expo) backwards;
+  }
+
+  .Panel:nth-child(2) { animation-delay: 0.05s; }
+  .Panel:nth-child(3) { animation-delay: 0.1s; }
+  .Panel:nth-child(4) { animation-delay: 0.15s; }
+  .Panel:nth-child(n + 5) { animation-delay: 0.2s; }
+
+  /* A table row answers the pointer, so a long row can be followed across. */
+  .Panel tbody tr {
+    transition: background-color 0.15s var(--ease-smooth);
+  }
+
+  @media (hover: hover) {
+    .Panel tbody tr:hover {
+      background-color: color-mix(in srgb, var(--color-blue-light) 22%, transparent);
+    }
+  }
+
+  /* Where a case stands: the bar fills to the current stage, and the stage
+     itself carries a slow pulse, the one thing on the page that is live. */
+  .Stage-track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: 0.3rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .Stage-track__seg {
+    position: relative;
+    height: 0.55rem;
+    border-radius: 99px;
+    background-color: var(--color-light);
+  }
+
+  /* One segment per stage. The finished ones fill in turn, left to right,
+     and the current one keeps a slow pulse. */
+  .Stage-track__seg.is-done::before,
+  .Stage-track__seg.is-current::before {
+    content: "";
     position: absolute;
-    width: 300px;
-    height: 300px;
+    inset: 0;
+    border-radius: 99px;
+    background-color: var(--color-teal);
+    transform-origin: left;
+    animation: grow-x 0.6s var(--ease-out-expo) backwards;
+    animation-delay: calc(0.35s + var(--i, 0) * 0.09s);
+  }
+
+  .Stage-track__seg.is-current::before {
+    background-color: var(--color-pink);
+  }
+
+  .Stage-track__seg.is-current::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 99px;
+    background-color: var(--color-pink);
+    opacity: 0;
+    animation: pulse-bar 2.4s var(--ease-out-expo) infinite;
+    animation-delay: calc(1s + var(--i, 0) * 0.09s);
+  }
+
+  /* The head of a signed-in page, set on the ground above its panels. */
+  .PageHead {
+    --split-delay: 0.05s;
+    margin-bottom: 2rem;
+  }
+
+  .PageHead h1 {
+    margin-top: 0.5rem;
+  }
+
+  /* The disc beside a panel's title. */
+  .Panel__icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 99px;
+    background-color: var(--color-blue-light);
+    color: var(--color-blue-dark);
+  }
+
+  /* A person, as their initials. */
+  .Avatar {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 99px;
+    background-color: var(--color-blue-dark);
+    color: var(--color-white);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.9375rem;
+  }
+
+  /* A dashboard count: lifts under the pointer, and its icon turns with it. */
+  .Stat {
+    position: relative;
+    transition:
+      translate 0.4s var(--ease-out-expo),
+      box-shadow 0.4s var(--ease-out-expo);
+  }
+
+  .Stat__icon {
+    position: absolute;
+    top: 1.1rem;
+    right: 1.25rem;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 99px;
+    background-color: var(--color-blue-light);
+    color: var(--color-blue-dark);
+    transition:
+      rotate 0.6s var(--ease-out-expo),
+      background-color 0.3s var(--ease-smooth),
+      color 0.3s var(--ease-smooth);
+  }
+
+  @media (hover: hover) {
+    .Stat:hover {
+      translate: 0 -3px;
+      box-shadow: var(--shadow-lift);
+    }
+
+    .Stat:hover .Stat__icon {
+      rotate: -12deg;
+      background-color: var(--color-pink);
+      color: var(--color-white);
+    }
+  }
+
+  /* The three shapes over an empty state, each bobbing out of step. */
+  .EmptyState__art {
+    display: block;
+    width: 6.5rem;
+    margin: 0 auto 1rem;
     overflow: visible;
+  }
+
+  .EmptyState__art > * {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: bob 3.6s ease-in-out infinite alternate;
+  }
+
+  .EmptyState__art > :nth-child(2) { animation-delay: -1.2s; }
+  .EmptyState__art > :nth-child(3) { animation-delay: -2.4s; }
+
+  /* The rows of a table follow its panel in, a few at a time. */
+  .Panel tbody tr {
+    animation: rise-in 0.5s var(--ease-out-expo) backwards;
+  }
+
+  .Panel tbody tr:nth-child(1) { animation-delay: 0.18s; }
+  .Panel tbody tr:nth-child(2) { animation-delay: 0.23s; }
+  .Panel tbody tr:nth-child(3) { animation-delay: 0.28s; }
+  .Panel tbody tr:nth-child(4) { animation-delay: 0.33s; }
+  .Panel tbody tr:nth-child(5) { animation-delay: 0.38s; }
+  .Panel tbody tr:nth-child(n + 6) { animation-delay: 0.43s; }
+
+
+  .Stage-pulse {
+    position: relative;
+    display: inline-grid;
+    flex-shrink: 0;
+  }
+
+  .Stage-pulse::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 99px;
+    background-color: var(--color-pink);
+    animation: pulse-ring 2.4s var(--ease-out-expo) infinite;
+  }
+
+  /* An error arrives rather than appearing: a short settle, never a shake
+     that keeps going. */
+  [role="alert"] {
+    animation: rise-in 0.4s var(--ease-out-expo) backwards;
+  }
+
+  /* --- Reveal --------------------------------------------------------- */
+  /* Scroll-driven, so it needs no script and no observer, and it is tied to
+     the scroll position: a panel finishes arriving within its first 15rem on
+     screen. A panel already on screen at load is past that range and simply
+     shows. Browsers without view timelines show every panel as before. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .band:not(.Hero-sub) > .shell,
+      .Intro__inner,
+      .Cta__inner,
+      .Ticket-slat__inner {
+        animation: reveal linear backwards;
+        animation-timeline: view();
+        animation-range: entry 0px entry 15rem;
+      }
+
+      /* The photographs between the destination boxes move a little slower
+         than the boxes do, which sets them back from the page. */
+      @media screen and (min-width: 800px) {
+        .Overview__image {
+          animation: parallax-y linear both;
+          animation-timeline: view();
+          animation-range: cover;
+        }
+      }
+
+      /* The process timeline draws itself down the page as it is read. */
+      .Timeline {
+        position: relative;
+      }
+
+      .Timeline::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: -1.5px;
+        width: 2px;
+        background-color: var(--color-blue);
+        transform-origin: top;
+        animation: grow-y linear backwards;
+        animation-timeline: view();
+        animation-range: entry 20% cover 55%;
+      }
+
+    }
+  }
+
+  /* ----------------------------------------------------------------------
+     The ground, and the pointer.
+
+     PointerField writes --px and --py (each -1 to 1) onto every element
+     marked data-pointer. Everything below only reads them, so with no
+     pointer, no script or reduced motion they stay at 0 and the page is
+     simply still.
+     ------------------------------------------------------------------- */
+
+  /* The ground changes colour as the home page is read, as the reference's
+     does: the ground's dark blue, then the mid blue, then the pale one, and
+     back to dark. The reference scrubs that against the whole page's scroll;
+     here each change is tied to a section instead, because this page sets
+     light type straight on the ground in three places and a percentage of
+     the scroll cannot promise the pale blue is never behind one of them.
+
+     Two fixed sheets, mid blue and pale blue, each faded in by one section's
+     arrival and out by another's. The outer element takes the fade in and
+     the inner one the fade out, so each animates its own opacity and the two
+     multiply. data-ground on a section says which change it brings. */
+  .Ground {
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .Ground > span {
+    position: absolute;
+    inset: 0;
+  }
+
+  .Ground--blue > span {
+    background-color: var(--color-blue);
+  }
+
+  .Ground--light > span {
+    background-color: var(--color-blue-light);
+  }
+
+  @supports (animation-timeline: view()) and (timeline-scope: --ground) {
+    body {
+      timeline-scope: --ground-blue, --ground-light, --ground-out;
+    }
+
+    [data-ground="blue"] { view-timeline-name: --ground-blue; }
+    [data-ground="light"] { view-timeline-name: --ground-light; }
+    [data-ground="out"] { view-timeline-name: --ground-out; }
+
+    .Ground--blue {
+      animation: ground-in linear both;
+      animation-timeline: --ground-blue;
+      animation-range: entry 0% cover 45%;
+    }
+
+    .Ground--light {
+      animation: ground-in linear both;
+      animation-timeline: --ground-light;
+      animation-range: entry 0% cover 45%;
+    }
+
+    .Ground > span {
+      animation: ground-out linear both;
+      animation-timeline: --ground-out;
+      animation-range: entry 0% cover 55%;
+    }
+  }
+
+  /* The field of shapes, and the glow with it, fade away as the first screen
+     is scrolled past, as the reference's header art does. This is a fade and
+     not a movement, so it applies whatever the motion preference. The
+     signed-in pages keep their own dimmed field. */
+  @supports (animation-timeline: scroll()) {
+    .anim-header--main:not(.anim-header--still),
+    .Ground-glow {
+      animation: field-leave linear both;
+      animation-timeline: scroll(root);
+      animation-range: 60vh 160vh;
+    }
+
+    /* The long stroke behind the destinations is drawn by the scroll, from
+       just before the section arrives until its foot reaches the screen's. */
+    .Overview {
+      view-timeline-name: --overview;
+    }
+
+    .anim-overview-stroke {
+      stroke-dasharray: 1;
+      animation: overview-draw linear both;
+      animation-timeline: --overview;
+      animation-range: cover 0% contain 100%;
+    }
+  }
+
+  /* A pool of the lighter blue on the ground that leans toward the pointer.
+     It is one fixed disc moved by transform, never a repainted gradient. */
+  .Ground-glow {
+    position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    width: 78rem;
+    height: 78rem;
+    margin: -39rem 0 0 -39rem;
+    z-index: -2;
+    border-radius: 50%;
+    pointer-events: none;
+    background-image: radial-gradient(
+      closest-side,
+      color-mix(in srgb, var(--color-blue) 38%, transparent),
+      transparent
+    );
+    translate: calc(18vw + var(--px, 0) * 26vw) calc(-22vh + var(--py, 0) * 22vh);
+  }
+
+  /* The drawn lines of the field lean a little; the shapes lean by their own
+     drift, through the float keyframes, so the far ones move least. */
+  .anim-header--main:not(.anim-header--still) :is(.stroke, .squiggle) {
+    translate: calc(var(--px, 0) * -5px) calc(var(--py, 0) * -5px);
+  }
+
+  /* ----------------------------------------------------------------------
+     Type that arrives word by word
+     ------------------------------------------------------------------- */
+  /* The outer span is the window, the inner one the word behind it. The
+     padding and its matching negative margin keep descenders inside the
+     window without changing the line. */
+  .Split {
+    display: inline-block;
+    overflow: clip;
+    vertical-align: top;
+    padding-bottom: 0.14em;
+    margin-bottom: -0.14em;
+  }
+
+  .Split__word {
+    display: inline-block;
+    animation: word-up 0.8s var(--ease-out-expo) backwards;
+    animation-delay: calc(var(--split-delay, 0.1s) + var(--i, 0) * 0.045s);
+  }
+
+  /* ----------------------------------------------------------------------
+     The home hero: one card filling the section, the underline on its claim
+     ------------------------------------------------------------------- */
+  .Hero {
+    position: relative;
+  }
+
+  .Hero__inner {
+    --split-delay: 0.2s;
+    position: relative;
+  }
+
+  .Hero__mark {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  /* Drawn after the words it sits under have landed. */
+  .Hero__squiggle {
+    position: absolute;
+    left: -2%;
+    bottom: -0.16em;
+    width: 104%;
+    height: 0.3em;
+    overflow: visible;
+    fill: none;
+    stroke: var(--color-pink);
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    animation: draw 0.8s var(--ease-out-expo) 0.75s backwards;
+  }
+
+  /* The whole hero is the height of the window less the header, and the card
+     fills it, so the card is the first screen exactly. The type and the
+     spacing inside it are sized from that same height (and from the card's
+     own width), so a short laptop and a tall monitor both get a full card that
+     does not overflow. Only a screen too short to hold the content at its
+     smallest lets the hero grow past the fold. */
+  .Hero {
+    --header-h: 5rem;
+    min-height: calc(100vh - var(--header-h));
+    min-height: calc(100svh - var(--header-h));
+    padding-top: clamp(0.25rem, 1.5vh, 1.25rem);
+    padding-bottom: clamp(1rem, 3vh, 2.25rem);
+    align-items: stretch;
+  }
+
+  @media screen and (min-width: 1300px) {
+    .Hero {
+      --header-h: 6.75rem;
+    }
+  }
+
+  /* The card fills the section: the page's full width and the hero's height,
+     with its content centred both ways. It clips the two corner shapes. */
+  .Hero .Hero__inner--wide {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    overflow: hidden;
+    /* The card has always carried the reference's `center` class, which
+       this stylesheet never defined, so its text sat left inside a centred
+       block. It is centred here. */
+    text-align: center;
+  }
+
+  /* A faint grid of dots across the card, faded out through the middle so
+     it frames the content and never sits under a word. */
+  .Hero .Hero__inner--wide::before {
+    content: "";
+    position: absolute;
+    inset: 0;
     z-index: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, var(--color-blue-light) 1.6px, transparent 1.8px);
+    background-size: 22px 22px;
+    -webkit-mask-image: radial-gradient(ellipse 58% 62% at center, transparent 55%, #000 100%);
+    mask-image: radial-gradient(ellipse 58% 62% at center, transparent 55%, #000 100%);
+    animation: page-in 1.4s var(--ease-smooth) 0.6s backwards;
+  }
+
+  /* Everything in the card steps down with the window's height. */
+  .Hero__inner--wide {
+    --flow: clamp(0.5rem, min(2vh, 2.6vw), 1.6rem);
+    padding-top: clamp(1rem, min(4vh, 5vw), 4.5rem);
+    padding-bottom: clamp(1rem, min(4vh, 5vw), 4.5rem);
+  }
+
+  /* The content sits on top of the corner shapes. */
+  .Hero__inner--wide > :not(.Hero__shape) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .Hero__inner--wide .intro {
+    max-width: 44rem;
+    font-size: clamp(1rem, min(2.5vh, 4.4cqi), var(--step-1));
+    line-height: 1.45;
+  }
+
+  /* The pills are a little narrower here than elsewhere so the three
+     destinations and the ledger button share one line of the card, and the
+     booking button gives up height on a short window before the copy does. */
+  .Hero__inner--wide .button--light {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .Hero__inner--wide .button--lg {
+    padding: clamp(0.5rem, 1.5vh, 1rem) 1.75rem;
+  }
+
+  /* The card's shapes, taken from the background and the overview. They
+     arrive after the content, drift slowly, and sit behind it. */
+  .Hero__shape {
+    position: absolute;
+    z-index: 0;
+    margin: 0;
+    pointer-events: none;
+    overflow: visible;
+    animation:
+      pop-in 1.2s var(--ease-out-expo) 0.5s backwards,
+      bob 8s ease-in-out 1.7s infinite alternate;
+  }
+
+  .Hero__shape--hoop {
+    left: -7%;
+    bottom: -14%;
+    width: clamp(9rem, 26vw, 24rem);
+    stroke: var(--color-teal-light);
+    opacity: 0.16;
+  }
+
+  .Hero__shape--hex {
+    right: -7%;
+    top: -16%;
+    width: clamp(8rem, 19vw, 17rem);
+    fill: var(--color-blue-light);
+    opacity: 0.45;
+    rotate: 14deg;
+    animation-delay: 0.65s, 2.3s;
+  }
+
+  /* The reference's bar grid, in the bottom right. */
+  .Hero__shape--bars {
+    right: 5%;
+    bottom: 8%;
+    width: clamp(7rem, 11vw, 10rem);
+    opacity: 0.22;
+    animation:
+      pop-in 1.2s var(--ease-out-expo) 0.95s backwards,
+      bob 7s ease-in-out 2.2s infinite alternate;
+  }
+
+  /* Below 1100px the content runs closer to the card's sides, and the bars
+     would sit under it; only the corner shapes stay. */
+  @media screen and (max-width: 1099px) {
+    .Hero__shape--bars {
+      display: none;
+    }
+  }
+
+  /* On a phone the content is the width of the card, so the shapes would
+     sit under the type; they shrink into the corners instead. */
+  @media screen and (max-width: 640px) {
+    .Hero__shape--hoop {
+      width: 7rem;
+      left: -2.5rem;
+      bottom: -2.5rem;
+    }
+
+    .Hero__shape--hex {
+      width: 6rem;
+      right: -2rem;
+      top: -2rem;
+    }
+  }
+
+  /* Below 380px even the shrunk shapes reach under a line of text, measured
+     at 360 and 375 wide; there the dot texture frames the card alone. */
+  @media screen and (max-width: 380px) {
+    .Hero__shape--hoop,
+    .Hero__shape--hex {
+      display: none;
+    }
+  }
+
+  /* ----------------------------------------------------------------------
+     Sign in and sign up: one screen, never taller than the window
+     ------------------------------------------------------------------- */
+  /* The page itself does not scroll at any size. If a short screen cannot
+     hold the form, the form's own column scrolls and nothing else moves. */
+  .Auth {
+    display: grid;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  @media screen and (min-width: 1024px) {
+    .Auth {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    }
+  }
+
+  .Auth__side {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .Auth__header {
+    flex-shrink: 0;
+    padding: clamp(1rem, 3vh, 1.75rem) clamp(1rem, 4vw, 2.5rem);
+  }
+
+  /* margin: auto on the panel centres it and, unlike centring the track,
+     still lets the top of an over-tall panel be reached by scrolling. */
+  .Auth__main {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+    padding: 0 clamp(1rem, 4vw, 2.5rem) clamp(1rem, 3vh, 2rem);
+  }
+
+  .Auth__panel {
+    width: 100%;
+    max-width: 33rem;
+    margin: auto;
+    padding: clamp(1.5rem, 4.5vh, 3rem) clamp(1.25rem, 4vw, 3rem);
+  }
+
+  /* Sized to the height of the window as well as its width, so the heading
+     gives way before the form has to scroll. */
+  .Auth__panel h1 {
+    font-size: clamp(1.75rem, min(4.2vh + 0.9rem, 6vw + 0.5rem), 2.75rem);
+    line-height: 1.1;
+  }
+
+  /* The picture side: one photograph filling its half of the window, the
+     ground's blue rising over it from the foot, and the pitch set on that. */
+  .Auth__visual {
+    position: relative;
+    overflow: hidden;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 0;
+    background-color: var(--color-blue-dark);
+  }
+
+  /* Anchored to the top, where the tower is: the foot of the picture is under
+     the pitch, so whatever matters in it has to be in the upper half. */
+  .Auth__visual-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    animation: photo-settle 2.4s var(--ease-out-expo) backwards;
+  }
+
+  /* A light wash of the ground's blue over the whole picture, so it sits in
+     the palette. */
+  .Auth__visual::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: color-mix(in srgb, var(--color-blue-dark) 28%, transparent);
+  }
+
+  /* The shade is on the text block itself and reaches above it, so however
+     tall the pitch runs on a short window, every line of it is white on the
+     ground's own blue and none of it lands on the bare photograph. */
+  .Auth__visual-body {
+    --split-delay: 0.35s;
+    position: relative;
+    z-index: 1;
+    padding: clamp(5rem, 16vh, 9rem) clamp(2rem, 4vw, 4rem) clamp(1.5rem, 5vh, 3.5rem);
+    background-image: linear-gradient(
+      to top,
+      var(--color-blue-dark) 0%,
+      color-mix(in srgb, var(--color-blue-dark) 94%, transparent) 62%,
+      transparent 100%
+    );
+  }
+
+  .Auth__points {
+    display: grid;
+    gap: 1rem;
+    margin-top: clamp(1rem, 3vh, 2rem);
+    padding-top: clamp(1rem, 3vh, 1.75rem);
+    border-top: 2px solid color-mix(in srgb, var(--color-white) 22%, transparent);
+  }
+
+  @media screen and (min-width: 1280px) {
+    .Auth__points {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  /* On a short window the three points are the first thing to go. */
+  @media screen and (max-height: 620px) {
+    .Auth__points {
+      display: none;
+    }
+  }
+
+  /* The form's own rows follow its heading in. */
+  .Auth__panel form > * {
+    animation: rise-in 0.7s var(--ease-out-expo) backwards;
+  }
+
+  .Auth__panel form > :nth-child(1) { animation-delay: 0.2s; }
+  .Auth__panel form > :nth-child(2) { animation-delay: 0.27s; }
+  .Auth__panel form > :nth-child(3) { animation-delay: 0.34s; }
+  .Auth__panel form > :nth-child(4) { animation-delay: 0.41s; }
+  .Auth__panel form > :nth-child(n + 5) { animation-delay: 0.48s; }
+
+  /* ----------------------------------------------------------------------
+     Marquee: one line of large outlined type crossing the ground
+     ------------------------------------------------------------------- */
+  .Marquee {
+    overflow: clip;
+    padding-block: 1rem;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  }
+
+  /* Two copies of the line, and a shift of exactly one copy, so the loop has
+     no seam. */
+  .Marquee__track {
+    display: flex;
+    width: max-content;
+    animation: marquee 70s linear infinite;
+  }
+
+  .Marquee__line {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .Marquee__item {
+    display: flex;
+    align-items: center;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--step-4);
+    line-height: 1.1;
+    white-space: nowrap;
+    color: transparent;
+    -webkit-text-stroke: 2px color-mix(in srgb, var(--color-blue-light) 70%, transparent);
+  }
+
+  .Marquee__item:nth-child(even) {
+    color: var(--color-blue);
+    -webkit-text-stroke: 0;
+  }
+
+  .Marquee__item::after {
+    content: "";
+    width: 0.32em;
+    height: 0.32em;
+    margin: 0 0.55em;
+    border-radius: 50%;
+    background-color: var(--color-teal-light);
   }
 
   /* ----------------------------------------------------------------------
@@ -1816,6 +3309,52 @@
   }
 }
 
+/* A linked card lifts toward the pointer. Every card link on the site is
+   written as a bordered `group`, so they all get it from here. Unlayered on
+   purpose: the cards set their own transition-property with a utility, and
+   only an unlayered rule can add `translate` to that list. */
+a.group.border {
+  transition:
+    border-color 0.3s var(--ease-smooth),
+    box-shadow 0.4s var(--ease-out-expo),
+    translate 0.4s var(--ease-out-expo);
+}
+
+@media (hover: hover) {
+  a.group.border:hover {
+    translate: 0 -3px;
+    box-shadow: 0 18px 30px -20px rgb(13 36 78 / 0.55);
+  }
+}
+
+a.group.border:active {
+  translate: 0 0;
+}
+
+/* On a phone that is both narrow and short, the round search button goes:
+   it opens the same ledger the three country buttons do, and it took a row
+   of its own. Unlayered, so it outranks the list item's own utilities. */
+@media screen and (max-width: 400px) and (max-height: 800px) {
+  .Hero__ledger-search {
+    display: none;
+  }
+}
+
+/* The shortest phones still in use, 375 by 667: the gaps close up, and the
+   trust row goes, since the headline above it makes the same claim. */
+@media screen and (max-width: 400px) and (max-height: 700px) {
+  .Hero__trust {
+    display: none;
+  }
+
+  .Hero {
+    padding-bottom: 0.5rem;
+  }
+
+  .Hero__inner--wide {
+    --flow: 0.4rem;
+  }
+}
 /* ------------------------------------------------------------------------
    Keyframes
    --------------------------------------------------------------------- */
@@ -1830,50 +3369,80 @@
   }
 }
 
-@keyframes up-rotate {
-  0% {
-    animation-timing-function: cubic-bezier(0.16, -0.88, 0.97, 0.53);
-    transform: translateY(0px);
-  }
-  30% {
-    transform-origin: center;
-    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
-    transform: translateY(-10px);
-  }
-  100% {
-    transform-origin: center;
-    transform: translateY(-10px) rotate(45deg) scaleX(0.95);
-  }
-}
-
-@keyframes down-rotate {
-  0% {
-    animation-timing-function: cubic-bezier(0.16, -0.88, 0.97, 0.53);
-    transform: translateY(0px);
-  }
-  30% {
-    transform-origin: center;
-    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
-    transform: translateY(10px);
-  }
-  100% {
-    transform-origin: center;
-    transform: translateY(10px) rotate(-45deg) scaleX(0.95);
-  }
-}
-
-@keyframes hide {
-  0% {
+/* The arrivals have a `from` and no `to`, and they run with a backwards
+   fill, never `both`. Together that means an element animates to its own
+   resting style and is then let go. Held on a final keyframe it would keep a
+   zero-offset transform for good, which still makes it a stacking context
+   and a containing block: the decoration tucked behind a panel at z-index -1
+   would sit in front of it from then on. */
+@keyframes rise-in {
+  from {
     opacity: 0;
+    translate: 0 1.5rem;
   }
-  29% {
+}
+
+/* The scroll-driven arrival. It is opaque by 40% of the way in while the rise
+   carries on, so a panel whose top edge is only just showing at the foot of
+   the screen is solid, not a pale ghost of itself. */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    translate: 0 2rem;
+  }
+  40% {
     opacity: 1;
   }
-  30% {
+}
+
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    translate: 0 2.5rem;
+    scale: 0.97;
+  }
+}
+
+@keyframes drop-in {
+  from {
+    opacity: 0;
+    translate: 0 -0.75rem;
+  }
+}
+
+@keyframes page-in {
+  from {
     opacity: 0;
   }
-  100% {
+}
+
+@keyframes grow-x {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes grow-y {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes scroll-progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes pulse-ring {
+  from {
+    opacity: 0.55;
+    scale: 1;
+  }
+  70%,
+  to {
     opacity: 0;
+    scale: 2.6;
   }
 }
 
@@ -1886,43 +3455,162 @@
   }
 }
 
-@keyframes shape-in {
+/* The reference's arrivals, kind by kind. Each has only a `from`: where the
+   shape starts, as a share of its own size, and how far round it is turned.
+   It ends on its own resting place. */
+@keyframes shape-in-dot {
   from {
     opacity: 0;
-    transform: scale(0.4) rotate(-20deg);
-  }
-  to {
-    opacity: var(--shape-opacity, 1);
-    transform: scale(1) rotate(0deg);
+    scale: 0;
+    rotate: 180deg;
   }
 }
 
+@keyframes shape-in-semi {
+  from {
+    opacity: 0;
+    rotate: -200deg;
+    translate: -200% -100%;
+  }
+}
+
+@keyframes shape-in-circle {
+  from {
+    opacity: 0;
+    translate: -200% 200%;
+  }
+}
+
+@keyframes shape-in-double {
+  from {
+    opacity: 0;
+    rotate: 80deg;
+    translate: 100% -50%;
+  }
+}
+
+@keyframes shape-in-hex {
+  from {
+    opacity: 0;
+    rotate: 180deg;
+    translate: 20% -30%;
+  }
+}
+
+@keyframes shape-in-hash {
+  from {
+    opacity: 0;
+    rotate: -180deg;
+    translate: -100% 100%;
+  }
+}
+
+@keyframes shape-in-arrow {
+  from {
+    opacity: 0;
+    rotate: 80deg;
+    translate: 400% -100%;
+  }
+}
+
+@keyframes stroke-draw {
+  from {
+    stroke-dashoffset: 400;
+    opacity: 0.3;
+  }
+}
+
+@keyframes squiggle-draw {
+  from {
+    stroke-dashoffset: 1400;
+  }
+}
+
+/* Each shape drifts up and back by its own --shape-drift, and leans away from
+   the pointer by a multiple of the same figure, so the shapes that float
+   furthest also sit nearest. --px and --py are 0 until a pointer moves. */
 @keyframes shape-float {
   from {
-    translate: 0 0;
+    translate: calc(var(--px, 0) * var(--shape-drift, -14px) * 1.1)
+      calc(var(--py, 0) * var(--shape-drift, -14px) * 1.1);
   }
   to {
-    translate: 0 var(--shape-drift, -14px);
+    translate: calc(var(--px, 0) * var(--shape-drift, -14px) * 1.1)
+      calc(var(--shape-drift, -14px) + var(--py, 0) * var(--shape-drift, -14px) * 1.1);
   }
 }
 
-@keyframes stroke-in {
-  to {
-    stroke-dashoffset: 0;
+@keyframes word-up {
+  from {
+    translate: 0 115%;
   }
 }
 
-@keyframes explode {
-  0% {
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+@keyframes photo-settle {
+  from {
+    scale: 1.1;
+  }
+}
+
+@keyframes bob {
+  to {
+    transform: translateY(-0.7rem);
+  }
+}
+
+@keyframes ground-in {
+  from {
     opacity: 0;
-    transform: scale(0.2) translate(0, 0);
   }
-  20% {
+  to {
     opacity: 1;
   }
-  100% {
+}
+
+@keyframes ground-out {
+  to {
     opacity: 0;
-    transform: scale(1) translate(var(--dx, 0), var(--dy, 0));
+  }
+}
+
+@keyframes field-leave {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes overview-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+@keyframes ring-turn {
+  from {
+    transform: rotate(180deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    scale: 0.4;
+    rotate: -40deg;
+  }
+}
+
+@keyframes marquee {
+  to {
+    translate: -50% 0;
   }
 }
 
@@ -1995,6 +3683,19 @@
 
   details > *:not(summary) {
     display: revert !important;
+  }
+
+  details::details-content {
+    block-size: auto !important;
+    content-visibility: visible !important;
+  }
+
+  /* Paper has no arrivals. Nothing may print half way through one. */
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    box-shadow: none !important;
   }
 
   /* A source or a verification date must not be orphaned from its figure. */

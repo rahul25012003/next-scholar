@@ -8,7 +8,7 @@ import { ButtonLink } from "@/components/ui/button";
 export const metadata: Metadata = {
   title: "Reviews",
   description:
-    "Every review here is checked by a named member of staff against the actual case record before it is published, refusals included. No rating number, and nothing published while it is unchecked.",
+    "A named member of staff checks every review against the case record before it is published, refusals included. No star ratings.",
   alternates: { canonical: "/reviews" },
 };
 
@@ -33,7 +33,7 @@ export default async function ReviewsPage(props: PageProps<"/reviews">) {
     <>
       <PageHero
         title="Reviews"
-        lede="Checked against the actual case record by a named member of staff before publication, refusals included. No star rating anywhere: a rating is a number we would have computed, and this page publishes what the reviewer actually said instead."
+        lede="A named member of staff checks each review against the case record before it goes up, refusals included. No star ratings: just what each reviewer said."
       />
 
       <section className="band">
@@ -87,9 +87,8 @@ export default async function ReviewsPage(props: PageProps<"/reviews">) {
                 No verified reviews published yet
               </h2>
               <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
-                No client has completed a real, checked outcome yet. This is the honest
-                state rather than a placeholder quote, and it will change the day a real one
-                clears verification.
+                No client has a real, checked outcome yet. We would rather say so than show a
+                placeholder quote, and this will change when the first real review is checked.
               </p>
               <ButtonLink href="/our-numbers" className="mt-6">
                 What we publish instead, today

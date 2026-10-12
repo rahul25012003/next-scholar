@@ -151,7 +151,7 @@ export function EvaluationRequestForm() {
 
       <Field
         id="details"
-        label="Your percentage or CGPA, your language test result if you have one, and anything else worth checking"
+        label="Your percentage or CGPA, your language test score if you have one, and anything else we should check"
         error={errors.details}
       >
         <textarea
@@ -184,7 +184,7 @@ export function EvaluationRequestForm() {
       </label>
 
       <div className="flex flex-wrap items-center gap-3 border-t border-line pt-5">
-        <Button type="submit" disabled={pending}>
+        <Button type="submit" disabled={pending} aria-busy={pending}>
           {pending ? "Checking your answers" : "Check and continue"}
         </Button>
         <Button type="button" variant="outline" onClick={copyAnswers}>
@@ -212,7 +212,7 @@ export function EvaluationRequestForm() {
               </h3>
               <p className="mt-2 text-[0.9375rem] leading-relaxed text-grey">{state.message}</p>
               <p className="mt-4 text-[0.875rem] font-medium text-blue-dark">
-                Still to connect before this form can deliver a reply
+                Still to connect before this form can send you a reply
               </p>
               <ul className="mt-2 space-y-1.5">
                 {state.missing.map((item) => (

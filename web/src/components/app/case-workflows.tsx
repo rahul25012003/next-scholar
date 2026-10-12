@@ -34,7 +34,7 @@ export function CaseWorkflows({
         action={linkStudent}
         caseId={caseId}
         title="Link a student account"
-        description="Connects the student's own account to this case, so their portal has something to show. Needed whichever order this and their signup happened in: opening a case and creating an account have no way to find each other on their own."
+        description="Connects the student's account to this case, so their portal can show it. Always needed: a case and an account never link up on their own, whichever came first."
         submitLabel="Link it"
       >
         <input
@@ -136,7 +136,7 @@ export function CaseWorkflows({
             action={reapply}
             caseId={caseId}
             title="Open a reapplication"
-            description="Linked to the application it replaces, so the history reads as one story rather than two unrelated records."
+            description="Linked to the application it replaces, so the history reads as one record, not two."
             submitLabel="Open it"
           >
             <select
@@ -174,7 +174,7 @@ export function CaseWorkflows({
         action={defer}
         caseId={caseId}
         title="Defer to a later intake"
-        description="Every deadline on the case moves with the intake, rather than being left behind to go quietly wrong."
+        description="Every deadline on the case moves with the intake, so none is left on the old dates."
         submitLabel="Defer"
       >
         <input
@@ -197,7 +197,7 @@ export function CaseWorkflows({
         action={addPreDepartureChecklist}
         caseId={caseId}
         title="Add the pre-departure checklist"
-        description="Accommodation, insurance, flights, banking and an arrival briefing, the five items the pre-departure stage already promises. Appears in the follow up queue below, same as any other task. Safe to click twice: nothing already on the case is duplicated."
+        description="Adds the five pre-departure tasks to the follow up queue: accommodation, insurance, flights, banking and an arrival briefing. Safe to click twice, as nothing already on the case is duplicated."
         submitLabel="Add it"
       >
         <input

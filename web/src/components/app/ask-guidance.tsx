@@ -18,9 +18,8 @@ export function AskGuidance({ counselor }: { counselor: string }) {
           Ask about your own application
         </label>
         <p className="mt-1 text-[0.8125rem] leading-relaxed text-grey">
-          Answers come from your case record and the published policies, and they
-          say which. Anything outside that goes to {counselor}. It will never tell
-          you your chances, because nobody honestly can.
+          Answers come from your case record and our published policies, and say
+          which. Anything else goes to {counselor}, and it never tells you your chances.
         </p>
         <textarea
           id="question"
@@ -29,7 +28,7 @@ export function AskGuidance({ counselor }: { counselor: string }) {
           placeholder="What happens if my passport renewal takes longer than the APS deadline?"
           className="mt-3 w-full rounded-card border border-line-strong bg-white px-3.5 py-2.5 text-[0.9375rem] text-blue-dark placeholder:text-grey/70 focus:border-pink focus:outline-none focus:ring-2 focus:ring-pink/25"
         />
-        <Button type="submit" className="mt-3" disabled={pending}>
+        <Button type="submit" className="mt-3" disabled={pending} aria-busy={pending}>
           {pending ? "Asking" : "Ask"}
         </Button>
       </form>

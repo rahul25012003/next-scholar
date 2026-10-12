@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CheckCircle, Plus, Trash, WarningCircle } from "@phosphor-icons/react";
 import { checkEcts, ECTS_LIMITS } from "@/domain/calculators";
 import { Button } from "@/components/ui/button";
+import { SubmitBar, useSubmitted } from "@/components/tools/submit";
 import { cn } from "@/lib/cn";
 
 /**
@@ -27,13 +28,20 @@ export function EctsCheck() {
   const [totalHeld, setTotalHeld] = useState("");
   const [areas, setAreas] = useState(defaultAreas);
 
-  const started = totalHeld.trim() !== "" || areas.some((area) => area.held.trim() !== "");
+  const { submitted, dirty, round, onSubmit, resultsRef } = useSubmitted({
+    totalRequired,
+    totalHeld,
+    areas,
+  });
+  const started =
+    submitted !== null &&
+    (submitted.totalHeld.trim() !== "" || submitted.areas.some((area) => area.held.trim() !== ""));
 
   const result = started
     ? checkEcts({
-        totalRequired: Number(totalRequired) || 0,
-        totalHeld: Number(totalHeld) || 0,
-        areas: areas
+        totalRequired: Number(submitted.totalRequired) || 0,
+        totalHeld: Number(submitted.totalHeld) || 0,
+        areas: submitted.areas
           .filter((area) => area.name.trim() !== "")
           .map((area) => ({
             name: area.name,
@@ -50,10 +58,7 @@ export function EctsCheck() {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[24rem_minmax(0,1fr)] lg:items-start lg:gap-10">
-      <form
-        className="rounded-panel border border-line bg-white p-6 md:p-7"
-        onSubmit={(event) => event.preventDefault()}
-      >
+      <form className="rounded-panel border border-line bg-white p-6 md:p-7" onSubmit={onSubmit}>
         <fieldset>
           <legend className="text-[0.875rem] font-semibold text-blue-dark">
             Total credits
@@ -80,6 +85,7 @@ export function EctsCheck() {
                 inputMode="numeric"
                 min={0}
                 step={1}
+                required
                 value={totalHeld}
                 onChange={(event) => setTotalHeld(event.target.value)}
                 className="figures mt-1 w-full rounded-input border border-line-strong px-3 py-2 text-[0.9375rem] text-blue-dark"
@@ -153,6 +159,7 @@ export function EctsCheck() {
             ))}
           </div>
           <Button
+            type="button"
             variant="outline"
             className="mt-4"
             onClick={() =>
@@ -163,14 +170,16 @@ export function EctsCheck() {
             Add an area
           </Button>
         </fieldset>
+
+        <SubmitBar round={round} dirty={dirty} />
       </form>
 
-      <div className="min-w-0 space-y-8">
+      <div key={round} ref={resultsRef} className="rise min-w-0 scroll-mt-24 space-y-8">
         {result === null ? (
           <div className="rounded-panel border border-dashed border-line-strong bg-light p-8 text-center">
             <p className="text-[0.9375rem] leading-relaxed text-grey">
-              Enter what your transcript shows and the gap against each requirement appears
-              here.
+              Enter what your transcript shows and press Submit. The gap against each
+              requirement appears here.
             </p>
             <p className="mt-3 text-[0.875rem] text-grey">
               It reports subtraction, not an admission verdict.

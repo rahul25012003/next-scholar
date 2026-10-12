@@ -29,7 +29,7 @@ export async function summariseCase(
   return runAgent({
     agentId: "case-summary",
     system:
-      "You brief a study abroad counselor on one case. Be specific and plain. " +
+      "You brief a study abroad counsellor on one case. Be specific and plain. " +
       "Never estimate the chance of an admission or a visa. Never state a requirement " +
       "that is not in the material you were given. If the log does not say something, do not fill it in.",
     prompt: [
@@ -61,12 +61,12 @@ export async function draftReply(
   return runAgent({
     agentId: "counselor-copilot",
     system:
-      "You draft a message for a counselor to edit and send themselves. You cannot send anything. " +
+      "You draft a message for a counsellor to edit and send themselves. You cannot send anything. " +
       "Never promise an outcome, never state a probability, never invent a deadline or a requirement. " +
-      "If a fact is needed that you were not given, leave a clearly marked blank for the counselor to fill.",
+      "If a fact is needed that you were not given, leave a clearly marked blank for the counsellor to fill.",
     prompt: [
       `Case stage: ${record.stage}. Destination: ${record.destination}. Intake: ${record.intake}.`,
-      `Counselor wants to: ${intent}`,
+      `Counsellor wants to: ${intent}`,
       "Write the draft in plain English, under 140 words.",
     ].join("\n"),
     schema: draftSchema,
@@ -92,8 +92,8 @@ export async function answerStudentQuestion(
       "You answer a student's question about their own application, using only the case facts and the " +
       "published policy text you are given. You never state or imply a chance of admission or a visa. " +
       "You never discuss another student. If the answer is not in the material, set routeToCounselor to true " +
-      "and say the counselor will answer. In basedOn, name the specific page or case field your answer came " +
-      "from. If you cannot name one, route to the counselor instead.",
+      "and say the counsellor will answer. In basedOn, name the specific page or case field your answer came " +
+      "from. If you cannot name one, route to the counsellor instead.",
     prompt: [
       policyDigest(),
       "",
@@ -107,7 +107,7 @@ export async function answerStudentQuestion(
     ].join("\n"),
     schema: guidanceSchema,
     reviewFields: ["answer"],
-    fallback: "Your counselor will answer this one. It has been added to their queue.",
+    fallback: "Your counsellor will answer this one. It has been added to their queue.",
     maxTokens: 500,
   });
 }
@@ -133,7 +133,7 @@ export async function coachStatement(
     schema: coachingSchema,
     reviewFields: ["structuralFeedback"],
     fallback:
-      "Coaching is unavailable right now. Your counselor reviews the statement before submission either way.",
+      "Coaching is unavailable right now. Your counsellor reviews the statement before submission either way.",
     maxTokens: 600,
     coaching: true,
   });

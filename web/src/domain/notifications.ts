@@ -50,7 +50,7 @@ const extraChannels: Record<EventType, Channel[]> = {
 const whatsappTemplates: Partial<Record<EventType, string>> = {
   deadline: "A deadline on your Next Scholar application is close. Open your portal for the details.",
   expiry: "A document on your file is close to expiry. Open your portal for the details.",
-  inactivity: "Your counselor is waiting to hear from you. Open your portal when you can.",
+  inactivity: "Your counsellor is waiting to hear from you. Open your portal when you can.",
 };
 
 export function bodyFor(event: LifecycleEvent, channel: Channel): string {

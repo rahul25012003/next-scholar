@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ieltsDescriptorFor, ieltsDescriptors, ieltsOverall } from "@/domain/calculators";
 import { InputError, ResultPanel } from "@/components/tools/working";
+import { SubmitBar, useSubmitted } from "@/components/tools/submit";
 import { cn } from "@/lib/cn";
 
 const sections = [
@@ -24,27 +25,29 @@ export function IeltsBandCalculator() {
   });
   const [minimumPerSection, setMinimumPerSection] = useState("6");
 
-  const complete = sections.every((section) => scores[section.key] !== "");
+  const { submitted, dirty, round, onSubmit, resultsRef } = useSubmitted({
+    scores,
+    minimumPerSection,
+  });
+  const entered = submitted?.scores;
+  const complete = entered !== undefined && sections.every((section) => entered[section.key] !== "");
   const result = complete
     ? ieltsOverall({
-        listening: Number(scores.listening),
-        reading: Number(scores.reading),
-        writing: Number(scores.writing),
-        speaking: Number(scores.speaking),
+        listening: Number(entered.listening),
+        reading: Number(entered.reading),
+        writing: Number(entered.writing),
+        speaking: Number(entered.speaking),
       })
     : null;
 
-  const minimum = Number(minimumPerSection);
+  const minimum = Number(submitted?.minimumPerSection ?? minimumPerSection);
   const belowMinimum = complete
-    ? sections.filter((section) => Number(scores[section.key]) < minimum)
+    ? sections.filter((section) => Number(entered[section.key]) < minimum)
     : [];
 
   return (
     <div className="grid gap-8 lg:grid-cols-[22rem_minmax(0,1fr)] lg:items-start lg:gap-10">
-      <form
-        className="rounded-panel border border-line bg-white p-6 md:p-7"
-        onSubmit={(event) => event.preventDefault()}
-      >
+      <form className="rounded-panel border border-line bg-white p-6 md:p-7" onSubmit={onSubmit}>
         <fieldset>
           <legend className="text-[0.875rem] font-semibold text-blue-dark">
             Your four section scores
@@ -56,6 +59,7 @@ export function IeltsBandCalculator() {
                   {section.label}
                 </span>
                 <select
+                  required
                   value={scores[section.key]}
                   onChange={(event) =>
                     setScores((current) => ({ ...current, [section.key]: event.target.value }))
@@ -103,14 +107,16 @@ export function IeltsBandCalculator() {
           This calculates the band your four scores produce. It does not predict a band you
           have not sat for, and no tool on this site does.
         </p>
+
+        <SubmitBar round={round} dirty={dirty} />
       </form>
 
-      <div className="min-w-0 space-y-8">
+      <div key={round} ref={resultsRef} className="rise min-w-0 scroll-mt-24 space-y-8">
         {result === null && (
           <div className="rounded-panel border border-dashed border-line-strong bg-light p-8 text-center">
             <p className="text-[0.9375rem] leading-relaxed text-grey">
-              Enter all four section scores and your overall band appears here, with the
-              rounding rule applied step by step.
+              Enter all four section scores and press Submit. Your overall band appears
+              here, with the rounding rule shown step by step.
             </p>
             <p className="mt-3 text-[0.875rem] text-grey">Ungated, like every tool here.</p>
           </div>

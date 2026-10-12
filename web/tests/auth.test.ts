@@ -248,8 +248,8 @@ describe("the route guard", () => {
     expect(response.headers.get("location")).toContain("/login");
   });
 
-  it("sends a signed in visitor away from the sign in page", () => {
+  it("lets a signed in visitor reach the sign in page, to switch accounts", () => {
     const token = createSession({ id: "user-founder-1", role: "founder" });
-    expect(proxy(request("/login", token)).headers.get("location")).toContain("/ops");
+    expect(proxy(request("/login", token)).headers.get("location")).toBeNull();
   });
 });

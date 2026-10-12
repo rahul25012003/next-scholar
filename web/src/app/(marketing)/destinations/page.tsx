@@ -13,7 +13,7 @@ import { staggerDelay } from "@/lib/stagger";
 export const metadata: Metadata = {
   title: "Destinations",
   description:
-    "Three destinations, each covered in full: tuition, cost of living, the money the visa authority wants to see, the academic gates, and what we earn on every route.",
+    "Three destinations for a Master's, each covered in full: tuition, cost of living, the money the visa needs you to show, and the academic requirements.",
   alternates: { canonical: "/destinations" },
 };
 
@@ -28,7 +28,7 @@ export default function DestinationsIndexPage() {
     <>
       <PageHero
         title="Three destinations, each answered in full"
-        lede="A country goes on this list when its whole guide can be filled in: every fee, every threshold, every deadline as a date, and what we earn on each route within it. That is why there are three and not eleven, and why adding a fourth is a piece of work rather than a menu item."
+        lede="We list a country only when we can fill in its whole guide: every fee, every threshold and every deadline as a date. That is why there are three, not eleven."
         aside={
           <div className="rounded-panel border border-line bg-white p-6">
             <p className="text-[0.8125rem] font-semibold text-blue-dark">
@@ -38,8 +38,7 @@ export default function DestinationsIndexPage() {
               <li>Seventeen sections, the same seventeen for every country</li>
               <li>Every figure with its official source named</li>
               <li>Deadlines as dates, never as month names</li>
-              <li>An editable cost of living calculator, ungated</li>
-              <li>What we earn on the route, next to the advice</li>
+              <li>An editable cost of living calculator, with no signup</li>
             </ul>
           </div>
         }
@@ -148,14 +147,22 @@ export default function DestinationsIndexPage() {
               Why not more countries
             </h2>
             <p className="mt-3 max-w-3xl text-[0.9375rem] leading-relaxed text-grey">
-              Because a fourth country would be a list of plausible sentences. Every
-              destination here has seventeen filled sections, a named source on each figure,
-              and a stated verification state, and producing that takes weeks per country.
-              Adding Canada or Australia to a dropdown would take an afternoon, and the
-              answer you got when you asked a real question about either would be worth
-              nothing. When we can answer the whole of a fourth country without looking
-              anything up, it will appear here.
+              Because a fourth country would only be a list of plausible sentences.
             </p>
+            <ul className="mt-3 max-w-3xl list-disc space-y-1.5 pl-5 text-[0.9375rem] leading-relaxed text-grey">
+              <li>
+                Each destination here has seventeen filled sections, a named source on each
+                figure and a stated check status. That takes weeks per country.
+              </li>
+              <li>
+                Adding Canada or Australia to a dropdown would take an afternoon, but our
+                answers about them would be worth nothing.
+              </li>
+              <li>
+                A fourth country will appear here when we can answer all of it without
+                looking anything up.
+              </li>
+            </ul>
           </div>
         </div>
       </section>

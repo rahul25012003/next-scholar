@@ -11,6 +11,7 @@ import { FilterRail } from "@/components/catalogue/filters";
 import { CourseCard } from "@/components/catalogue/course-card";
 import { RelatedSearches } from "@/components/catalogue/related-searches";
 import { PageHero } from "@/components/marketing/page-hero";
+import { countryInSentence } from "@/lib/country";
 
 const ownLink: Record<string, string> = {
   germany: "/masters-in-germany",
@@ -43,8 +44,8 @@ export async function MastersLanding({
   return (
     <>
       <PageHero
-        title={`Masters courses in ${country}`}
-        lede={`Every taught Master's we have curated in ${country}, with what we earn from the institution printed next to the fee. This is the same catalogue as the full course search, filtered to this one destination.`}
+        title={`Masters courses in ${countryInSentence(country)}`}
+        lede={`Every taught Master's we have picked out in ${countryInSentence(country)}. It is the same list as the full course search, showing only this destination.`}
       />
 
       <section className="band">
@@ -66,7 +67,7 @@ export async function MastersLanding({
           <div className="min-w-0">
             <div className="flex flex-wrap items-baseline justify-between gap-4">
               <h2 className="text-blue-dark">
-                {rows.length} course{rows.length === 1 ? "" : "s"} in {country}
+                {rows.length} course{rows.length === 1 ? "" : "s"} in {countryInSentence(country)}
               </h2>
               <p className="text-[0.8125rem] text-grey">
                 Ordered by {sortOptions.find((option) => option.key === sort)?.label.toLowerCase()}
@@ -79,8 +80,8 @@ export async function MastersLanding({
                   Nothing matches those filters
                 </h3>
                 <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
-                  {total} course{total === 1 ? "" : "s"} exist in {country} in this catalogue;
-                  the extra filters have narrowed the list to nothing.
+                  We list {total} course{total === 1 ? "" : "s"} in {countryInSentence(country)}, but your extra
+                  filters rule out every one.
                 </p>
                 <Link
                   href={`/universities?destination=${destinationSlug}`}
@@ -105,9 +106,8 @@ export async function MastersLanding({
             <div className="mt-10 rounded-panel border border-line bg-light p-6 md:p-7 flex gap-3">
               <WarningCircle size={18} weight="fill" aria-hidden className="mt-0.5 shrink-0 text-pending" />
               <p className="text-[0.9375rem] leading-relaxed text-grey">
-                This is {total} course{total === 1 ? "" : "s"} across our catalogue for{" "}
-                {country}, seeded by hand. It is not a complete list of every Master&rsquo;s
-                programme in the country.{" "}
+                We list {total} course{total === 1 ? "" : "s"} in {countryInSentence(country)}, chosen by hand.
+                It is not every Master&rsquo;s programme in the country.{" "}
                 <Link
                   href="/universities"
                   className="font-medium text-pink hover:text-blue-dark"

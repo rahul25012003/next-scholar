@@ -14,10 +14,10 @@ import { staggerDelay } from "@/lib/stagger";
 import { cn } from "@/lib/cn";
 
 export const metadata: Metadata = {
-  title: "Written guides",
+  title: "Blog",
   description:
-    "Pieces on the things that actually decide these applications: the fee Germany does not mention, the UK 28 day rule, the new dMAT, and what a consultant genuinely cannot do for you.",
-  alternates: { canonical: "/guides" },
+    "Practical posts on what decides a Master's application abroad: the fee Germany does not mention, the UK 28 day rule, the new dMAT, and what a consultant cannot do for you.",
+  alternates: { canonical: "/blog" },
 };
 
 /**
@@ -43,7 +43,7 @@ function matches(article: Article, params: Record<string, string | string[] | un
   return true;
 }
 
-export default async function GuidesPage(props: PageProps<"/guides">) {
+export default async function BlogPage(props: PageProps<"/blog">) {
   const params = await props.searchParams;
   const axes = taxonomy();
   const rows = articles.filter((article) => matches(article, params));
@@ -54,18 +54,18 @@ export default async function GuidesPage(props: PageProps<"/guides">) {
   return (
     <>
       <PageHero
-        title="Written guides"
-        lede="Six pieces, each about one thing that actually decides an application, including two corrections to figures we published wrongly ourselves. Filter by country, by subject, by which part of the process you are in, or by where you are in the journey."
+        title="Blog"
+        lede="Short, practical posts on what actually decides a Master's application abroad. Filter by country, subject, part of the process, or where you are in your journey."
         aside={
           <div className="rounded-panel border border-line bg-white p-6">
             <p className="text-[0.8125rem] font-semibold text-blue-dark">
               Every piece carries
             </p>
             <ul className="mt-3 space-y-2 text-[0.875rem] leading-relaxed text-grey">
-              <li>Its read time, computed from the text rather than typed</li>
+              <li>A read time, worked out from the text</li>
               <li>The date it was published and the date it last changed</li>
-              <li>Four tags, so it can be found from any of four questions</li>
-              <li>A claim in the standfirst, not a teaser</li>
+              <li>Four tags, so you can find it four different ways</li>
+              <li>A clear point in its opening line, not a teaser</li>
             </ul>
           </div>
         }
@@ -75,14 +75,14 @@ export default async function GuidesPage(props: PageProps<"/guides">) {
         <div className="shell grid gap-8 lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-10 lg:items-start">
           <form
             method="get"
-            action="/guides"
+            action="/blog"
             className="rounded-panel border border-line bg-white lg:sticky lg:top-24"
             aria-label="Filter guides"
           >
             <div className="flex items-center justify-between gap-4 border-b border-line px-5 py-4">
               <h2 className="text-blue-dark h--6">Filter</h2>
               <Link
-                href="/guides"
+                href="/blog"
                 className="text-[0.8125rem] font-medium text-grey transition-colors hover:text-pink"
               >
                 Reset
@@ -154,11 +154,11 @@ export default async function GuidesPage(props: PageProps<"/guides">) {
                   Nothing written on that combination yet
                 </h2>
                 <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
-                  Six pieces is six pieces. An empty result here means we have not written
-                  it, not that there is nothing to say.
+                  We have not written a post on this yet. Try fewer filters, or clear them
+                  to see every post.
                 </p>
                 <Link
-                  href="/guides"
+                  href="/blog"
                   className="mt-4 inline-block text-[0.9375rem] font-medium text-pink hover:text-blue-dark"
                 >
                   Clear the filters
@@ -177,7 +177,7 @@ export default async function GuidesPage(props: PageProps<"/guides">) {
                         <Tag muted>{article.stage}</Tag>
                       </div>
                       <h2 className="mt-3.5 text-blue-dark h--5">
-                        <Link href={`/guides/${article.slug}`} className="hover:text-pink">
+                        <Link href={`/blog/${article.slug}`} className="hover:text-pink">
                           {article.title}
                         </Link>
                       </h2>
@@ -196,7 +196,7 @@ export default async function GuidesPage(props: PageProps<"/guides">) {
                           </span>
                         </p>
                         <Link
-                          href={`/guides/${article.slug}`}
+                          href={`/blog/${article.slug}`}
                           className="group inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-pink hover:text-blue-dark"
                         >
                           Read it

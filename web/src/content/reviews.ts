@@ -45,5 +45,5 @@ export function publishableReviews(list: Review[] = reviews): Review[] {
 }
 
 export const reviewsScope = {
-  note: "Every review here is checked by a named member of staff against the actual case record before it is published: the destination, the route, and the outcome, refusals included. Nothing is invented to fill this page while it is empty, and there is no rating number anywhere, because a star count would be a figure we computed rather than one the reviewer gave.",
+  note: "A named member of staff checks every review against the real case record before it goes up, refusals included. We invent nothing to fill this page, and there are no star ratings, because a star count would be our number, not the reviewer's.",
 };

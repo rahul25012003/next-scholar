@@ -8,6 +8,7 @@ import { CostOfLivingCalculator } from "@/components/tools/cost-of-living";
 import { FigureList, RequirementList } from "@/components/guides/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
 import { ButtonLink } from "@/components/ui/button";
+import { countryInSentence } from "@/lib/country";
 
 /**
  * The full guide's sections, given their own route and their own metadata.
@@ -57,7 +58,7 @@ export async function generateMetadata(
   if (!guide || !meta) return {};
   return {
     title: `${meta.label}, ${guide.country}`,
-    description: `${meta.metaSuffix[0].toUpperCase()}${meta.metaSuffix.slice(1)} in ${guide.country} for Indian students, sourced and dated.`,
+    description: `${meta.metaSuffix[0].toUpperCase()}${meta.metaSuffix.slice(1)} in ${countryInSentence(guide.country)} for Indian students, sourced and dated.`,
     alternates: { canonical: `/destinations/${guide.slug}/${topic}` },
   };
 }
@@ -75,8 +76,8 @@ export default async function DestinationTopicPage(
   return (
     <>
       <PageHero
-        title={`${topics[key].label} in ${guide.country}`}
-        lede={heroLede(key, guide.country)}
+        title={`${topics[key].label} in ${countryInSentence(guide.country)}`}
+        lede={heroLede(key, countryInSentence(guide.country))}
       />
 
       <section className="band">
@@ -107,7 +108,7 @@ export default async function DestinationTopicPage(
                 </p>
                 {scholarshipsFor(guide.slug).length === 0 ? (
                   <p className="rounded-card border border-dashed border-line-strong bg-light p-6 text-[0.9375rem] leading-relaxed text-grey">
-                    Nothing on this short list is specific to {guide.country} yet. That is a
+                    Nothing on this short list is specific to {countryInSentence(guide.country)} yet. That is a
                     gap in what we have curated, not a claim that no scholarship exists here.
                   </p>
                 ) : (
@@ -175,9 +176,14 @@ export default async function DestinationTopicPage(
 
           <nav aria-label="Other topics" className="mt-14 border-t border-line pt-8">
             <h2 className="eyebrow text-grey">
-              Also about {guide.country}
+              Also about {countryInSentence(guide.country)}
             </h2>
             <ul className="mt-4 flex flex-wrap gap-2.5">
+              <li>
+                <Link href={`/destinations/${guide.slug}/costs`} className="button button--light">
+                  Costs and funding
+                </Link>
+              </li>
               {otherTopics.map((item) => (
                 <li key={item}>
                   <Link
@@ -193,7 +199,7 @@ export default async function DestinationTopicPage(
 
           <div className="mt-10">
             <ButtonLink href={`/tools/requirements-check?destination=${guide.slug}`}>
-              Check your own eligibility for {guide.country}
+              Check your own eligibility for {countryInSentence(guide.country)}
             </ButtonLink>
           </div>
         </div>
@@ -205,13 +211,13 @@ export default async function DestinationTopicPage(
 function heroLede(topic: TopicKey, country: string): string {
   switch (topic) {
     case "cost-of-studying":
-      return `Published tuition figures for ${country}, each with the qualifier that says what it actually is: a statutory minimum, a typical range, or an indicative estimate.`;
+      return `Published tuition figures for ${country}, each labelled with what it is: a legal minimum, a typical range or an estimate.`;
     case "cost-of-living":
-      return `The same line-by-line, editable calculator the full ${country} guide runs, ungated and with every figure sourced.`;
+      return `The same editable, line-by-line calculator as the full ${country} guide, with no signup and a source for every figure.`;
     case "scholarships":
-      return `National and cross-institutional schemes actually open to Indian students going to ${country}, not a university's own marketing list.`;
+      return `National and multi-university schemes open to Indian students going to ${country}, not one university's marketing list.`;
     case "jobs":
-      return `What the visa actually permits while you study in ${country}, stated as hours and days rather than as reassurance.`;
+      return `How much the visa lets you work while you study in ${country}, in hours and days.`;
     case "post-study-work":
       return `How long you can stay and work in ${country} after you graduate, and on what conditions.`;
   }

@@ -27,7 +27,6 @@ export function useArtVisibility(ref: RefObject<Element | null>) {
 const ease = [0.16, 1, 0.3, 1] as const;
 
 export function OverviewStroke() {
-  const reduced = useReducedMotion();
   return (
     <svg
       className="Overview__svg"
@@ -39,15 +38,15 @@ export function OverviewStroke() {
       fill="none"
       viewBox="-480 0 2300 2241"
     >
-      <motion.path
+      {/* Drawn by the scroll position, as the reference scrubs it: the line
+          lengthens as the section is read and shortens on the way back up.
+          The rule is in globals.css; without it the line is simply drawn. */}
+      <path
         className="anim-overview-stroke stroke-blue-light"
         strokeWidth="200"
         opacity=".2"
+        pathLength={1}
         d="M-841 100H584c124 0 225 101 225 225v0c0 124-101 225-225 225h-95a281 281 0 00-281 281v0c0 155 125 281 281 281h442c167 0 304 136 304 304v0c0 168-137 304-304 304H795a439 439 0 00-439 439v82"
-        initial={reduced ? false : { pathLength: 0 }}
-        whileInView={{ pathLength: 1 }}
-        viewport={{ once: true, amount: "some" }}
-        transition={{ duration: 2.6, ease: "easeInOut" }}
       />
     </svg>
   );
@@ -110,11 +109,11 @@ export function SpinCircle({ text }: { text: string }) {
   );
 }
 
-/** The bar grid tucked behind the third overview box. */
-export function GridBars() {
+/** The bar grid tucked behind the third overview box, or wherever it is placed. */
+export function GridBars({ className = "anim-grid Overview__grid" }: { className?: string }) {
   return (
     <svg
-      className="anim-grid Overview__grid"
+      className={className}
       role="presentation"
       aria-hidden
       focusable="false"

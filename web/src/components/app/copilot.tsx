@@ -19,9 +19,8 @@ export function Copilot({ caseId }: { caseId: string }) {
           Draft a message
         </label>
         <p className="mt-1 text-[0.8125rem] leading-relaxed text-grey">
-          Say what the message should do. You get a draft to edit. This has no
-          send capability, here or in its permissions, so nothing leaves until
-          you send it yourself.
+          Say what the message should do, and you get a draft to edit. It cannot
+          send anything, so nothing goes out until you send it yourself.
         </p>
         <input
           id="intent"
@@ -30,7 +29,7 @@ export function Copilot({ caseId }: { caseId: string }) {
           placeholder="Chase the passport renewal appointment date"
           className="mt-3 w-full rounded-card border border-line-strong bg-white px-3.5 py-2.5 text-[0.9375rem] text-blue-dark placeholder:text-grey/70 focus:border-pink focus:outline-none focus:ring-2 focus:ring-pink/25"
         />
-        <Button type="submit" className="mt-3" disabled={pending}>
+        <Button type="submit" className="mt-3" disabled={pending} aria-busy={pending}>
           {pending ? "Drafting" : "Draft it"}
         </Button>
       </form>
@@ -40,7 +39,7 @@ export function Copilot({ caseId }: { caseId: string }) {
           {state.confidence === "low" && (
             <p className="mb-2 flex items-start gap-2 rounded-card border border-pending/25 bg-pending-bg/50 p-3 text-[0.8125rem] leading-relaxed text-grey">
               <WarningCircle size={16} weight="fill" className="mt-0.5 shrink-0 text-pending" aria-hidden />
-              Low confidence. Read this one properly before you send any of it.
+              Low confidence. Read it carefully before you send any of it.
             </p>
           )}
           <textarea
@@ -52,7 +51,7 @@ export function Copilot({ caseId }: { caseId: string }) {
           />
           <p className="mt-2 text-[0.75rem] text-grey">
             Machine written, {state.confidence} confidence. Edit it here, then
-            send it yourself. Nothing sends from this screen.
+            send it yourself.
           </p>
         </div>
       )}

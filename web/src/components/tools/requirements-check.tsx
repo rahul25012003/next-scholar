@@ -13,6 +13,8 @@ import {
 } from "@/domain/eligibility";
 import { cgpaToPercentage } from "@/domain/calculators";
 import { cn } from "@/lib/cn";
+import { SubmitBar, useSubmitted } from "@/components/tools/submit";
+import { countryInSentence } from "@/lib/country";
 
 const stateMeta: Record<
   CheckState,
@@ -33,7 +35,7 @@ const stateMeta: Record<
     border: "border-denied/25",
   },
   unknown: {
-    label: "Cannot tell",
+    label: "Needs checking",
     icon: Question,
     text: "text-pending",
     bg: "bg-pending-bg",
@@ -52,8 +54,13 @@ const groups: CheckResult["group"][] = ["Academic", "Language", "Money", "Proces
  * probability of anything, so the counts are printed as counts and the copy
  * says so.
  *
- * Nothing here is submitted. There is no form action, no fetch and no signup,
- * and the answer appears as you type.
+ * Nothing here leaves the browser. There is no form action, no fetch and no
+ * signup. The answer is worked out from what was last submitted, so it changes
+ * when Submit is pressed rather than on every keystroke.
+ *
+ * "Needs checking" covers two cases: a detail the reader has not given yet, and
+ * a requirement that depends on the university rather than on them. Each such
+ * row says which, and what to do.
  */
 export function RequirementsCheck({ initialDestination }: { initialDestination?: string }) {
   const [destination, setDestination] = useState(
@@ -63,7 +70,6 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
   );
   const [scale, setScale] = useState<"percentage" | "cgpa">("cgpa");
   const [grade, setGrade] = useState("");
-  const [applyingFor, setApplyingFor] = useState<"" | "bachelors" | "masters">("masters");
   const [duration, setDuration] = useState<"" | "3" | "4">("");
   const [subjectGroup, setSubjectGroup] = useState<Profile["subjectGroup"] | "">("");
   const [testName, setTestName] = useState("IELTS");
@@ -87,7 +93,7 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
 
   const profile: Profile = {
     destination,
-    applyingFor: applyingFor === "" ? undefined : applyingFor,
+    applyingFor: "masters",
     degreeDurationYears: duration === "" ? undefined : (Number(duration) as 3 | 4),
     percentage,
     subjectGroup: subjectGroup === "" ? undefined : subjectGroup,
@@ -107,16 +113,15 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
     germanLevel: germanLevel === "" ? undefined : germanLevel,
   };
 
-  const results = runChecklist(profile);
+  const { submitted, dirty, round, onSubmit, resultsRef } = useSubmitted(profile);
+  const results = submitted ? runChecklist(submitted) : [];
   const counts = tally(results);
-  const guide = guides.find((item) => item.slug === destination)!;
+  const guide = guides.find((item) => item.slug === (submitted?.destination ?? destination))!;
+  const testMax: Record<string, number> = { IELTS: 9, TOEFL: 120, PTE: 90, Duolingo: 160 };
 
   return (
     <div className="grid gap-8 lg:grid-cols-[24rem_minmax(0,1fr)] lg:items-start lg:gap-10">
-      <form
-        className="rounded-panel border border-line bg-white p-6 md:p-7"
-        onSubmit={(event) => event.preventDefault()}
-      >
+      <form className="rounded-panel border border-line bg-white p-6 md:p-7" onSubmit={onSubmit}>
         <fieldset>
           <legend className="text-[0.875rem] font-semibold text-blue-dark">Destination</legend>
           <div className="mt-3 flex flex-wrap gap-2">
@@ -142,19 +147,12 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
         <fieldset className="mt-7 space-y-4 border-t border-line pt-6">
           <legend className="text-[0.875rem] font-semibold text-blue-dark">Your academics</legend>
 
-          <Select
-            label="Applying for"
-            value={applyingFor}
-            onChange={(value) => setApplyingFor(value as typeof applyingFor)}
-            options={[
-              { value: "", label: "Not sure yet" },
-              { value: "masters", label: "A Master's" },
-              { value: "bachelors", label: "A Bachelor's" },
-            ]}
-          />
+          <p className="text-[0.8125rem] leading-relaxed text-grey">
+            For Master&rsquo;s applicants. We do not handle undergraduate admissions.
+          </p>
 
           <div>
-            <span className="block text-[0.875rem] font-medium text-blue-dark">Your result</span>
+            <span className="block text-[0.875rem] font-medium text-blue-dark">Bachelor&rsquo;s CGPA</span>
             <div className="mt-2 flex gap-2">
               <select
                 value={scale}
@@ -173,7 +171,7 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
                 step={0.01}
                 value={grade}
                 onChange={(event) => setGrade(event.target.value)}
-                aria-label="Your result"
+                aria-label="Bachelor's CGPA"
                 placeholder={scale === "cgpa" ? "8.2" : "76"}
                 className="figures w-full rounded-card border border-line-strong px-3.5 py-2.5 text-blue-dark"
               />
@@ -188,7 +186,7 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
           </div>
 
           <Select
-            label="Bachelor's length"
+            label="Bachelor's Duration"
             value={duration}
             onChange={(value) => setDuration(value as typeof duration)}
             options={[
@@ -250,6 +248,8 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
               type="number"
               inputMode="decimal"
               step={0.5}
+              min={0}
+              max={testMax[testName]}
               value={overall}
               onChange={(event) => setOverall(event.target.value)}
               placeholder="Overall"
@@ -261,6 +261,8 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
             type="number"
             inputMode="decimal"
             step={0.5}
+            min={0}
+            max={testMax[testName]}
             value={lowestSection}
             onChange={(event) => setLowestSection(event.target.value)}
             placeholder="Your lowest section score"
@@ -320,6 +322,7 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
                 type="number"
                 inputMode="numeric"
                 min={0}
+                max={120}
                 step={1}
                 value={fundsHeldMonths}
                 onChange={(event) => setFundsHeldMonths(event.target.value)}
@@ -363,113 +366,127 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
         )}
 
         <p className="mt-7 border-t border-line pt-6 text-[0.8125rem] leading-relaxed text-grey">
-          Nothing on this form is submitted anywhere. It runs in your browser, there is no
-          account behind it, and the answer changes as you type. Leave a field blank and the
-          row it feeds says we cannot tell rather than guessing.
+          Nothing you enter leaves your browser, and there is no account behind this. Leave
+          a field blank and its row shows &ldquo;Needs checking&rdquo; instead of a guess.
         </p>
+
+        <SubmitBar round={round} dirty={dirty} label="Submit my details" />
       </form>
 
-      <div className="min-w-0 space-y-6">
-        <div className="rounded-panel border border-line bg-white p-6 md:p-7">
-          <h2 className="text-blue-dark h--5">
-            {guide.country}: {results.length} requirements checked
-          </h2>
-          <dl className="mt-5 grid grid-cols-3 gap-3">
-            {(["met", "not-met", "unknown"] as CheckState[]).map((state) => {
-              const meta = stateMeta[state];
-              return (
-                <div
-                  key={state}
-                  className={cn("rounded-card border p-4", meta.border, meta.bg)}
-                >
-                  <dt className={cn("text-[0.8125rem] font-medium", meta.text)}>{meta.label}</dt>
-                  <dd className={cn("figures mt-1 text-[1.75rem] font-bold leading-none", meta.text)}>
-                    {counts[state]}
-                  </dd>
-                </div>
-              );
-            })}
-          </dl>
-          <p className="mt-5 text-[0.875rem] leading-relaxed text-grey">
-            These are counts, not a score. Nothing on this page converts them into a
-            percentage or a chance of admission, because a count of met requirements is not
-            a probability of anything and publishing one as if it were is the single most
-            common dishonesty in this industry.
-          </p>
-          <p className="mt-3 text-[0.875rem] leading-relaxed text-grey">
-            Every figure the rows below check against is on the{" "}
-            <Link
-              href={`/destinations/${guide.slug}`}
-              className="font-medium text-pink hover:text-blue-dark"
-            >
-              {guide.country} guide
-            </Link>
-            , with its official source named. Written into the site on{" "}
-            <span className="figures">{guide.verification.statedOn}</span> and not since
-            re-checked by a named person.
-          </p>
-        </div>
-
-        {groups.map((group) => {
-          const rows = results.filter((item) => item.group === group);
-          if (rows.length === 0) return null;
-          return (
-            <section key={group}>
-              <h3 className="eyebrow text-grey">
-                {group}
-              </h3>
-              <ul className="mt-3 space-y-3">
-                {rows.map((row) => {
-                  const meta = stateMeta[row.state];
-                  const Icon = meta.icon;
+      <div key={round} ref={resultsRef} className="rise min-w-0 scroll-mt-24 space-y-6">
+        {submitted === null ? (
+          <div className="rounded-panel border border-dashed border-line-strong bg-light p-8 text-center">
+            <p className="text-[0.9375rem] leading-relaxed text-grey">
+              Fill in what you know and press Submit. Each requirement for{" "}
+              {countryInSentence(guide.country)} then shows as met, not met yet, or needs
+              checking.
+            </p>
+            <p className="mt-3 text-[0.875rem] text-grey">No signup. No email.</p>
+          </div>
+        ) : (
+          <>
+            <div className="rounded-panel border border-line bg-white p-6 md:p-7">
+              <h2 className="text-blue-dark h--5">
+                {guide.country}: {results.length} requirements checked
+              </h2>
+              <dl className="mt-5 grid grid-cols-3 gap-3">
+                {(["met", "not-met", "unknown"] as CheckState[]).map((state) => {
+                  const meta = stateMeta[state];
                   return (
-                    <li
-                      key={row.id}
-                      className="rounded-card border border-line bg-white p-5 md:p-6"
+                    <div
+                      key={state}
+                      className={cn("rounded-card border p-4", meta.border, meta.bg)}
                     >
-                      <div className="flex items-start gap-3.5">
-                        <Icon
-                          size={19}
-                          weight="fill"
-                          aria-hidden
-                          className={cn("mt-0.5 shrink-0", meta.text)}
-                        />
-                        <div className="min-w-0">
-                          <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                            <h4 className="text-blue-dark h--6">
-                              {row.title}
-                            </h4>
-                            <span
-                              className={cn(
-                                "rounded-input px-2 py-0.5 text-[0.6875rem] font-medium",
-                                meta.bg,
-                                meta.text,
-                              )}
-                            >
-                              {meta.label}
-                            </span>
-                          </div>
-                          <p className="mt-2 text-[0.9375rem] leading-relaxed text-grey">
-                            {row.reason}
-                          </p>
-                          {row.action && (
-                            <p className="mt-2.5 rounded-card bg-light px-3.5 py-2.5 text-[0.875rem] leading-relaxed text-grey">
-                              <span className="font-medium text-blue-dark">What to do.</span>{" "}
-                              {row.action}
-                            </p>
-                          )}
-                          <p className="mt-2.5 text-[0.8125rem] text-grey">
-                            Source: {row.source}
-                          </p>
-                        </div>
-                      </div>
-                    </li>
+                      <dt className={cn("text-[0.8125rem] font-medium", meta.text)}>{meta.label}</dt>
+                      <dd className={cn("figures mt-1 text-[1.75rem] font-bold leading-none", meta.text)}>
+                        {counts[state]}
+                      </dd>
+                    </div>
                   );
                 })}
-              </ul>
-            </section>
-          );
-        })}
+              </dl>
+              <p className="mt-5 text-[0.875rem] leading-relaxed text-grey">
+                These are counts, not a score. Nothing on this page converts them into a
+                percentage or a chance of admission, because a count of met requirements is not
+                a probability of anything and publishing one as if it were is the single most
+                common dishonesty in this industry.
+              </p>
+              <p className="mt-3 text-[0.875rem] leading-relaxed text-grey">
+                Every figure the rows below check against is on the{" "}
+                <Link
+                  href={`/destinations/${guide.slug}`}
+                  className="font-medium text-pink hover:text-blue-dark"
+                >
+                  {guide.country} guide
+                </Link>
+                , with its official source named. Written into the site on{" "}
+                <span className="figures">{guide.verification.statedOn}</span> and not since
+                re-checked by a named person.
+              </p>
+            </div>
+
+            {groups.map((group) => {
+              const rows = results.filter((item) => item.group === group);
+              if (rows.length === 0) return null;
+              return (
+                <section key={group}>
+                  <h3 className="eyebrow text-grey">
+                    {group}
+                  </h3>
+                  <ul className="mt-3 space-y-3">
+                    {rows.map((row) => {
+                      const meta = stateMeta[row.state];
+                      const Icon = meta.icon;
+                      return (
+                        <li
+                          key={row.id}
+                          className="rounded-card border border-line bg-white p-5 md:p-6"
+                        >
+                          <div className="flex items-start gap-3.5">
+                            <Icon
+                              size={19}
+                              weight="fill"
+                              aria-hidden
+                              className={cn("mt-0.5 shrink-0", meta.text)}
+                            />
+                            <div className="min-w-0">
+                              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                                <h4 className="text-blue-dark h--6">
+                                  {row.title}
+                                </h4>
+                                <span
+                                  className={cn(
+                                    "rounded-input px-2 py-0.5 text-[0.6875rem] font-medium",
+                                    meta.bg,
+                                    meta.text,
+                                  )}
+                                >
+                                  {meta.label}
+                                </span>
+                              </div>
+                              <p className="mt-2 text-[0.9375rem] leading-relaxed text-grey">
+                                {row.reason}
+                              </p>
+                              {row.action && (
+                                <p className="mt-2.5 rounded-card bg-light px-3.5 py-2.5 text-[0.875rem] leading-relaxed text-grey">
+                                  <span className="font-medium text-blue-dark">What to do.</span>{" "}
+                                  {row.action}
+                                </p>
+                              )}
+                              <p className="mt-2.5 text-[0.8125rem] text-grey">
+                                Source: {row.source}
+                              </p>
+                            </div>
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </section>
+              );
+            })}
+          </>
+        )}
       </div>
     </div>
   );

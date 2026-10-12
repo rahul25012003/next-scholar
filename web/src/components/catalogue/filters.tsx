@@ -82,24 +82,6 @@ export function FilterRail({
         </fieldset>
 
         <fieldset>
-          <legend className="text-[0.8125rem] font-semibold text-blue-dark">Level</legend>
-          <div className="mt-2.5 space-y-2">
-            <Check
-              name="level"
-              value="masters"
-              label="Master's"
-              checked={filters.levels.includes("masters")}
-            />
-            <Check
-              name="level"
-              value="bachelors"
-              label="Bachelor's"
-              checked={filters.levels.includes("bachelors")}
-            />
-          </div>
-        </fieldset>
-
-        <fieldset>
           <legend className="text-[0.8125rem] font-semibold text-blue-dark">
             Subject
           </legend>

@@ -429,7 +429,7 @@ export async function reassign(
   const reason = String(formData.get("reason") ?? "").trim();
 
   if (counselor.length < 3 || reason.length < 4) {
-    return { status: "error", message: "Name the counselor and the reason." };
+    return { status: "error", message: "Name the counsellor and the reason." };
   }
 
   const updated = await mutateCase(

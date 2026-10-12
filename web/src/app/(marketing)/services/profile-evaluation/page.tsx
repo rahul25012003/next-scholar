@@ -8,7 +8,7 @@ import { EvaluationRequestForm } from "@/components/marketing/evaluation-request
 export const metadata: Metadata = {
   title: "Free profile evaluation",
   description:
-    "A written read of where you actually stand against the published requirements, before you pay anyone anything. Run the check yourself, or ask a person to confirm it in writing.",
+    "See where you stand against the published requirements before you pay anyone. Run the check yourself, or ask a person to confirm it in writing.",
   alternates: { canonical: "/services/profile-evaluation" },
 };
 
@@ -17,7 +17,7 @@ export default function ProfileEvaluationPage() {
     <>
       <PageHero
         title="Free profile evaluation"
-        lede="Your academic record and your language result, checked against the published threshold for each destination, plus whether the dMAT applies to you in Germany. Run it below, instantly and ungated. Ask for the written version when you want a person to confirm it."
+        lede="We check your academic record and language result against each destination's published threshold, and whether the dMAT applies to you in Germany. Run it below for free, or ask a person to confirm it in writing."
       />
 
       <section className="band">
@@ -33,8 +33,8 @@ export default function ProfileEvaluationPage() {
             Step one: run the check yourself
           </h2>
           <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
-            The same figures a written evaluation reads, answered in your browser as you type.
-            Nothing here is submitted anywhere.
+            The same figures a written evaluation uses. Press Submit to see your result; it is
+            worked out in your browser and not sent anywhere.
           </p>
           <div className="mt-7">
             <RequirementsCheck />
@@ -48,9 +48,9 @@ export default function ProfileEvaluationPage() {
             Step two: ask a person to confirm it in writing
           </h2>
           <p className="mt-2 text-[0.9375rem] leading-relaxed text-grey">
-            A counsellor reads your actual transcript and replies within three working days
-            once this is connected to a channel that can reach you. Fill it in now and keep
-            your answers, or copy them and send them yourself in the meantime.
+            Once this form is connected to a channel that can reach you, a counsellor will
+            read your transcript and reply within three working days. Until then, fill it in
+            and keep your answers, or copy them and send them yourself.
           </p>
           <div className="mt-7 rounded-panel border border-line bg-white p-6 md:p-8">
             <EvaluationRequestForm />

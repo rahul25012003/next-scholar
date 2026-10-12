@@ -1,7 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Fragment } from "react";
 import { WarningDiamond } from "@phosphor-icons/react/ssr";
 import { destinations } from "@/content/destinations";
+import { guideForDestinationSlug } from "@/content/guides";
 import { photos, photoUrl } from "@/content/photos";
 import { site } from "@/content/site";
 import { StatusChip } from "@/components/ui/chip";
@@ -70,20 +72,37 @@ function DestinationBox({
   row: (typeof destinations)[number];
   index: number;
 }) {
+  const guide = guideForDestinationSlug(row.slug);
   return (
-    <div className="Overview__box bg-white pad-around pad-x flow">
+    <div className="Overview__box Dest-card bg-white pad-around pad-x flow">
       <div className="flex items-start justify-between gap-4">
-        <h3 className="h h--4 text-blue-dark">{row.country}</h3>
-        <Image
-          src={`https://flagcdn.com/w80/${row.flagCode}.png`}
-          alt=""
-          width={40}
-          height={30}
-          className="mt-2 h-6 w-auto rounded-xs"
-        />
+        <h3 className="h h--4 text-blue-dark">
+          {/* Stretched over the whole card in the stylesheet, so the card is
+              one target; the figures stay selectable text. */}
+          <Link href={guide ? `/destinations/${guide.slug}` : "/destinations"} className="Dest-card__link">
+            {row.country}
+          </Link>
+        </h3>
+        <span className="Dest-card__flag" aria-hidden>
+          <Image
+            src={`https://flagcdn.com/w160/${row.flagCode}.png`}
+            alt=""
+            width={80}
+            height={60}
+            className="h-12 w-auto rounded-sm ring-1 ring-blue-deep/10"
+          />
+          <svg className="Dest-card__cap" viewBox="-20 -11 40 26" focusable="false">
+            <path d="M-10 1V8c0 2.6 4.5 4.6 10 4.6S10 10.6 10 8V1L0 5Z" className="fill-blue-deep" />
+            <path d="M0-9L18-2L0 5L-18-2Z" className="fill-blue-deep stroke-white" strokeWidth="1.2" strokeLinejoin="round" />
+            <path d="M0-2L13 1V9" fill="none" className="stroke-pink" strokeWidth="1.4" strokeLinecap="round" />
+          </svg>
+        </span>
       </div>
       {row.route && <p className="h text-teal-dark text-bold">{row.route}</p>}
-      <p className="small">{row.intakes} intakes</p>
+      <p className="Dest-card__intakes">
+        <span className="block text-[0.8125rem] font-medium uppercase tracking-wide text-grey">Intakes</span>
+        <span className="figures text-step-1 font-extrabold text-blue-dark">{row.intakes}</span>
+      </p>
 
       <div className="divide-y-2 divide-light">
         <Row label="Tuition, year one" value={row.tuition} note={row.tuitionNote} />

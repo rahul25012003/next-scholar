@@ -14,7 +14,7 @@ export function OpenCaseForm() {
       action={openCase}
       caseId=""
       title="Open a new case"
-      description="For a lead who has already had their consultation. This does not book anything or take a payment; it only opens the record a counsellor works from next."
+      description="For a lead who has already had their consultation. It only opens the case record a counsellor works from; it does not book anything or take a payment."
       submitLabel="Open the case"
     >
       <input

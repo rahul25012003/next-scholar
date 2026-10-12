@@ -2,9 +2,10 @@ export const site = {
   name: "Next Scholar",
   base: "Bengaluru, Karnataka",
   serves: "Clients across India, online",
-  pitch: "We publish what we earn on every university we recommend.",
+  /** The headline and the line under it, word for word wherever either is stated. */
+  pitch: "We publish what we earn on every recommendation.",
   description:
-    "Most consultancies take a commission from the universities they place you at and never tell you the number. Next Scholar publishes it, including the universities that pay us nothing.",
+    "Study abroad advice for Bengaluru graduates, with our commission printed next to every university on your shortlist.",
 } as const;
 
 /** Primary action, used with this exact label in the nav, hero and footer. */
@@ -16,7 +17,7 @@ export const primaryCta = {
 /** Portal access. Separate intent from the primary action, so a separate label. */
 export const secondaryCta = {
   label: "Student login",
-  href: "/portal",
+  href: "/login",
 } as const;
 
 export type NavChild = { label: string; href: string; note?: string };
@@ -36,7 +37,7 @@ export const nav: NavItem[] = [
       {
         label: "United Kingdom",
         href: "/destinations/united-kingdom",
-        note: "Maintenance funds, the 28 day rule, the surcharge",
+        note: "Money to show, the 28 day rule, the health surcharge",
       },
       {
         label: "Germany",
@@ -57,13 +58,13 @@ export const nav: NavItem[] = [
       {
         label: "Search the catalogue",
         href: "/universities",
-        note: "Every row shows what we earn on it",
+        note: "Courses in all three countries",
       },
       { label: "Masters in Germany", href: "/masters-in-germany", note: "Mostly no tuition" },
-      { label: "Masters in the UK", href: "/masters-in-uk", note: "The catalogue, one destination" },
-      { label: "Masters in Ireland", href: "/masters-in-ireland", note: "The catalogue, one destination" },
+      { label: "Masters in the UK", href: "/masters-in-uk", note: "UK courses only" },
+      { label: "Masters in Ireland", href: "/masters-in-ireland", note: "Irish courses only" },
       { label: "Rankings", href: "/universities/rankings", note: "As published, never averaged" },
-      { label: "Scholarships", href: "/scholarships", note: "Funder, coverage, deadline cycle" },
+      { label: "Scholarships", href: "/scholarships", note: "Who funds it, what it covers, when it closes" },
       {
         label: "Your shortlist",
         href: "/shortlist",
@@ -77,17 +78,17 @@ export const nav: NavItem[] = [
       {
         label: "Requirements checklist",
         href: "/tools/requirements-check",
-        note: "Met, not met, or cannot tell. No score",
+        note: "Met, not met yet, or needs checking. No score",
       },
       {
         label: "Cost of living calculator",
         href: "/tools/cost-of-living",
-        note: "Line by line, editable, sourced",
+        note: "Line by line, editable, with sources",
       },
       {
         label: "German grade calculator",
         href: "/tools/german-grade-calculator",
-        note: "Modified Bavarian Formula, working shown",
+        note: "Modified Bavarian Formula, every step shown",
       },
       {
         label: "ECTS credit check",
@@ -97,7 +98,7 @@ export const nav: NavItem[] = [
       {
         label: "IELTS band calculator",
         href: "/tools/ielts-band-calculator",
-        note: "Overall band, plus the per-section trap",
+        note: "Overall band, plus the per-section minimum",
       },
       { label: "Grade converters", href: "/tools/grade-converter", note: "Eight of them" },
     ],
@@ -105,32 +106,27 @@ export const nav: NavItem[] = [
   {
     label: "What we publish",
     children: [
-      { label: "Open Ledger", href: "/open-ledger", note: "What we earn, per route" },
+      { label: "Open Ledger", href: "/open-ledger", note: "University by university, with sources" },
       {
         label: "Our numbers, one source",
         href: "/our-numbers",
         note: "Every figure, its source, its date",
       },
-      { label: "Written guides", href: "/guides", note: "Six pieces, four filter axes" },
-      { label: "Services and what we earn", href: "/services", note: "Including where it is nothing" },
+      { label: "Blog", href: "/blog", note: "Practical posts, filter by country" },
+      { label: "Services and what we earn", href: "/services", note: "What each one costs you" },
     ],
   },
   {
     label: "Policies",
     children: [
       {
-        label: "Zero commission list",
-        href: "/zero-commission",
-        note: "Universities that pay us nothing",
-      },
-      {
         label: "Anti fraud and document integrity",
         href: "/anti-fraud-policy",
         note: "What we will not do to a document",
       },
       { label: "Privacy policy", href: "/privacy", note: "What we collect and why" },
-      { label: "Terms of use", href: "/terms", note: "What governs the service" },
-      { label: "Refunds and cancellation", href: "/refund-policy", note: "Windows and exclusions" },
+      { label: "Terms of use", href: "/terms", note: "The rules for using our service" },
+      { label: "Refunds and cancellation", href: "/refund-policy", note: "Time limits and what is not refunded" },
       {
         label: "Non affiliation",
         href: "/non-affiliation",
@@ -138,7 +134,7 @@ export const nav: NavItem[] = [
       },
     ],
   },
-  { label: "How it works", href: "/#process" },
+  { label: "About us", href: "/about" },
 ];
 
 /**

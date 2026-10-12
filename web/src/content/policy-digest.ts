@@ -2,7 +2,6 @@ import { documentIntegrity, dataProtection } from "./policy";
 import { consultation } from "./consultation";
 import { destinations, policyDesk } from "./destinations";
 import { ledgerMethodology } from "./ledger";
-import { zeroCommissionEntries } from "./zero-commission";
 import { stages } from "./process";
 
 /**
@@ -30,10 +29,15 @@ export function policyDigest(): string {
   lines.push(`- ${ledgerMethodology.cadence}`);
   lines.push(`- ${ledgerMethodology.flaggingRule}`);
 
-  lines.push("\nZero commission list, /zero-commission:");
-  for (const entry of zeroCommissionEntries) {
-    lines.push(`- ${entry.destination}: ${entry.headline}. ${entry.body}`);
-  }
+  // The zero commission page was removed at the testers' request; what it
+  // stated about who pays us nothing is kept here so answers still have it.
+  lines.push("\nWho pays us nothing:");
+  lines.push(
+    "- Germany, public universities: Public universities pay agents nothing, without exception. No agent, ours included, earns a commission for placing you there, and you can apply to every one of them yourself, for free. Our fee on that route is a flat advisory fee.",
+  );
+  lines.push(
+    "- United Kingdom and Ireland: some institutions recruit without agents, but no verified list is published yet.",
+  );
 
   lines.push("\nDestinations and fees:");
   for (const destination of destinations) {

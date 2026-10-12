@@ -14,7 +14,7 @@ describe("site search", () => {
       "Destination guide",
       "Course",
       "University",
-      "Written guide",
+      "Blog post",
       "Tool",
       "Policy",
       "Service",
@@ -41,7 +41,7 @@ describe("site search", () => {
 
   it("finds the dMAT, which is the requirement the site previously omitted", () => {
     const results = search("dmat");
-    expect(results.some((result) => result.href === "/guides/the-dmat-is-coming")).toBe(true);
+    expect(results.some((result) => result.href === "/blog/the-dmat-is-coming")).toBe(true);
   });
 
   it("ranks a title match above a body match", () => {

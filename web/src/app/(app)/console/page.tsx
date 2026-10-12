@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight } from "@phosphor-icons/react/ssr";
-import { AppShell, EmptyState, Panel } from "@/components/app/shell";
+import {
+  ArrowFatLinesUp,
+  ArrowRight,
+  Briefcase,
+  HourglassMedium,
+} from "@phosphor-icons/react/ssr";
+import { AppShell, EmptyState, PageHead, Panel, Stat } from "@/components/app/shell";
 import { OpenCaseForm } from "@/components/app/open-case-form";
 import { caseloadStats, listCases } from "@/data/store";
 import { redirect } from "next/navigation";
@@ -13,7 +18,7 @@ import { assessRisk, RISK_DISCLAIMER } from "@/domain/risk";
 import { slaLabel, worstSla, type SlaState } from "@/domain/sla";
 import { stages } from "@/content/process";
 
-export const metadata: Metadata = { title: "Counselor console" };
+export const metadata: Metadata = { title: "Counsellor console" };
 
 const priorityTone: Record<Priority, string> = {
   Urgent: "bg-denied-bg text-denied",
@@ -109,44 +114,36 @@ export default async function ConsolePage(props: PageProps<"/console">) {
 
   return (
     <AppShell actor={actor} current="/console">
-      <h1 className="sr-only">Counselor console</h1>
+      <PageHead
+        eyebrow="Counsellor console"
+        title="Your caseload"
+        lede="Ordered by priority, then by how long each case has been stuck where it is."
+      />
       <div className="shell grid gap-6">
         <div className="grid gap-6 lg:grid-cols-3">
-          <Panel title="Your caseload">
-            <div className="px-6 py-5">
-              <p className="figures text-[1.75rem] font-semibold text-blue-dark">
-                {mine.length}
-              </p>
-              <p className="mt-1 text-[0.8125rem] text-grey">
-                Team average {teamAverage}. Reassignment is a manager action.
-              </p>
-            </div>
-          </Panel>
-          <Panel title="Waiting on you">
-            <div className="px-6 py-5">
-              <p className="figures text-[1.75rem] font-semibold text-blue-dark">
-                {followUps.length}
-              </p>
-              <p className="mt-1 text-[0.8125rem] text-grey">
-                Raised from stored dates and timestamps, never from a guess.
-              </p>
-            </div>
-          </Panel>
-          <Panel title="Escalated">
-            <div className="px-6 py-5">
-              <p className="figures text-[1.75rem] font-semibold text-blue-dark">
-                {escalations.length}
-              </p>
-              <p className="mt-1 text-[0.8125rem] text-grey">
-                A manager decides the response. Nothing resolves itself.
-              </p>
-            </div>
-          </Panel>
+          <Stat
+            label="Your caseload"
+            icon={<Briefcase size={22} weight="duotone" />}
+            value={mine.length}
+            note={`Team average ${teamAverage}. Reassignment is a manager action.`}
+          />
+          <Stat
+            label="Waiting on you"
+            icon={<HourglassMedium size={22} weight="duotone" />}
+            value={followUps.length}
+            note="Raised from dates on the record, never from a guess."
+          />
+          <Stat
+            label="Escalated"
+            icon={<ArrowFatLinesUp size={22} weight="duotone" />}
+            value={escalations.length}
+            note="A manager decides the response. Nothing resolves itself."
+          />
         </div>
 
         <Panel
           title="Cases assigned to you"
-          description={`${sorts.find((option) => option.key === sort)?.label}. Filtering changes this table only: the follow up and escalation counts above always read your whole caseload.`}
+          description={`${sorts.find((option) => option.key === sort)?.label}. Filters change this table only; the counts above always cover your whole caseload.`}
           action={
             <form method="get" action="/console" className="flex flex-wrap items-end gap-2">
               <label className="block">
@@ -241,8 +238,8 @@ export default async function ConsolePage(props: PageProps<"/console">) {
               headline={filtered ? "Nothing matches those filters" : "No cases assigned"}
               body={
                 filtered
-                  ? `You have ${all.length} case${all.length === 1 ? "" : "s"}, and none of them matches. Clear the filters to see the rest.`
-                  : "Your caseload is empty. Nothing has been generated to fill the table."
+                  ? `You have ${all.length} case${all.length === 1 ? "" : "s"}, and none matches. Clear the filters to see your whole caseload.`
+                  : "Your caseload is empty."
               }
             />
           ) : (
@@ -369,12 +366,12 @@ export default async function ConsolePage(props: PageProps<"/console">) {
         <div className="grid gap-6 lg:grid-cols-2">
           <Panel
             title="Follow up queue"
-            description="Each item names the stored value it was read from."
+            description="Each item names the value on the record it was read from."
           >
             {followUps.length === 0 ? (
               <EmptyState
                 headline="Nothing waiting"
-                body="No stored date or timestamp on your caseload has crossed a threshold."
+                body="No date on your caseload has passed a threshold."
               />
             ) : (
               <ul className="divide-y divide-line">
@@ -404,12 +401,12 @@ export default async function ConsolePage(props: PageProps<"/console">) {
 
           <Panel
             title="Escalations"
-            description="Raised to a manager. The system never reassigns, resolves or closes."
+            description="Raised to a manager. The system never reassigns, resolves or closes a case."
           >
             {escalations.length === 0 ? (
               <EmptyState
                 headline="Nothing escalated"
-                body="No case has passed the second stagnation or response threshold."
+                body="No case has passed the second threshold for being stuck or waiting on a reply."
               />
             ) : (
               <ul className="divide-y divide-line">

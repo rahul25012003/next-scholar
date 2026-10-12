@@ -25,7 +25,7 @@ const channels: {
     label: "WhatsApp",
     icon: WhatsappLogo,
     detail:
-      "Only with an explicit opt in, and the planner refuses to queue a message without one. It is the channel most of this industry uses without asking.",
+      "Only if you opt in. Without that, no WhatsApp message can be queued.",
   },
 ];
 
@@ -110,7 +110,7 @@ export function ChannelPreferences({
                   <input type="hidden" name="caseId" value={caseId} />
                   <input type="hidden" name="channel" value={channel.key} />
                   <input type="hidden" name="on" value={live ? "off" : "on"} />
-                  <Button type="submit" variant="outline" disabled={pending}>
+                  <Button type="submit" variant="outline" disabled={pending} aria-busy={pending}>
                     {live ? `Turn ${channel.label} off` : `Turn ${channel.label} on`}
                   </Button>
                 </form>
@@ -132,9 +132,9 @@ export function ChannelPreferences({
       )}
 
       <p className="mt-5 border-t border-line pt-4 text-[0.8125rem] leading-relaxed text-grey">
-        Neither channel is connected to a provider yet, so nothing is actually delivered on
-        either today. What is recorded here is the permission, and the notification planner
-        already refuses to queue a message on a channel with no live opt in.
+        Neither channel is connected to a provider yet, so nothing is delivered on either
+        today. This records your permission, and no message is queued on a channel you have
+        not opted in to.
       </p>
     </div>
   );

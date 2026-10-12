@@ -15,7 +15,7 @@ import { cn } from "@/lib/cn";
 const stateMeta: Record<CheckState, { label: string; icon: typeof CheckCircle; text: string; bg: string }> = {
   met: { label: "Met", icon: CheckCircle, text: "text-verified", bg: "bg-verified-bg" },
   "not-met": { label: "Not met yet", icon: XCircle, text: "text-denied", bg: "bg-denied-bg" },
-  unknown: { label: "Cannot tell", icon: Question, text: "text-pending", bg: "bg-pending-bg" },
+  unknown: { label: "Needs checking", icon: Question, text: "text-pending", bg: "bg-pending-bg" },
 };
 
 /**
@@ -49,7 +49,7 @@ export function NewAccountState({
     <div className="grid gap-6">
       <Panel
         title={`Welcome, ${name.split(" ")[0]}`}
-        description="No case has been opened for this account yet, and nothing has been invented to fill the screen. Here is what the account can do meanwhile, which is more than most consultancies give you after they have taken a fee."
+        description="No case has been opened for this account yet. Here is what you can do in the meantime."
       >
         <div className="grid gap-5 px-6 py-6 sm:grid-cols-3">
           <Step
@@ -61,7 +61,7 @@ export function NewAccountState({
           <Step
             n={2}
             title="See where you stand"
-            body="Your answers run against every published requirement for the destination. Met, not met, or cannot tell."
+            body="Your answers are checked against every published requirement for the destination: met, not met yet, or needs checking."
             done={results.length > 0}
           />
           <Step
@@ -73,8 +73,8 @@ export function NewAccountState({
         </div>
         <p className="border-t border-line px-6 py-4 text-[0.8125rem] leading-relaxed text-grey">
           {progress.answered} of {progress.total} questions answered. An unanswered question
-          produces a &ldquo;cannot tell&rdquo; row rather than a guess, so a half-finished
-          profile is still worth having.
+          shows as &ldquo;needs checking&rdquo;, not a guess, so a half-finished profile
+          still helps.
         </p>
       </Panel>
 
@@ -85,7 +85,7 @@ export function NewAccountState({
           {results.length > 0 && guide && (
             <Panel
               title={`Where you stand for ${guide.country}`}
-              description="Run against the published requirements on the destination guide, with the source named on every row. Counts, never a score, and never a probability of admission."
+              description="Checked against the published requirements in the destination guide, with the source named on every row. You get counts, never a score or a chance of admission."
             >
               <div className="grid grid-cols-3 gap-3 px-6 pt-5">
                 {(["met", "not-met", "unknown"] as CheckState[]).map((state) => (
@@ -144,7 +144,7 @@ export function NewAccountState({
                 >
                   /tools/requirements-check
                 </Link>
-                . Signing in does not unlock anything here, and it is not meant to.
+                . Signing in does not unlock anything extra.
               </p>
             </Panel>
           )}
@@ -153,7 +153,7 @@ export function NewAccountState({
         <div className="grid content-start gap-6">
           <Panel
             title="What to do next"
-            description="Derived from what your profile is actually missing, not a welcome list."
+            description="Based on what your profile is still missing."
           >
             <ol className="divide-y divide-line">
               {steps.map((step, index) => (
@@ -193,14 +193,14 @@ export function NewAccountState({
 
           <Panel
             title="What an account does not do"
-            description="Stated because most platforms leave it to be discovered."
+            description="So there are no surprises later."
           >
             <ul className="divide-y divide-line">
               {[
-                "It does not unlock a calculator. Every tool on this site works signed out and always will.",
+                "It does not unlock any tool. Every tool on this site works without signing in, and always will.",
                 "It does not change what we charge, and there is no member price.",
-                "It does not put you in a queue. A case is opened after a consultation, by a person.",
-                "It does not send your details to a university, a lender or anyone else. Nothing leaves this account without a consent you gave for a named recipient.",
+                "It does not put you in a queue. A person opens a case after a consultation.",
+                "It does not send your details to a university, a lender or anyone else. Nothing leaves this account unless you consented to share it with a named recipient.",
               ].map((line) => (
                 <li key={line} className="px-6 py-3.5 text-[0.875rem] leading-relaxed text-grey">
                   {line}
