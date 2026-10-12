@@ -1,16 +1,15 @@
 import Link from "next/link";
 import { WarningCircle } from "@phosphor-icons/react/ssr";
 import {
-  applyFilters,
+  courseSummaries,
+  disciplines,
   filtersFromParams,
   programmes,
   sortOptions,
-  sortProgrammes,
 } from "@/content/catalogue";
-import { FilterRail } from "@/components/catalogue/filters";
-import { CourseCard } from "@/components/catalogue/course-card";
+import { rateFor } from "@/content/guides";
+import { CourseExplorer } from "@/components/catalogue/course-explorer";
 import { RelatedSearches } from "@/components/catalogue/related-searches";
-import { PageHero } from "@/components/marketing/page-hero";
 import { countryInSentence } from "@/lib/country";
 
 const ownLink: Record<string, string> = {
@@ -20,10 +19,9 @@ const ownLink: Record<string, string> = {
 };
 
 /**
- * "Masters in X", one filtered view of the same catalogue `/universities`
- * renders, given its own URL and its own copy. No new data and no separate
- * filtering logic: the destination is pinned into the same `Filters` object
- * the shared filter rail and course card already know how to read.
+ * "Masters in X": the same course list `/universities` renders, holding only
+ * one country's courses, at its own URL with its own heading. No new data and
+ * no separate filtering logic.
  */
 export async function MastersLanding({
   destinationSlug,
@@ -36,90 +34,63 @@ export async function MastersLanding({
   searchParams: Record<string, string | string[] | undefined>;
   savedSlugs: string[];
 }) {
-  const filters = { ...filtersFromParams(searchParams), destinations: [destinationSlug] };
-  const sort = typeof searchParams.sort === "string" ? searchParams.sort : "name";
-  const rows = sortProgrammes(applyFilters(programmes, filters), sort);
-  const total = programmes.filter((row) => row.university.destination === destinationSlug).length;
+  const rows = programmes.filter((row) => row.university.destination === destinationSlug);
+  const subjects = new Set(rows.flatMap((row) => row.disciplines));
+  const sort =
+    typeof searchParams.sort === "string" &&
+    sortOptions.some((option) => option.key === searchParams.sort)
+      ? searchParams.sort
+      : "name";
+  const path = ownLink[destinationSlug] ?? "/universities";
+  const gbp = rateFor("GBP");
+  const eur = rateFor("EUR");
 
   return (
     <>
-      <PageHero
-        title={`Masters courses in ${countryInSentence(country)}`}
-        lede={`Every taught Master's we have picked out in ${countryInSentence(country)}. It is the same list as the full course search, showing only this destination.`}
-      />
+      <section className="band pad-before">
+        <div className="shell">
+          <div className="Explorer__intro">
+            <h1 className="h h--3 text-blue-dark">
+              Master&rsquo;s courses in {countryInSentence(country)}
+            </h1>
+            <p className="max-w-2xl text-[1.0625rem] leading-relaxed text-grey">
+              <span className="figures">{rows.length}</span> taught Master&rsquo;s courses we
+              have picked out in {countryInSentence(country)}, from the same list as the{" "}
+              <Link href="/universities" className="font-medium text-pink hover:text-blue-dark">
+                full course search
+              </Link>
+              .
+            </p>
+          </div>
+
+          <CourseExplorer
+            courses={courseSummaries(rows)}
+            destinations={[]}
+            subjects={disciplines()
+              .map((subject) => subject.name)
+              .filter((name) => subjects.has(name))}
+            initialFilters={{ ...filtersFromParams(searchParams), destinations: [] }}
+            initialSort={sort}
+            saved={savedSlugs}
+            rates={{ GBP: gbp.inrPerUnit, EUR: eur.inrPerUnit }}
+            ratesTakenOn={gbp.takenOn}
+            today={new Date().toISOString().slice(0, 10)}
+            basePath={path}
+          />
+        </div>
+      </section>
 
       <section className="band">
-        <div className="shell grid gap-8 lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-10 lg:items-start">
-          <div className="lg:sticky lg:top-24">
-            <details className="lg:hidden">
-              <summary className="cursor-pointer rounded-card border border-line bg-light px-5 py-3.5 text-[0.9375rem] font-semibold text-blue-dark">
-                Filters
-              </summary>
-              <div className="mt-3">
-                <FilterRail filters={filters} sort={sort} resultCount={rows.length} />
-              </div>
-            </details>
-            <div className="hidden lg:block">
-              <FilterRail filters={filters} sort={sort} resultCount={rows.length} />
-            </div>
-          </div>
-
-          <div className="min-w-0">
-            <div className="flex flex-wrap items-baseline justify-between gap-4">
-              <h2 className="text-blue-dark">
-                {rows.length} course{rows.length === 1 ? "" : "s"} in {countryInSentence(country)}
-              </h2>
-              <p className="text-[0.8125rem] text-grey">
-                Ordered by {sortOptions.find((option) => option.key === sort)?.label.toLowerCase()}
-              </p>
-            </div>
-
-            {rows.length === 0 ? (
-              <div className="mt-6 rounded-panel border border-dashed border-line-strong bg-light p-8">
-                <h3 className="text-blue-dark h--5">
-                  Nothing matches those filters
-                </h3>
-                <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-grey">
-                  We list {total} course{total === 1 ? "" : "s"} in {countryInSentence(country)}, but your extra
-                  filters rule out every one.
-                </p>
-                <Link
-                  href={`/universities?destination=${destinationSlug}`}
-                  className="mt-4 inline-block text-[0.9375rem] font-medium text-pink hover:text-blue-dark"
-                >
-                  Clear the extra filters
-                </Link>
-              </div>
-            ) : (
-              <div className="mt-6 grid gap-5">
-                {rows.map((row) => (
-                  <CourseCard
-                    key={row.slug}
-                    row={row}
-                    saved={savedSlugs.includes(row.slug)}
-                    returnTo={`/universities?destination=${destinationSlug}`}
-                  />
-                ))}
-              </div>
-            )}
-
-            <div className="mt-10 rounded-panel border border-line bg-light p-6 md:p-7 flex gap-3">
-              <WarningCircle size={18} weight="fill" aria-hidden className="mt-0.5 shrink-0 text-pending" />
-              <p className="text-[0.9375rem] leading-relaxed text-grey">
-                We list {total} course{total === 1 ? "" : "s"} in {countryInSentence(country)}, chosen by hand.
-                It is not every Master&rsquo;s programme in the country.{" "}
-                <Link
-                  href="/universities"
-                  className="font-medium text-pink hover:text-blue-dark"
-                >
-                  Search the full catalogue, all three destinations
-                </Link>
-                .
-              </p>
-            </div>
-
-            <RelatedSearches exclude={ownLink[destinationSlug]} />
-          </div>
+        <div className="shell">
+          <p className="flex max-w-3xl gap-3 leading-relaxed text-grey">
+            <WarningCircle size={20} weight="fill" aria-hidden className="mt-0.5 shrink-0 text-pending" />
+            <span>
+              We list <span className="figures">{rows.length}</span> courses in{" "}
+              {countryInSentence(country)}, chosen by hand. It is not every Master&rsquo;s
+              programme in the country.
+            </span>
+          </p>
+          <RelatedSearches exclude={path} />
         </div>
       </section>
     </>

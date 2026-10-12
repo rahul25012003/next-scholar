@@ -776,6 +776,569 @@
     background-color: rgb(16 47 99 / 0.55);
   }
 
+  /* ----------------------------------------------------------------------
+     Course explorer: the catalogue as one searchable list, read like the
+     rows of a comparison table. Controls are 16px or more so a phone does
+     not zoom on them, and every row is one link with its save beside it.
+     ------------------------------------------------------------------- */
+  .Explorer__intro {
+    display: grid;
+    gap: 0.6rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .Explorer__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .Explorer__search {
+    flex: 1 1 22rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 3.5rem;
+    padding: 0 0.6rem 0 1.25rem;
+    border: 2px solid var(--color-line-strong);
+    border-radius: 99px;
+    background-color: var(--color-white);
+    transition:
+      border-color 0.2s var(--ease-smooth),
+      box-shadow 0.2s var(--ease-smooth);
+  }
+
+  .Explorer__search:focus-within {
+    border-color: var(--color-blue-dark);
+    box-shadow: 0 0 0 4px rgb(32 91 173 / 0.15);
+  }
+
+  .Explorer__search input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    box-shadow: none;
+    background: transparent;
+    font-size: 1.0625rem;
+    color: var(--color-blue-dark);
+  }
+
+  .Explorer__search input::placeholder,
+  .Explorer__number::placeholder {
+    color: var(--color-grey);
+    opacity: 1;
+  }
+
+  /* The search draws its own clear button. */
+  .Explorer__search input::-webkit-search-cancel-button {
+    display: none;
+  }
+
+  .Explorer__clear {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    flex-shrink: 0;
+    border-radius: 99px;
+    background-color: var(--color-light);
+    color: var(--color-blue-dark);
+  }
+
+  .Explorer__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  /* One row of tabs that scrolls sideways on a phone, rather than a stack. */
+  .Explorer__tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0 -1rem;
+    padding: 0.15rem 1rem 0.35rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .Explorer__tabs > li {
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 640px) {
+    .Explorer__actions {
+      width: auto;
+    }
+
+    .Explorer__tabs {
+      flex-wrap: wrap;
+      margin: 0;
+      padding: 0;
+      overflow: visible;
+    }
+  }
+
+  .Explorer__sort {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-blue-dark);
+  }
+
+  .Explorer__sort select {
+    width: 100%;
+    min-width: 0;
+    min-height: 3rem;
+    padding: 0 2.25rem 0 1rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: 99px;
+    background-color: var(--color-white);
+    font-size: 1rem;
+    color: var(--color-blue-dark);
+    cursor: pointer;
+  }
+
+  .Explorer__filters-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding: 0 1.1rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: 99px;
+    background-color: var(--color-white);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-blue-dark);
+  }
+
+  .Explorer__count {
+    display: grid;
+    place-items: center;
+    min-width: 1.4rem;
+    height: 1.4rem;
+    padding: 0 0.35rem;
+    border-radius: 99px;
+    background-color: var(--color-pink);
+    color: var(--color-white);
+    font-size: 0.8125rem;
+  }
+
+  .Explorer__tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.45rem 0.6rem 0.45rem 1.1rem;
+  }
+
+  /* White behind the count keeps it legible on both the light and the
+     selected pill; the pill's own white-on-blue only passes as large text. */
+  .Explorer__tab-count {
+    min-width: 1.75rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: 99px;
+    background-color: var(--color-white);
+    color: var(--color-blue-dark);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  .Explorer__body {
+    display: grid;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .Explorer__panel {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .Explorer__body {
+      grid-template-columns: 14rem minmax(0, 1fr);
+      gap: 2.5rem;
+    }
+
+    .Explorer__panel {
+      display: block;
+      position: sticky;
+      top: 6rem;
+      align-self: start;
+      max-height: calc(100vh - 7rem);
+      overflow-y: auto;
+      overflow-x: hidden;
+      overscroll-behavior: contain;
+      margin-left: -0.75rem;
+      padding: 0.25rem 0.75rem 1rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-line-strong) transparent;
+    }
+  }
+
+  .Explorer__fields {
+    display: grid;
+    gap: 1.75rem;
+  }
+
+  .Explorer__fields legend {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--color-blue-dark);
+  }
+
+  .Explorer__hint {
+    margin-top: 0.25rem;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--color-grey);
+  }
+
+  .Explorer__option {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    min-height: 2.5rem;
+    margin: 0 -0.6rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: 0.6rem;
+    font-size: 0.9375rem;
+    line-height: 1.35;
+    color: var(--color-grey);
+    cursor: pointer;
+    transition:
+      background-color 0.15s var(--ease-smooth),
+      color 0.15s var(--ease-smooth);
+  }
+
+  .Explorer__option:hover {
+    background-color: var(--color-light);
+    color: var(--color-blue-dark);
+  }
+
+  .Explorer__option input {
+    width: 1.1rem;
+    height: 1.1rem;
+    flex-shrink: 0;
+    accent-color: var(--color-blue-dark);
+  }
+
+  .Explorer__option.is-empty {
+    opacity: 0.55;
+  }
+
+  .Explorer__number {
+    width: 100%;
+    min-height: 2.75rem;
+    margin-top: 0.35rem;
+    padding: 0 0.85rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: 0.75rem;
+    background-color: var(--color-white);
+    font-size: 1rem;
+    color: var(--color-blue-dark);
+  }
+
+  .Explorer__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+  }
+
+  .Explorer__total {
+    font-size: var(--step-1);
+  }
+
+  .Explorer__of {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: var(--color-grey);
+  }
+
+  .Explorer__shortlist {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 600;
+    color: var(--color-pink-dark);
+  }
+
+  .Explorer__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 2.25rem;
+    padding: 0 0.75rem 0 0.95rem;
+    border-radius: 99px;
+    background-color: var(--color-blue-light);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-blue-dark);
+    transition:
+      background-color 0.15s var(--ease-smooth),
+      color 0.15s var(--ease-smooth);
+  }
+
+  .Explorer__chip:hover {
+    background-color: var(--color-pink);
+    color: var(--color-white);
+  }
+
+  .Explorer__clear-all {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.25rem;
+    padding: 0 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-pink-dark);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .Explorer__empty {
+    margin-top: 1.5rem;
+    padding: 2rem;
+    border-radius: 1.25rem;
+    background-color: var(--color-light);
+  }
+
+  .Explorer__footnote {
+    max-width: 72ch;
+    margin-top: 1.25rem;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: var(--color-grey);
+  }
+
+  /* The filters on a phone: a sheet rising from the bottom edge. */
+  .Explorer__sheet {
+    width: 100%;
+    max-width: 100%;
+    max-height: 88dvh;
+    margin: auto 0 0;
+    padding: 0;
+    border: 0;
+    border-radius: 1.5rem 1.5rem 0 0;
+    background-color: var(--color-white);
+    box-shadow: var(--shadow-lift);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .Explorer__sheet::backdrop {
+    background-color: rgb(16 47 99 / 0.55);
+  }
+
+  .Explorer__sheet[open] {
+    animation: sheet-rise 0.35s var(--ease-out-expo);
+  }
+
+  .Explorer__sheet-inner {
+    padding: 1.25rem 1.25rem calc(1.5rem + env(safe-area-inset-bottom));
+  }
+
+  @keyframes sheet-rise {
+    from {
+      translate: 0 100%;
+    }
+  }
+
+  /* Rows. On a phone the facts sit under the name; from 1024px they become
+     columns, aligned to the header above by a subgrid. */
+  .Course-list__columns {
+    display: none;
+  }
+
+  .Course-list {
+    margin-top: 1rem;
+    border-top: 1px solid var(--color-line-strong);
+  }
+
+  .Course-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "main save"
+      "facts facts";
+    gap: 0.9rem;
+    padding: 1.15rem 0.75rem;
+    border-bottom: 1px solid var(--color-line-strong);
+    transition: background-color 0.15s var(--ease-smooth);
+  }
+
+  .Course-row:hover {
+    background-color: rgb(240 240 240 / 0.7);
+  }
+
+  .Course-row:has(.Course-row__link:focus-visible) {
+    outline: 3px solid var(--color-pink);
+    outline-offset: -3px;
+  }
+
+  .Course-row__main {
+    grid-area: main;
+    min-width: 0;
+  }
+
+  .Course-row__title {
+    font-size: 1.0625rem;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    text-wrap: pretty;
+  }
+
+  .Course-row__link {
+    color: inherit;
+    transition: color 0.15s var(--ease-smooth);
+  }
+
+  /* The whole row is the course link; the save sits above it. */
+  .Course-row__link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .Course-row__link:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .Course-row:hover .Course-row__link {
+    color: var(--color-pink-dark);
+  }
+
+  .Course-row__place {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.15rem 0.75rem;
+    margin-top: 0.2rem;
+    font-size: 0.9375rem;
+    color: var(--color-grey);
+  }
+
+  .Course-row__earn {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.2rem 0.9rem;
+    margin-top: 0.45rem;
+    font-size: 0.8125rem;
+  }
+
+  .Course-row__facts {
+    grid-area: facts;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    padding-top: 0.85rem;
+    border-top: 1px dashed var(--color-line-strong);
+  }
+
+  @media (max-width: 639px) {
+    .Course-row__facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .Course-row__facts dt {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-grey);
+  }
+
+  .Course-row__value {
+    margin-top: 0.15rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-blue-dark);
+  }
+
+  .Course-row__note {
+    margin-top: 0.15rem;
+    font-size: 0.8125rem;
+    color: var(--color-grey);
+  }
+
+  .Course-row__dot {
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-right: 0.4rem;
+    border-radius: 99px;
+    vertical-align: 0.05em;
+  }
+
+  .Course-row__save {
+    grid-area: save;
+    position: relative;
+    z-index: 2;
+    align-self: start;
+  }
+
+  @media (min-width: 1024px) {
+    .Course-list__columns,
+    .Course-row {
+      grid-template-columns: minmax(0, 1fr) 7.5rem 6.25rem 8.75rem 2.5rem;
+      column-gap: 1.1rem;
+    }
+
+    .Course-list__columns {
+      display: grid;
+      margin-top: 1.5rem;
+      padding: 0 1rem 0.6rem;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: var(--color-blue-dark);
+    }
+
+    .Course-list {
+      margin-top: 0;
+      border-top: 2px solid var(--color-blue-dark);
+    }
+
+    .Course-row {
+      grid-template-areas: none;
+      align-items: start;
+      padding: 1.25rem 1rem;
+    }
+
+    .Course-row__main,
+    .Course-row__save {
+      grid-area: auto;
+    }
+
+    .Course-row__facts {
+      grid-area: auto;
+      grid-column: 2 / 5;
+      grid-template-columns: subgrid;
+      padding-top: 0.1rem;
+      border-top: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .Explorer__sheet[open] {
+      animation: none;
+    }
+  }
+
   /* The eleven stages as one numbered line: a filled number for each stage,
      joined to the next by a pale rule. */
   .Stages__item {

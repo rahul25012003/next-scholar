@@ -119,8 +119,5 @@ export function CommissionNote({ university }: { university: University }) {
   );
 }
 
-export function formatFee(amount: number, currency: "GBP" | "EUR"): string {
-  const symbol = currency === "GBP" ? "£" : "€";
-  if (amount === 0) return "No tuition fee";
-  return `${symbol}${amount.toLocaleString("en-GB")}`;
-}
+/** One fee format for every page, shared with the course list. */
+export { formatFee } from "@/content/catalogue/query";

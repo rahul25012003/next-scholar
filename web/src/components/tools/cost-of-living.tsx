@@ -251,7 +251,7 @@ export function CostOfLivingCalculator({
                     <input
                       type="number"
                       min={0}
-                      step={5}
+                      step="any"
                       inputMode="numeric"
                       value={row.value}
                       disabled={!row.included}
@@ -335,7 +335,7 @@ export function CostOfLivingCalculator({
               <input
                 type="number"
                 min={0}
-                step={1000}
+                step="any"
                 inputMode="numeric"
                 value={tuitionInr || ""}
                 onChange={(event) => setTuitionInr(Math.max(0, Number(event.target.value) || 0))}
@@ -355,7 +355,7 @@ export function CostOfLivingCalculator({
               <input
                 type="number"
                 min={0}
-                step={1000}
+                step="any"
                 inputMode="numeric"
                 value={fundsInr || ""}
                 onChange={(event) => setFundsInr(Math.max(0, Number(event.target.value) || 0))}

@@ -5,8 +5,6 @@ import { Copilot } from "@/components/app/copilot";
 import { OnboardingForm } from "@/components/app/onboarding";
 import { emptyOnboarding } from "@/domain/onboarding";
 import { CostOfLivingPicker } from "@/components/tools/cost-picker";
-import { FilterRail } from "@/components/catalogue/filters";
-import { emptyFilters } from "@/content/catalogue";
 import { GermanGradeCalculator } from "@/components/tools/german-grade";
 import { IntakeForm } from "@/components/marketing/intake-form";
 import { cgpaToPercentage, modifiedBavarian, sgpaToCgpa } from "@/domain/calculators";
@@ -34,20 +32,6 @@ describe("onboarding form", () => {
   it("shows the saved result instead of an empty field", () => {
     const { container } = render(<OnboardingForm profile={{ ...emptyOnboarding(), percentage: 77.9 }} />);
     expect(container.querySelector<HTMLInputElement>("input[name=result]")?.value).toBe("77.9");
-  });
-});
-
-describe("filter rail", () => {
-  it("gives each copy of the rail its own field ids, so each label reaches its own input", () => {
-    render(
-      <>
-        <FilterRail filters={emptyFilters} sort="name" resultCount={1} />
-        <FilterRail filters={emptyFilters} sort="name" resultCount={1} />
-      </>,
-    );
-    const [first, second] = screen.getAllByText("Search", { selector: "label" }) as HTMLLabelElement[];
-    expect(first.control).not.toBeNull();
-    expect(first.control).not.toBe(second.control);
   });
 });
 

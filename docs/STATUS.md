@@ -350,6 +350,20 @@ Every item in the testers' `Testing_updates.pdf`. Type check, lint, 399 tests, p
 | Master's only: the Studienkolleg gate (an undergraduate foundation year) removed from the German recognition checks, and the H- note no longer points to one | `domain/recognition.ts`, `domain/case.ts` |
 | Checked at 390px wide (no sideways scroll) and with a real pointer on the production build: the cost button's white hover, the destination card's lift and cap | — |
 
+### Phase 13 — The course list rebuilt (2026-10-12)
+
+`/universities` and the three Masters-in pages, after the owner asked for the best experience there. Type check, lint, 402 tests, production build and the 74 route smoke test pass; no console or hydration warnings.
+
+| What | Where |
+|---|---|
+| Filters, search and order apply instantly in the browser, with the address bar following; the server renders the same component from the URL, and every control is still a GET field or link without JavaScript | `components/catalogue/course-explorer.tsx`, `content/catalogue/query.ts` |
+| One compact row per course, read like a comparison table: tuition with an indicative rupee figure, length, the next deadline as a date a reader says, and what we earn on every row | `components/catalogue/course-row.tsx`, `globals.css` |
+| Destination tabs and subject options carry live counts; active filters are removable chips; an empty result offers the filter to drop and how many courses it brings back | `course-explorer.tsx` |
+| Search matches every word and short forms ("cs", "ai", "uk", "deutschland"); a short word matches only where a word begins | `content/catalogue/query.ts` |
+| Phones: one row of sideways-scrolling tabs, a native bottom-sheet for filters, 16px controls; the page went from about 37,500px to 23,000px tall | `course-explorer.tsx`, `globals.css` |
+| Page weight: 701 KB of HTML to 261 KB (27 KB gzipped), by sending a few hundred bytes a course to the browser, rendering the filters once and dropping the image resizer for flags | `universities/page.tsx`, `content/catalogue/index.ts` |
+| The cost calculator accepts its own defaults again: money inputs take any amount | `tools/cost-of-living.tsx`, `tools/requirements-check.tsx`, `app/onboarding.tsx` |
+
 ---
 
 ## Open, and why

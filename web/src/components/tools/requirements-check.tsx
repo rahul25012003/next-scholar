@@ -301,7 +301,7 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
                 type="number"
                 inputMode="decimal"
                 min={0}
-                step={0.5}
+                step="any"
                 value={fundsLakh}
                 onChange={(event) => setFundsLakh(event.target.value)}
                 placeholder="15"

@@ -289,7 +289,7 @@ export function OnboardingForm({ profile }: { profile: OnboardingProfile }) {
               name="fundsLakh"
               type="number"
               inputMode="decimal"
-              step="0.5"
+              step="any"
               min="0"
               defaultValue={profile.fundsInr ? profile.fundsInr / 100000 : ""}
               placeholder="15"

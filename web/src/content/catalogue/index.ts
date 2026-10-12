@@ -1,10 +1,11 @@
 import { germanUniversities } from "./germany";
 import { irishUniversities } from "./ireland";
 import { ukUniversities } from "./united-kingdom";
-import type { Field, Programme, University } from "./types";
-import { fold } from "@/lib/fold";
+import type { Programme, University } from "./types";
+import type { CourseSummary } from "./query";
 
 export * from "./types";
+export * from "./query";
 
 /**
  * The catalogue, and the queries over it.
@@ -14,10 +15,8 @@ export * from "./types";
  * more than four hundred scraped ones, and a catalogue is the easiest place in
  * a product like this to accumulate figures nobody has ever checked.
  *
- * Everything below is a pure function over a static array. There is no ranking
- * model, no relevance score and no personalisation, because each of those would
- * be a place to put a thumb on the scale, on a page that also prints what we
- * earn from each institution.
+ * The filters and sorts over it live in ./query, apart from the data, so the
+ * course list can run them in the browser without downloading the catalogue.
  */
 export const universities: University[] = [
   ...ukUniversities,
@@ -30,6 +29,50 @@ export type ProgrammeRow = Programme & { university: University };
 export const programmes: ProgrammeRow[] = universities.flatMap((university) =>
   university.programmes.map((programme) => ({ ...programme, university })),
 );
+
+/**
+ * The courses as the list shows them: only what a row prints and the filters
+ * read, so the browser receives a few kilobytes rather than every sourced
+ * field behind each course.
+ */
+export function courseSummaries(rows: ProgrammeRow[] = programmes): CourseSummary[] {
+  return rows.map((row) => {
+    const { university } = row;
+    return {
+      slug: row.slug,
+      name: row.name,
+      campus: row.campus,
+      disciplines: row.disciplines,
+      level: row.level,
+      currency: row.currency,
+      durationMonths: row.durationMonths,
+      languageOfInstruction: row.languageOfInstruction,
+      feePerYear:
+        row.feePerYear.state === "stated"
+          ? { state: "stated", value: row.feePerYear.value }
+          : { state: "unknown" },
+      intakes: row.intakes.map(({ name, applicationDeadline, status }) => ({
+        name,
+        applicationDeadline,
+        status,
+      })),
+      university: {
+        slug: university.slug,
+        name: university.name,
+        city: university.city,
+        destination: university.destination,
+        flagCode: university.flagCode,
+        commission: {
+          display: university.commission.display,
+          status: university.commission.status,
+          lowInr: university.commission.lowInr,
+          highInr: university.commission.highInr,
+          aboveAverage: university.commission.aboveAverage,
+        },
+      },
+    };
+  });
+}
 
 export function universityFor(slug: string): University | null {
   return universities.find((item) => item.slug === slug) ?? null;
@@ -54,228 +97,6 @@ export function disciplines(): { name: string; count: number }[] {
   return [...counts.entries()]
     .map(([name, count]) => ({ name, count }))
     .sort((a, b) => a.name.localeCompare(b.name));
-}
-
-export type Filters = {
-  destinations: string[];
-  disciplines: string[];
-  levels: ("bachelors" | "masters")[];
-  /** In the destination's own currency, so the two are not compared directly. */
-  maxFeeGbp: number | null;
-  maxFeeEur: number | null;
-  /** Only institutions that pay us nothing. The filter nobody else offers. */
-  zeroCommissionOnly: boolean;
-  /** Hide institutions whose band runs above the category average. */
-  hideAboveAverage: boolean;
-  /** Only programmes with a published fee, for a student comparing costs. */
-  publishedFeeOnly: boolean;
-  query: string;
-};
-
-export const emptyFilters: Filters = {
-  destinations: [],
-  disciplines: [],
-  levels: [],
-  maxFeeGbp: null,
-  maxFeeEur: null,
-  zeroCommissionOnly: false,
-  hideAboveAverage: false,
-  publishedFeeOnly: false,
-  query: "",
-};
-
-const feeValue = (field: Field<number>): number | null =>
-  field.state === "stated" ? field.value : null;
-
-/**
- * Filters, applied independently.
- *
- * Every clause reads from the same immutable filter object, so no filter can
- * clear another one. Both benchmarks have lists where choosing a destination
- * silently resets the subject, and it is not a rendering bug: it is what
- * happens when each control mutates shared state on change rather than the
- * whole set being applied at once.
- */
-export function applyFilters(rows: ProgrammeRow[], filters: Filters): ProgrammeRow[] {
-  const query = fold(filters.query.trim());
-
-  return rows.filter((row) => {
-    if (
-      filters.destinations.length > 0 &&
-      !filters.destinations.includes(row.university.destination)
-    ) {
-      return false;
-    }
-
-    if (
-      filters.disciplines.length > 0 &&
-      !row.disciplines.some((discipline) => filters.disciplines.includes(discipline))
-    ) {
-      return false;
-    }
-
-    if (filters.levels.length > 0 && !filters.levels.includes(row.level)) return false;
-
-    const fee = feeValue(row.feePerYear);
-
-    if (filters.publishedFeeOnly && fee === null) return false;
-
-    if (filters.maxFeeGbp !== null && row.currency === "GBP") {
-      if (fee === null || fee > filters.maxFeeGbp) return false;
-    }
-    if (filters.maxFeeEur !== null && row.currency === "EUR") {
-      if (fee === null || fee > filters.maxFeeEur) return false;
-    }
-
-    if (filters.zeroCommissionOnly && row.university.commission.highInr > 0) return false;
-    if (filters.hideAboveAverage && row.university.commission.aboveAverage) return false;
-
-    if (query) {
-      const haystack = [
-        row.name,
-        row.university.name,
-        row.university.city,
-        row.campus,
-        ...row.disciplines,
-      ];
-      if (!fold(haystack.join(" ")).includes(query)) return false;
-    }
-
-    return true;
-  });
-}
-
-/**
- * The earliest deadline still ahead of a given date, for the deadline sort.
- * A deadline is a calendar day, so it stays open through that whole day rather
- * than closing at the first minute of it.
- */
-export function nextDeadline(row: ProgrammeRow, from = new Date()): string | null {
-  const today = Date.parse(from.toISOString().slice(0, 10));
-  const upcoming = row.intakes
-    .map((intake) => intake.applicationDeadline)
-    .filter((date) => new Date(date).getTime() >= today)
-    .sort();
-  return upcoming[0] ?? null;
-}
-
-/**
- * Sorting.
- *
- * A programme with no published fee sorts last on both fee orders rather than
- * being treated as free or as infinite, because either of those would be a
- * silent claim about a figure the institution has not published.
- */
-export function sortProgrammes(rows: ProgrammeRow[], key: string): ProgrammeRow[] {
-  const sorted = [...rows];
-
-  const byFee = (direction: 1 | -1) => (a: ProgrammeRow, b: ProgrammeRow) => {
-    const feeA = feeValue(a.feePerYear);
-    const feeB = feeValue(b.feePerYear);
-    if (feeA === null && feeB === null) return a.name.localeCompare(b.name);
-    if (feeA === null) return 1;
-    if (feeB === null) return -1;
-    return (feeA - feeB) * direction;
-  };
-
-  switch (key) {
-    case "fee-asc":
-      return sorted.sort(byFee(1));
-    case "fee-desc":
-      return sorted.sort(byFee(-1));
-    case "commission-asc":
-      return sorted.sort(
-        (a, b) =>
-          a.university.commission.lowInr - b.university.commission.lowInr ||
-          a.university.name.localeCompare(b.university.name),
-      );
-    case "commission-desc":
-      return sorted.sort(
-        (a, b) =>
-          b.university.commission.highInr - a.university.commission.highInr ||
-          a.university.name.localeCompare(b.university.name),
-      );
-    case "deadline":
-      return sorted.sort((a, b) => {
-        const dateA = nextDeadline(a);
-        const dateB = nextDeadline(b);
-        if (dateA === null && dateB === null) return 0;
-        if (dateA === null) return 1;
-        if (dateB === null) return -1;
-        return dateA.localeCompare(dateB);
-      });
-    case "duration":
-      return sorted.sort((a, b) => a.durationMonths - b.durationMonths);
-    default:
-      return sorted.sort(
-        (a, b) =>
-          a.university.name.localeCompare(b.university.name) ||
-          a.name.localeCompare(b.name),
-      );
-  }
-}
-
-/** Reads filters out of a URL query string, so a filtered list is linkable. */
-export function filtersFromParams(
-  params: Record<string, string | string[] | undefined>,
-): Filters {
-  const list = (key: string): string[] => {
-    const value = params[key];
-    if (Array.isArray(value)) return value;
-    if (typeof value === "string" && value !== "") return value.split(",");
-    return [];
-  };
-  const number = (key: string): number | null => {
-    const value = params[key];
-    if (typeof value !== "string" || value === "") return null;
-    const parsed = Number(value);
-    return Number.isFinite(parsed) ? parsed : null;
-  };
-  const flag = (key: string): boolean => params[key] === "1" || params[key] === "true";
-
-  return {
-    destinations: list("destination"),
-    disciplines: list("discipline"),
-    levels: list("level").filter(
-      (value): value is "bachelors" | "masters" =>
-        value === "bachelors" || value === "masters",
-    ),
-    maxFeeGbp: number("maxGbp"),
-    maxFeeEur: number("maxEur"),
-    zeroCommissionOnly: flag("zeroCommission"),
-    hideAboveAverage: flag("hideAboveAverage"),
-    publishedFeeOnly: flag("publishedFee"),
-    query: typeof params.q === "string" ? params.q : "",
-  };
-}
-
-/** Turns filters back into a query string, for a shareable result page. */
-export function paramsFromFilters(filters: Filters): string {
-  const params = new URLSearchParams();
-  if (filters.destinations.length) params.set("destination", filters.destinations.join(","));
-  if (filters.disciplines.length) params.set("discipline", filters.disciplines.join(","));
-  if (filters.levels.length) params.set("level", filters.levels.join(","));
-  if (filters.maxFeeGbp !== null) params.set("maxGbp", String(filters.maxFeeGbp));
-  if (filters.maxFeeEur !== null) params.set("maxEur", String(filters.maxFeeEur));
-  if (filters.zeroCommissionOnly) params.set("zeroCommission", "1");
-  if (filters.hideAboveAverage) params.set("hideAboveAverage", "1");
-  if (filters.publishedFeeOnly) params.set("publishedFee", "1");
-  if (filters.query) params.set("q", filters.query);
-  return params.toString();
-}
-
-export function activeFilterCount(filters: Filters): number {
-  return (
-    filters.destinations.length +
-    filters.disciplines.length +
-    filters.levels.length +
-    (filters.maxFeeGbp !== null ? 1 : 0) +
-    (filters.maxFeeEur !== null ? 1 : 0) +
-    (filters.zeroCommissionOnly ? 1 : 0) +
-    (filters.hideAboveAverage ? 1 : 0) +
-    (filters.publishedFeeOnly ? 1 : 0) +
-    (filters.query ? 1 : 0)
-  );
 }
 
 /**
