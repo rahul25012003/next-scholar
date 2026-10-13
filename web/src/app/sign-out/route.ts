@@ -1,4 +1,4 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { SESSION_COOKIE } from "@/domain/auth";
 
 /**
@@ -11,9 +11,14 @@ import { SESSION_COOKIE } from "@/domain/auth";
  *
  * Cross-site posts here arrive without the session cookie (it is SameSite
  * lax), so another site cannot sign anyone out.
+ *
+ * The Location is relative on purpose. An absolute one is built from the
+ * server's own address, so behind a tunnel or proxy it sent people to
+ * http://localhost:3000; a relative one keeps the browser on whatever
+ * address it is using.
  */
-export function POST(request: NextRequest) {
-  const response = NextResponse.redirect(new URL("/login", request.url), 303);
+export function POST() {
+  const response = new NextResponse(null, { status: 303, headers: { Location: "/login" } });
   response.cookies.delete(SESSION_COOKIE);
   return response;
 }
