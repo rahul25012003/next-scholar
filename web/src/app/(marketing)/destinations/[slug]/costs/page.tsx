@@ -91,7 +91,7 @@ export default async function DestinationCostsPage(
               title="Cost of living, line by line"
               lede="Change any line to match your own rent and spending. No sign-up needed."
             >
-              <CostOfLivingCalculator guide={guide} rate={rate} />
+              <CostOfLivingCalculator guide={guide} rate={rate} heading="h3" />
             </GuideSection>
 
             <GuideSection

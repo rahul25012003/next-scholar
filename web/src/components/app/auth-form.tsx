@@ -7,7 +7,7 @@ import { signIn, signUp, type AuthResult } from "@/app/actions/auth";
 import { Button } from "@/components/ui/button";
 
 const field =
-  "w-full rounded-input border-2 border-line-strong bg-white px-5 py-2.5 text-[1rem] text-blue-dark placeholder:text-grey/70 hover:border-blue-light focus:border-blue focus:outline-none focus:ring-4 focus:ring-blue/20";
+  "w-full rounded-input border-2 border-line-strong bg-white px-5 py-2.5 text-[1rem] text-blue-dark placeholder:text-grey hover:border-blue-light focus:border-blue focus:outline-none focus:ring-4 focus:ring-blue/20";
 
 function Field({
   id,

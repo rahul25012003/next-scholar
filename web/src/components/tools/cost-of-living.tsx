@@ -39,9 +39,12 @@ function pick(low: number, high: number, level: Level): number {
 export function CostOfLivingCalculator({
   guide,
   rate,
+  heading: Heading = "h2",
 }: {
   guide: DestinationGuide;
   rate: IndicativeRate;
+  /** One level below the heading the calculator sits under. */
+  heading?: "h2" | "h3";
 }) {
   const [citySlug, setCitySlug] = useState(guide.living.cities[0].slug);
   const [level, setLevel] = useState<Level>("mid");
@@ -315,9 +318,9 @@ export function CostOfLivingCalculator({
       </div>
 
       <div ref={resultsRef} className="scroll-mt-24 border-t border-line p-6 md:p-7">
-        <h3 className="text-blue-dark h--6">
+        <Heading className="text-blue-dark h--6">
           Add tuition and funds to see the first year whole
-        </h3>
+        </Heading>
         <p className="mt-1 text-[0.8125rem] leading-relaxed text-grey">
           Living cost carries over from above. Tuition is your own figure, not ours: it
           depends on the exact programme, which is a separate, sourced number on the
@@ -340,7 +343,7 @@ export function CostOfLivingCalculator({
                 value={tuitionInr || ""}
                 onChange={(event) => setTuitionInr(Math.max(0, Number(event.target.value) || 0))}
                 placeholder="From the course page"
-                className="figures w-full rounded-card border border-line-strong px-2.5 py-1.5 text-[0.9375rem] text-blue-dark"
+                className="figures w-full rounded-card border border-line-strong px-2.5 py-1.5 text-[0.9375rem] text-blue-dark placeholder:text-grey"
               />
             </span>
           </label>
@@ -360,7 +363,7 @@ export function CostOfLivingCalculator({
                 value={fundsInr || ""}
                 onChange={(event) => setFundsInr(Math.max(0, Number(event.target.value) || 0))}
                 placeholder="Savings, loan sanction, sponsor"
-                className="figures w-full rounded-card border border-line-strong px-2.5 py-1.5 text-[0.9375rem] text-blue-dark"
+                className="figures w-full rounded-card border border-line-strong px-2.5 py-1.5 text-[0.9375rem] text-blue-dark placeholder:text-grey"
               />
             </span>
           </label>

@@ -257,8 +257,8 @@ function Tag({ children, muted }: { children: React.ReactNode; muted?: boolean }
   return (
     <span
       className={cn(
-        "rounded-input px-2 py-0.5 text-[0.6875rem] font-medium",
-        muted ? "bg-light text-neutral-chip" : "bg-light text-pink",
+        "rounded-input px-2 py-0.5 text-[0.75rem] font-medium",
+        muted ? "bg-light text-neutral-chip" : "bg-light text-pink-dark",
       )}
     >
       {children}

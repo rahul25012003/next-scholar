@@ -13,7 +13,14 @@ export function SopCoach() {
 
   return (
     <div className="px-6 py-5">
-      <form action={formAction}>
+      {/* aria-disabled, not disabled, while reading: a disabled button drops
+          keyboard focus. The guard ignores a second press instead. */}
+      <form
+        action={formAction}
+        onSubmit={(event) => {
+          if (pending) event.preventDefault();
+        }}
+      >
         <label htmlFor="draft" className="text-[0.875rem] font-medium text-blue-dark">
           Paste what you have written so far
         </label>
@@ -27,39 +34,43 @@ export function SopCoach() {
           name="draft"
           rows={6}
           placeholder="Your own draft, in your own words."
-          className="mt-3 w-full rounded-card border border-line-strong bg-white px-3.5 py-2.5 text-[0.9375rem] leading-relaxed text-blue-dark placeholder:text-grey/70 focus:border-pink focus:outline-none focus:ring-2 focus:ring-pink/25"
+          className="mt-3 w-full rounded-card border border-line-strong bg-white px-3.5 py-2.5 text-[0.9375rem] leading-relaxed text-blue-dark placeholder:text-grey focus:border-pink focus:outline-none focus:ring-2 focus:ring-pink/25"
         />
-        <Button type="submit" className="mt-3" disabled={pending} aria-busy={pending}>
+        <Button type="submit" className="mt-3" aria-disabled={pending} aria-busy={pending}>
           {pending ? "Reading" : "Get coaching questions"}
         </Button>
       </form>
 
-      {state.status === "coached" && (
-        <div className="mt-5" role="status">
-          <p className="text-[0.875rem] font-medium text-blue-dark">
-            Questions to answer in your next pass
-          </p>
-          <ul className="mt-3 space-y-2.5">
-            {state.questions.map((question) => (
-              <li key={question} className="flex items-start gap-2.5">
-                <Question size={16} weight="bold" className="mt-1 shrink-0 text-pink" aria-hidden />
-                <span className="text-[0.9375rem] leading-relaxed text-grey">
-                  {question}
-                </span>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-4 rounded-card bg-light p-4 text-[0.875rem] leading-relaxed text-grey">
-            {state.feedback}
-          </p>
-        </div>
-      )}
+      {/* On the page before any result, so the result is read out when it
+          arrives. */}
+      <div role="status" aria-live="polite">
+        {state.status === "coached" && (
+          <div className="mt-5">
+            <p className="text-[0.875rem] font-medium text-blue-dark">
+              Questions to answer in your next pass
+            </p>
+            <ul className="mt-3 space-y-2.5">
+              {state.questions.map((question) => (
+                <li key={question} className="flex items-start gap-2.5">
+                  <Question size={16} weight="bold" className="mt-1 shrink-0 text-pink" aria-hidden />
+                  <span className="text-[0.9375rem] leading-relaxed text-grey">
+                    {question}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 rounded-card bg-light p-4 text-[0.875rem] leading-relaxed text-grey">
+              {state.feedback}
+            </p>
+          </div>
+        )}
 
-      {(state.status === "unavailable" || state.status === "error") && (
-        <p className="mt-4 rounded-card border border-line bg-light p-4 text-[0.875rem] leading-relaxed text-grey" role="status">
-          {state.message}
-        </p>
-      )}
+        {(state.status === "unavailable" || state.status === "error") && (
+          <p className="mt-4 rounded-card border border-line bg-light p-4 text-[0.875rem] leading-relaxed text-grey">
+            {state.message}
+          </p>
+        )}
+      </div>
     </div>
   );
 }

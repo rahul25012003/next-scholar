@@ -1,20 +1,23 @@
 "use client";
 
-import { useActionState, useMemo, useState, useSyncExternalStore, type ReactNode } from "react";
-import { CheckCircle, Copy, Info } from "@phosphor-icons/react";
+import { useActionState, useEffect, useMemo, useState, useSyncExternalStore, type ReactNode } from "react";
+import { CheckCircle, Copy } from "@phosphor-icons/react";
 import {
   requestProfileEvaluation,
   type ProfileEvaluationState,
 } from "@/app/actions/profile-evaluation";
 import { guides } from "@/content/guides";
 import { Button } from "@/components/ui/button";
+import { AnswersReady } from "@/components/marketing/answers-ready";
 import { cn } from "@/lib/cn";
 
 const DRAFT_KEY = "next-scholar.evaluation-draft";
+/** The order a reader meets the fields in, for focusing the first error. */
+const fieldOrder = ["name", "email", "details", "consent"];
 
 const fieldBase =
   "w-full rounded-input border border-line-strong bg-white px-3.5 py-2.5 text-[0.9375rem] text-blue-dark " +
-  "placeholder:text-grey/70 transition-colors focus:border-pink focus:outline-none " +
+  "placeholder:text-grey transition-colors focus:border-pink focus:outline-none " +
   "focus:ring-2 focus:ring-pink/25";
 
 function subscribeToStorage(onChange: () => void) {
@@ -77,13 +80,15 @@ export function EvaluationRequestForm() {
     update("destinations", next.join(","));
   };
 
+  const answersText = [
+    `Name\n${draft.name ?? ""}`,
+    `Email\n${draft.email ?? ""}`,
+    `Destinations\n${chosen.length > 0 ? chosen.join(", ") : "Not decided yet"}`,
+    `Details\n${draft.details ?? ""}`,
+  ].join("\n\n");
+
   const copyAnswers = async () => {
-    const text = [
-      `Name\n${draft.name ?? ""}`,
-      `Email\n${draft.email ?? ""}`,
-      `Destinations\n${chosen.length > 0 ? chosen.join(", ") : "Not decided yet"}`,
-      `Details\n${draft.details ?? ""}`,
-    ].join("\n\n");
+    const text = answersText;
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
@@ -94,26 +99,49 @@ export function EvaluationRequestForm() {
   };
 
   const errors = state.status === "invalid" ? state.errors : {};
+  const invalid = fieldOrder.filter((key) => errors[key]);
+
+  // After a refused submit, take the reader to the first answer that needs
+  // fixing, so a screen reader user hears what went wrong.
+  useEffect(() => {
+    if (state.status !== "invalid") return;
+    const first = fieldOrder.find((key) => state.errors[key]);
+    if (first) document.getElementById(`evaluation-${first}`)?.focus();
+  }, [state]);
 
   return (
     <form action={formAction} className="grid gap-5" noValidate>
       <input type="hidden" name="destinations" value={draft.destinations ?? ""} />
 
+      {invalid.length > 0 && (
+        <p role="alert" className="text-[0.9375rem] font-medium text-denied">
+          {invalid.length === 1
+            ? "One answer needs fixing."
+            : `${invalid.length} answers need fixing.`}
+        </p>
+      )}
+
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field id="name" label="Your name" error={errors.name}>
+        <Field id="evaluation-name" label="Your name" error={errors.name}>
           <input
-            id="name"
+            id="evaluation-name"
             name="name"
+            autoComplete="name"
+            aria-invalid={Boolean(errors.name)}
+            aria-describedby={errors.name ? "evaluation-name-error" : undefined}
             type="text"
             value={draft.name ?? ""}
             onChange={(event) => update("name", event.target.value)}
             className={cn(fieldBase, errors.name ? "border-denied" : "")}
           />
         </Field>
-        <Field id="email" label="Your email" error={errors.email}>
+        <Field id="evaluation-email" label="Your email" error={errors.email}>
           <input
-            id="email"
+            id="evaluation-email"
             name="email"
+            autoComplete="email"
+            aria-invalid={Boolean(errors.email)}
+            aria-describedby={errors.email ? "evaluation-email-error" : undefined}
             type="email"
             value={draft.email ?? ""}
             onChange={(event) => update("email", event.target.value)}
@@ -150,13 +178,15 @@ export function EvaluationRequestForm() {
       </div>
 
       <Field
-        id="details"
+        id="evaluation-details"
         label="Your percentage or CGPA, your language test score if you have one, and anything else we should check"
         error={errors.details}
       >
         <textarea
-          id="details"
+          id="evaluation-details"
           name="details"
+          aria-invalid={Boolean(errors.details)}
+          aria-describedby={errors.details ? "evaluation-details-error" : undefined}
           rows={4}
           placeholder="76%, or 8.1 CGPA on a 10 point scale. IELTS 7.0, overall, no band below 6.5. Four year B.Tech, graduating 2027."
           value={draft.details ?? ""}
@@ -167,8 +197,11 @@ export function EvaluationRequestForm() {
 
       <label className="flex items-start gap-2.5">
         <input
+          id="evaluation-consent"
           type="checkbox"
           name="consent"
+          aria-invalid={Boolean(errors.consent)}
+          aria-describedby={errors.consent ? "evaluation-consent-error" : undefined}
           checked={draft.consent === "on"}
           onChange={(event) => update("consent", event.target.checked ? "on" : "")}
           className="mt-1 h-4 w-4 shrink-0 accent-[var(--color-blue-dark)]"
@@ -176,7 +209,10 @@ export function EvaluationRequestForm() {
         <span className="text-[0.875rem] leading-snug text-grey">
           I agree to be contacted about this request.
           {errors.consent && (
-            <span className="mt-0.5 block text-[0.8125rem] font-medium text-denied">
+            <span
+              id="evaluation-consent-error"
+              className="mt-0.5 block text-[0.8125rem] font-medium text-denied"
+            >
               {errors.consent}
             </span>
           )}
@@ -203,27 +239,15 @@ export function EvaluationRequestForm() {
       </div>
 
       {state.status === "not-live" && (
-        <div className="rounded-panel border border-line bg-light p-6" role="status">
-          <div className="flex items-start gap-3">
-            <Info size={20} weight="fill" className="mt-0.5 shrink-0 text-pink" aria-hidden />
-            <div>
-              <h3 className="text-blue-dark h--6">
-                Your answers are complete. Nothing was sent.
-              </h3>
-              <p className="mt-2 text-[0.9375rem] leading-relaxed text-grey">{state.message}</p>
-              <p className="mt-4 text-[0.875rem] font-medium text-blue-dark">
-                Still to connect before this form can send you a reply
-              </p>
-              <ul className="mt-2 space-y-1.5">
-                {state.missing.map((item) => (
-                  <li key={item} className="text-[0.875rem] leading-relaxed text-grey">
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
+        <AnswersReady
+          heading="Your answers are ready. Nothing was sent to us."
+          message={state.message}
+          text={answersText}
+          filename="next-scholar-evaluation-answers.txt"
+          destinations={chosen}
+          missingTitle="What still has to be connected before this form can send you a reply"
+          missing={state.missing}
+        />
       )}
     </form>
   );
@@ -246,7 +270,11 @@ function Field({
         {label}
       </label>
       {children}
-      {error && <p className="text-[0.8125rem] font-medium text-denied">{error}</p>}
+      {error && (
+        <p id={`${id}-error`} className="text-[0.8125rem] font-medium text-denied">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

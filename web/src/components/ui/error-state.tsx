@@ -38,7 +38,7 @@ export function ErrorState({
   }, [error, scope]);
 
   return (
-    <main className="flex min-h-[70vh] items-center pad-around-lg">
+    <div className="flex min-h-[70vh] items-center pad-around-lg">
       <div className="band w-full">
         <div className="shell flow max-w-2xl">
           <span
@@ -83,6 +83,6 @@ export function ErrorState({
           </p>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

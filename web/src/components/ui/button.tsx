@@ -18,10 +18,13 @@ type Size = "md" | "lg";
  * page.
  */
 // The hover fade, the focus fill and the press are the stylesheet's `.button`
-// rules, untouched; only layout utilities are added here.
+// rules, untouched; only layout utilities are added here. A button that is
+// busy uses aria-disabled rather than disabled, so it keeps keyboard focus; it
+// looks the same either way.
 const base =
   "button inline-flex max-w-full items-center justify-center gap-2 " +
-  "disabled:pointer-events-none disabled:opacity-55";
+  "disabled:pointer-events-none disabled:opacity-55 " +
+  "aria-disabled:pointer-events-none aria-disabled:opacity-55";
 
 const variants: Record<Variant, string> = {
   primary: "",

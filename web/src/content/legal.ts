@@ -339,15 +339,15 @@ export const privacyPolicy: LegalDocument = {
           kind: "callout",
           tone: "warning",
           title: "The role is defined. No one is appointed to it yet.",
-          body: "The DPDP Act requires a data fiduciary to publish a grievance officer's contact details. We cannot appoint one before the entity exists, and we will not print a name that is not real. Below is the route that works today, and the commitment that applies from the day of incorporation.",
+          body: "The DPDP Act requires a data fiduciary to publish a grievance officer's contact details. We cannot appoint one before the entity exists, and we will not print a name that is not real. Below is what you can do today, and the commitment that applies from the day of incorporation.",
         },
         {
           kind: "list",
           intro: "Today:",
           items: [
-            "Raise it with your counsellor first. Most complaints are a misunderstanding about a document and are sorted out the same day.",
-            "If that does not resolve it, use the consultation booking form and mark it as a data complaint. It goes straight to the founder, and it is the only channel that does today.",
-            "You will get a proper answer, not just an acknowledgement, within seven working days.",
+            "If you have a counsellor on a case with us, raise it with them first. Most complaints are a misunderstanding about a document and are sorted out the same day.",
+            "There is no public complaints channel yet. The booking form sends nothing, and the email address for complaints goes live with the registered company.",
+            "Once a complaint reaches us, you will get a proper answer, not just an acknowledgement, within seven working days.",
           ],
         },
         {

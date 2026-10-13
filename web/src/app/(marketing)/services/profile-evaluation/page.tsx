@@ -48,9 +48,9 @@ export default function ProfileEvaluationPage() {
             Step two: ask a person to confirm it in writing
           </h2>
           <p className="mt-2 text-[0.9375rem] leading-relaxed text-grey">
-            Once this form is connected to a channel that can reach you, a counsellor will
-            read your transcript and reply within three working days. Until then, fill it in
-            and keep your answers, or copy them and send them yourself.
+            Once this form can reach us, a counsellor will read your transcript and reply
+            within three working days. It cannot yet: nothing you enter is sent. You can
+            still fill it in and save your answers for later.
           </p>
           <div className="mt-7 rounded-panel border border-line bg-white p-6 md:p-8">
             <EvaluationRequestForm />

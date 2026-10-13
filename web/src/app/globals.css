@@ -366,9 +366,13 @@
     box-shadow: none;
   }
 
+  /* The pink dashes sit on a white band: on a white panel the band vanishes
+     and the dashes read at 4.6:1; on the blue ground, where pink alone
+     measured 1.47:1, the band itself stands out at 6.6:1. */
   *:focus-visible {
     outline: 3px dashed var(--color-pink);
     outline-offset: 4px;
+    box-shadow: 0 0 0 7px var(--color-white);
   }
 }
 
@@ -1396,7 +1400,7 @@
   }
 
   .Dest-card:has(.Dest-card__link:focus-visible) {
-    outline: 3px solid var(--color-pink);
+    outline: 3px solid var(--color-white);
     outline-offset: 4px;
   }
 
@@ -1945,6 +1949,11 @@
       transform: scaleX(1);
       transform-origin: left;
     }
+  }
+
+  .Nav__link:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left;
   }
 
   .Nav__link:after {
@@ -2616,8 +2625,14 @@
     overflow: clip;
   }
 
+  /* The ground is mid blue by the time this heading scrolls in, and light
+     type there measured 2.67:1. A deep blue panel behind it keeps the type
+     above 12:1 whatever the ground is doing. */
   .Overview__heading {
     margin-top: 4.5rem;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    background-color: var(--color-blue-deep);
+    box-shadow: var(--shadow-card);
   }
 
   .Overview__svg {
@@ -3178,6 +3193,15 @@
         animation: reveal linear backwards;
         animation-timeline: view();
         animation-range: entry 0px entry 15rem;
+      }
+
+      /* Items in a sequence, each a little later into its own entry, so a
+         row arrives in order. Nothing is hidden in the HTML itself. */
+      .reveal-item {
+        animation: reveal-item linear backwards;
+        animation-timeline: view();
+        animation-range: entry calc(var(--reveal-delay, 0) * 40%)
+          entry calc(60% + var(--reveal-delay, 0) * 40%);
       }
 
       /* The photographs between the destination boxes move a little slower
@@ -3955,6 +3979,13 @@ a.group.border:active {
   }
   40% {
     opacity: 1;
+  }
+}
+
+@keyframes reveal-item {
+  from {
+    opacity: 0;
+    translate: 0 1.25rem;
   }
 }
 

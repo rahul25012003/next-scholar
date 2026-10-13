@@ -170,12 +170,7 @@ export const channels = {
   whatsappMessage:
     "Hello, I found Next Scholar online and I have a question about studying abroad.",
   pending:
-    "A WhatsApp line goes live with the registered entity. Until then the consultation form is the only channel that reaches us, and it is read by a person rather than a queue.",
+    "There is no way to reach us online yet. A WhatsApp number, an email address and a phone line go live once the company is registered, and the booking form sends nothing until then.",
 } as const;
-
-export const contact = {
-  status: "partial" as const,
-  note: "The consultation booking form is the only channel that reaches us today. A published email, phone line and grievance contact go live with the registered entity.",
-};
 
 export const lastReviewed = "2026-09-02";

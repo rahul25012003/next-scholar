@@ -66,12 +66,12 @@ export const services: Service[] = [
         "Free. The requirements checklist on this site answers most of it, and a person reading your transcript answers the rest.",
     },
     availability: {
-      state: "live",
+      state: "not-yet",
       detail:
-        "Try the checklist yourself first: it is open to everyone and uses the same figures. Ask for the written version when you want a person to read your transcript.",
+        "The requirements checklist works today, for free, and uses the same figures. The written answer from a person starts once the request form can reach us; until then, nothing you enter there is sent.",
     },
     group: "Before you commit",
-    cta: { href: "/services/profile-evaluation", label: "Run it, or ask for the written version" },
+    cta: { href: "/services/profile-evaluation", label: "Run the free checklist now" },
   },
   {
     slug: "consultation",
@@ -97,7 +97,7 @@ export const services: Service[] = [
     availability: {
       state: "not-yet",
       detail:
-        "The booking form takes requests today. Scheduling and payment are not connected yet, so we arrange the session by reply.",
+        "Not bookable yet. The booking page shows the questions and the price, but scheduling and payment are not connected, so nothing you enter there reaches us.",
     },
     group: "Before you commit",
   },
@@ -358,7 +358,7 @@ export const services: Service[] = [
     availability: {
       state: "not-yet",
       detail:
-        "Scheduling is not connected yet. Sessions are arranged by reply to the booking form.",
+        "Scheduling is not connected yet, so a session cannot be booked today.",
     },
     group: "The engagement",
   },

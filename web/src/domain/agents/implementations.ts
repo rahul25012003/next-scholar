@@ -2,6 +2,7 @@ import "server-only";
 
 import { z } from "zod";
 import { runAgent, type AgentRun } from "./kernel";
+import { findSensitiveInput } from "./guards";
 import { daysSince, type StudentCase } from "../case";
 import { documentPipelineReady } from "../uploads";
 import { policyDigest } from "@/content/policy-digest";
@@ -21,9 +22,15 @@ export const summarySchema = z.object({
 export async function summariseCase(
   record: StudentCase,
 ): Promise<AgentRun<z.infer<typeof summarySchema>>> {
+  // A log line with a passport, account or money figure in it is withheld from
+  // the model; the counsellor still reads it on the case.
   const recentLog = record.log
     .slice(-8)
-    .map((entry) => `${entry.ts} (${entry.source}): ${entry.text}`)
+    .map((entry) =>
+      findSensitiveInput(entry.text)
+        ? `${entry.ts} (${entry.source}): [withheld: contains a personal or financial detail]`
+        : `${entry.ts} (${entry.source}): ${entry.text}`,
+    )
     .join("\n");
 
   return runAgent({
@@ -107,7 +114,7 @@ export async function answerStudentQuestion(
     ].join("\n"),
     schema: guidanceSchema,
     reviewFields: ["answer"],
-    fallback: "Your counsellor will answer this one. It has been added to their queue.",
+    fallback: "Your counsellor will answer this one.",
     maxTokens: 500,
   });
 }

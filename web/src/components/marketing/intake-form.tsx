@@ -7,20 +7,20 @@ import {
   ArrowRight,
   CheckCircle,
   Copy,
-  Info,
   WarningCircle,
 } from "@phosphor-icons/react";
 import { submitIntake, type IntakeState } from "@/app/actions/intake";
 import { intakeQuestions, intakeSteps } from "@/content/consultation";
 import { guides } from "@/content/guides";
 import { Button } from "@/components/ui/button";
+import { AnswersReady } from "@/components/marketing/answers-ready";
 import { cn } from "@/lib/cn";
 
 const DRAFT_KEY = "next-scholar.intake-draft";
 
 const fieldBase =
   "w-full rounded-input border bg-white px-3.5 py-2.5 text-[0.9375rem] text-blue-dark " +
-  "placeholder:text-grey/70 transition-colors focus:border-pink focus:outline-none " +
+  "placeholder:text-grey transition-colors focus:border-pink focus:outline-none " +
   "focus:ring-2 focus:ring-pink/25";
 
 /** The answers live in this browser and nowhere else, so a reload keeps them. */
@@ -93,13 +93,13 @@ export function IntakeForm() {
     update("destinations", next.join(","));
   };
 
+  const answersText = [
+    `Destinations of interest\n${chosen.length > 0 ? chosen.join(", ") : "Not decided yet"}`,
+    ...intakeQuestions.map((question) => `${question.label}\n${draft[question.id] ?? ""}`),
+  ].join("\n\n");
+
   const copyAnswers = async () => {
-    const text = [
-      `Destinations of interest\n${chosen.length > 0 ? chosen.join(", ") : "Not decided yet"}`,
-      ...intakeQuestions.map(
-        (question) => `${question.label}\n${draft[question.id] ?? ""}`,
-      ),
-    ].join("\n\n");
+    const text = answersText;
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
@@ -292,27 +292,15 @@ export function IntakeForm() {
       )}
 
       {state.status === "not-live" && (
-        <div className="rounded-panel border border-line bg-light p-6" role="status">
-          <div className="flex items-start gap-3">
-            <Info size={20} weight="fill" className="mt-0.5 shrink-0 text-pink" aria-hidden />
-            <div>
-              <h3 className="text-blue-dark h--6">
-                Your answers are complete. Nothing was sent.
-              </h3>
-              <p className="mt-2 text-[0.9375rem] leading-relaxed text-grey">{state.message}</p>
-              <p className="mt-4 text-[0.875rem] font-medium text-blue-dark">
-                Still to connect before this form can take a booking
-              </p>
-              <ul className="mt-2 space-y-1.5">
-                {state.missing.map((item) => (
-                  <li key={item} className="text-[0.875rem] leading-relaxed text-grey">
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
+        <AnswersReady
+          heading="Your answers are ready. Nothing was sent to us."
+          message={state.message}
+          text={answersText}
+          filename="next-scholar-consultation-answers.txt"
+          destinations={chosen}
+          missingTitle="What still has to be connected before this form can take a booking"
+          missing={state.missing}
+        />
       )}
     </form>
   );

@@ -364,6 +364,19 @@ Every item in the testers' `Testing_updates.pdf`. Type check, lint, 399 tests, p
 | Page weight: 701 KB of HTML to 261 KB (27 KB gzipped), by sending a few hundred bytes a course to the browser, rendering the filters once and dropping the image resizer for flags | `universities/page.tsx`, `content/catalogue/index.ts` |
 | The cost calculator accepts its own defaults again: money inputs take any amount | `tools/cost-of-living.tsx`, `tools/requirements-check.tsx`, `app/onboarding.tsx` |
 
+### Phase 14 — Trust and accessibility (2026-10-13)
+
+The first area from the site review. Type check, lint, 409 tests, production build and the 74 route smoke test pass.
+
+| What | Where |
+|---|---|
+| Every availability and contact claim made true: no service says "Available now" while its form sends nothing; nothing says the booking form reaches us; the floating control is "How to reach us" and says there is no online channel until the company is registered, with the parts of the site that work today | `content/services.ts`, `content/site.ts`, `footer.tsx`, `talk-to-us.tsx`, `content/legal.ts`, `services/profile-evaluation/page.tsx` |
+| The booking and evaluation forms end with something to keep: a download of the answers, the guide for each chosen country and the checklist, with focus moved to the result | `marketing/answers-ready.tsx`, `intake-form.tsx`, `evaluation-request-form.tsx` |
+| The student assistant keeps its promise: a question it routes is saved on the case for the counsellor; a passport, account or money figure never goes to a model; students see plain messages, not configuration errors; the case summary withholds such log lines from the model | `actions/student.ts`, `domain/agents/implementations.ts` |
+| Focus visible on the blue ground (pink dashes on a white band), keyboard focus shows the nav underline, and the destinations heading sits on a deep blue panel instead of light type on mid blue | `globals.css` |
+| Reveals are CSS scroll animations: content is visible in the HTML and without JavaScript, and still for reduced motion | `ui/reveal.tsx`, `globals.css` |
+| Phone menu keeps focus inside (the page, footer and floating control go inert), Escape returns focus to the menu button, a 44px menu target, one main landmark on error pages, skip links in the app and sign in, always-mounted live regions in the AI panels, readable placeholders, a pause control on the moving text, and a confirm step before withdrawing consent | `header.tsx`, `error-state.tsx`, `app/*`, `marquee.tsx`, `consent-list.tsx`, `tools/*` |
+
 ---
 
 ## Open, and why

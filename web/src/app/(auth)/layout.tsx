@@ -25,6 +25,9 @@ const points = [
 export default function AuthLayout({ children }: LayoutProps<"/">) {
   return (
     <div className="Auth">
+      <a className="skip-link" href="#main-content">
+        Skip to content
+      </a>
       <BackgroundShapes quiet />
 
       <div className="Auth__side">

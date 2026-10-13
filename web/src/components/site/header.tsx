@@ -72,8 +72,24 @@ export function SiteHeader() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  // A tablet turned to landscape can cross into the desktop nav with the
+  // dialog open, where its toggle is hidden. Close it, or the page behind
+  // would stay inert and locked.
+  useEffect(() => {
+    const wide = window.matchMedia("(min-width: 1300px)");
+    const onChange = () => {
+      if (wide.matches) setMobileOpen(false);
+    };
+    wide.addEventListener("change", onChange);
+    return () => wide.removeEventListener("change", onChange);
+  }, []);
+
   useEffect(() => {
     document.body.classList.toggle("modal-open", mobileOpen);
+    // The header stays above the dialog and keeps its toggle reachable; the
+    // page and footer behind it leave the tab order while it is open.
+    const behind = document.querySelectorAll("#main-content, footer, [data-floating-contact]");
+    behind.forEach((element) => element.toggleAttribute("inert", mobileOpen));
     if (mobileOpen) {
       dialogRef.current?.querySelector<HTMLElement>(".js-first-focus")?.focus();
     } else if (document.activeElement && dialogRef.current?.contains(document.activeElement)) {
@@ -81,6 +97,7 @@ export function SiteHeader() {
     }
     return () => {
       document.body.classList.remove("modal-open");
+      behind.forEach((element) => element.removeAttribute("inert"));
     };
   }, [mobileOpen]);
 
@@ -157,7 +174,7 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <a className="skip-link" href="#main-content">
+      <a className="skip-link" href="#main-content" inert={mobileOpen}>
         Skip to content
       </a>
 
@@ -188,6 +205,13 @@ export function SiteHeader() {
                       key={item.label}
                       className="Nav__listItem Nav__listItem--group"
                       onMouseEnter={() => setOpenMenu(item.label)}
+                      // Escape closes the menu (the window listener) and brings
+                      // focus back to its toggle instead of the hidden panel.
+                      onKeyDown={(event) => {
+                        if (event.key === "Escape") {
+                          event.currentTarget.querySelector("button")?.focus();
+                        }
+                      }}
                       onBlur={(event) => {
                         if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
                           setOpenMenu(null);
@@ -202,7 +226,6 @@ export function SiteHeader() {
                             "Nav__link--active",
                         )}
                         aria-expanded={openMenu === item.label}
-                        aria-haspopup="true"
                         onClick={() =>
                           setOpenMenu(openMenu === item.label ? null : item.label)
                         }
@@ -255,7 +278,9 @@ export function SiteHeader() {
             <button
               ref={toggleRef}
               type="button"
-              className="Header__toggle"
+              // Padding and an equal negative margin: a 44px tall target
+              // without moving the lines.
+              className="Header__toggle -m-3 p-3"
               aria-expanded={mobileOpen}
               aria-controls="mobile-nav"
               onClick={() => setMobileOpen((open) => !open)}

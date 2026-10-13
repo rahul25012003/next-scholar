@@ -25,7 +25,7 @@ export function NoteForm({ caseId }: { caseId: string }) {
         name="note"
         rows={3}
         placeholder="Bank statement date does not match the sponsor letter. Asked for a reissue."
-        className="mt-3 w-full rounded-card border border-line-strong bg-white px-3.5 py-2.5 text-[0.9375rem] text-blue-dark placeholder:text-grey/70 focus:border-pink focus:outline-none focus:ring-2 focus:ring-pink/25"
+        className="mt-3 w-full rounded-card border border-line-strong bg-white px-3.5 py-2.5 text-[0.9375rem] text-blue-dark placeholder:text-grey focus:border-pink focus:outline-none focus:ring-2 focus:ring-pink/25"
       />
       <div className="mt-3 flex flex-wrap items-center gap-3">
         <Button type="submit" disabled={pending} aria-busy={pending}>

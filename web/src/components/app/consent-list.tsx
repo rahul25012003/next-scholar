@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { withdrawConsentAction, type ConsentResult } from "@/app/actions/case";
 import { categoryLabel, type ConsentRecord } from "@/domain/consent";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,8 @@ export function ConsentList({ consents }: { consents: ConsentRecord[] }) {
     withdrawConsentAction,
     { status: "idle" },
   );
+  // The row whose withdrawal is waiting for a second press.
+  const [confirming, setConfirming] = useState<string | null>(null);
 
   return (
     <>
@@ -40,11 +42,43 @@ export function ConsentList({ consents }: { consents: ConsentRecord[] }) {
                   Withdrawn
                 </span>
               ) : (
-                <form action={formAction}>
+                <form
+                  action={formAction}
+                  onSubmit={(event) => {
+                    if (pending) event.preventDefault();
+                  }}
+                  className="flex flex-wrap items-center gap-4"
+                >
                   <input type="hidden" name="consentId" value={consent.id} />
-                  <Button type="submit" variant="outline" disabled={pending} aria-busy={pending}>
-                    Withdraw
+                  {/* One button that asks first and submits second. It stays
+                      the same element, so focus stays on it; the first press
+                      is cancelled so the form is not sent. */}
+                  <Button
+                    type="submit"
+                    variant="outline"
+                    aria-disabled={pending}
+                    aria-busy={pending}
+                    onClick={(event) => {
+                      if (confirming !== consent.id) {
+                        event.preventDefault();
+                        setConfirming(consent.id);
+                      }
+                    }}
+                  >
+                    {confirming === consent.id ? "Confirm withdrawal" : "Withdraw"}
                   </Button>
+                  {confirming === consent.id && (
+                    <Button
+                      type="button"
+                      variant="quiet"
+                      onClick={(event) => {
+                        event.currentTarget.form?.querySelector("button")?.focus();
+                        setConfirming(null);
+                      }}
+                    >
+                      Keep it
+                    </Button>
+                  )}
                 </form>
               )}
             </div>
@@ -52,14 +86,14 @@ export function ConsentList({ consents }: { consents: ConsentRecord[] }) {
         ))}
       </ul>
 
-      {state.status !== "idle" && (
-        <p
-          className="border-t border-line px-6 py-4 text-[0.875rem] leading-relaxed text-grey"
-          role="status"
-        >
-          {state.message}
-        </p>
-      )}
+      {/* On the page before the result, so the result is read out. */}
+      <div role="status" aria-live="polite">
+        {state.status !== "idle" && (
+          <p className="border-t border-line px-6 py-4 text-[0.875rem] leading-relaxed text-grey">
+            {state.message}
+          </p>
+        )}
+      </div>
     </>
   );
 }

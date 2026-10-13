@@ -36,37 +36,45 @@ export function DocumentIntelligence({
 
   return (
     <div className="mt-3">
+      {/* aria-disabled, not disabled, while busy: a disabled button drops
+          keyboard focus. The guards ignore a second press instead. */}
       {!extraction && (
-        <form action={formAction}>
+        <form
+          action={formAction}
+          onSubmit={(event) => {
+            if (pending) event.preventDefault();
+          }}
+        >
           <input type="hidden" name="caseId" value={caseId} />
           <input type="hidden" name="documentId" value={documentId} />
-          <Button type="submit" variant="outline" disabled={pending} aria-busy={pending}>
+          <Button type="submit" variant="outline" aria-disabled={pending} aria-busy={pending}>
             {pending ? "Reading" : "Read the document"}
           </Button>
           <span className="sr-only">{documentName}</span>
         </form>
       )}
 
-      {state.status === "unavailable" && (
-        <div
-          className="mt-3 flex items-start gap-2.5 rounded-card border border-line bg-light p-4"
-          role="status"
-        >
-          <Prohibit size={17} weight="bold" className="mt-0.5 shrink-0 text-blue-tint" aria-hidden />
-          <div>
-            <p className="text-[0.875rem] leading-relaxed text-grey">{state.reason}</p>
-            <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-grey">
-              {state.fallback}
-            </p>
+      {/* The live regions are on the page before the result, so it is read
+          out when it arrives. */}
+      <div role="status" aria-live="polite">
+        {state.status === "unavailable" && (
+          <div className="mt-3 flex items-start gap-2.5 rounded-card border border-line bg-light p-4">
+            <Prohibit size={17} weight="bold" className="mt-0.5 shrink-0 text-blue-tint" aria-hidden />
+            <div>
+              <p className="text-[0.875rem] leading-relaxed text-grey">{state.reason}</p>
+              <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-grey">
+                {state.fallback}
+              </p>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
-      {state.status === "error" && (
-        <p className="mt-3 text-[0.8125rem] text-denied" role="alert">
-          {state.message}
-        </p>
-      )}
+      <div role="alert">
+        {state.status === "error" && (
+          <p className="mt-3 text-[0.8125rem] text-denied">{state.message}</p>
+        )}
+      </div>
 
       {extraction && (
         <div className="mt-3 rounded-card border border-line bg-light p-4">
@@ -140,11 +148,23 @@ function FieldDecision({
 
   return (
     <div className="mt-2">
-      <form action={formAction} className="flex flex-wrap gap-2">
+      <form
+        action={formAction}
+        onSubmit={(event) => {
+          if (pending) event.preventDefault();
+        }}
+        className="flex flex-wrap gap-2"
+      >
         <input type="hidden" name="caseId" value={caseId} />
         <input type="hidden" name="documentId" value={documentId} />
         <input type="hidden" name="fieldName" value={fieldName} />
-        <Button type="submit" name="decision" value="confirmed" disabled={pending} aria-busy={pending}>
+        <Button
+          type="submit"
+          name="decision"
+          value="confirmed"
+          aria-disabled={pending}
+          aria-busy={pending}
+        >
           Confirm
         </Button>
         <Button
@@ -152,16 +172,17 @@ function FieldDecision({
           name="decision"
           value="rejected"
           variant="outline"
-          disabled={pending} aria-busy={pending}
+          aria-disabled={pending}
+          aria-busy={pending}
         >
           Reject
         </Button>
       </form>
-      {state.status !== "idle" && (
-        <p className="mt-2 text-[0.75rem] leading-relaxed text-grey" role="status">
-          {state.message}
-        </p>
-      )}
+      <div role="status" aria-live="polite">
+        {state.status !== "idle" && (
+          <p className="mt-2 text-[0.75rem] leading-relaxed text-grey">{state.message}</p>
+        )}
+      </div>
     </div>
   );
 }

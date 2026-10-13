@@ -37,8 +37,8 @@ const legal = [
  * The long link lists that used to be here are the navigation's job, and the
  * full text of what is never promised is on the anti fraud page the legal row
  * links to. The three points that stay are the ones that must be on every
- * page: nothing is guaranteed, the entity is not registered yet, and how to
- * reach us today.
+ * page: nothing is guaranteed, the entity is not registered yet, and that
+ * there is no way to reach us online until it is.
  */
 export function SiteFooter() {
   return (
@@ -101,7 +101,10 @@ export function SiteFooter() {
               {site.name} is not a registered company yet, so there are no
               registration details to show. They appear the day it is registered.
             </li>
-            <li>Until then, the consultation booking form is the only way to reach us.</li>
+            <li>
+              Until then there is no way to reach us online. Email, phone and WhatsApp
+              go live with the registered company.
+            </li>
           </ul>
           <p className="small">
             {site.base}. Page content last reviewed{" "}

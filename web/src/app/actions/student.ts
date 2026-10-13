@@ -3,6 +3,7 @@
 import { currentActor } from "@/domain/session";
 
 import {
+  appendNote,
   getCase,
   grantChannelConsent,
   listChannelConsents,
@@ -11,6 +12,7 @@ import {
 import { revalidatePath } from "next/cache";
 import { answerStudentQuestion, coachStatement } from "@/domain/agents/implementations";
 import { record as recordAudit } from "@/domain/audit";
+import { findSensitiveInput } from "@/domain/agents/guards";
 
 export type GuidanceResult =
   | { status: "idle" }
@@ -43,14 +45,36 @@ export async function askGuidance(
     return { status: "error", message: "No case is open for this account." };
   }
 
+  // Whatever the assistant cannot answer is saved on the case for the
+  // counsellor, so "they will answer" is true rather than a promise nobody
+  // keeps. The note is written by the student, on their own case.
+  const routeToCounsellor = async (lead: string): Promise<GuidanceResult> => {
+    const saved = await appendNote(
+      record.id,
+      { text: `Question for ${record.counselor}: "${question}"`, source: "human", author: actor.name },
+      actor,
+    );
+    return {
+      status: "routed",
+      message: saved
+        ? `${lead} Your question is saved on your case for ${record.counselor}, who will answer it.`
+        : `${lead} It could not be saved just now. Please try again in a moment.`,
+    };
+  };
+
+  // A passport number, an account number or a money figure never goes to a
+  // model. The question still reaches the counsellor.
+  if (findSensitiveInput(question)) {
+    return routeToCounsellor(
+      "Your question includes a personal or financial detail, so it was not sent to the assistant.",
+    );
+  }
+
   const run = await answerStudentQuestion(record, question);
 
   if (run.status === "ok") {
     if (run.data.routeToCounselor) {
-      return {
-        status: "routed",
-        message: `${record.counselor} will answer this one. It has been added to their queue.`,
-      };
+      return routeToCounsellor("This one needs a person.");
     }
     return { status: "answered", answer: run.data.answer, basedOn: run.data.basedOn };
   }
@@ -65,15 +89,13 @@ export async function askGuidance(
       subjectId: record.id,
       note: run.violations.map((violation) => violation.rule).join("; "),
     });
-    return {
-      status: "routed",
-      message: `That answer was discarded before you saw it, because it broke a rule this platform enforces: ${run.violations
-        .map((violation) => violation.rule)
-        .join("; ")}. ${record.counselor} will answer instead.`,
-    };
+    return routeToCounsellor(
+      "The assistant's answer was discarded before you saw it, because it broke one of the rules this site enforces.",
+    );
   }
 
-  return { status: "routed", message: `${run.reason} ${run.fallback}` };
+  // The technical reason is for staff; a student needs to know what happens next.
+  return routeToCounsellor("The assistant is not available right now.");
 }
 
 export type CoachingResult =
@@ -120,7 +142,8 @@ export async function coachSop(
     };
   }
 
-  return { status: "unavailable", message: `${run.reason} ${run.fallback}` };
+  // The technical reason is for staff; a student needs the plain answer.
+  return { status: "unavailable", message: run.fallback };
 }
 
 export type ChannelResult =

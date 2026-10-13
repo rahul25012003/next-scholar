@@ -25,6 +25,9 @@ export function AppShell({
 }) {
   return (
     <div className="flex min-h-screen flex-col">
+      <a className="skip-link" href="#main-content">
+        Skip to content
+      </a>
       <BackgroundShapes still />
       <header className="Header Header--app">
         <div className="Header__container constrain">

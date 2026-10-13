@@ -173,7 +173,7 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
                 onChange={(event) => setGrade(event.target.value)}
                 aria-label="Bachelor's CGPA"
                 placeholder={scale === "cgpa" ? "8.2" : "76"}
-                className="figures w-full rounded-card border border-line-strong px-3.5 py-2.5 text-blue-dark"
+                className="figures w-full rounded-card border border-line-strong px-3.5 py-2.5 text-blue-dark placeholder:text-grey"
               />
             </div>
             {scale === "cgpa" && percentage !== undefined && (
@@ -254,7 +254,7 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
               onChange={(event) => setOverall(event.target.value)}
               placeholder="Overall"
               aria-label="Overall score"
-              className="figures w-full rounded-card border border-line-strong px-3.5 py-2.5 text-blue-dark"
+              className="figures w-full rounded-card border border-line-strong px-3.5 py-2.5 text-blue-dark placeholder:text-grey"
             />
           </div>
           <input
@@ -267,7 +267,7 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
             onChange={(event) => setLowestSection(event.target.value)}
             placeholder="Your lowest section score"
             aria-label="Lowest section score"
-            className="figures w-full rounded-card border border-line-strong px-3.5 py-2.5 text-blue-dark"
+            className="figures w-full rounded-card border border-line-strong px-3.5 py-2.5 text-blue-dark placeholder:text-grey"
           />
 
           {destination === "germany" && (
@@ -305,7 +305,7 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
                 value={fundsLakh}
                 onChange={(event) => setFundsLakh(event.target.value)}
                 placeholder="15"
-                className="figures w-full rounded-card border border-line-strong px-3.5 py-2.5 text-blue-dark"
+                className="figures w-full rounded-card border border-line-strong px-3.5 py-2.5 text-blue-dark placeholder:text-grey"
               />
               <span className="shrink-0 text-[0.875rem] text-grey">lakh</span>
             </span>
@@ -327,7 +327,7 @@ export function RequirementsCheck({ initialDestination }: { initialDestination?:
                 value={fundsHeldMonths}
                 onChange={(event) => setFundsHeldMonths(event.target.value)}
                 placeholder="6"
-                className="figures w-full rounded-card border border-line-strong px-3.5 py-2.5 text-blue-dark"
+                className="figures w-full rounded-card border border-line-strong px-3.5 py-2.5 text-blue-dark placeholder:text-grey"
               />
               <span className="shrink-0 text-[0.875rem] text-grey">months</span>
             </span>
