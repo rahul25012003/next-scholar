@@ -185,7 +185,7 @@ export function CostOfLivingCalculator({
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[38rem] border-collapse text-left">
+        <table className="table-stack w-full border-collapse text-left md:min-w-[38rem]">
           <caption className="sr-only">
             Monthly cost of living in {city.name}, by line item, with the published range
             and your own figure for each.
@@ -206,7 +206,7 @@ export function CostOfLivingCalculator({
           <tbody className="divide-y divide-line">
             {rows.map((row) => (
               <tr key={row.id} className={cn(!row.included && "opacity-50")}>
-                <th scope="row" className="px-6 py-4 align-top">
+                <th scope="row" className="px-6 py-4 align-top font-normal">
                   <span className="flex items-start gap-2.5">
                     {row.optional ? (
                       <input
@@ -240,12 +240,15 @@ export function CostOfLivingCalculator({
                     </span>
                   </span>
                 </th>
-                <td className="figures whitespace-nowrap px-6 py-4 align-top text-[0.875rem] text-grey">
+                <td
+                  data-label="Our published range"
+                  className="figures whitespace-nowrap px-6 py-4 align-top text-[0.875rem] text-grey"
+                >
                   {row.low === row.high
                     ? `${symbol}${row.low}`
                     : `${symbol}${row.low} to ${symbol}${row.high}`}
                 </td>
-                <td className="px-6 py-4 align-top text-right">
+                <td data-label="Your figure, per month" className="px-6 py-4 align-top text-right">
                   <label className="inline-flex items-center gap-1.5">
                     <span className="sr-only">{row.label}, your figure per month</span>
                     <span aria-hidden className="text-[0.9375rem] text-grey">

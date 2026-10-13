@@ -216,7 +216,7 @@ export function Checklist({
 export function LanguageTable({ items }: { items: LanguageQualification[] }) {
   return (
     <div className="overflow-x-auto rounded-panel border border-line bg-white">
-      <table className="w-full min-w-[44rem] border-collapse text-left">
+      <table className="table-stack w-full border-collapse text-left md:min-w-[44rem]">
         <caption className="sr-only">
           Accepted language qualifications, the levels each is accepted at, and how long
           each remains valid.
@@ -243,13 +243,13 @@ export function LanguageTable({ items }: { items: LanguageQualification[] }) {
                   {item.source}
                 </span>
               </th>
-              <td className="px-6 py-5 text-[0.875rem] leading-relaxed text-grey">
+              <td data-label="Accepted at" className="px-6 py-5 text-[0.875rem] leading-relaxed text-grey">
                 {item.accepted}
                 {item.note && (
                   <span className="mt-2 block text-[0.8125rem] text-grey">{item.note}</span>
                 )}
               </td>
-              <td className="px-6 py-5 text-[0.875rem] leading-relaxed text-grey">
+              <td data-label="Validity" className="px-6 py-5 text-[0.875rem] leading-relaxed text-grey">
                 {item.validity}
               </td>
             </tr>

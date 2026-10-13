@@ -135,7 +135,7 @@ export default async function ProgrammePage(
                 ago may not be open now.
               </p>
               <div className="mt-4 overflow-x-auto rounded-panel border border-line bg-white">
-                <table className="w-full min-w-[38rem] border-collapse text-left">
+                <table className="table-stack w-full border-collapse text-left md:min-w-[38rem]">
                   <caption className="sr-only">
                     Intakes for {row.name}, with application deadlines, start dates, campus
                     and status.
@@ -165,16 +165,16 @@ export default async function ProgrammePage(
                         <th scope="row" className="px-5 py-4 text-[0.875rem] font-semibold text-blue-dark">
                           {intake.name}
                         </th>
-                        <td className="figures px-5 py-4 text-[0.875rem] text-grey">
+                        <td data-label="Apply by" className="figures px-5 py-4 text-[0.875rem] text-grey">
                           {intake.applicationDeadline}
                         </td>
-                        <td className="figures px-5 py-4 text-[0.875rem] text-grey">
+                        <td data-label="Teaching starts" className="figures px-5 py-4 text-[0.875rem] text-grey">
                           {intake.teachingStarts}
                         </td>
-                        <td className="px-5 py-4 text-[0.875rem] text-grey">
+                        <td data-label="Campus" className="px-5 py-4 text-[0.875rem] text-grey">
                           {intake.campus ?? row.campus}
                         </td>
-                        <td className="px-5 py-4">
+                        <td data-label="Status" className="px-5 py-4">
                           <span
                             className={cn(
                               "inline-block rounded-input px-2 py-0.5 text-[0.6875rem] font-medium",

@@ -216,7 +216,7 @@ export default async function UniversityPage(props: PageProps<"/universities/[sl
                     is not the same as an answer we do not have.
                   </p>
                   <div className="mt-4 overflow-x-auto rounded-panel border border-line bg-white">
-                    <table className="w-full min-w-[28rem] border-collapse text-left">
+                    <table className="w-full border-collapse text-left">
                       <caption className="sr-only">
                         Exam requirements for Master&rsquo;s study at {university.name}.
                       </caption>

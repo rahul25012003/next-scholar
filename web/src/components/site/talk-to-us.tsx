@@ -40,11 +40,23 @@ export function TalkToUs() {
   const wasOpen = useRef(false);
 
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 600);
+    // An open panel stays where it is until it is closed.
+    if (open) return;
+    // On a phone the control sits over the right-hand edge of the page, which
+    // is where a form keeps its buttons ("Next", "Save"). While any form is
+    // on screen there, it steps aside.
+    const phone = window.matchMedia("(max-width: 639px)");
+    const formOnScreen = () =>
+      phone.matches &&
+      [...document.querySelectorAll("main form")].some((form) => {
+        const box = form.getBoundingClientRect();
+        return box.bottom > 0 && box.top < window.innerHeight;
+      });
+    const onScroll = () => setVisible(window.scrollY > 600 && !formOnScreen());
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [open]);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {

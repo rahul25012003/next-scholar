@@ -377,6 +377,17 @@ The first area from the site review. Type check, lint, 409 tests, production bui
 | Reveals are CSS scroll animations: content is visible in the HTML and without JavaScript, and still for reduced motion | `ui/reveal.tsx`, `globals.css` |
 | Phone menu keeps focus inside (the page, footer and floating control go inert), Escape returns focus to the menu button, a 44px menu target, one main landmark on error pages, skip links in the app and sign in, always-mounted live regions in the AI panels, readable placeholders, a pause control on the moving text, and a confirm step before withdrawing consent | `header.tsx`, `error-state.tsx`, `app/*`, `marquee.tsx`, `consent-list.tsx`, `tools/*` |
 
+### Phase 15 — Phones (2026-10-13)
+
+The second area from the site review. Type check, lint and 409 tests pass; checked by eye at 390px on the dev server.
+
+| What | Where |
+|---|---|
+| Wide tables read as one card per row below 768px instead of scrolling sideways, each value labelled with its column: the Open Ledger (its "We earn" column was off screen), the cost calculator (its inputs were), our numbers, rankings, course intakes, language tests and the legal tables. The two-column exam table fits as it is | `.table-stack` in `globals.css`; `open-ledger`, `our-numbers`, `rankings`, `[programme]`, `[slug]`, `guides/blocks.tsx`, `legal/document.tsx`, `tools/cost-of-living.tsx` |
+| Every field is 16px on a touch screen, so a phone no longer zooms in when one is tapped | `globals.css` |
+| A field the browser refuses on submit scrolls to below the sticky header, not under it | `globals.css` |
+| On a phone the floating "How to reach us" control steps aside while a form is on screen, where it covered "Next" on the booking form and the save buttons in the course list | `talk-to-us.tsx` |
+
 ---
 
 ## Open, and why

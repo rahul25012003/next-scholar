@@ -206,6 +206,9 @@
       border-color 0.2s var(--ease-smooth),
       box-shadow 0.2s var(--ease-smooth),
       background-color 0.2s var(--ease-smooth);
+    /* When the browser scrolls to a field it has refused, the field lands
+       below the sticky header instead of under it. */
+    scroll-margin-top: 7rem;
   }
 
   /* A disclosure opens and closes instead of snapping, where the browser can
@@ -4220,6 +4223,62 @@ a.group.border:active {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* A phone zooms the page into any field set smaller than 16px when it is
+   tapped, and stays zoomed. On a touch screen every field is 16px. Unlayered,
+   so it wins over the fields' own size utilities there and only there. */
+@media (pointer: coarse) {
+  input:where(:not([type="checkbox"], [type="radio"], [type="range"], [type="file"], [type="color"])),
+  select,
+  textarea {
+    font-size: 1rem;
+  }
+}
+
+/* A wide table, on a phone, reads as one card per row instead of scrolling
+   sideways: the column headings go, the row's first cell becomes its title,
+   and every other cell names its column from data-label, side by side where
+   they fit. Unlayered, so it overrides the cells' padding utilities at this
+   width only. A table without a panel round it sets --stack-inline to 0. */
+@media (max-width: 47.99rem) {
+  .table-stack thead {
+    display: none;
+  }
+
+  .table-stack,
+  .table-stack tbody,
+  .table-stack tfoot {
+    display: block;
+  }
+
+  .table-stack tr {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.875rem 1rem;
+    padding: 1.25rem var(--stack-inline, 1.25rem);
+  }
+
+  .table-stack :is(th, td) {
+    display: block;
+    flex: 1 1 7.5rem;
+    padding: 0;
+  }
+
+  .table-stack tr > :first-child,
+  .table-stack td[colspan] {
+    flex-basis: 100%;
+  }
+
+  .table-stack td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 0.25rem;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-blue-dark);
   }
 }
 

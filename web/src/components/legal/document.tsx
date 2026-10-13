@@ -203,7 +203,7 @@ function Block({ block }: { block: LegalBlock }) {
   if (block.kind === "table") {
     return (
       <div className="overflow-x-auto rounded-panel border border-line bg-white">
-        <table className="w-full min-w-[40rem] border-collapse text-left">
+        <table className="table-stack w-full border-collapse text-left md:min-w-[40rem]">
           <caption className="sr-only">{block.caption}</caption>
           <thead>
             <tr className="border-b border-line bg-light">
@@ -228,7 +228,11 @@ function Block({ block }: { block: LegalBlock }) {
                   {row[0]}
                 </th>
                 {row.slice(1).map((cell, index) => (
-                  <td key={index} className="px-5 py-4 text-[0.875rem] leading-relaxed text-grey">
+                  <td
+                    key={index}
+                    data-label={block.columns[index + 1]}
+                    className="px-5 py-4 text-[0.875rem] leading-relaxed text-grey"
+                  >
                     {cell}
                   </td>
                 ))}

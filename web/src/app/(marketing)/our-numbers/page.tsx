@@ -105,7 +105,7 @@ export default function OurNumbersPage() {
                   </p>
 
                   <div className="mt-5 overflow-x-auto rounded-panel border border-line bg-white">
-                    <table className="w-full min-w-[46rem] border-collapse text-left">
+                    <table className="table-stack w-full border-collapse text-left md:min-w-[46rem]">
                       <caption className="sr-only">
                         {group.title}: every published figure, its value, its source and the
                         date it was written down.
@@ -152,7 +152,7 @@ export default function OurNumbersPage() {
                                 {figure.surface}
                               </span>
                             </th>
-                            <td className="figures px-5 py-4 text-[0.875rem] text-blue-dark">
+                            <td data-label="Value" className="figures px-5 py-4 text-[0.875rem] text-blue-dark">
                               {figure.value}
                               {figure.status && (
                                 <span className="mt-1.5 block font-sans text-[0.6875rem] text-grey">
@@ -160,10 +160,10 @@ export default function OurNumbersPage() {
                                 </span>
                               )}
                             </td>
-                            <td className="px-5 py-4 text-[0.8125rem] leading-relaxed text-grey">
+                            <td data-label="Source" className="px-5 py-4 text-[0.8125rem] leading-relaxed text-grey">
                               {figure.source}
                             </td>
-                            <td className="px-5 py-4">
+                            <td data-label="Written down" className="px-5 py-4">
                               <span className="figures block text-[0.8125rem] text-grey">
                                 {figure.statedOn}
                               </span>

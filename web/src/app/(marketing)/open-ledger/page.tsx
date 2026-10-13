@@ -89,7 +89,7 @@ export default function OpenLedgerPage() {
           </Reveal>
 
           <div className="mt-12 overflow-x-auto">
-            <table className="w-full min-w-[56rem] border-collapse text-left">
+            <table className="table-stack w-full border-collapse text-left [--stack-inline:0px] md:min-w-[56rem]">
               <caption className="sr-only">
                 Commission, client fee and verification status per university
                 relationship
@@ -132,16 +132,16 @@ export default function OpenLedgerPage() {
                         </span>
                       )}
                     </td>
-                    <td className="py-5 pr-6 text-[0.875rem] text-grey">
+                    <td data-label="Contract" className="py-5 pr-6 text-[0.875rem] text-grey">
                       {row.contractType}
                     </td>
-                    <td className="figures py-5 pr-6 text-[0.9375rem] font-semibold text-blue-dark">
+                    <td data-label="We earn" className="figures py-5 pr-6 text-[0.9375rem] font-semibold text-blue-dark">
                       {row.commissionDisplay}
                     </td>
-                    <td className="figures py-5 pr-6 text-[0.875rem] text-grey">
+                    <td data-label="You pay us" className="figures py-5 pr-6 text-[0.875rem] text-grey">
                       {row.clientFee}
                     </td>
-                    <td className="py-5 pr-6 text-[0.875rem] text-grey">
+                    <td data-label="Source" className="py-5 pr-6 text-[0.875rem] text-grey">
                       {SOURCE_LABEL[row.source]}
                       {row.evidence && (
                         <span className="mt-1 block text-[0.8125rem] text-grey">
@@ -149,7 +149,7 @@ export default function OpenLedgerPage() {
                         </span>
                       )}
                     </td>
-                    <td className="py-5 pr-6 text-[0.875rem]">
+                    <td data-label="Verified" className="py-5 pr-6 text-[0.875rem]">
                       {row.verificationDate ? (
                         <>
                           <span className="figures text-grey">
@@ -163,10 +163,10 @@ export default function OpenLedgerPage() {
                         <span className="text-grey">Not yet</span>
                       )}
                       <span className="mt-1 block text-[0.75rem] text-grey">
-                        Reviewed <span className="figures">{row.lastReviewDate}</span>
+                        Reviewed <span className="figures whitespace-nowrap">{row.lastReviewDate}</span>
                       </span>
                     </td>
-                    <td className="py-5">
+                    <td data-label="Status" className="py-5">
                       <StatusChip status={row.status} />
                     </td>
                   </tr>

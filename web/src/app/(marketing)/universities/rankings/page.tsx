@@ -110,7 +110,7 @@ export default async function RankingsPage(props: PageProps<"/universities/ranki
           </p>
 
           <div className="mt-4 overflow-x-auto rounded-panel border border-line">
-            <table className="w-full min-w-[42rem] border-collapse text-left">
+            <table className="table-stack w-full border-collapse text-left md:min-w-[42rem]">
               <caption className="sr-only">
                 Every published ranking for each institution in the catalogue, filtered by the
                 controls above
@@ -139,7 +139,7 @@ export default async function RankingsPage(props: PageProps<"/universities/ranki
                         {university.city}, {countryName[university.destination] ?? university.destination}
                       </p>
                     </td>
-                    <td className="px-5 py-4 align-top">
+                    <td data-label="Published rankings" className="px-5 py-4 align-top">
                       {university.rankings.length === 0 ? (
                         <span className="text-[0.875rem] text-grey">
                           Nothing published that we have checked yet.
